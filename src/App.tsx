@@ -1,11 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
-import './global.css';
+import '@/global.scss';
 import MainPage from './pages/MainPage';
+import Common from './Common';
+import CommonLayout from './layouts/CommonLayout';
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<MainPage />} />
+      <Route element={<CommonLayout />}>
+        <Route path='/' element={<MainPage />} />
+      </Route>
+      <Route path='/common' element={<Common />} />
     </Routes>
   );
 }
