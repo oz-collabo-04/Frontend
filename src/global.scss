@@ -1,0 +1,66 @@
+/* reset.scss */
+
+/* 모든 요소의 기본 여백과 패딩을 제거 */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 레이아웃 문제를 방지하기 위해 box-sizing 설정 */
+}
+
+/* 기본 폰트 및 텍스트 스타일 초기화 */
+html {
+  font-size: 100%; /* 기본 폰트 크기를 16px로 설정 */
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%; /* 모바일에서 글자 크기 자동 조정 방지 */
+}
+
+body {
+  font-family: sans-serif; /* 기본 폰트를 sans-serif로 설정 */
+  color: #000;
+  background-color: #fff;
+}
+
+/* 리스트 스타일 제거 */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 링크 스타일 제거 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 테이블의 기본 스타일 제거 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 이미지 및 미디어 요소의 기본 스타일 초기화 */
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* 폼 요소의 기본 스타일 초기화 */
+button,
+input,
+select,
+textarea {
+  font-family: inherit; /* 부모 요소의 폰트 상속 */
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
