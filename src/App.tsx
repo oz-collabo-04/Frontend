@@ -6,12 +6,14 @@ import CommonLayout from './layouts/CommonLayout';
 
 function App() {
   return (
-    <Routes>
-      <Route element={<CommonLayout />}>
-        <Route path='/' element={<MainPage />} />
-      </Route>
-      <Route path='/common' element={<Common />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route element={<CommonLayout />}>
+          <Route path='/' element={<MainPage />} />
+        </Route>
+        <Route path='/common' element={<Common />} />
+      </Routes>
+    </>
   );
 }
 
