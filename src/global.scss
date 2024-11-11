@@ -1,3 +1,5 @@
+@use './styles/variables.scss' as *;
+
 * {
   margin: 0;
   padding: 0;
@@ -40,6 +42,10 @@ svg {
   max-width: 100%;
   display: block;
 }
+::before,
+::after {
+  box-sizing: border-box;
+}
 
 /* 폼 요소의 기본 스타일 초기화 */
 button,
@@ -56,6 +62,29 @@ textarea {
   margin: 0;
 }
 
+/* 전체 스크롤바 */
+::-webkit-scrollbar {
+  width: 6px; /* 스크롤바의 너비 */
+  height: 6px; /* 가로 스크롤바의 높이 */
+}
+
+/* 스크롤바 트랙 (배경) */
+::-webkit-scrollbar-track {
+  background-color: $main-color-light;
+  border-radius: 10px;
+}
+
+/* 스크롤바 핸들 (사용자가 클릭하고 드래그할 수 있는 부분) */
+::-webkit-scrollbar-thumb {
+  background-color: $main-color;
+  border-radius: 4px;
+}
+
+/* 스크롤바 핸들 호버 효과 */
+::-webkit-scrollbar-thumb:hover {
+  // background-color: #555;
+}
+
 // 공통 페이지 scss
 .commonBox {
   max-width: 88%;
@@ -64,7 +93,7 @@ textarea {
     margin-top: 0;
   }
   .title {
-    font-size: 1.8rem;
+    font-size: 2.4rem;
   }
   .table-box {
     margin-top: 1.2rem;
@@ -85,6 +114,7 @@ textarea {
     }
     td {
       padding: 2.4rem;
+      font-weight: 600;
       border-top: 1px solid #e1e1e1;
       position: relative;
       &:first-child {
@@ -98,6 +128,13 @@ textarea {
         position: absolute;
         right: 2.4rem;
         top: 2.4rem;
+        height: 3.2rem;
+        padding: 0 1.2rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        background-color: #ffe14c;
+        border-radius: 0.4rem;
+        cursor: pointer;
       }
     }
   }
