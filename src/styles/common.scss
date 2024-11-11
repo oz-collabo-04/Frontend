@@ -1,0 +1,184 @@
+@use 'variables' as *;
+
+.mainBtn {
+  height: 4rem;
+  padding: 0 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  background-color: $main-color;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  &.large {
+    height: 4.8rem;
+    font-size: 1.8rem;
+  }
+  &.medium {
+    height: 3.2rem;
+  }
+  &.small {
+    height: 2.4rem;
+    font-size: 1.4rem;
+  }
+  &:disabled {
+    background-color: $disabled !important;
+    color: $disabled-font;
+    cursor: default;
+  }
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: $main-color;
+
+  border-radius: 0.8rem;
+  overflow: hidden;
+  cursor: pointer;
+  img {
+    background-color: $main-color;
+    object-fit: cover;
+  }
+}
+
+.comInput {
+  height: 4rem;
+  padding: 0 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  border: 1px solid;
+  border-color: $border-color;
+  border-radius: 0.4rem;
+  &:focus {
+    background-color: $main-color-light;
+    border: 1px solid;
+    border-color: $main-color;
+  }
+  &:disabled {
+    background-color: $disabled;
+    color: $disabled-font;
+    &::placeholder {
+      color: $disabled-font;
+    }
+  }
+}
+
+.comTextarea {
+  height: 10rem;
+  padding: 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  border: 1px solid;
+  border-color: $border-color;
+  border-radius: 0.4rem;
+  resize: none;
+  &:focus {
+    background-color: $main-color-light;
+    border: 1px solid;
+    border-color: $main-color;
+  }
+  &:disabled {
+    background-color: $disabled;
+    color: $disabled-font;
+    &::placeholder {
+      color: $disabled-font;
+    }
+  }
+}
+
+.chkBox {
+  input[type='checkbox'] {
+    display: none;
+    &:checked + label::before {
+      background-image: url('/image/checkbox_checked.svg');
+    }
+    &:checked:disabled + label::before {
+      background-image: url('/image/checkbox_checked_disabled.svg');
+    }
+    &:disabled + label::before {
+      background-image: url('/image/checkbox_disabled.svg');
+    }
+    &:disabled + label {
+      cursor: default;
+    }
+  }
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    cursor: pointer;
+    &::before {
+      content: '';
+      width: 2.4rem;
+      height: 2.4rem;
+      background: no-repeat 50% 50%;
+      background-image: url('/image/checkbox.svg');
+    }
+  }
+}
+
+.rdoBox {
+  input[type='radio'] {
+    display: none;
+    &:checked + label::before {
+      background-image: url('/image/radio_checked.svg');
+    }
+    &:checked:disabled + label::before {
+      background-image: url('/image/radio_checked_disabled.svg');
+    }
+    &:disabled + label::before {
+      background-image: url('/image/radio_disabled.svg');
+    }
+    &:disabled + label {
+      cursor: default;
+    }
+  }
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    cursor: pointer;
+    &::before {
+      content: '';
+      width: 2.4rem;
+      height: 2.4rem;
+      background: no-repeat 50% 50%;
+      background-image: url('/image/radio.svg');
+    }
+  }
+}
+
+.comTab {
+  .tabBtnBox {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.4rem;
+    button {
+      height: 4rem;
+      padding: 0 1.2rem;
+      font-size: 1.6rem;
+      border: 1px solid;
+      border-bottom: none;
+      border-color: $border-color;
+      border-radius: 0.4rem 0.4rem 0 0;
+      cursor: pointer;
+      &.active {
+        height: 4.8rem;
+        background-color: $main-color;
+      }
+    }
+  }
+  .tabConBox {
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    border: 1px solid;
+    border-color: $border-color;
+    border-radius: 0 0 0.4rem 0.4rem;
+  }
+}
