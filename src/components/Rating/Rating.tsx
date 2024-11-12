@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './rating.scss';
 
 interface StarRatingProps {
   initialRating?: number
@@ -37,38 +38,30 @@ export default function StarRating({ initialRating = 0, onChange }: StarRatingPr
   }
 
   return (
-    <div className="flex items-center space-x-1">
+    <div className="star-rating">
       {[1, 2, 3, 4, 5].map((starIndex) => (
         <button
           key={starIndex}
           onClick={(e) => handleStarClick(e, starIndex)}
           onKeyDown={(e) => handleKeyDown(e, starIndex)}
-          className="focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-full p-1"
+          className="star-button"
           aria-label={`${starIndex} 별점`}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-              fill={rating >= starIndex ? "#FFC107" : "#E0E0E0"}
-              stroke="#FFC107"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              className={`star ${rating >= starIndex ? "star-filled" : "star-empty"}`}
             />
             {rating > starIndex - 1 && rating < starIndex && (
               <path
                 d="M12 2L8.91 8.26L2 9.27L7 14.14L5.82 21.02L12 17.77V2Z"
-                fill="#FFC107"
-                stroke="#FFC107"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                className="star-half"
               />
             )}
           </svg>
         </button>
       ))}
-      <span className="ml-2 text-lg font-semibold" aria-live="polite">
+      <span className="rating-value" aria-live="polite">
         {rating.toFixed(1)}
       </span>
     </div>
