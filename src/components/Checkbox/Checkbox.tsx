@@ -1,15 +1,25 @@
+import React from 'react';
+
 interface CheckboxProps {
   idFor: string;
   content?: string;
-  defaultChecked?: boolean;
+  checked?: boolean;
   disabled?: boolean;
   name?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Checkbox = ({ idFor, content, defaultChecked, disabled, name }: CheckboxProps) => {
+const Checkbox = ({ idFor, content, checked, disabled, name, onChange }: CheckboxProps) => {
   return (
     <span className='chkBox'>
-      <input type='checkbox' id={idFor} defaultChecked={defaultChecked} disabled={disabled} name={name} />
+      <input
+        type='checkbox'
+        id={idFor}
+        checked={checked} // checked로 상태를 관리
+        disabled={disabled}
+        name={name}
+        onChange={onChange} // onChange 핸들러
+      />
       <label htmlFor={idFor}>{content}</label>
     </span>
   );
