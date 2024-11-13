@@ -1,13 +1,29 @@
 @use 'variables' as *;
 
+.xLargeTitle {
+}
+.largeTitle {
+}
+.mediumTitle {
+}
+.smallTitle {
+}
+.xSmallTitle {
+}
+
 .mainBtn {
-  height: 4rem;
+  width: 25rem;
   padding: 0 1.2rem;
   font-size: 1.6rem;
   font-weight: 600;
   background-color: $main-color;
+  border: 1px solid;
+  border-color: transparent;
   border-radius: 0.4rem;
   cursor: pointer;
+  &.default {
+    height: 4rem;
+  }
   &.large {
     height: 4.8rem;
     font-size: 1.8rem;
@@ -115,7 +131,7 @@
       content: '';
       width: 2.4rem;
       height: 2.4rem;
-      background: no-repeat 50% 50%;
+      background: no-repeat 50% 50% / 2.4rem;
       background-image: url('/image/checkbox.svg');
     }
   }
@@ -158,27 +174,23 @@
   .tabBtnBox {
     display: flex;
     align-items: flex-end;
-    gap: 0.4rem;
     button {
-      height: 4rem;
-      padding: 0 1.2rem;
-      font-size: 1.6rem;
-      border: 1px solid;
-      border-bottom: none;
-      border-color: $border-color;
-      border-radius: 0.4rem 0.4rem 0 0;
+      min-width: 6.4rem;
+      padding: 0 2.4rem;
+      font-size: 1.8rem;
+      line-height: 3.2rem;
+      border-bottom: 2px solid;
+      border-color: $deactivate-color;
+      color: $deactivate-color;
       cursor: pointer;
       &.active {
-        height: 4.8rem;
-        background-color: $main-color;
+        border-color: $default-color;
+        color: $default-color;
       }
     }
   }
   .tabConBox {
-    padding: 1.2rem;
+    padding: 2.4rem 0;
     font-size: 1.6rem;
-    border: 1px solid;
-    border-color: $border-color;
-    border-radius: 0 0 0.4rem 0.4rem;
   }
 }

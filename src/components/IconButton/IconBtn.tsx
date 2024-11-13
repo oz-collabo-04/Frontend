@@ -1,13 +1,24 @@
 import { useState } from 'react';
 
 interface IconBtnProps {
+  width?: string;
+  height?: string;
   src: string;
   alt: string;
   fallbackSrc?: string;
   isFull?: boolean;
+  onClick?: () => void;
 }
 
-const IconBtn = ({ src, alt, fallbackSrc = '/image/default_user_icon.svg', isFull }: IconBtnProps) => {
+const IconBtn = ({
+  width,
+  height,
+  src,
+  alt,
+  fallbackSrc = '/image/default_user_icon.svg',
+  isFull,
+  onClick,
+}: IconBtnProps) => {
   const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
 
   const handleError = () => {
@@ -15,14 +26,14 @@ const IconBtn = ({ src, alt, fallbackSrc = '/image/default_user_icon.svg', isFul
   };
 
   return (
-    <button className='iconBtn'>
+    <button className='iconBtn' style={{ width, height }} onClick={onClick}>
       <img
         src={imgSrc}
         alt={alt}
         onError={handleError}
         style={{
-          width: isFull ? '100%' : '2.4rem',
-          height: isFull ? '100%' : '2.4rem',
+          width: isFull ? '100%' : '70%',
+          height: isFull ? '100%' : '70%',
         }}
       />
     </button>
