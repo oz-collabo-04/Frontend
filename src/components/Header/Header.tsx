@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import '@/styles/Header_Footer/header.scss';
+import '@/styles/header.scss';
 import MainBtn from '../Button/MainBtn';
+import LargeTitle from '../Title/LargeTitle';
 
 {
   /* <Route path='/' element={<MainPage />} />
@@ -12,28 +13,30 @@ import MainBtn from '../Button/MainBtn';
 
 const Header = () => {
   return (
-    <nav className='headerNavBar'>
-      <Link to='/'>
-        <h1>So New Wedding</h1>
-      </Link>
-      <ul>
-        <li>
-          <Link to='/estimation'>견적요청</Link>
-        </li>
+    <div className='headerNavBar'>
+      <div className='headerContents'>
+        <Link to='/'>
+          <LargeTitle title='So New Wedding' fontSize='3.6rem' extraClass='headerTitle'></LargeTitle>
+        </Link>
+        <ul>
+          <li>
+            <Link to='/estimation'>견적요청</Link>
+          </li>
 
-        {/* 아래는 페이지 이동이 어느정도 완성되면 삭제 되어야 합니다 일단 편하라고 추가했어요 */}
-        <li>
-          <Link to='/common'>공통UI</Link>
-        </li>
-        <li>
-          <Link to='/mypage'>마이페이지</Link>
-        </li>
-        <li>
-          <Link to='/chat'>채팅</Link>
-        </li>
-      </ul>
-      <MainBtn name='로그인' width='auto' height='3.2rem' />{' '}
-    </nav>
+          {/* 아래는 페이지 이동이 어느정도 완성되면 삭제 되어야 합니다 일단 편하라고 추가했어요 */}
+          <li>
+            <Link to='/common'>공통UI</Link>
+          </li>
+          <li>
+            <Link to='/mypage'>마이페이지</Link>
+          </li>
+          <li>
+            <Link to='/chatpage'>채팅</Link>
+          </li>
+        </ul>
+      </div>
+      <MainBtn name='로그인' width='auto' height='3.2rem' />
+    </div>
   );
 };
 

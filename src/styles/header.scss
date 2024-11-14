@@ -1,13 +1,34 @@
-@use '../variables' as *;
+@use './variables.scss' as *;
 
 // navbar 전체
 .headerNavBar {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 7.2rem;
+  padding: 0 4rem;
+  margin: 0 auto;
   position: fixed;
-  left: 50%;
+  left: 0;
   top: 0;
-  transform: translate(-50%, 0);
-  background-color: bisque;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  ul {
+    display: flex;
+    gap: 3.6rem;
+    font-size: 1.8rem;
+  }
+
+  .headerContents {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+  .headerTitle {
+    color: $main-color;
+  }
 }
