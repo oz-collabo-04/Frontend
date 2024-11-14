@@ -6,11 +6,13 @@ import CommonLayout from './layouts/CommonLayout';
 import ChatPage from './pages/ChatPage/ChatPage';
 import '@/styles/font.scss';
 import Mypage from './pages/MyPage';
+import NoFooterLayout from './layouts/NoFooterLayout';
 
 function App() {
   return (
     <>
       <Routes>
+        {/* 푸터 포함 레이아웃 */}
         <Route element={<CommonLayout />}>
           <Route path='/' element={<MainPage />} />
           <Route path='/common' element={<Common />} />
@@ -19,7 +21,10 @@ function App() {
           <Route path='/mypage' element={<Mypage />} />
         </Route>
 
-        <Route path='/chatpage' element={<ChatPage />} />
+        {/* 푸터 제외 레이아웃 */}
+        <Route element={<NoFooterLayout />}>
+          <Route path='/chatpage' element={<ChatPage />} />
+        </Route>
       </Routes>
     </>
   );
