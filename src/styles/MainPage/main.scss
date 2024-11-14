@@ -1,0 +1,24 @@
+.billboard {
+  width: 100vmax;
+  height: 20rem;
+  margin-top: 3rem;
+  background-image: url('/public/image/billboard.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: calc(20rem / 3);
+  padding-left: calc(40rem / 4);
+}
+
+.serviceInfo {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.mainContainer{
+  
+}
