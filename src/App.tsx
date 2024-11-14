@@ -3,6 +3,7 @@ import '@/global.scss';
 import MainPage from './pages/MainPage';
 import Common from './Common';
 import CommonLayout from './layouts/CommonLayout';
+import ChatPage from './pages/ChatPage/ChatPage';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
           <Route path='/login' element={'login 페이지 연결해주세요'} />
           <Route path='/mypage' element={'mypage 페이지 연결해주세요'} />
         </Route>
-        <Route path='/chat' element={'채팅페이지 연결해주세요'} />
+
+        <Route path='/chatpage' element={<ChatPage />} />
       </Routes>
     </>
   );

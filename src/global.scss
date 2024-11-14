@@ -48,6 +48,9 @@ svg {
 }
 
 /* 폼 요소의 기본 스타일 초기화 */
+button {
+  cursor: pointer;
+}
 button,
 input,
 select,
@@ -64,19 +67,19 @@ textarea {
 
 /* 전체 스크롤바 */
 ::-webkit-scrollbar {
-  width: 6px; /* 스크롤바의 너비 */
-  height: 6px; /* 가로 스크롤바의 높이 */
+  width: 8px; /* 스크롤바의 너비 */
+  height: 8px; /* 가로 스크롤바의 높이 */
 }
 
 /* 스크롤바 트랙 (배경) */
 ::-webkit-scrollbar-track {
-  background-color: $main-color-light;
-  border-radius: 10px;
+  background-color: rgba(166, 166, 166, 0.5);
+  border-radius: 4px;
 }
 
 /* 스크롤바 핸들 (사용자가 클릭하고 드래그할 수 있는 부분) */
 ::-webkit-scrollbar-thumb {
-  background-color: $main-color;
+  background-color: #a6a6a6;
   border-radius: 4px;
 }
 
