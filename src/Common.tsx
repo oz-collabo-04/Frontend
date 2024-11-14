@@ -1,6 +1,7 @@
 import CopyButton from '@/config/CopyButton';
 import './global.scss';
 import {
+  badgeDefault,
   CheckBoxContent,
   CheckboxDefault,
   CheckBoxDisabled,
@@ -48,6 +49,7 @@ import LargeTitle from './components/Title/LargeTitle';
 import MediumTitle from './components/Title/MediumTitle';
 import SmallTitle from './components/Title/SmallTitle';
 import XSmallTitle from './components/Title/XSmallTitle';
+import ProfileBadge from './components/Badge/Badge';
 
 function Common() {
   const tabs = [
@@ -507,6 +509,36 @@ function Common() {
                 <td>
                   <code>{tabDefault}</code>
                   <CopyButton code={tabDefault} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/*badge*/}
+      <div className='commonBox'>
+        <h6 className='title'>badge</h6>
+        <div className='table-box'>
+          <table>
+            <colgroup>
+              <col width='500px' />
+              <col width='' />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>UI</th>
+                <th>CODE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <ProfileBadge  />
+                </td>
+                <td>
+                  <code>{badgeDefault}</code>
+                  <CopyButton code={badgeDefault} />
                 </td>
               </tr>
             </tbody>
