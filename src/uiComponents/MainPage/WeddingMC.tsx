@@ -1,4 +1,4 @@
-import IconBtn from '../IconButton/IconBtn';
+import IconBtn from '../../components/IconButton/IconBtn';
 
 export default function WeddingMC() {
   return (

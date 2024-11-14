@@ -1,8 +1,8 @@
-import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
+import Footer from '@/components/Footer/Footer';
+import Header from '@/components/Header/Header';
 import { Outlet } from 'react-router-dom';
 
-export default function dwCommonLayout() {
+export default function CommonLayout() {
   return (
     <div>
       <Header />

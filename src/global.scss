@@ -83,13 +83,9 @@ textarea {
   border-radius: 4px;
 }
 
-/* 스크롤바 핸들 호버 효과 */
-::-webkit-scrollbar-thumb:hover {
-  // background-color: #555;
-}
-
 // 공통 페이지 scss
 .commonBox {
+  width: 100%;
   max-width: 88%;
   margin: 3.6rem auto;
   &:first-child {
