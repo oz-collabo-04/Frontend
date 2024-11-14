@@ -140,28 +140,19 @@ textarea {
   }
 }
 
-.mainLayout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
-
 .mainContent {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-items: center;
-  width: 100%;
   margin-top: 7.2rem;
+  width: 100%;
+  background-color: #e1e1e1;
 }
 
 .contentLayout {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
   padding: 0rem 4rem;
   max-width: 128rem;
   width: 100%;
+  background-color: #ffe14c;
 }

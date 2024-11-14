@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 export default function CommonLayout() {
   return (
-    <div className='mainLayout'>
+    <div>
       <Header />
       <main className='mainContent'>
         <Outlet />
