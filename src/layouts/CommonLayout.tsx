@@ -1,12 +1,12 @@
-import Footer from '@/components/Common/Footer';
-import Header from '@/components/Common/Header';
+import Footer from '@/components/common/Footer';
+import Header from '@/components/common/Header';
 import { Outlet } from 'react-router-dom';
 
 export default function CommonLayout() {
   return (
-    <div>
+    <div className='mainLayout'>
       <Header />
-      <main>
+      <main className='mainContent'>
         <Outlet />
       </main>
       <Footer />

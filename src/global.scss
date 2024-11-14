@@ -8,7 +8,7 @@
 
 /* 기본 폰트 및 텍스트 스타일 초기화 */
 html {
-  font-size: 62.5%; /* 기본 폰트 크기를 16px로 설정 */
+  font-size: 62.5%; /* 기본 폰트 크기를 10px로 설정 */
   letter-spacing: -0.6px;
   color: #000;
   // -webkit-text-size-adjust: 100%; /* 모바일에서 글자 크기 자동 조정 방지 */
@@ -138,4 +138,30 @@ textarea {
       }
     }
   }
+}
+
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+  margin-top: 7.2rem;
+}
+
+.contentLayout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  padding: 0rem 4rem;
+  max-width: 128rem;
+  width: 100%;
 }
