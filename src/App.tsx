@@ -5,6 +5,7 @@ import Common from './Common';
 import CommonLayout from './layouts/CommonLayout';
 import ChatPage from './pages/ChatPage/ChatPage';
 import '@/styles/font.scss';
+import Mypage from './pages/MyPage';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Route path='/common' element={<Common />} />
           <Route path='/estimation' element={'견적페이지 연결해주세요'} />
           <Route path='/login' element={'login 페이지 연결해주세요'} />
-          <Route path='/mypage' element={'mypage 페이지 연결해주세요'} />
+          <Route path='/mypage' element={<Mypage />} />
         </Route>
 
         <Route path='/chatpage' element={<ChatPage />} />
