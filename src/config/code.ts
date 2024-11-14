@@ -54,3 +54,5 @@ export const tabDefault = `const tabs = [
 ];
 
 <Tab tabs={tabs} />`;
+
+export const badgeDefault = `<ProfileBadge  />`
