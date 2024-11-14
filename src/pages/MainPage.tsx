@@ -9,8 +9,10 @@ export default function MainPage() {
 
   return (
     <>
-      <div>MainPage</div>
-      <div onClick={() => clickFunction()}>모킹서버 테스트 - 클릭하고 콘솔 확인해보세요</div>
+      <div className='contentLayout'>MainPage</div>
+      <div className='contentLayout' onClick={() => clickFunction()}>
+        모킹서버 테스트 - 클릭하고 콘솔 확인해보세요
+      </div>
     </>
   );
 }
