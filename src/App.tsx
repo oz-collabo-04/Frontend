@@ -4,6 +4,7 @@ import MainPage from './pages/MainPage';
 import Common from './Common';
 import CommonLayout from './layouts/CommonLayout';
 import ChatPage from './pages/ChatPage/ChatPage';
+import '@/styles/font.scss';
 
 function App() {
   return (
