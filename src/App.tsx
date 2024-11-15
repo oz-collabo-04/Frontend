@@ -8,6 +8,7 @@ import '@/styles/font.scss';
 import Mypage from './pages/MyPage';
 import EstimationPage from './pages/Estimationpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
+import EstimationPage from './pages/Estimationpage';
 
 
 function App() {
