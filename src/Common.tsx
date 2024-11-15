@@ -49,7 +49,7 @@ import LargeTitle from './components/Title/LargeTitle';
 import MediumTitle from './components/Title/MediumTitle';
 import SmallTitle from './components/Title/SmallTitle';
 import XSmallTitle from './components/Title/XSmallTitle';
-import ProfileBadge from './components/Badge/Badge';
+import ProfileBadge from './components/Badge/ProfileBadge';
 
 function Common() {
   const tabs = [
