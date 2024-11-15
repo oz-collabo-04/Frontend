@@ -1,0 +1,73 @@
+.Estimation-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.Estimation-main__pageTitle {
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.Estimation-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: flex-start;
+}
+
+.Estimation-card {
+  flex: 0 0 calc(33.333% - 1.33rem);
+  max-width: calc(33.333% - 1.33rem);
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border: 2px solid #FFD800;  
+  margin-bottom: 2rem;
+}
+
+.Estimation-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.Estimation-card__category {
+  font-size: 1.4rem;
+  color: #666;
+}
+
+.Estimation-card__name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.Estimation-card__price {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.Estimation-card__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .Estimation-card {
+    flex: 0 0 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .Estimation-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
