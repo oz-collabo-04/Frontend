@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './styles/rating.scss';
+import '@/styles/starrating.scss';
 
 interface StarRatingProps {
   initialRating?: number

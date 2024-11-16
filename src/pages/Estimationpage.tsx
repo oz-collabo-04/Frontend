@@ -1,9 +1,9 @@
 import React, { useMemo, ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
-// import { useNavigate } from 'react-router-dom'
 
 interface EstimationCardProps {
   id: number;
@@ -11,19 +11,17 @@ interface EstimationCardProps {
   name: string;
   price: number;
   profileImage?: string;
+  onProfileClick: (id: number) => void;
 }
 
-const EstimationCard: React.FC<EstimationCardProps> = ({ /*id*/ category, name, price, profileImage }) => {
-  // const navigate = useNavigate();
-
-  // const handleProfileClick = () => {
-  //   navigate(`/전문가 프로필/${id}`);
-  // };
-
-  // const handleChatClick = () => {
-  //   navigate(`/채팅방 프로필/${id}`);
-  // };
-
+const EstimationCard: React.FC<EstimationCardProps> = ({ 
+  id,
+  category, 
+  name, 
+  price, 
+  profileImage,
+  onProfileClick 
+}) => {
   return (
     <div className="estimationCard">
       <div className="estimationCardHeader">
@@ -45,14 +43,13 @@ const EstimationCard: React.FC<EstimationCardProps> = ({ /*id*/ category, name, 
           size="medium"
           backgroundColor="#FFD800"
           color="#000000"
-          // onClick={handleProfileClick}
+          onClick={() => onProfileClick(id)}
         />
         <MainBtn
           name="채팅하기"
           size="medium"
           backgroundColor="#FFD800"
           color="#000000"
-          // onClick={handleChatClick}
         />
       </div>
     </div>
@@ -68,6 +65,7 @@ interface Estimation {
 }
 
 const EstimationList: React.FC = () => {
+  const navigate = useNavigate();
   const categories = ['전체', '결혼식 사회자', '축가 가수', '영상촬영', '스냅 촬영']
 
   const estimations: Estimation[] = useMemo(() => [
@@ -79,6 +77,10 @@ const EstimationList: React.FC = () => {
     { id: 6, category: '축가 가수', name: '강가수', price: 550000, profileImage: '/path/to/image6.jpg' },
   ], []);
 
+  const handleProfileClick = (id: number) => {
+    navigate(`/expertprofile/${id}`);
+  };
+
   const renderEstimationCards = (category: string) => {
     const filteredEstimations = category === '전체'
       ? estimations
@@ -87,7 +89,11 @@ const EstimationList: React.FC = () => {
     return (
       <div className="estimationGrid">
         {filteredEstimations.map(estimation => (
-          <EstimationCard key={estimation.id} {...estimation} />
+          <EstimationCard 
+            key={estimation.id} 
+            {...estimation} 
+            onProfileClick={handleProfileClick}
+          />
         ))}
       </div>
     )

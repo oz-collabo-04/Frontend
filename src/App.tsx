@@ -8,6 +8,7 @@ import '@/styles/font.scss';
 import Mypage from './pages/MyPage';
 import EstimationPage from './pages/Estimationpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
+import ExpertProfile from './pages/ExpertProfile';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         {/* 푸터 제외 레이아웃 */}
         <Route element={<NoFooterLayout />}>
           <Route path='/chatpage' element={<ChatPage />} />
+          <Route path="/expertprofile/:id" element={<ExpertProfile />} />
         </Route>
       </Routes>
     </>
