@@ -1,73 +1,80 @@
-.Estimation-container {
+.estimationContainer {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-.Estimation-main__pageTitle {
+.estimationMainPageTitle {
   font-size: 2.4rem;
   font-weight: bold;
   margin-bottom: 2rem;
 }
 
-.Estimation-grid {
-  display: flex;
-  flex-wrap: wrap;
+.estimationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
-.Estimation-card {
-  flex: 0 0 calc(33.333% - 1.33rem);
-  max-width: calc(33.333% - 1.33rem);
+.estimationCard {
+  width: 100%;
+  max-width: 360px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-  border: 2px solid #FFD800;  
+  border: 2px solid #FFD800;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
 }
 
-.Estimation-card__header {
+.estimationCardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-.Estimation-card__category {
+.estimationCardCategory {
   font-size: 1.4rem;
   color: #666;
 }
 
-.Estimation-card__name {
+.estimationCardName {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
-.Estimation-card__price {
+.estimationCardPrice {
   font-size: 1.6rem;
   color: #333;
   margin-bottom: 1rem;
 }
 
-.Estimation-card__actions {
+.estimationCardActions {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  margin-top: auto;
 }
 
-@media (max-width: 1024px) {
-  .Estimation-card {
-    flex: 0 0 calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
+@media (max-width: 1280px) {
+  .estimationGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .Estimation-card {
-    flex: 0 0 100%;
-    max-width: 100%;
+  .estimationGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .estimationCard {
+    width: 100%;
+    max-width: 360px;
   }
 }

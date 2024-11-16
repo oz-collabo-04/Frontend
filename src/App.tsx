@@ -9,7 +9,6 @@ import Mypage from './pages/MyPage';
 import EstimationPage from './pages/Estimationpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
 
-
 function App() {
   return (
     <>
