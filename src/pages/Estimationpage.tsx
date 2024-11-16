@@ -1,48 +1,63 @@
 import React, { useMemo, ReactNode } from 'react'
-import '@/styles/estimation.scss'
+import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
+// import { useNavigate } from 'react-router-dom'
 
 interface EstimationCardProps {
+  id: number;
   category: string;
   name: string;
   price: number;
   profileImage?: string;
 }
 
-const EstimationCard: React.FC<EstimationCardProps> = ({ category, name, price, profileImage }) => (
-  <div className="Estimation-card">
-    <div className="Estimation-card__header">
-      <span className="Estimation-card__category">{category}</span>
-      <ProfileBadge
-        width="60px"
-        height="60px"
-        src={profileImage}
-        borderRadius={30}
-        className="Estimation-card__profileImage"
-        defaultColor="#ffd800"
-      />
+const EstimationCard: React.FC<EstimationCardProps> = ({ /*id*/ category, name, price, profileImage }) => {
+  // const navigate = useNavigate();
+
+  // const handleProfileClick = () => {
+  //   navigate(`/전문가 프로필/${id}`);
+  // };
+
+  // const handleChatClick = () => {
+  //   navigate(`/채팅방 프로필/${id}`);
+  // };
+
+  return (
+    <div className="estimationCard">
+      <div className="estimationCardHeader">
+        <span className="estimationCardCategory">{category}</span>
+        <ProfileBadge
+          width="60px"
+          height="60px"
+          src={profileImage}
+          borderRadius={10}
+          className="estimationCardProfileImage"
+          defaultColor="#ffd800"
+        />
+      </div>
+      <h3 className="estimationCardName">{name}</h3>
+      <p className="estimationCardPrice">{price.toLocaleString()}원</p>
+      <div className="estimationCardActions">
+        <MainBtn
+          name="전문가 프로필"
+          size="medium"
+          backgroundColor="#FFD800"
+          color="#000000"
+          // onClick={handleProfileClick}
+        />
+        <MainBtn
+          name="채팅하기"
+          size="medium"
+          backgroundColor="#FFD800"
+          color="#000000"
+          // onClick={handleChatClick}
+        />
+      </div>
     </div>
-    <h3 className="Estimation-card__name">{name}</h3>
-    <p className="Estimation-card__price">{price.toLocaleString()}원</p>
-    <div className="Estimation-card__actions">
-      <MainBtn
-        name="전문가 프로필"
-        size="small"
-        backgroundColor="#FFE14C"
-        color="#000000"
-      />
-      <MainBtn
-        name="채팅하기"
-        size="small"
-        backgroundColor="#FFFFFF"
-        borderColor="#000000"
-        color="#000000"
-      />
-    </div>
-  </div>
-)
+  )
+}
 
 interface Estimation {
   id: number;
@@ -69,19 +84,11 @@ const EstimationList: React.FC = () => {
       ? estimations
       : estimations.filter(estimation => estimation.category === category);
 
-    const cards = filteredEstimations.map(estimation => (
-      <EstimationCard key={estimation.id} {...estimation} />
-    ));
-
-    // 빈 카드를 추가하여 레이아웃 유지
-    const emptyCards = Array(3 - (cards.length % 3 || 3))
-      .fill(null)
-      .map((_, index) => <div key={`empty-${index}`} className="Estimation-card" style={{visibility: 'hidden'}} />);
-
     return (
-      <div className="Estimation-grid">
-        {cards}
-        {emptyCards}
+      <div className="estimationGrid">
+        {filteredEstimations.map(estimation => (
+          <EstimationCard key={estimation.id} {...estimation} />
+        ))}
       </div>
     )
   }
@@ -92,13 +99,13 @@ const EstimationList: React.FC = () => {
   }))
 
   return (
-    <div className="Estimation-container">
-      <main className="Estimation-main">
-        <h2 className="Estimation-main__pageTitle">받은 견적 리스트</h2>
+    <div className="estimationContainer">
+      <main className="estimationMain">
+        <h2 className="estimationMainPageTitle">받은 견적 리스트</h2>
         <Tab tabs={tabContent} />
       </main>
     </div>
   )
 }
 
-export default EstimationList;
+export default EstimationList
