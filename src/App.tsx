@@ -9,6 +9,7 @@ import Mypage from './pages/MyPage';
 import EstimationPage from './pages/Estimationpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
 import ChatListPage from './pages/ChatListPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path='/' element={<MainPage />} />
           <Route path='/common' element={<Common />} />
           <Route path='/estimation' element={<EstimationPage />} />
-          <Route path='/login' element={'login 페이지 연결해주세요'} />
+          <Route path='/login' element={<LoginPage />} />
           <Route path='/mypage' element={<Mypage />} />
           <Route path='/chatlistpage' element={<ChatListPage />} />
         </Route>
