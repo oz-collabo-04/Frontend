@@ -1,24 +1,55 @@
-.billboard {
-  width: 100vmax;
-  height: 20rem;
-  margin-top: 3rem;
-  background-image: url('/public/image/billboard.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
+.mainPage {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding-top: calc(20rem / 3);
-  padding-left: calc(40rem / 4);
-}
+  flex-direction: column;
 
-.serviceInfo {
-  padding-top: 3rem;
-  padding-bottom: 4rem;
-}
+  .billboard {
+    width: 100vmax;
+    height: 20rem;
+    // margin-top: 3rem;
+    background-image: url('@/assets/images/billboard.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
-.mainContainer{
-  
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: calc(20rem / 3);
+    padding-left: calc(40rem / 4);
+  }
+  .tabWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+
+    .tabContentsType1 {
+      display: flex;
+      flex-direction: row;
+      margin-top: 0.5rem;
+      gap: 4rem;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(248, 248, 243);
+      border-radius: 1rem;
+      max-width: 100rem;
+      height: 20rem;
+    }
+
+    .tabText {
+      display: flex;
+      flex-direction: column;
+      padding-top: 1rem;
+      max-width: 75%;
+
+      .expertName {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .expertDescription {
+        margin-top: 2rem;
+        font-size: 1.7rem;
+      }
+    }
+  }
 }

@@ -1,0 +1,50 @@
+.loginPage {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: calc(100vh - 9rem);
+  overflow: hidden;
+
+  .loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    min-width: 32rem;
+    min-height: 40rem;
+    border-radius: 0.7rem;
+    background-color: #f4f3f3;
+
+    .loginText {
+      font-size: large;
+      font-weight: 600;
+    }
+
+    .loginBtn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-size: large;
+      margin-left: 3rem;
+      margin-right: 3rem;
+      gap: 1rem;
+    }
+    .naver {
+      background-color: #03c75b;
+    }
+    .kakao {
+      background-color: #ffdc00;
+    }
+    .google {
+      background-color: #ffffff;
+    }
+    .logo {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
