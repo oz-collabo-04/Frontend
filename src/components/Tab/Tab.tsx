@@ -6,9 +6,10 @@ interface TabProps {
     label: string; // 탭 이름 (버튼 텍스트)
     content: ReactNode; // 탭에 표시될 내용 (컴포넌트)
   }[];
+  extraClass?: string;
 }
 
-const Tab = ({ tabs }: TabProps) => {
+const Tab = ({ tabs, extraClass }: TabProps) => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   const handleTabClick = (index: number) => {
@@ -16,7 +17,7 @@ const Tab = ({ tabs }: TabProps) => {
   };
 
   return (
-    <div className='comTab'>
+    <div className={`comTab ${extraClass}`}>
       {/* 탭 버튼 */}
       <div className='tabBtnBox'>
         {tabs.map((tab, index) => (
