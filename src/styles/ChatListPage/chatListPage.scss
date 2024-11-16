@@ -1,0 +1,72 @@
+@use '@/styles/variables' as *;
+.chatListPage {
+  .chatTab {
+    margin-top: 2.4rem;
+  }
+  .chatListContainer {
+    .chatList {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      .chat {
+        position: relative;
+        .chatPreview {
+          display: flex;
+          align-items: center;
+          gap: 1.2rem;
+          width: 100%;
+          padding: 1.2rem 2.4rem;
+          background-color: #f4f4f4;
+          border-radius: 1.2rem;
+          .profileBadge {
+            min-width: 8rem;
+          }
+          .chatContent {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            .userName {
+              font-size: 1.8rem;
+            }
+            .requestList {
+              display: flex;
+              font-size: 1.2rem;
+              li {
+                padding-right: 0.7rem;
+                margin-right: 0.6rem;
+                position: relative;
+                &::after {
+                  content: '';
+                  position: absolute;
+                  right: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  width: 1px;
+                  height: 1rem;
+                  background-color: $default-color;
+                }
+                &:last-child {
+                  &::after {
+                    display: none;
+                  }
+                }
+              }
+            }
+            .lastChat {
+              font-size: 1.4rem;
+            }
+          }
+        }
+        .createMessageTime {
+          position: absolute;
+          right: 2.4rem;
+          top: 50%;
+          transform: translateY(-50%);
+          display: block;
+          font-size: 1.2rem;
+          color: #a6a6a6;
+        }
+      }
+    }
+  }
+}

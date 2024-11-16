@@ -9,8 +9,9 @@
 }
 
 .chatPage {
-  height: calc(100vh - 7.2rem);
-  margin-top: 7.2rem;
+  width: 100%;
+  height: calc(100vh - 12.4rem);
+  padding-bottom: 4rem;
   .chatRoomTop {
     display: flex;
     align-items: center;
@@ -27,7 +28,8 @@
   .chatWrapper {
     display: flex;
     gap: 3.2rem;
-    height: calc(100% - 10.4rem);
+    // height: calc(100% - 10.4rem);
+    height: 100%;
     margin-top: 1.2rem;
     .chatRoom {
       display: flex;
@@ -47,6 +49,7 @@
         .chatBox {
           display: flex;
           flex-direction: column;
+          gap: 2.4rem;
           width: calc(100% - 4.8rem);
           height: calc(100% - 2.4rem);
           overflow: auto;
@@ -60,6 +63,7 @@
               overflow: hidden;
             }
             .speechBubble {
+              display: inline-block;
               max-width: 30rem;
               padding: 1.2rem;
               font-size: 1.6rem;
@@ -69,33 +73,38 @@
               border: 1px solid;
               border-color: $border-color;
               border-radius: 0.8rem;
-            }
-            .createMessageTime {
-              display: block;
-              margin-top: 0.8rem;
-              font-size: 1.2rem;
-              color: $font-deactivate-color;
+              position: relative;
+              .createMessageTime {
+                position: absolute;
+                bottom: 0;
+                display: flex;
+                gap: 0.8rem;
+                font-size: 1.2rem;
+                white-space: nowrap;
+                color: $font-deactivate-color;
+                .messageUnread {
+                  color: $font-color;
+                }
+              }
             }
           }
           .myMessageBox {
             padding-right: 1.2rem;
             margin-left: auto;
-            text-align: right;
             .speechBubble {
-              margin-right: 3.2rem;
-            }
-            .createMessageTime {
-              text-align: left;
+              right: 3.2rem;
+              .createMessageTime {
+                right: calc(100% + 0.8rem);
+                flex-direction: row-reverse;
+              }
             }
           }
           .yourMessageBox {
-            margin-right: auto;
-            text-align: left;
             .speechBubble {
-              margin-left: 3.2rem;
-            }
-            .createMessageTime {
-              text-align: right;
+              left: 3.2rem;
+              .createMessageTime {
+                left: calc(100% + 0.8rem);
+              }
             }
           }
         }
