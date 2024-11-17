@@ -11,6 +11,7 @@ import {
   iconBtnSize,
   InputDefault,
   InputDisabled,
+  InputPrice,
   InputWidth,
   LargeTitleCode,
   mainBtnColor,
@@ -56,9 +57,17 @@ import Modal from './components/Modal/Modal';
 import ModalContent1 from './components/Modal/ModalContent1';
 import { useModalStore } from './store/modalStore';
 import ModalContent2 from './components/Modal/ModalContent2';
+import NumberInput from './components/Input/NumberInput';
+import { useState } from 'react';
 
 function Common() {
   const { openModal } = useModalStore();
+
+  const [amount, setAmount] = useState<string | number>('');
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value); // 부모 상태 업데이트
+  };
 
   const tabs = [
     { label: 'TAB1', content: <TabContent1 /> },
@@ -337,6 +346,22 @@ function Common() {
                 </td>
               </tr>
 
+              {/* input price */}
+              <tr>
+                <td>
+                  <NumberInput
+                    placeholder='금액을 입력하세요'
+                    value={amount}
+                    onChange={handleAmountChange}
+                    width='100%'
+                  />
+                </td>
+                <td>
+                  <code>{InputPrice}</code>
+                  <CopyButton code={InputPrice} />
+                </td>
+              </tr>
+
               {/* Disabled */}
               <tr>
                 <td>
@@ -587,9 +612,15 @@ function Common() {
                     modalId='modal2'
                     title='모달2번'
                     content={<ModalContent2 />}
-                    width='100%'
-                    height='100%'
-                    borderRadius='52px'
+                    width='80rem'
+                    height='80vh'
+                    borderRadius='4px'
+                    firstBtn={true}
+                    firstBtnName='첫 번째 버튼'
+                    firstBtnOnClick={() => console.log('첫 번째 버튼 클릭')}
+                    secondBtn={true}
+                    secondBtnName='두 번째 버튼'
+                    secondBtnOnClick={() => console.log('두 번째 버튼 클릭')}
                   />
                 </td>
                 <td>
