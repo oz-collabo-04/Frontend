@@ -46,6 +46,7 @@ export const RadioChecked = `<Radio idFor='idFor7' content='radio7' name='radio7
 export const RadioDisabled = `<Radio idFor='idFor9' content='radio9' disabled={true} name='radio910' />
 <Radio idFor='idFor10' content='radio10' disabled={true} name='radio910' />`;
 
+// TAB
 export const tabDefault = `const tabs = [
   { label: 'TAB1', content: <TabContent1 /> },
   { label: 'TAB2', content: <TabContent2 /> },
@@ -55,4 +56,22 @@ export const tabDefault = `const tabs = [
 
 <Tab tabs={tabs} />`;
 
-export const badgeDefault = `<ProfileBadge  />`
+// BADGE
+export const badgeDefault = `<ProfileBadge  />`;
+
+// MODAL
+export const modalDefault = `const { openModal } = useModalStore();
+
+<MainBtn name='모달1번' onClick={() => openModal('modal1')} />
+<Modal modalId='modal1' title='모달1번' content={<ModalContent1 />} />`;
+export const modalSize = `const { openModal } = useModalStore();
+
+<MainBtn name='모달2번' onClick={() => openModal('modal2')} />
+<Modal
+  modalId='modal2'
+  title='모달2번'
+  content={<ModalContent2 />}
+  width='100%'
+  height='100%'
+  borderRadius='52px'
+/>`;

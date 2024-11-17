@@ -3,6 +3,7 @@ import { useState } from 'react';
 interface IconBtnProps {
   width?: string;
   height?: string;
+  backgroundColor?: string;
   src: string;
   alt: string;
   fallbackSrc?: string;
@@ -13,6 +14,7 @@ interface IconBtnProps {
 const IconBtn = ({
   width,
   height,
+  backgroundColor,
   src,
   alt,
   fallbackSrc = '/image/default_user_icon.svg',
@@ -26,7 +28,7 @@ const IconBtn = ({
   };
 
   return (
-    <button className='iconBtn' style={{ width, height }} onClick={onClick}>
+    <button className='iconBtn' style={{ width, height, backgroundColor }} onClick={onClick}>
       <img
         src={imgSrc}
         alt={alt}
