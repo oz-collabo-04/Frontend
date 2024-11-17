@@ -26,6 +26,18 @@ export const iconBtnSize = `<IconBtn width='50px' height='50px' src='' alt='아�
 export const InputDefault = `<Input type='text' placeholder='placeholder' />`;
 export const InputWidth = `<Input type='text' placeholder='placeholder' width='100%' height='70px' />`;
 export const InputDisabled = `<Input type='text' placeholder='placeholder' disabled={true} />`;
+export const InputPrice = `const [amount, setAmount] = useState<string | number>('');
+
+const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setAmount(e.target.value); // 부모 상태 업데이트
+};
+
+<NumberInput
+  placeholder='금액을 입력하세요'
+  value={amount}
+  onChange={handleAmountChange}
+  width='100%'
+/>`;
 
 // TEXTAREA
 export const TextareaDefault = `<Textarea placeholder='placeholder' />`;
@@ -71,7 +83,13 @@ export const modalSize = `const { openModal } = useModalStore();
   modalId='modal2'
   title='모달2번'
   content={<ModalContent2 />}
-  width='100%'
-  height='100%'
-  borderRadius='52px'
+  width='80rem'
+  height='80vh'
+  borderRadius='4px'
+  firstBtn={true}
+  firstBtnName='첫 번째 버튼'
+  firstBtnOnClick={() => console.log('첫 번째 버튼 클릭')}
+  secondBtn={true}
+  secondBtnName='두 번째 버튼'
+  secondBtnOnClick={() => console.log('두 번째 버튼 클릭')}
 />`;

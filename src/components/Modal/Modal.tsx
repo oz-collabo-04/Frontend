@@ -8,9 +8,28 @@ interface ModalProps {
   borderRadius?: string;
   title: string;
   content: React.ReactNode;
+  firstBtn?: boolean;
+  firstBtnName?: string;
+  firstBtnOnClick?: () => void;
+  secondBtn?: boolean;
+  secondBtnName?: string;
+  secondBtnOnClick?: () => void;
 }
 
-const Modal = ({ modalId, width = '48rem', height = '50vh', borderRadius = '2rem', title, content }: ModalProps) => {
+const Modal = ({
+  modalId,
+  width = '48rem',
+  height = '50vh',
+  borderRadius = '2rem',
+  title,
+  content,
+  firstBtn = false,
+  firstBtnName = '버튼1',
+  firstBtnOnClick,
+  secondBtn = false,
+  secondBtnName = '버튼2',
+  secondBtnOnClick,
+}: ModalProps) => {
   const { modals, closeModal } = useModalStore();
   const isOpen = modals[modalId];
 
@@ -30,6 +49,18 @@ const Modal = ({ modalId, width = '48rem', height = '50vh', borderRadius = '2rem
             />
           </div>
           <div className='modalContents'>{content}</div>
+          <div className='modalFooter'>
+            {firstBtn && (
+              <button type='button' onClick={firstBtnOnClick}>
+                {firstBtnName}
+              </button>
+            )}
+            {secondBtn && (
+              <button type='button' onClick={secondBtnOnClick}>
+                {secondBtnName}
+              </button>
+            )}
+          </div>
         </div>
         <div className='blackBg' onClick={() => closeModal(modalId)}></div>
       </div>
