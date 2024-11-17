@@ -5,6 +5,7 @@ export const MediumTitleCode = `<MediumTitle title='h4 타이틀' />`;
 export const SmallTitleCode = `<SmallTitle title='h5 타이틀' />`;
 export const XSmallTitleCode = `<XSmallTitle title='h6 타이틀' />`;
 export const FuncTitleCode = `<XSmallTitle title='FuncTitleCode' fontSize='40px' fontWeight='300' extraClass='newClass' />`;
+export const pageTitleDefault = `<PageTitle title='페이지 제목' isPrevBtn={true} prevUrl='/' />`;
 
 // BUTTON
 export const mainBtnDefault = `<MainBtn name={'button'} />`;
