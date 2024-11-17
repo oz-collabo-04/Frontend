@@ -25,6 +25,7 @@ import {
   MediumTitleCode,
   modalDefault,
   modalSize,
+  pageTitleDefault,
   RadioChecked,
   RadioDefault,
   RadioDisabled,
@@ -59,6 +60,7 @@ import { useModalStore } from './store/modalStore';
 import ModalContent2 from './components/Modal/ModalContent2';
 import NumberInput from './components/Input/NumberInput';
 import { useState } from 'react';
+import PageTitle from './components/PageTitle/PageTitle';
 
 function Common() {
   const { openModal } = useModalStore();
@@ -157,6 +159,17 @@ function Common() {
                 <td>
                   <code>{FuncTitleCode}</code>
                   <CopyButton code={FuncTitleCode} />
+                </td>
+              </tr>
+
+              {/* PageTitle */}
+              <tr>
+                <td>
+                  <PageTitle title='페이지 제목' isPrevBtn={true} prevUrl='/' />
+                </td>
+                <td>
+                  <code>{pageTitleDefault}</code>
+                  <CopyButton code={pageTitleDefault} />
                 </td>
               </tr>
             </tbody>

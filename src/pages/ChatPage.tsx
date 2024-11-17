@@ -1,7 +1,7 @@
-import SmallTitle from '@/components/Title/SmallTitle';
 import ChatRoom from '@/uiComponents/ChatPage/ChatRoom';
 import ExpertWrapper from '@/uiComponents/ChatPage/ExpertWrapper';
 import '@/styles/ChatPage/chatPage.scss';
+import PageTitle from '@/components/PageTitle/PageTitle';
 
 const ChatPage = () => {
   return (
@@ -10,10 +10,7 @@ const ChatPage = () => {
         <div className='contentLayout'>
           {/* chatRoomTop */}
           <div className='chatRoomTop'>
-            <button type='button' className='prevBtn'>
-              이전
-            </button>
-            <SmallTitle title='User Name' />
+            <PageTitle title='김대식' prevUrl='/chatlistpage' />
           </div>
 
           <div className='chatWrapper'>
