@@ -8,6 +8,7 @@ import '@/styles/font.scss';
 import Mypage from './pages/MyPage';
 import EstimationPage from './pages/Estimationpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
+import ExpertProfile from './pages/ExpertProfile';
 import ChatListPage from './pages/ChatListPage';
 import LoginPage from './pages/LoginPage';
 import { ConditionsOfUse, PersonalInformation } from './pages/Policy';
@@ -29,6 +30,7 @@ function App() {
         {/* 푸터 제외 레이아웃 */}
         <Route element={<NoFooterLayout />}>
           <Route path='/chatpage' element={<ChatPage />} />
+          <Route path="/expertprofile/:id" element={<ExpertProfile />} />
           <Route path='/policy/conditions' element={<ConditionsOfUse />} />
           <Route path='/policy/personal' element={<PersonalInformation />} />
         </Route>
