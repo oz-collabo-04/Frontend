@@ -6,6 +6,12 @@
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     "moduleResolution": "node",
-    "skipLibCheck": true
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"] // 절대 경로 별칭 설정
+    }
   }
 }
