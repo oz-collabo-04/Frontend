@@ -1,5 +1,23 @@
 @use 'variables' as *;
 
+.pageTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  .prevBtn {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 0;
+    background: url('/image/chat_prev_icon.svg') no-repeat 50% 50% / 3.2rem;
+    cursor: pointer;
+  }
+  .title {
+    font-size: 2.4rem;
+    font-weight: 700;
+  }
+}
+
 .mainBtn {
   width: 25rem;
   padding: 0 1.2rem;
@@ -43,7 +61,7 @@
   overflow: hidden;
   cursor: pointer;
   img {
-    background-color: $main-color;
+    // background-color: $main-color;
     object-fit: cover;
   }
 }
@@ -67,6 +85,11 @@
     &::placeholder {
       color: $disabled-font;
     }
+  }
+  &.comInput[type='number']::-webkit-outer-spin-button,
+  &.comInput[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
@@ -184,3 +207,63 @@
   }
 }
 
+.comModal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  .modalWrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    .modalHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 6rem;
+      padding: 0 2.4rem;
+      border-bottom: 1px solid;
+      border-color: $border-color;
+      .title {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+      .closeBtn {
+        font-size: 0;
+      }
+    }
+    .modalContents {
+      width: calc(100% - 1.2rem);
+      height: calc(100% - 15.6rem);
+      padding: 0 1.2rem;
+      margin: 1.2rem auto;
+      font-size: 1.6rem;
+      overflow: auto;
+    }
+    .modalFooter {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 7.2rem;
+      padding: 0 2.4rem;
+      button {
+        width: 100%;
+        height: 4rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        background-color: $main-color;
+        border-radius: 0.4rem;
+      }
+    }
+  }
+  .blackBg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}

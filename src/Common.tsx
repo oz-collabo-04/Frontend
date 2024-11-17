@@ -11,6 +11,7 @@ import {
   iconBtnSize,
   InputDefault,
   InputDisabled,
+  InputPrice,
   InputWidth,
   LargeTitleCode,
   mainBtnColor,
@@ -22,6 +23,9 @@ import {
   mainBtnSize,
   mainBtnSmall,
   MediumTitleCode,
+  modalDefault,
+  modalSize,
+  pageTitleDefault,
   RadioChecked,
   RadioDefault,
   RadioDisabled,
@@ -50,8 +54,23 @@ import MediumTitle from './components/Title/MediumTitle';
 import SmallTitle from './components/Title/SmallTitle';
 import XSmallTitle from './components/Title/XSmallTitle';
 import ProfileBadge from './components/Badge/ProfileBadge';
+import Modal from './components/Modal/Modal';
+import ModalContent1 from './components/Modal/ModalContent1';
+import { useModalStore } from './store/modalStore';
+import ModalContent2 from './components/Modal/ModalContent2';
+import NumberInput from './components/Input/NumberInput';
+import { useState } from 'react';
+import PageTitle from './components/PageTitle/PageTitle';
 
 function Common() {
+  const { openModal } = useModalStore();
+
+  const [amount, setAmount] = useState<string | number>('');
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value); // 부모 상태 업데이트
+  };
+
   const tabs = [
     { label: 'TAB1', content: <TabContent1 /> },
     { label: 'TAB2', content: <TabContent2 /> },
@@ -140,6 +159,17 @@ function Common() {
                 <td>
                   <code>{FuncTitleCode}</code>
                   <CopyButton code={FuncTitleCode} />
+                </td>
+              </tr>
+
+              {/* PageTitle */}
+              <tr>
+                <td>
+                  <PageTitle title='페이지 제목' isPrevBtn={true} prevUrl='/' />
+                </td>
+                <td>
+                  <code>{pageTitleDefault}</code>
+                  <CopyButton code={pageTitleDefault} />
                 </td>
               </tr>
             </tbody>
@@ -326,6 +356,22 @@ function Common() {
                 <td>
                   <code>{InputWidth}</code>
                   <CopyButton code={InputWidth} />
+                </td>
+              </tr>
+
+              {/* input price */}
+              <tr>
+                <td>
+                  <NumberInput
+                    placeholder='금액을 입력하세요'
+                    value={amount}
+                    onChange={handleAmountChange}
+                    width='100%'
+                  />
+                </td>
+                <td>
+                  <code>{InputPrice}</code>
+                  <CopyButton code={InputPrice} />
                 </td>
               </tr>
 
@@ -516,7 +562,7 @@ function Common() {
         </div>
       </div>
 
-      {/*badge*/}
+      {/* BADGE */}
       <div className='commonBox'>
         <h6 className='title'>badge</h6>
         <div className='table-box'>
@@ -534,11 +580,65 @@ function Common() {
             <tbody>
               <tr>
                 <td>
-                  <ProfileBadge  />
+                  <ProfileBadge />
                 </td>
                 <td>
                   <code>{badgeDefault}</code>
                   <CopyButton code={badgeDefault} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* MODAL */}
+      <div className='commonBox'>
+        <h6 className='title'>Modal</h6>
+        <div className='table-box'>
+          <table>
+            <colgroup>
+              <col width='200px' />
+              <col width='' />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>UI</th>
+                <th>CODE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <MainBtn name='모달1번' onClick={() => openModal('modal1')} />
+                  <Modal modalId='modal1' title='모달1번' content={<ModalContent1 />} />
+                </td>
+                <td>
+                  <code>{modalDefault}</code>
+                  <CopyButton code={modalDefault} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <MainBtn name='모달2번' onClick={() => openModal('modal2')} />
+                  <Modal
+                    modalId='modal2'
+                    title='모달2번'
+                    content={<ModalContent2 />}
+                    width='80rem'
+                    height='80vh'
+                    borderRadius='4px'
+                    firstBtn={true}
+                    firstBtnName='첫 번째 버튼'
+                    firstBtnOnClick={() => console.log('첫 번째 버튼 클릭')}
+                    secondBtn={true}
+                    secondBtnName='두 번째 버튼'
+                    secondBtnOnClick={() => console.log('두 번째 버튼 클릭')}
+                  />
+                </td>
+                <td>
+                  <code>{modalSize}</code>
+                  <CopyButton code={modalSize} />
                 </td>
               </tr>
             </tbody>

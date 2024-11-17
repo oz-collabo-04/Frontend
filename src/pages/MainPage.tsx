@@ -3,7 +3,6 @@ import Singer from '@/uiComponents/MainPage/Singer';
 import Snapshot from '@/uiComponents/MainPage/Snapshot';
 import WeddingMC from '@/uiComponents/MainPage/WeddingMC';
 import Tab from '@/components/Tab/Tab';
-import XLargeTitle from '@/components/Title/XLargeTitle';
 import XSmallTitle from '@/components/Title/XSmallTitle';
 import '@/styles/MainPage/main.scss';
 
@@ -17,11 +16,10 @@ export default function MainPage() {
 
   return (
     <>
-      <div className='mainContainer'>
+      <div className='mainPage'>
         <XSmallTitle title='영화같은 웨딩을 위한 서비스' fontSize='2.3rem' fontWeight='450' extraClass='billboard' />
         <main className='contentLayout'>
-          <XLargeTitle extraClass='serviceInfo' title='서비스 소개' />
-          <div className='serviceTab'>
+          <div className='tabWrapper'>
             <Tab tabs={tabs} />
           </div>
         </main>

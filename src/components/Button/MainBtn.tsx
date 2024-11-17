@@ -1,4 +1,7 @@
+import { ReactElement } from 'react';
+
 interface BtnProps {
+  img?: ReactElement;
   name: string;
   width?: string;
   height?: string;
@@ -12,6 +15,7 @@ interface BtnProps {
 }
 
 const MainBtn = ({
+  img,
   name,
   width,
   height,
@@ -30,6 +34,7 @@ const MainBtn = ({
       disabled={disabled}
       onClick={onClick}
     >
+      {img}
       {name}
     </button>
   );
