@@ -1,1 +1,38 @@
-// footer.scss
+@use './variables.scss' as *;
+
+// footer 전체
+.footerBar {
+  width: 100%;
+  height: 24rem;
+  padding: 5rem 24rem;
+  margin: 0 auto;
+  bottom: 0;
+  background-color: $main-color;
+  color: #00000066;
+  .contents {
+    display: flex;
+    justify-content: left;
+    gap: 4rem;
+  }
+  .flex {
+    text-align: left;
+  }
+  .company {
+    text-align: left;
+  }
+  .info {
+    .mainBtn {
+      display: flex;
+      padding: 1rem 2rem;
+      gap: 1rem;
+      .logo {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+    .policy {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

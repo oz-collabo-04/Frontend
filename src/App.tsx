@@ -10,6 +10,7 @@ import EstimationPage from './pages/Estimationpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
 import ChatListPage from './pages/ChatListPage';
 import LoginPage from './pages/LoginPage';
+import { ConditionsOfUse, PersonalInformation } from './pages/Policy';
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         {/* 푸터 제외 레이아웃 */}
         <Route element={<NoFooterLayout />}>
           <Route path='/chatpage' element={<ChatPage />} />
+          <Route path='/policy/conditions' element={<ConditionsOfUse />} />
+          <Route path='/policy/personal' element={<PersonalInformation />} />
         </Route>
       </Routes>
     </>
