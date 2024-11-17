@@ -22,6 +22,8 @@ import {
   mainBtnSize,
   mainBtnSmall,
   MediumTitleCode,
+  modalDefault,
+  modalSize,
   RadioChecked,
   RadioDefault,
   RadioDisabled,
@@ -50,8 +52,14 @@ import MediumTitle from './components/Title/MediumTitle';
 import SmallTitle from './components/Title/SmallTitle';
 import XSmallTitle from './components/Title/XSmallTitle';
 import ProfileBadge from './components/Badge/ProfileBadge';
+import Modal from './components/Modal/Modal';
+import ModalContent1 from './components/Modal/ModalContent1';
+import { useModalStore } from './store/modalStore';
+import ModalContent2 from './components/Modal/ModalContent2';
 
 function Common() {
+  const { openModal } = useModalStore();
+
   const tabs = [
     { label: 'TAB1', content: <TabContent1 /> },
     { label: 'TAB2', content: <TabContent2 /> },
@@ -516,7 +524,7 @@ function Common() {
         </div>
       </div>
 
-      {/*badge*/}
+      {/* BADGE */}
       <div className='commonBox'>
         <h6 className='title'>badge</h6>
         <div className='table-box'>
@@ -534,11 +542,59 @@ function Common() {
             <tbody>
               <tr>
                 <td>
-                  <ProfileBadge  />
+                  <ProfileBadge />
                 </td>
                 <td>
                   <code>{badgeDefault}</code>
                   <CopyButton code={badgeDefault} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* MODAL */}
+      <div className='commonBox'>
+        <h6 className='title'>Modal</h6>
+        <div className='table-box'>
+          <table>
+            <colgroup>
+              <col width='200px' />
+              <col width='' />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>UI</th>
+                <th>CODE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <MainBtn name='모달1번' onClick={() => openModal('modal1')} />
+                  <Modal modalId='modal1' title='모달1번' content={<ModalContent1 />} />
+                </td>
+                <td>
+                  <code>{modalDefault}</code>
+                  <CopyButton code={modalDefault} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <MainBtn name='모달2번' onClick={() => openModal('modal2')} />
+                  <Modal
+                    modalId='modal2'
+                    title='모달2번'
+                    content={<ModalContent2 />}
+                    width='100%'
+                    height='100%'
+                    borderRadius='52px'
+                  />
+                </td>
+                <td>
+                  <code>{modalSize}</code>
+                  <CopyButton code={modalSize} />
                 </td>
               </tr>
             </tbody>
