@@ -29,7 +29,9 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background-color: #f4f4f4;
+        background-color: $main-color-light;
+        border: 1px solid;
+        border-color: $main-color;
         border-radius: 2rem;
         .chatBox {
           display: flex;
@@ -76,6 +78,9 @@
           .myMessageBox {
             padding-right: 1.2rem;
             margin-left: auto;
+            .profileBadge {
+              margin-left: auto;
+            }
             .speechBubble {
               right: 3.2rem;
               .createMessageTime {

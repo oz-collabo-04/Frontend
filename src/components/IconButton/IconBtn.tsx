@@ -4,6 +4,7 @@ interface IconBtnProps {
   width?: string;
   height?: string;
   backgroundColor?: string;
+  type?: 'button' | 'submit' | 'reset';
   src: string;
   alt: string;
   fallbackSrc?: string;
@@ -15,6 +16,7 @@ const IconBtn = ({
   width,
   height,
   backgroundColor,
+  type = 'button',
   src,
   alt,
   fallbackSrc = '/image/default_user_icon.svg',
@@ -28,7 +30,7 @@ const IconBtn = ({
   };
 
   return (
-    <button className='iconBtn' style={{ width, height, backgroundColor }} onClick={onClick}>
+    <button className='iconBtn' type={type} style={{ width, height, backgroundColor }} onClick={onClick}>
       <img
         src={imgSrc}
         alt={alt}
