@@ -1,40 +1,55 @@
+import { useState } from 'react';
 import '@/styles/common.scss';
 
 interface ProfileBadgeProps {
   width?: string;
   height?: string;
   src?: string;
-  borderRadius?: number;
+  fallbackSrc?: string;
+  borderRadius?: string;
   extraClass?: string;
-  defaultColor?: string;
+  backgroundColor?: string;
+  isFull?: boolean;
 }
 
-export default function ProfileBadge({
-  width = '120px',
-  height = '120px',
+const ProfileBadge = ({
+  width,
+  height,
   src,
-  borderRadius = 15,
+  fallbackSrc = '/image/default_user_icon.svg',
+  borderRadius,
   extraClass = '',
-  defaultColor = '#FFD800',
-}: ProfileBadgeProps) {
+  backgroundColor,
+  isFull,
+}: ProfileBadgeProps) => {
+  const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
+
+  const handleError = () => {
+    setImgSrc(fallbackSrc);
+  };
+
   return (
     <div
-      className={`profileBadge ${extraClass}`.trim()}
+      className={`profile-badge ${extraClass}`.trim()}
       style={{
         width,
         height,
-        borderRadius: `${borderRadius}px`,
-        backgroundColor: src ? 'transparent' : defaultColor,
+        borderRadius,
+        backgroundColor,
       }}
     >
-      {src && (
-        <img
-          src={src}
-          alt='Profile Badge'
-          className='profileBadgeIcon extraIconClass'
-          style={{ width: '100%', height: '100%', borderRadius: 'inherit' }}
-        />
-      )}
+      <img
+        src={imgSrc}
+        alt='프로필 배지'
+        className='profile-badge__icon'
+        onError={handleError}
+        style={{
+          width: isFull ? '100%' : '70%',
+          height: isFull ? '100%' : '70%',
+        }}
+      />
     </div>
   );
-}
+};
+
+export default ProfileBadge;

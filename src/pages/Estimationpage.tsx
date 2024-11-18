@@ -1,9 +1,11 @@
 import React, { useMemo, ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
 import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
+import profile from '@/assets/images/dalbong.jpg'
+import ExpertProfileModal from '@/pages/ExpertProfileModal'
+import { useModalStore } from '@/store/modalStore'
 
 interface EstimationCardProps {
   id: number;
@@ -19,23 +21,22 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
   category, 
   name, 
   price, 
-  profileImage,
   onProfileClick 
 }) => {
   return (
     <div className="estimationCard">
       <div className="estimationCardHeader">
-        <span className="estimationCardCategory">{category}</span>
+        <div className="estimationCardInfo">
+          <span className="estimationCardCategory">{category}</span>
+          <h3 className="estimationCardName">{name}</h3>
+        </div>
         <ProfileBadge
-          width="60px"
-          height="60px"
-          src={profileImage}
-          borderRadius={10}
-          className="estimationCardProfileImage"
-          defaultColor="#ffd800"
+          width="120px"
+          height="120px"
+          src={profile}
+          borderRadius={'1.2rem'}
         />
       </div>
-      <h3 className="estimationCardName">{name}</h3>
       <p className="estimationCardPrice">{price.toLocaleString()}원</p>
       <div className="estimationCardActions">
         <MainBtn
@@ -65,8 +66,9 @@ interface Estimation {
 }
 
 const EstimationList: React.FC = () => {
-  const navigate = useNavigate();
   const categories = ['전체', '결혼식 사회자', '축가 가수', '영상촬영', '스냅 촬영']
+  const { openModal } = useModalStore();
+  const [selectedExpertId, setSelectedExpertId] = React.useState<number | null>(null);
 
   const estimations: Estimation[] = useMemo(() => [
     { id: 1, category: '결혼식 사회자', name: '김사회', price: 300000, profileImage: '/path/to/image1.jpg' },
@@ -78,7 +80,8 @@ const EstimationList: React.FC = () => {
   ], []);
 
   const handleProfileClick = (id: number) => {
-    navigate(`/expertprofile/${id}`);
+    setSelectedExpertId(id);
+    openModal('expertProfile');
   };
 
   const renderEstimationCards = (category: string) => {
@@ -110,6 +113,7 @@ const EstimationList: React.FC = () => {
         <h2 className="estimationMainPageTitle">받은 견적 리스트</h2>
         <Tab tabs={tabContent} />
       </main>
+      <ExpertProfileModal expertId={selectedExpertId} />
     </div>
   )
 }
