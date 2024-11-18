@@ -3,8 +3,8 @@ import Singer from '@/uiComponents/MainPage/Singer';
 import Snapshot from '@/uiComponents/MainPage/Snapshot';
 import WeddingMC from '@/uiComponents/MainPage/WeddingMC';
 import Tab from '@/components/Tab/Tab';
-import XSmallTitle from '@/components/Title/XSmallTitle';
 import '@/styles/MainPage/main.scss';
+import Billboard from '@/uiComponents/MainPage/Billboard';
 
 export default function MainPage() {
   const tabs = [
@@ -17,7 +17,8 @@ export default function MainPage() {
   return (
     <>
       <div className='mainPage'>
-        <XSmallTitle title='영화같은 웨딩을 위한 서비스' fontSize='2.3rem' fontWeight='450' extraClass='billboard' />
+        {/* <XSmallTitle title='영화같은 웨딩을 위한 서비스' fontSize='2.3rem' fontWeight='450' extraClass='billboard' /> */}
+        <Billboard />
         <main className='contentLayout'>
           <div className='tabWrapper'>
             <Tab tabs={tabs} />

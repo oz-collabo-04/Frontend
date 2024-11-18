@@ -1,0 +1,32 @@
+.slider-container {
+  max-width: 1280px;
+  max-height: 850px;
+  wi img {
+    max-width: 1280px;
+    max-height: 850px;
+  }
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+    display: none;
+  }
+  .customArrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    cursor: pointer;
+    color: #ffe14c;
+    opacity: 0.6;
+
+    &.left {
+      left: 2rem;
+    }
+    &.right {
+      right: 2rem;
+    }
+    &:hover {
+      opacity: 1; // 호버 시에만 보이도록 설정
+    }
+  }
+}

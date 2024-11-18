@@ -3,10 +3,16 @@
 
 // interface SocialLoginPayload {
 //   provider: 'naver' | 'kakao' | 'google';
-//   authCode: string;
+//   code: string;
 //   state?: string; // naver
 // }
-// export const sendAuthCodeAPI = async ({ provider, authCode, state }: SocialLoginPayload) => {
+// export const sendAuthCodeAPI = async ({ provider, code, state }: SocialLoginPayload) => {
 //   const redirectURL = `${redirectBaseURL}`;
 //   const callbackURL = `${provider}/callback/`;
+
+//   const queryParams = new URLSearchParams({ code });
+
+//   if(provider === 'naver' && state){
+//     queryParams.append('state', state)
+//   }
 // };
