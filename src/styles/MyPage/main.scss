@@ -1,28 +1,12 @@
 .myPage {
   margin: 15rem auto;
-
-  .myHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-
-    button {
-      position: absolute;
-      left: 0;
-      width: 3.2rem;
-      height: 3.2rem;
-      font-size: 0;
-      background: url('/image/chat_prev_icon.svg') no-repeat 50% 50% / 3.2rem;
-      cursor: pointer;
-    }
-  }
+  max-width: 76.8rem;
 
   .myMain {
     background-color: #f3f3f3;
-    margin: 7rem 0rem;
+    margin: 5rem 0rem;
     padding: 5rem 3rem;
-    border-radius: 1rem;
+    border-radius: 2rem;
 
     .mySection {
       background-color: #ffffff;

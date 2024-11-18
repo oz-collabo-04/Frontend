@@ -1,19 +1,16 @@
-import LargeTitle from '@/components/Title/LargeTitle';
+import PageTitle from '@/components/PageTitle/PageTitle';
 import SmallTitle from '@/components/Title/SmallTitle';
 import '@/styles/MyPage/main.scss';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Mypage() {
-  const [isExpert, useIsExpert] = useState(false); // 임시코드. 일단 전문가 아이디 확정되면 전문가아이디에 따라 boolean
+  const [isExpert, setIsExpert] = useState(false); // 임시코드. 일단 전문가 아이디 확정되면 전문가아이디에 따라 boolean
 
   return (
     <>
       <div className='myPage contentLayout'>
-        <div className='myHeader'>
-          <button onClick={() => (window.location.href = '/')}>뒤로가기</button>
-          <LargeTitle title='마이 페이지' />
-        </div>
+        <PageTitle title='마이페이지' isPrevBtn={true} prevUrl='/' />
 
         <main className='myMain'>
           <SmallTitle title='예약 관리' />
