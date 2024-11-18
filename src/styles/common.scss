@@ -267,3 +267,18 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 }
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: $main-color;
+  border-radius: 0.8rem;
+  overflow: hidden;
+
+  &__icon {
+    object-fit: cover;
+  }
+}
