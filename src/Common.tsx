@@ -61,6 +61,7 @@ import ModalContent2 from './components/Modal/ModalContent2';
 import NumberInput from './components/Input/NumberInput';
 import { useState } from 'react';
 import PageTitle from './components/PageTitle/PageTitle';
+import defaultImg from '@/assets/images/dalbong.jpg';
 
 function Common() {
   const { openModal } = useModalStore();
@@ -295,7 +296,7 @@ function Common() {
               {/* 아이콘버튼(image full) */}
               <tr>
                 <td>
-                  <IconBtn src='/image/dalbong.jpg' alt='아이콘버튼' isFull={true} />
+                  <IconBtn src={defaultImg} alt='아이콘버튼' isFull={true} />
                 </td>
                 <td>
                   <code>{iconBtnIsFull}</code>
