@@ -1,0 +1,48 @@
+.careerModal {
+  font-weight: 500;
+  margin: 1rem;
+
+  .careerInput {
+    div {
+      font-weight: 600;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0rem;
+
+      p {
+        width: 6.5rem;
+        text-align: center;
+      }
+
+      input {
+        border: 0.1rem #e1e1e1 solid;
+        border-radius: 0.5rem;
+        width: 20rem;
+        padding: 0rem 1.2rem;
+      }
+    }
+
+    button {
+      float: right;
+    }
+  }
+
+  .careerUpdate {
+    margin: 4rem 0rem;
+
+    li {
+      border-bottom: 0.1rem #e1e1e1 solid;
+      display: flex;
+      justify-content: space-between;
+      margin: 0rem 1rem;
+      padding: 1.5rem 0rem;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+  }
+}
