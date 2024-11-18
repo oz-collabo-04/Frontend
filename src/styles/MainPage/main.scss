@@ -6,38 +6,51 @@
   .tabWrapper {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
 
     .tabContentsType {
       display: flex;
       flex-direction: row;
-      margin-top: 0.5rem;
+      margin-top: 8rem;
       gap: 3.5rem;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      // height: 26rem;
 
       .profileBadge {
-        min-width: 30rem !important;
-        height: 20rem !important;
+        //메인 페이지 전문가 이미지
+        min-width: 40rem !important;
+        height: 28rem !important;
         object-fit: cover;
+      }
+
+      &:nth-child(even) {
+        text-align: right;
+      }
+      &:first-child {
+        margin-top: 0;
       }
     }
     .tabText {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-top: 0.5rem;
+      padding-top: 2.4rem;
       max-width: 75%;
 
+      .gerne {
+        font-size: 2.8rem;
+      }
       .expertName {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin-top: 0.8rem;
+        font-size: 2rem;
+        font-weight: 600;
       }
 
       .expertDescription {
         margin-top: 2rem;
-        font-size: 1.7rem;
+        width: 52rem;
+        font-size: 1.8rem;
+        line-height: 1.5;
+        word-break: keep-all;
       }
     }
   }
