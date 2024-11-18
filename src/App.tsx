@@ -13,6 +13,7 @@ import ChatListPage from './pages/ChatListPage';
 import LoginPage from './pages/LoginPage';
 import { ConditionsOfUse, PersonalInformation } from './pages/Policy';
 import ExpertProfileEditPage from './pages/ExpertProfileEditPage';
+import UserEstimationPage from './pages/UserEstimationPage';
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route element={<CommonLayout />}>
           <Route path='/' element={<MainPage />} />
           <Route path='/common' element={<Common />} />
-          <Route path='/estimation' element={<EstimationPage />} />
+          <Route path='/userestimation' element={<UserEstimationPage />} />
+          <Route path='/estimationlist' element={<EstimationPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/mypage' element={<Mypage />} />
           <Route path='/chatlistpage' element={<ChatListPage />} />
@@ -32,7 +34,7 @@ function App() {
         {/* 푸터 제외 레이아웃 */}
         <Route element={<NoFooterLayout />}>
           <Route path='/chatpage' element={<ChatPage />} />
-          <Route path="/expertprofile/:id" element={<ExpertProfile />} />
+          <Route path='/expertprofile/:id' element={<ExpertProfile />} />
           <Route path='/policy/conditions' element={<ConditionsOfUse />} />
           <Route path='/policy/personal' element={<PersonalInformation />} />
         </Route>

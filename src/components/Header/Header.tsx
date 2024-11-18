@@ -18,11 +18,10 @@ const Header = () => {
         <Link to='/'>
           <LargeTitle title='So New Wedding' fontSize='3.6rem' extraClass='headerTitle'></LargeTitle>
         </Link>
-        <ul>
+        <ul className='left'>
           <li>
-            <Link to='/estimation'>견적요청</Link>
+            <Link to='/userestimation'>견적요청</Link>
           </li>
-
           {/* 아래는 페이지 이동이 어느정도 완성되면 삭제 되어야 합니다 일단 편하라고 추가했어요 */}
           <li>
             <Link to='/common'>공통UI</Link>
@@ -30,12 +29,19 @@ const Header = () => {
           <li>
             <Link to='/mypage'>마이페이지</Link>
           </li>
+        </ul>
+        <ul className='right'>
+          <li>
+            <Link to='/estimationlist'>받은견적</Link>
+          </li>
           <li>
             <Link to='/chatpage'>채팅</Link>
           </li>
         </ul>
       </div>
-      <MainBtn name='로그인' width='auto' height='3.2rem' />
+      <Link to='/login'>
+        <MainBtn name='로그인' width='auto' height='3.2rem' />
+      </Link>
     </div>
   );
 };
