@@ -26,12 +26,24 @@ function Billboard() {
     <div className='slider-container'>
       <Slider {...settings}>
         <div>
+          <h2 className='textContainer colorDiff'>
+            영화같은 <br />
+            웨딩을 위한 서비스
+          </h2>
           <img src={billboard1} />
         </div>
         <div>
+          <h2 className='textContainer'>
+            영화같은 <br />
+            웨딩을 위한 서비스
+          </h2>
           <img src={billboard2} />
         </div>
         <div>
+          <h2 className='textContainer colorDiff'>
+            영화같은 <br />
+            웨딩을 위한 서비스
+          </h2>
           <img src={billboard3} />
         </div>
       </Slider>

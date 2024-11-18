@@ -1,9 +1,19 @@
 .slider-container {
-  max-width: 1280px;
-  max-height: 850px;
-  wi img {
-    max-width: 1280px;
-    max-height: 850px;
+  max-width: 100vw;
+  max-height: auto;
+
+  .textContainer {
+    position: absolute;
+    font-size: 3.2rem;
+    top: 20%;
+    right: 15%;
+  }
+  .colorDiff {
+    color: white;
+  }
+  img {
+    width: 100%;
+    height: auto;
   }
   .slick-prev::before,
   .slick-next::before {
@@ -13,7 +23,6 @@
   .customArrow {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     z-index: 1;
     cursor: pointer;
     color: #ffe14c;

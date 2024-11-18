@@ -1,5 +1,6 @@
 import ProfileBadge from '@/components/Badge/ProfileBadge';
 import SmallTitle from '@/components/Title/SmallTitle';
+import defaultImg from '@/assets/images/기본이미지.jpg';
 
 interface tabContentsTypeProps {
   src: string;
@@ -12,7 +13,7 @@ export default function TabContentType2({ src, title, name, description }: tabCo
   return (
     <>
       <>
-        <div className='tabContentsType1'>
+        <div className='tabContentsType'>
           <div className='tabText'>
             <SmallTitle title={title} />
             <div className='expertName'>
@@ -21,7 +22,7 @@ export default function TabContentType2({ src, title, name, description }: tabCo
             <div className='expertDescription'>{description}</div>
           </div>
           <div>
-            <ProfileBadge width='150' height='150' defaultColor='#FFE14D' src={src} />
+            <ProfileBadge src={defaultImg} />
           </div>
         </div>
       </>
