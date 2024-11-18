@@ -12,7 +12,6 @@ export default function LoginPage() {
   const naverLoginPopup = () => {
     window.open(
       `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`,
-
       'NaverLoginPopup',
       'width=300,height=600,left=400,top=100'
     );
