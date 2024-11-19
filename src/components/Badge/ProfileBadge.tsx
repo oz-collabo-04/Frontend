@@ -41,11 +41,11 @@ const ProfileBadge = ({
       <img
         src={imgSrc}
         alt='프로필 배지'
-        className='profile-badge__icon'
+        className='profilebadge__icon'
         onError={handleError}
         style={{
-          width: isFull ? '100%' : '70%',
-          height: isFull ? '100%' : '70%',
+          width: isFull ? '100%' : 'auto',
+          height: isFull ? '100%' : 'auto',
         }}
       />
     </div>

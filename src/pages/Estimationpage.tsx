@@ -31,8 +31,8 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
           <h3 className="estimationCardName">{name}</h3>
         </div>
         <ProfileBadge
-          width="120px"
-          height="120px"
+          width="8rem"
+          height="8rem"
           src={profile}
           borderRadius={'1.2rem'}
         />
@@ -42,15 +42,15 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
         <MainBtn
           name="전문가 프로필"
           size="medium"
-          backgroundColor="#FFD800"
-          color="#000000"
+          backgroundColor="$main-color"
+          color="$font-color"
           onClick={() => onProfileClick(id)}
         />
         <MainBtn
           name="채팅하기"
           size="medium"
-          backgroundColor="#FFD800"
-          color="#000000"
+          backgroundColor="$main-color"
+          color="$font-color"
         />
       </div>
     </div>
@@ -77,6 +77,8 @@ const EstimationList: React.FC = () => {
     { id: 4, category: '스냅 촬영', name: '최스냅', price: 600000, profileImage: '/path/to/image4.jpg' },
     { id: 5, category: '결혼식 사회자', name: '정사회', price: 350000, profileImage: '/path/to/image5.jpg' },
     { id: 6, category: '축가 가수', name: '강가수', price: 550000, profileImage: '/path/to/image6.jpg' },
+    { id: 7, category: '축가 가수', name: '한가수', price: 650000, profileImage: '/path/to/image6.jpg' },
+    { id: 8, category: '스냅 촬영', name: '장스냅', price: 400000, profileImage: '/path/to/image6.jpg' },
   ], []);
 
   const handleProfileClick = (id: number) => {

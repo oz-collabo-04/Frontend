@@ -6,8 +6,8 @@
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0.25rem;
-      margin: 0 0.125rem;
+      padding: 0.0625rem;
+      margin: 0;
       outline: none;
       
       &:focus {
@@ -29,7 +29,7 @@
     }
   
     .rating-value {
-      margin-left: 0.5rem;
+      margin-left: 0.09rem;
       font-size: 1.125rem;
       font-weight: 600;
     }
