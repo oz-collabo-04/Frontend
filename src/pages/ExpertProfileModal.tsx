@@ -3,7 +3,7 @@ import Modal from '@/components/Modal/Modal';
 import StarRating from '@/components/Rating/StarRating';
 import ProfileBadge from '@/components/Badge/ProfileBadge'
 import '@/styles/Estimationpage/expertprofile.scss';
-import { useModalStore } from '@/store/modalStore';
+// import { useModalStore } from '@/store/modalStore';
 
 interface Review {
   customerName: string;
@@ -31,7 +31,7 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
   const [expertData, setExpertData] = useState<ExpertData | null>(null);
   const [showFullEstimate, setShowFullEstimate] = useState(false);
   const [showFullReviews, setShowFullReviews] = useState<{ [key: string]: boolean }>({});
-  const { closeModal } = useModalStore();
+  // const { closeModal } = useModalStore();
 
   useEffect(() => {
     const fetchExpertData = async () => {
