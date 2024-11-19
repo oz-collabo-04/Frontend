@@ -45,6 +45,20 @@ export const TextareaDefault = `<Textarea placeholder='placeholder' />`;
 export const TextareaSize = `<Textarea width='100%' height='8rem' placeholder='placeholder' />`;
 export const TextareaDisabled = `<Textarea placeholder='placeholder' disabled={true} />`;
 
+// SELECT
+export const SelectDefault = `<Select
+  defaultValue='선택'
+  options={['Option 1', 'Option 2', 'Option 3']}
+  onChange={(e) => console.log('Selected value:', e.target.value)}
+/>`;
+export const SelectSize = `<Select
+  width='30rem'
+  height='5rem'
+  defaultValue='선택'
+  options={['Option 1', 'Option 2', 'Option 3']}
+  onChange={(e) => console.log('Selected value:', e.target.value)}
+/>`;
+
 // CHECKBOX
 export const CheckboxDefault = `<Checkbox idFor='idFor1' />`;
 export const CheckboxChecked = `<Checkbox idFor='idFor2' />`;
