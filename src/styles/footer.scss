@@ -1,38 +1,48 @@
 @use './variables.scss' as *;
+@use '../global.scss' as *;
 
 // footer 전체
 .footerBar {
   width: 100%;
-  height: 24rem;
-  padding: 5rem 24rem;
+  height: 28rem;
+  // padding: 5rem 24rem;
   margin: 0 auto;
   bottom: 0;
   background-color: $main-color;
+  font-size: 1.6rem;
   color: #00000066;
-  .contents {
-    display: flex;
-    justify-content: left;
-    gap: 4rem;
-  }
-  .flex {
-    text-align: left;
-  }
-  .company {
-    text-align: left;
-  }
-  .info {
-    .mainBtn {
+
+  .contentLayout {
+    .contents {
       display: flex;
-      padding: 1rem 2rem;
-      gap: 1rem;
-      .logo {
-        width: 2rem;
-        height: 2rem;
+      align-items: center;
+      gap: 4rem;
+      margin: 0 auto;
+      padding: 4rem 0;
+      line-height: 2.2rem;
+      .flex {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        .policy {
+          display: flex;
+          margin-top: 2rem;
+          gap: 1rem;
+          font-weight: 600;
+        }
+        .info {
+          .mainBtn {
+            display: flex;
+            padding: 1rem 2rem;
+            gap: 1rem;
+            .logo {
+              width: 2rem;
+              height: 2rem;
+            }
+          }
+        }
       }
-    }
-    .policy {
-      display: flex;
-      flex-direction: column;
     }
   }
 }
