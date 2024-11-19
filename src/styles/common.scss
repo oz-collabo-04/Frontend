@@ -98,10 +98,35 @@
   padding: 1.2rem;
   font-size: 1.6rem;
   font-weight: 400;
+  background-color: #fff;
   border: 1px solid;
   border-color: $border-color;
   border-radius: 0.4rem;
   resize: none;
+  &:focus {
+    background-color: $main-color-light;
+    border: 1px solid;
+    border-color: $main-color;
+  }
+  &:disabled {
+    background-color: $disabled;
+    color: $disabled-font;
+    &::placeholder {
+      color: $disabled-font;
+    }
+  }
+}
+
+.comSelect {
+  height: 4rem;
+  padding: 0 4rem 0 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  background: #fff url('/image/select_arrow_icon.svg') no-repeat 100% 50%;
+  border: 1px solid;
+  border-color: $border-color;
+  border-radius: 0.4rem;
+  appearance: none;
   &:focus {
     background-color: $main-color-light;
     border: 1px solid;
@@ -176,7 +201,7 @@
       content: '';
       width: 2.4rem;
       height: 2.4rem;
-      background: no-repeat 50% 50%;
+      background: no-repeat 50% 50% / 2.4rem;
       background-image: url('/image/radio.svg');
     }
   }

@@ -1,8 +1,8 @@
+import PageTitle from '@/components/PageTitle/PageTitle';
 import Tab from '@/components/Tab/Tab';
 import TabContent1 from '@/components/Tab/TabContent1';
 import TabContent2 from '@/components/Tab/TabContent2';
 import TabContent3 from '@/components/Tab/TabContent3';
-import LargeTitle from '@/components/Title/LargeTitle';
 import '@/styles/ChatListPage/chatListPage.scss';
 import Chat from '@/uiComponents/ChatListPage/Chat';
 
@@ -16,7 +16,7 @@ const ChatListPage = () => {
   return (
     <div className='chatListPage'>
       <div className='contentLayout'>
-        <LargeTitle title='채팅 리스트' />
+        <PageTitle title='채팅 리스트' isPrevBtn={false} />
         <Tab tabs={tabs} extraClass='chatTab' />
         <div className='chatListContainer'>
           <div className='chatList'>

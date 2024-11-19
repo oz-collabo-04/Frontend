@@ -1,5 +1,7 @@
 @use '@/styles/variables' as *;
 .chatListPage {
+  height: calc(100vh - 7.2rem);
+  padding-top: 8rem;
   .chatTab {
     margin-top: 2.4rem;
   }
@@ -15,7 +17,7 @@
           align-items: center;
           gap: 1.2rem;
           width: 100%;
-          padding: 1.2rem 2.4rem;
+          padding: 3.2rem 2.4rem;
           background-color: #f4f4f4;
           border-radius: 1.2rem;
           .profileBadge {

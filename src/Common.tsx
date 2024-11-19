@@ -29,6 +29,8 @@ import {
   RadioChecked,
   RadioDefault,
   RadioDisabled,
+  SelectDefault,
+  SelectSize,
   SmallTitleCode,
   tabDefault,
   TextareaDefault,
@@ -62,6 +64,7 @@ import NumberInput from './components/Input/NumberInput';
 import { useState } from 'react';
 import PageTitle from './components/PageTitle/PageTitle';
 import defaultImg from '@/assets/images/dalbong.jpg';
+import Select from './components/Select/select';
 
 function Common() {
   const { openModal } = useModalStore();
@@ -437,6 +440,55 @@ function Common() {
                 <td>
                   <code>{TextareaDisabled}</code>
                   <CopyButton code={TextareaDisabled} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* SELECT */}
+      <div className='commonBox'>
+        <h6 className='title'>Select</h6>
+        <div className='table-box'>
+          <table>
+            <colgroup>
+              <col width='400px' />
+              <col width='' />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>UI</th>
+                <th>CODE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <Select
+                    defaultValue='선택'
+                    options={['Option 1', 'Option 2', 'Option 3']}
+                    onChange={(e) => console.log('Selected value:', e.target.value)}
+                  />
+                </td>
+                <td>
+                  <code>{SelectDefault}</code>
+                  <CopyButton code={SelectDefault} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Select
+                    width='30rem'
+                    height='5rem'
+                    defaultValue='선택'
+                    options={['Option 1', 'Option 2', 'Option 3']}
+                    onChange={(e) => console.log('Selected value:', e.target.value)}
+                  />
+                </td>
+                <td>
+                  <code>{SelectSize}</code>
+                  <CopyButton code={SelectSize} />
                 </td>
               </tr>
             </tbody>

@@ -3,6 +3,7 @@
 .chatPage {
   width: 100%;
   height: calc(100vh - 12.4rem);
+  padding-top: 8rem;
   padding-bottom: 4rem;
   .chatRoomTop {
     display: flex;
@@ -13,7 +14,6 @@
   .chatWrapper {
     display: flex;
     gap: 3.2rem;
-    // height: calc(100% - 10.4rem);
     height: 100%;
     margin-top: 1.2rem;
     .chatRoom {
