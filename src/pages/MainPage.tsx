@@ -17,7 +17,6 @@ export default function MainPage() {
   return (
     <>
       <div className='mainPage'>
-        {/* <XSmallTitle title='영화같은 웨딩을 위한 서비스' fontSize='2.3rem' fontWeight='450' extraClass='billboard' /> */}
         <Billboard />
         <main className='contentLayout'>
           <div className='tabWrapper'>
