@@ -1,57 +1,58 @@
 @use '../variables' as *;
 
-.estimationContainer {
+.expertListContainer {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 3rem;
+  padding: 3rem 2rem;
 }
 
-.estimationMainPageTitle {
+.expertListMainTitle {
   font-size: 2.4rem;
   font-weight: bold;
   margin-bottom: 2rem;
 }
 
-.estimationGrid {
+.expertGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 2rem;
   justify-content: center;
 }
 
-.estimationCard {
+.expertCard {
   width: 100%;
   max-width: 300px;
   background-color: transparent;
   border-radius: 1.2rem;
   box-shadow: 0 8px 16px rgba(255, 214, 214, 0.5);
-  padding: 1.5rem;
+  padding: 2rem;
   border: 2px solid $main-color;
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   justify-self: center;
+  gap: 1rem;
 }
 
-.estimationCardHeader {
+.expertCardHeader {
   display: flex;
-  justify-content: space-between;
+  gap: 1.2rem;
   align-items: flex-start;
 
-  .estimationCardInfo {
+  .expertCardInfo {
     display: flex;
     flex-direction: column;
     gap: 1rem; 
   }
 
-  .estimationCardCategory {
+  .expertCardCategory {
     font-size: 2rem; 
     color: #666;
     font-weight: bold; 
     line-height: 1;
   }
 
-  .estimationCardName {
+  .expertCardName {
     font-size: 1.6rem; 
     font-weight: bold;
     line-height: 1;
@@ -59,49 +60,61 @@
   }
 }
 
-.estimationCardPrice {
-  font-size: 2rem;
-  color: #333;
-  font-weight: bold;
-  margin: 1rem 0;
-  text-align: right;
-}
-
-.estimationCardActions {
+.expertCardLocation, .expertCardTime {
+  font-size: 1.2rem;
+  color: #666;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   gap: 0.5rem;
-  margin-top: auto;
+  margin-top: 0.5rem;
 
-  button {
-    width: 50%;
+  svg {
+    color: #999;
+    flex-shrink: 0;
   }
 }
 
+.expertCardActions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+  
+    button {
+      width: 50%;
+      font-size: 1.5rem; 
+      padding: 0.5rem 0; 
+    }
+  }
+
 @media (max-width: $screen-xl) {
-  .estimationGrid {
+  .expertGrid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: $screen-lg) {
-  .estimationGrid {
+  .expertGrid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: $screen-md) {
-  .estimationGrid {
+  .expertGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
 }
 
 @media (max-width: $screen-sm) {
-  .estimationGrid {
+  .expertGrid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
-  .estimationCard {
-    max-width: 55%;
+  .expertCard {
+    max-width: 100%;
   }
 }

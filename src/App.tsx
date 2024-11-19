@@ -6,13 +6,14 @@ import CommonLayout from './layouts/CommonLayout';
 import ChatPage from './pages/ChatPage';
 import '@/styles/font.scss';
 import Mypage from './pages/MyPage';
-import EstimationPage from './pages/Estimationpage';
+import Estimationlistpage from './pages/Estimationlistpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
 import ChatListPage from './pages/ChatListPage';
 import LoginPage from './pages/LoginPage';
 import { ConditionsOfUse, PersonalInformation } from './pages/Policy';
 import ExpertProfileEditPage from './pages/ExpertProfileEditPage';
 import UserEstimationPage from './pages/UserEstimationPage';
+import Expertlistpage from './pages/Expertlistpage';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
           <Route path='/' element={<MainPage />} />
           <Route path='/common' element={<Common />} />
           <Route path='/userestimation' element={<UserEstimationPage />} />
-          <Route path='/estimationlist' element={<EstimationPage />} />
+          <Route path='/estimationlist' element={<Estimationlistpage />} />
+          <Route path='/expertlist' element={<Expertlistpage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/mypage' element={<Mypage />} />
           <Route path='/chatlistpage' element={<ChatListPage />} />
