@@ -4,31 +4,58 @@
 .headerNavBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
   height: 7.2rem;
-  padding: 0 4rem;
+  padding: 0 24rem;
   margin: 0 auto;
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); // 그림자 추가
 
-  ul {
+  .contents {
+    width: 100%;
+    height: 100%;
     display: flex;
-    gap: 3.6rem;
-    font-size: 1.8rem;
-  }
-
-  .headerContents {
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
-  }
-  .headerTitle {
-    color: $main-color;
+
+    .title {
+      color: $main-color;
+      text-shadow: 1px 4px 2px rgba(0, 0, 0, 0.3);
+    }
+    .link {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      margin-left: 4rem;
+
+      ul {
+        display: flex;
+        justify-content: space-between;
+        gap: 3.6rem;
+        font-size: 1.8rem;
+        padding: 0;
+        margin: 0;
+        margin-right: 4rem;
+        li {
+          a {
+            color: $font-color;
+            text-decoration: none;
+            transition: color 0.3s;
+
+            &:hover {
+              color: $main-color;
+            }
+          }
+        }
+      }
+    }
+    .btn {
+      margin-left: auto;
+    }
   }
 }

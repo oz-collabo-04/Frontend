@@ -1,3 +1,5 @@
+import '@/styles/UserEstimationPage/userEstimation.scss';
+import '@/global.scss';
 import MainBtn from '@/components/Button/MainBtn';
 import Checkbox from '@/components/Checkbox/Checkbox';
 import Input from '@/components/Input/Input';
@@ -5,12 +7,17 @@ import PageTitle from '@/components/PageTitle/PageTitle';
 import Radio from '@/components/Radio/Radio';
 import SmallTitle from '@/components/Title/SmallTitle';
 import XSmallTitle from '@/components/Title/XSmallTitle';
-import '@/styles/UserEstimationPage/userEstimation.scss';
 
 const UserEstimationPage = () => {
+  // 지역선택 시, 시,도 하위 내용이 없을경우 선택 X
+  // 광역시, 특별시는 선택되었을때 견적요청하기 버튼 활성화되는 조건필요
+  // 내용이 다 채워지지 않았을 경우 견적요청버튼 비활성화
+  // 캘린더, 시간도 기본값 아닌 내용 채워졌을때 버튼 활성화
+  // 희망일정 선택시 금일 날짜 이후 선택
+
   return (
     <>
-      <div className='userEstimationPage'>
+      <div className='userEstimationPage contentLayout'>
         <PageTitle title='견적 요청하기' isPrevBtn={true} prevUrl='/' />
         <div className='contents'>
           <div className='service'>
