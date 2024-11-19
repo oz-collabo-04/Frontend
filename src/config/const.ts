@@ -1,1 +1,9 @@
-export const test2 = { message: '테스트용 api 메세지입니다' };
+import { ExpertRegister } from './types';
+
+export const expertRegister: ExpertRegister = {
+  available_location: [],
+  appeal: '',
+  service: '',
+  careers: [],
+  profile_image: '',
+};
