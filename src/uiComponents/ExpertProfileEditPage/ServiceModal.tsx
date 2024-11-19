@@ -1,51 +1,78 @@
 import Checkbox from '@/components/Checkbox/Checkbox';
 import '@/styles/ExpertProfileEditPage/service.scss';
-import { useState } from 'react';
 
-export default function ServiceModal() {
-  const [isChecked, setIsChecked] = useState({
-    service1: false,
-    service2: false,
-    service3: false,
-    service4: false,
-  });
+type Service = {
+  map?(arg0: (service: Service, index: number) => Service): Service;
+  name: string;
+  check: boolean;
+};
 
+type Props = {
+  isChecked: Service[];
+  setIsChecked: React.Dispatch<React.SetStateAction<Service[]>>;
+};
+
+export default function ServiceModal({ isChecked, setIsChecked }: Props) {
   return (
     <div className='serviceModal'>
       <div>
         <Checkbox
           idFor='service1'
           content='결혼식 사회자'
-          checked={isChecked.service1}
-          onChange={() => setIsChecked((prev) => ({ ...prev, service1: !prev.service1 }))}
-          disabled={isChecked.service2 || isChecked.service3 || isChecked.service4 ? true : false}
+          checked={isChecked[0].check}
+          onChange={() => {
+            setIsChecked((prev) =>
+              prev.map((service: Service, index: number) =>
+                index === 0 ? { ...service, check: !service.check } : service
+              )
+            );
+          }}
+          disabled={isChecked[1].check || isChecked[2].check || isChecked[3].check ? true : false}
         />
       </div>
       <div>
         <Checkbox
           idFor='service2'
           content='축가 가수'
-          checked={isChecked.service2}
-          onChange={() => setIsChecked((prev) => ({ ...prev, service2: !prev.service2 }))}
-          disabled={isChecked.service1 || isChecked.service3 || isChecked.service4 ? true : false}
+          checked={isChecked[1].check}
+          onChange={() => {
+            setIsChecked((prev) =>
+              prev.map((service: Service, index: number) =>
+                index === 1 ? { ...service, check: !service.check } : service
+              )
+            );
+          }}
+          disabled={isChecked[0].check || isChecked[2].check || isChecked[3].check ? true : false}
         />
       </div>
       <div>
         <Checkbox
           idFor='service3'
           content='영상 촬영'
-          checked={isChecked.service3}
-          onChange={() => setIsChecked((prev) => ({ ...prev, service3: !prev.service3 }))}
-          disabled={isChecked.service1 || isChecked.service2 || isChecked.service4 ? true : false}
+          checked={isChecked[2].check}
+          onChange={() => {
+            setIsChecked((prev) =>
+              prev.map((service: Service, index: number) =>
+                index === 2 ? { ...service, check: !service.check } : service
+              )
+            );
+          }}
+          disabled={isChecked[0].check || isChecked[1].check || isChecked[3].check ? true : false}
         />
       </div>
       <div>
         <Checkbox
           idFor='service4'
           content='스냅 촬영'
-          checked={isChecked.service4}
-          onChange={() => setIsChecked((prev) => ({ ...prev, service4: !prev.service4 }))}
-          disabled={isChecked.service1 || isChecked.service2 || isChecked.service3 ? true : false}
+          checked={isChecked[3].check}
+          onChange={() => {
+            setIsChecked((prev) =>
+              prev.map((service: Service, index: number) =>
+                index === 3 ? { ...service, check: !service.check } : service
+              )
+            );
+          }}
+          disabled={isChecked[0].check || isChecked[1].check || isChecked[2].check ? true : false}
         />
       </div>
     </div>
