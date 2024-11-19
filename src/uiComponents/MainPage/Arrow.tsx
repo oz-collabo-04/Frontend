@@ -8,8 +8,8 @@ interface ArrowProps {
 export function NextArrow({ extraClass, onClick }: ArrowProps) {
   return (
     <>
-      <button type='button' onClick={onClick}>
-        <ArrowRightCircle size='40' className={`customArrow right ${extraClass}`} />
+      <button type='button' onClick={onClick} className={`customArrow right ${extraClass}`}>
+        <ArrowRightCircle size='40' />
       </button>
     </>
   );
@@ -17,8 +17,8 @@ export function NextArrow({ extraClass, onClick }: ArrowProps) {
 export function PrevArrow({ extraClass, onClick }: ArrowProps) {
   return (
     <>
-      <button type='button' onClick={onClick}>
-        <ArrowLeftCircle size='40' className={`customArrow left ${extraClass}`} />
+      <button type='button' onClick={onClick} className={`customArrow left ${extraClass}`}>
+        <ArrowLeftCircle size='40' />
       </button>
     </>
   );

@@ -1,11 +1,12 @@
 .mainPage {
   display: flex;
+  width: 100vw;
   flex-direction: column;
   overflow-x: hidden;
 
   .tabWrapper {
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
 
     .tabContentsType {
       display: flex;
@@ -13,17 +14,18 @@
       margin-top: 8rem;
       gap: 3.5rem;
       align-items: flex-start;
-      justify-content: center;
 
       .profileBadge {
         //메인 페이지 전문가 이미지
         min-width: 40rem !important;
-        height: 28rem !important;
+        min-height: 28rem !important;
         object-fit: cover;
       }
 
-      &:nth-child(even) {
+      &:nth-child(2) {
         text-align: right;
+        display: flex;
+        justify-content: flex-end;
       }
       &:first-child {
         margin-top: 0;
@@ -34,11 +36,7 @@
       flex-direction: column;
       justify-content: center;
       padding-top: 2.4rem;
-      max-width: 75%;
 
-      .gerne {
-        font-size: 2.8rem;
-      }
       .expertName {
         margin-top: 0.8rem;
         font-size: 2rem;
@@ -47,7 +45,7 @@
 
       .expertDescription {
         margin-top: 2rem;
-        width: 52rem;
+        width: 62%;
         font-size: 1.8rem;
         line-height: 1.5;
         word-break: keep-all;
