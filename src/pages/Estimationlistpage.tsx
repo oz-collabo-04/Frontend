@@ -4,7 +4,7 @@ import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
 import profile from '@/assets/images/dalbong.jpg'
-import ExpertProfileModal from '@/pages/ExpertProfileModal'
+import ExpertProfileModal from '@/uiComponents/ExpertProfileEditPage/ExpertProfileModal'
 import { useModalStore } from '@/store/modalStore'
 
 interface EstimationCardProps {

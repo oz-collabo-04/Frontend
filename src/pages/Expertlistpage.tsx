@@ -3,7 +3,7 @@ import { MapPin } from 'lucide-react'
 import MainBtn from '@/components/Button/MainBtn'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
 import profile from '@/assets/images/dalbong.jpg'
-import ExpertModal from '@/pages/ExpertModal'
+import ExpertModal from '@/uiComponents/ExpertProfileEditPage/ExpertModal'
 import { useModalStore } from '@/store/modalStore'
 import  '@/styles/Expertlistpage/expertlistpage.scss'
 
