@@ -72,3 +72,27 @@
     }
   }
 }
+.chatTab {
+  .tabBtnBox {
+    display: flex;
+    align-items: flex-end;
+    button {
+      min-width: 6.4rem;
+      padding: 0 2.4rem;
+      font-size: 1.8rem;
+      line-height: 3.2rem;
+      border-bottom: 2px solid;
+      border-color: $deactivate-color;
+      color: $deactivate-color;
+      cursor: pointer;
+      &.active {
+        border-color: $default-color;
+        color: $default-color;
+      }
+    }
+  }
+  .tabConBox {
+    padding: 2.4rem 0;
+    font-size: 1.6rem;
+  }
+}

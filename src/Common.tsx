@@ -64,7 +64,10 @@ import NumberInput from './components/Input/NumberInput';
 import { useState } from 'react';
 import PageTitle from './components/PageTitle/PageTitle';
 import defaultImg from '@/assets/images/dalbong.jpg';
-import Select from './components/Select/select';
+<<<<<<< Updated upstream
+import Select from './components/Select/Select';
+=======
+>>>>>>> Stashed changes
 
 function Common() {
   const { openModal } = useModalStore();
