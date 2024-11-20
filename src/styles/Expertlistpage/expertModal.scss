@@ -1,0 +1,109 @@
+@use '../variables' as *;
+
+.expert-modal {
+  &__container {
+    width: 100%;
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: 0.025rem;
+    background-color: #fff;
+    border-radius: 1rem;
+  }
+
+  &__header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 3rem; 
+    font-weight: 700;
+    color: $main-color;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__input-wrapper {
+    position: relative;
+
+    &.expert-modal__textarea-wrapper {
+      .comInput {
+        min-height: 12rem;
+        height: auto;
+        resize: vertical;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        line-height: 1.6;
+        font-size: 2rem; 
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid $main-color-light;
+        border-radius: 0.5rem;
+        outline: none;
+        transition: all 0.3s ease;
+
+        &:focus {
+          box-shadow: 0 0 0 3px rgba($main-color, 0.2);
+          border-color: $main-color;
+        }
+      }
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 1.7rem; 
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid $main-color-light;
+    border-radius: 0.5rem;
+    outline: none;
+    font-size: 1.3rem; 
+    transition: all 0.3s ease;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($main-color, 0.2);
+      border-color: $main-color;
+    }
+  }
+
+  &__textarea {
+    min-height: 12rem;
+    height: auto;
+    overflow: hidden;
+    resize: vertical;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.6;
+    font-size: 1rem; 
+  }
+
+  &__submit-button {
+    width: 100%;
+    background-color: $main-color;
+    color: #000000;
+    font-weight: 600;
+    padding: 1rem 0;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 1.7rem; 
+    border: none;
+    cursor: pointer;
+  }
+}
