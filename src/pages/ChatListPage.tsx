@@ -7,6 +7,7 @@ import CompletedChats from '@/uiComponents/ChatListPage/CompletedChats';
 
 const ChatListPage = () => {
   const [activeTab, setActiveTab] = useState('전체');
+  const [messageUnread, setMessageUnread] = useState(true);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -30,12 +31,12 @@ const ChatListPage = () => {
                 key={tab}
                 type='button'
                 className={`
-                  ${tab === '진행중' ? 'highlight' : ''} 
+                  ${messageUnread && tab === '진행중' ? 'highlight' : ''} 
                   ${activeTab === tab ? 'active' : ''}
                 `}
                 onClick={() => setActiveTab(tab)}
               >
-                {tab}
+                <span>{tab}</span>
               </button>
             ))}
           </div>
