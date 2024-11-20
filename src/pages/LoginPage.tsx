@@ -8,19 +8,29 @@ import XLargeTitle from '@/components/Title/XLargeTitle';
 export default function LoginPage() {
   const redirectBaseURL = import.meta.env.VITE_REDIRECT_BASE_URL;
   const naverClientID = import.meta.env.VITE_NAVER_CLIENT_ID;
+  const googleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const kakaoClientID = import.meta.env.VITE_KAKAO_CLIENT_ID;
 
   const naverLoginPopup = () => {
     window.open(
       `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`,
       'NaverLoginPopup',
-      'width=300,height=600,left=400,top=100'
+      'width=600,height=600,left=400,top=100'
     );
   };
   const googleLoginPopup = () => {
     window.open(
-      'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=239548731889-3s3err4pb21tc1dkub03b5cgj7kkf74s.apps.googleusercontent.com&redirect_uri=http://localhost/api/v1/users/login/google/callback/&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&prompt=select_account',
+      `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${googleClientID}&redirect_uri=${redirectBaseURL}/google/callback/&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&prompt=select_account`,
       'GoogleLoginPopup',
-      'width=500,height=600,left=400,top=100'
+      'width=600,height=600,left=400,top=100'
+    );
+  };
+
+  const kakaoLoginPopup = () => {
+    window.open(
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientID}&redirect_uri=${redirectBaseURL}/kakao/callback/&state=1234`,
+      'popup',
+      'width=600,height=600,left=400,top=100'
     );
   };
 
@@ -33,21 +43,25 @@ export default function LoginPage() {
           <MainBtn
             onClick={naverLoginPopup}
             img={<img className='logo' src={naverColor} alt='네이버 로고' />}
-            name='네이버로 시작하기'
-            size='large'
+            name='네이버 로그인'
+            height='4.6rem'
+            width='25rem'
             extraClass='loginBtn naver'
           />
           <MainBtn
+            onClick={kakaoLoginPopup}
             img={<img className='logo' src={kakao} alt='카카오 로고' />}
-            name={'카카오로 시작하기'}
-            size='large'
+            name='카카오 로그인'
+            height='4.6rem'
+            width='25rem'
             extraClass='loginBtn kakao'
           />
           <MainBtn
             onClick={googleLoginPopup}
             img={<img className='logo' src={google} alt='구글 로고' />}
-            name={'google로 시작하기'}
-            size='large'
+            name='google 로그인'
+            height='4.6rem'
+            width='25rem'
             extraClass='loginBtn google'
           />
         </div>

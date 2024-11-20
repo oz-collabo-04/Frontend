@@ -13,6 +13,9 @@ import LoginPage from './pages/LoginPage';
 import { ConditionsOfUse, PersonalInformation } from './pages/Policy';
 import ExpertProfileEditPage from './pages/ExpertProfileEditPage';
 import UserEstimationPage from './pages/UserEstimationPage';
+import NaverCallbackPage from './pages/NaverCallbackPage';
+import GoogleCallbackPage from './pages/GoogleCallbackPage';
+import KakaoCallbackPage from './pages/KakaocallbackPage';
 import Expertlistpage from './pages/Expertlistpage';
 
 function App() {
@@ -29,15 +32,17 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/mypage' element={<Mypage />} />
           <Route path='/chatlistpage' element={<ChatListPage />} />
-          <Route path='/expertProfileEditPage' element={<ExpertProfileEditPage />} />
+          <Route path='/expertProfileEditPage' element={<ExpertProfileEditPage />} />å
         </Route>
-
         {/* 푸터 제외 레이아웃 */}
         <Route element={<NoFooterLayout />}>
           <Route path='/chatpage' element={<ChatPage />} />
           <Route path='/policy/conditions' element={<ConditionsOfUse />} />
           <Route path='/policy/personal' element={<PersonalInformation />} />
         </Route>
+        <Route path='/login/naver/callback' element={<NaverCallbackPage />} />
+        <Route path='/login/google/callback' element={<GoogleCallbackPage />} />
+        <Route path='/login/kakao/callback' element={<KakaoCallbackPage />} />
       </Routes>
     </>
   );
