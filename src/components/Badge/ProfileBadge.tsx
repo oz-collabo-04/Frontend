@@ -20,7 +20,6 @@ const ProfileBadge = ({
   borderRadius,
   extraClass = '',
   backgroundColor,
-  isFull,
 }: ProfileBadgeProps) => {
   const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
 
@@ -30,7 +29,7 @@ const ProfileBadge = ({
 
   return (
     <div
-      className={`profile-badge ${extraClass}`.trim()}
+      className={`profileBadge ${extraClass}`.trim()}
       style={{
         width,
         height,
@@ -38,16 +37,7 @@ const ProfileBadge = ({
         backgroundColor,
       }}
     >
-      <img
-        src={imgSrc}
-        alt='프로필 배지'
-        className='profilebadge__icon'
-        onError={handleError}
-        style={{
-          width: isFull ? '100%' : 'auto',
-          height: isFull ? '100%' : 'auto',
-        }}
-      />
+      <img src={imgSrc} alt='프로필 배지' className='profileBadgeIcon' onError={handleError} />
     </div>
   );
 };

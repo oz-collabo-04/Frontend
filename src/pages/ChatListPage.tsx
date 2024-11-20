@@ -1,28 +1,45 @@
+import React, { useState } from 'react';
 import PageTitle from '@/components/PageTitle/PageTitle';
-import Tab from '@/components/Tab/Tab';
-import TabContent1 from '@/components/Tab/TabContent1';
-import TabContent2 from '@/components/Tab/TabContent2';
-import TabContent3 from '@/components/Tab/TabContent3';
 import '@/styles/ChatListPage/chatListPage.scss';
-import Chat from '@/uiComponents/ChatListPage/Chat';
+import AllChats from '@/uiComponents/ChatListPage/AllChats';
+import OngoingChats from '@/uiComponents/ChatListPage/OngoingChats';
+import CompletedChats from '@/uiComponents/ChatListPage/CompletedChats';
 
 const ChatListPage = () => {
-  const tabs = [
-    { label: '전체', content: <TabContent1 /> },
-    { label: '진행중', content: <TabContent2 /> },
-    { label: '예약 완료', content: <TabContent3 /> },
-  ];
+  const [activeTab, setActiveTab] = useState('전체');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case '진행중':
+        return <OngoingChats />;
+      case '예약완료':
+        return <CompletedChats />;
+      default:
+        return <AllChats />;
+    }
+  };
 
   return (
     <div className='chatListPage'>
       <div className='contentLayout'>
         <PageTitle title='채팅 리스트' isPrevBtn={false} />
-        <Tab tabs={tabs} extraClass='chatTab' />
-        <div className='chatListContainer'>
-          <div className='chatList'>
-            <Chat />
-            <Chat />
+        <div className='chatTab'>
+          <div className='tabBtnBox'>
+            {['전체', '진행중', '예약완료'].map((tab) => (
+              <button
+                key={tab}
+                type='button'
+                className={`
+                  ${tab === '진행중' ? 'highlight' : ''} 
+                  ${activeTab === tab ? 'active' : ''}
+                `}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
+          <div className='tabConBox'>{renderContent()}</div>
         </div>
       </div>
     </div>

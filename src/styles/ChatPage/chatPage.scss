@@ -2,7 +2,6 @@
 
 .chatPage {
   width: 100%;
-  height: calc(100vh - 12.4rem);
   padding-top: 8rem;
   padding-bottom: 4rem;
   .chatRoomTop {
@@ -14,7 +13,7 @@
   .chatWrapper {
     display: flex;
     gap: 3.2rem;
-    height: 100%;
+    height: calc(100vh - 24.4rem);
     margin-top: 1.2rem;
     .chatRoom {
       display: flex;
@@ -41,6 +40,9 @@
           height: calc(100% - 2.4rem);
           overflow: auto;
           .messageBox {
+            .profileBadge {
+              border-radius: 50%;
+            }
             .userProfileImg {
               display: inline-block;
               width: 3.6rem;
@@ -110,6 +112,7 @@
       justify-content: space-between;
       width: 35%;
       height: 100%;
+      padding-bottom: 5.2rem;
       .expertInfo {
         display: flex;
         align-items: center;
