@@ -4,6 +4,9 @@
   width: 100%;
   padding-top: 8rem;
   padding-bottom: 4rem;
+  .contentLayout {
+    position: relative;
+  }
   .chatRoomTop {
     display: flex;
     align-items: center;
@@ -15,6 +18,8 @@
     gap: 3.2rem;
     height: calc(100vh - 24.4rem);
     margin-top: 1.2rem;
+    overflow: hidden;
+    position: relative;
     .chatRoom {
       display: flex;
       flex-direction: column;
@@ -28,10 +33,11 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background-color: $main-color-light;
-        border: 1px solid;
+        background-color: rgba($main-color, 0.35);
+        border: 2px solid;
         border-color: $main-color;
         border-radius: 2rem;
+        box-shadow: 2px 2px 8px rgba($main-color, 0.5);
         .chatBox {
           display: flex;
           flex-direction: column;
@@ -57,7 +63,7 @@
               padding: 1.2rem;
               font-size: 1.6rem;
               line-height: 1.25;
-              word-break: keep-all;
+              word-break: break-all;
               background-color: #fff;
               border: 1px solid;
               border-color: $border-color;
@@ -172,6 +178,17 @@
       }
     }
   }
+  .showBtn {
+    position: absolute;
+    right: 0.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 0;
+    background: url('/image/chat_prev_icon.svg') no-repeat 50% 50% / 3.2rem;
+  }
 }
 
 .dealModal {
@@ -191,6 +208,98 @@
       &:first-child {
         margin-top: 0;
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .chatPage {
+    padding-top: 4rem;
+    .chatRoomTop {
+    }
+    .chatWrapper {
+      .chatRoom {
+        width: 100%;
+        .chatContainer {
+          .chatBox {
+            gap: 4.8rem;
+            .messageBox {
+              .profileBadge {
+              }
+              .userProfileImg {
+              }
+              .speechBubble {
+                margin-top: 0.8rem;
+                .createMessageTime {
+                  bottom: auto;
+                  top: calc(100% + 0.8rem);
+                  .messageUnread {
+                  }
+                }
+              }
+            }
+            .myMessageBox {
+              .profileBadge {
+              }
+              .speechBubble {
+                right: 0;
+                .createMessageTime {
+                  right: 0;
+                }
+              }
+            }
+            .yourMessageBox {
+              .speechBubble {
+                left: 0;
+                .createMessageTime {
+                  left: 0;
+                }
+              }
+            }
+          }
+        }
+        .chatForm {
+        }
+      }
+      .expertWrapper {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        width: 100%;
+        padding: 2.4rem;
+        background-color: #fff;
+        border: 2px solid;
+        border-color: $main-color;
+        border-radius: 0.8rem;
+        transition: left 0.3s;
+        &.show {
+          left: 0;
+          transition: left 0.3s;
+        }
+        .expertInfo {
+          .expertDetail {
+            .address {
+            }
+          }
+          .addFuncBtnBox {
+            .listBtn {
+            }
+            .btnList {
+              button {
+              }
+            }
+          }
+        }
+        .btnBox {
+          flex-direction: row;
+          .mainBtn {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .showBtn {
+      display: block;
     }
   }
 }
