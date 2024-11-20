@@ -3,81 +3,93 @@
 .chatListPage {
   height: calc(100vh - 7.2rem);
   padding-top: 8rem;
-  .chatTab {
-    margin-top: 2.4rem;
-  }
   .chatListContainer {
     .chatList {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 2.4rem;
       .chat {
         position: relative;
         .chatPreview {
           display: flex;
-          align-items: center;
-          gap: 1.2rem;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 2.8rem;
           width: 100%;
           padding: 1.2rem;
+          background-color: rgba($main-color-light, 0.35);
           border: 2px solid;
           border-color: $main-color;
           border-radius: 1.2rem;
-          box-shadow: 6px 6px 0px rgba(255, 214, 214, 1);
+          box-shadow: 0.6rem 0.6rem 0 $main-color;
           transition: all 0.1s;
           position: relative;
           top: 0;
           left: 0;
           &:hover {
-            top: 4px;
-            left: 4px;
+            top: 0.4rem;
+            left: 0.4rem;
             box-shadow: none;
           }
-          .profileBadge {
-            min-width: 8rem;
-          }
-          .chatContent {
+          .chatPreviewBox {
             display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            .userName {
-              font-size: 1.8rem;
+            gap: 1.2rem;
+            width: 60%;
+            .profileBadge {
+              min-width: 10rem;
             }
-            .requestList {
+            .chatContent {
               display: flex;
-              font-size: 1.2rem;
-              li {
-                padding-right: 0.7rem;
-                margin-right: 0.6rem;
-                position: relative;
-                &::after {
-                  content: '';
-                  position: absolute;
-                  right: 0;
-                  top: 50%;
-                  transform: translateY(-50%);
-                  width: 1px;
-                  height: 1rem;
-                  background-color: $default-color;
-                }
-                &:last-child {
+              flex-direction: column;
+              .userName {
+                font-size: 1.8rem;
+                font-weight: 600;
+              }
+              .requestList {
+                display: flex;
+                flex-wrap: wrap;
+                font-size: 1.4rem;
+                margin-top: 0.4rem;
+                li {
+                  padding-right: 0.7rem;
+                  margin-right: 0.6rem;
+                  white-space: nowrap;
+                  position: relative;
                   &::after {
-                    display: none;
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 1px;
+                    height: 1rem;
+                    background-color: rgba($default-color, 0.3);
+                  }
+                  &:last-child {
+                    padding-right: 0;
+                    margin-right: 0;
+                    &::after {
+                      display: none;
+                    }
                   }
                 }
               }
-            }
-            .lastChat {
-              font-size: 1.4rem;
+              .lastChat {
+                display: -webkit-box;
+                margin-top: 1.6rem;
+                font-size: 1.4rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+              }
             }
           }
         }
         .createMessageTime {
-          position: absolute;
-          right: 2.4rem;
-          top: 50%;
-          transform: translateY(-50%);
           display: block;
           font-size: 1.2rem;
+          white-space: nowrap;
           color: #a6a6a6;
         }
       }
@@ -85,6 +97,7 @@
   }
 }
 .chatTab {
+  margin-top: 2.4rem;
   .tabBtnBox {
     display: flex;
     align-items: flex-end;
@@ -121,5 +134,40 @@
   .tabConBox {
     padding: 2.4rem 0;
     font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .chatListPage {
+    .chatListContainer {
+      .chatList {
+        .chat {
+          .chatPreview {
+            gap: 1.2rem;
+            .chatPreviewBox {
+              width: auto;
+              .profileBadge {
+              }
+              .chatContent {
+                .userName {
+                  font-size: 14px;
+                }
+                .requestList {
+                  font-size: 12px;
+                  li {
+                  }
+                }
+                .lastChat {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+          .createMessageTime {
+            font-size: 10px;
+          }
+        }
+      }
+    }
   }
 }

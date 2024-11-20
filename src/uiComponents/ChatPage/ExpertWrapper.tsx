@@ -7,11 +7,15 @@ import Modal from '@/components/Modal/Modal';
 import { useModalStore } from '@/store/modalStore';
 import DealModal from './Modal/DealModal';
 
-const ExpertWrapper = () => {
+interface ExpertWrapperProps {
+  extraClass?: string;
+}
+
+const ExpertWrapper = ({ extraClass }: ExpertWrapperProps) => {
   const { openModal } = useModalStore();
   const [btnListVisible, setBtnListVisible] = useState(false);
   return (
-    <div className='expertWrapper'>
+    <div className={`expertWrapper ${extraClass}`}>
       <div>
         <div className='expertInfo'>
           <ProfileBadge width='5.2rem' height='5.2rem' src={profile} />

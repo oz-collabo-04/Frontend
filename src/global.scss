@@ -25,9 +25,24 @@ html {
     font-size: 50%; /* 약 8px */
   }
 }
+@media (max-width: 512px) {
+  html {
+    font-size: 46.875%; /* 약 7.5px */
+  }
+}
 @media (max-width: 425px) {
   html {
     font-size: 43.75%; /* 약 7px */
+  }
+}
+@media (max-width: 375px) {
+  html {
+    font-size: 40.625%; /* 약 6.5px */
+  }
+}
+@media (max-width: 320px) {
+  html {
+    font-size: 37.5%; /* 약 6px */
   }
 }
 
