@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import Modal from '@/components/Modal/Modal'
 import { useModalStore } from '@/store/modalStore'
+import { useCategoryStore } from '@/store/expertListStore'
 import NumberInput from '@/components/Input/NumberInput'
 import '@/styles/Expertlistpage/expertModal.scss'
+import { useNavigate } from 'react-router-dom'
 
 interface ExpertModalProps {
   modalId: string;
@@ -10,20 +12,34 @@ interface ExpertModalProps {
 }
 
 const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
+  const { openModal, closeModal } = useModalStore()
+  const { setEstimation, getEstimation } = useCategoryStore()
   const [amount, setAmount] = useState<string | number>('')
   const [description, setDescription] = useState('')
-  const { openModal, closeModal } = useModalStore()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (expertId !== null) {
       openModal(modalId)
+      const existingEstimation = getEstimation(expertId)
+      if (existingEstimation) {
+        setAmount(existingEstimation.amount)
+        setDescription(existingEstimation.description)
+      } else {
+        setAmount('')
+        setDescription('')
+      }
     }
-  }, [expertId, modalId, openModal])
+  }, [expertId, modalId, openModal, getEstimation])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log({ expertId, amount, description })
-    closeModal(modalId)
+    if (expertId !== null) {
+      setEstimation(expertId, { amount, description })
+      console.log({ expertId, amount, description })
+      closeModal(modalId)
+      navigate(`/chatpage/${expertId}`)
+    }
   }
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
