@@ -17,6 +17,7 @@ import NaverCallbackPage from './pages/NaverCallbackPage';
 import GoogleCallbackPage from './pages/GoogleCallbackPage';
 import KakaoCallbackPage from './pages/KakaocallbackPage';
 import Expertlistpage from './pages/Expertlistpage';
+import Reservation from './pages/Reservation';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/' element={<MainPage />} />
           <Route path='/common' element={<Common />} />
           <Route path='/userestimation' element={<UserEstimationPage />} />
+          <Route path='/reservation' element={<Reservation />} />
           <Route path='/estimationlist' element={<Estimationlistpage />} />
           <Route path='/expertlist' element={<Expertlistpage />} />
           <Route path='/login' element={<LoginPage />} />

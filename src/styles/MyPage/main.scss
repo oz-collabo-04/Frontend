@@ -1,26 +1,50 @@
+@use '../variables.scss' as *;
+
 .myPage {
-  margin: 15rem auto;
   max-width: 76.8rem;
+  margin: 0 auto;
+  padding: 8rem 4rem;
 
   .myMain {
-    background-color: #f3f3f3;
-    margin: 5rem 0rem;
+    margin: 8rem 0rem;
     padding: 5rem 3rem;
+    background-color: rgba(255, 255, 255);
     border-radius: 2rem;
+    border: solid 2px $main-color;
+    box-shadow: 4px 4px 8px rgba($main-color, 0.5);
 
-    .mySection {
-      background-color: #ffffff;
-      border-radius: 2rem;
-      height: 13rem;
-      margin: 1.3rem 0rem;
-      padding: 0rem 2rem;
+    .reservationContainer {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
+      margin-top: 4rem;
+
+      .myReservation,
+      .myCalender {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 12rem;
+        margin: 1rem 0rem;
+        background-color: rgba($main-color, 0.35);
+        border-radius: 2rem;
+        border: solid 2px $main-color;
+        box-shadow: 6px 6px 0px rgba($main-color, 0.5);
+        transition: all 0.1s;
+        position: relative;
+        top: 0;
+        left: 0;
+
+        &:hover {
+          border: solid 2px $main-color;
+          box-shadow: none;
+          transform: translate(6px, 6px);
+        }
+      }
 
       div,
       button {
-        margin-right: 4rem;
+        margin: 0 4rem;
         font-weight: 500;
         font-size: 1.7rem;
       }
