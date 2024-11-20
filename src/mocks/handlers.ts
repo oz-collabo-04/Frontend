@@ -1,3 +1,4 @@
+import { locationDummy } from '@/config/dummy';
 import { http, HttpResponse } from 'msw';
 
 export const handlers = [
@@ -6,23 +7,15 @@ export const handlers = [
     // Extracting form data values to validate or process
     const appeal = formData.get('appeal');
     const service = formData.get('service');
-    const profile_image = formData.get('profile_image');
-    const available_location = [];
-    const careers = [];
-    // Parsing available_location and careers arrays if they exist
-    for (const entry of formData.entries()) {
-      const [key, value] = entry;
-      if (key.startsWith('available_location')) {
-        available_location.push(value);
-      } else if (key.startsWith('careers')) {
-        careers.push(value);
-      }
-    }
+    const expert_image = formData.get('expert_image');
+    const available_location = formData.get('available_location');
+    const careers = formData.get('careers');
+
     // Creating a response
     const responseData = {
       appeal,
       service,
-      profile_image,
+      expert_image,
       available_location,
       careers,
     };
@@ -30,6 +23,15 @@ export const handlers = [
       status: 200,
       headers: {
         'Content-Type': 'multipart/form-data',
+      },
+    });
+  }),
+
+  http.get('/mock/services/location/list', () => {
+    return HttpResponse.json(locationDummy, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
       },
     });
   }),

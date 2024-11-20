@@ -10,5 +10,5 @@ export interface ExpertRegister {
   appeal: string;
   service: string;
   careers: Career[];
-  profile_image: string | null;
+  expert_image: string;
 }

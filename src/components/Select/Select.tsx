@@ -4,15 +4,17 @@ interface SelectProps {
   defaultValue?: string;
   options: string[];
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  nameRef?: React.RefObject<HTMLSelectElement>;
 }
 
-const Select = ({ width, height, defaultValue, options, onChange }: SelectProps) => {
+const Select = ({ width, height, defaultValue, options, onChange, nameRef }: SelectProps) => {
   return (
     <select
       className='comSelect'
       style={{ width, height }}
       onChange={onChange}
       defaultValue='' // 초기값 설정
+      ref={nameRef}
     >
       <option value='' disabled>
         {defaultValue}
