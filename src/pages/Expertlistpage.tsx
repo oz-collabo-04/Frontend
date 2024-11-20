@@ -3,7 +3,7 @@ import { MapPin } from 'lucide-react'
 import MainBtn from '@/components/Button/MainBtn'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
 import profile from '@/assets/images/dalbong.jpg'
-import ExpertProfileModal from '@/pages/ExpertProfileModal'
+import ExpertModal from '@/pages/ExpertModal'
 import { useModalStore } from '@/store/modalStore'
 import  '@/styles/Expertlistpage/expertlistpage.scss'
 
@@ -192,7 +192,7 @@ const Expertlistpage: React.FC = () => {
           ))}
         </div>
       </main>
-      <ExpertProfileModal expertId={selectedExpertId} />
+      <ExpertModal expertId={selectedExpertId} modalId={''} />
     </div>
   )
 }
