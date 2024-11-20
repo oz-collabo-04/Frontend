@@ -62,18 +62,20 @@
         position: relative;
 
         div {
+          position: relative;
           display: flex;
-          margin-bottom: 1rem;
+          flex-wrap: wrap;
 
           p {
             font-weight: 600;
-            margin-right: 1rem;
+            margin: 0.5rem;
+            font-size: 1.6rem;
+            font-weight: 500;
           }
-        }
-
-        p {
-          font-size: 1.6rem;
-          font-weight: 500;
+          button {
+            font-size: 1.2rem;
+            margin: 0rem 0.5rem;
+          }
         }
       }
 
@@ -108,9 +110,17 @@
 
     .changeBtn {
       position: absolute;
-      top: 2.5rem;
-      right: 3rem;
+      top: -2.5rem;
+      right: 1.5rem;
       font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .deleteBtn {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.3rem;
       font-weight: 600;
     }
   }

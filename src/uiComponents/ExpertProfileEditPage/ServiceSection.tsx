@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 type Props = {
   isExpert: boolean;
+  profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
 
@@ -15,24 +16,24 @@ type Service = {
   check: boolean;
 };
 
-export default function ServiceSection({ isExpert, setProfileData }: Props) {
+export default function ServiceSection({ isExpert, profileData, setProfileData }: Props) {
   const { openModal, closeModal } = useModalStore();
   const [isChecked, setIsChecked] = useState<Service[]>([
     {
       name: '결혼식 사회자',
-      check: false,
+      check: profileData.service == '결혼식 사회자' ? true : false,
     },
     {
       name: '축가 가수',
-      check: false,
+      check: profileData.service == '축가 가수' ? true : false,
     },
     {
       name: '영상 촬영',
-      check: false,
+      check: profileData.service == '영상 촬영' ? true : false,
     },
     {
       name: '스냅 촬영',
-      check: false,
+      check: profileData.service == '스냅 촬영' ? true : false,
     },
   ]);
 
@@ -44,7 +45,7 @@ export default function ServiceSection({ isExpert, setProfileData }: Props) {
           <button onClick={() => openModal('serviceModal')} className='changeBtn'>
             {isExpert ? '수정' : '등록'}
           </button>
-          <p>결혼식 사회자</p>
+          <p>{profileData.service}</p>
         </div>
         <Modal
           modalId='serviceModal'

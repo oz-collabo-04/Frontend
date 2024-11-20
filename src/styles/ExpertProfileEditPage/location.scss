@@ -3,45 +3,22 @@
   align-items: start;
   padding: 2rem 0rem;
 
-  .select {
-    display: flex;
-    justify-content: space-between;
-    border: 0.2rem black solid;
-    border-radius: 0.5rem;
-    width: 10rem;
-    height: 3.7rem;
-    padding: 0.8rem;
-    font-weight: 700;
-    font-size: 1.4rem;
-    margin: 0.1rem 0.6rem;
-    cursor: pointer;
-  }
-
-  li {
-    border: 0.2rem black solid;
-    border-radius: 0.5rem;
-    width: 10rem;
-    height: 3.7rem;
-    padding: 0.8rem;
+  select {
     font-weight: 600;
     font-size: 1.4rem;
     margin: 0.1rem 0.6rem;
     cursor: pointer;
-
-    &:hover {
-      font-weight: 700;
-    }
   }
 
   .detailLocation {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    border: 0.2rem black solid;
+    gap: 1rem;
+    border: 0.25rem #fee8e8 solid;
     border-radius: 0.5rem;
-    width: 20rem;
-    margin: 0.1rem 1rem;
-    padding: 1rem;
+    width: 100%;
+    margin: 0rem 1rem;
+    padding: 1.5rem;
     cursor: pointer;
 
     p:hover {

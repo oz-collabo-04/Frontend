@@ -5,5 +5,5 @@ export const expertRegister: ExpertRegister = {
   appeal: '',
   service: '',
   careers: [],
-  profile_image: '',
+  expert_image: '',
 };
