@@ -1,4 +1,3 @@
-import Input from '@/components/Input/Input';
 import MediumTitle from '@/components/Title/MediumTitle';
 import { ExpertRegister } from '@/config/types';
 import { useEffect, useState } from 'react';
@@ -33,8 +32,10 @@ export default function ProfileSection({ fileRef, profileData, setProfileData }:
   return (
     <section className='expertProfileEditSection'>
       <MediumTitle title='프로필 설정' />
+
       <div className='profile content'>
         <p>프로필 이미지 ( {profileData.expert_image ? '1' : '0'} / 1 )</p>
+
         <div>
           <label htmlFor='fileInput'>
             <LuPlusCircle size='2rem' />
@@ -48,20 +49,30 @@ export default function ProfileSection({ fileRef, profileData, setProfileData }:
               accept='image/*'
             />
           </label>
+
           {profileData.expert_image && <img src={previewImage!} alt='이미지있으면보임' />}
         </div>
 
         <p>프로필 설명</p>
-        <Input
-          value={textChange}
-          onChange={(e) => setTextChange(e.target.value)}
-          type='text'
+
+        <textarea
+          className='comTextarea'
           placeholder='설명글'
-          width='50rem'
+          value={textChange}
+          onChange={(e) => {
+            if (e.target.value.length > 100) {
+              return;
+            }
+            setTextChange(e.target.value);
+          }}
         />
-        <button onClick={() => setProfileData((prev) => ({ ...prev, appeal: textChange }))} className='doneBtn'>
-          완료
-        </button>
+
+        <div className='textareaChild'>
+          {textChange.length > 0 && <span>{textChange.length} / 100</span>}
+          <button onClick={() => setProfileData((prev) => ({ ...prev, appeal: textChange }))} className='doneBtn'>
+            완료
+          </button>
+        </div>
       </div>
     </section>
   );

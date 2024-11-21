@@ -8,6 +8,7 @@
     }
 
     label {
+      position: relative;
       display: flex;
       align-items: center;
       margin: 1.5rem 0rem;
@@ -23,11 +24,29 @@
         width: 20rem;
         padding: 0rem 1.2rem;
       }
+
+      textarea {
+        width: 85%;
+        height: 7rem;
+        padding-right: 7rem;
+      }
+
+      span {
+        position: absolute;
+        right: 1rem;
+        font-size: 1.4rem;
+        font-weight: 400;
+      }
     }
 
     button {
       float: right;
     }
+  }
+
+  .disabledText {
+    color: gainsboro;
+    cursor: default;
   }
 
   .careerUpdate {

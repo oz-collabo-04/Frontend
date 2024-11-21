@@ -1,7 +1,11 @@
+@use '../variables.scss' as *;
+
 .locationModal {
+  position: relative;
   display: flex;
   align-items: start;
   padding: 2rem 0rem;
+  height: 100%;
 
   select {
     font-weight: 600;
@@ -22,7 +26,13 @@
     cursor: pointer;
 
     p:hover {
-      font-weight: 500;
+      color: $main-color;
     }
+  }
+
+  .showLocation {
+    position: absolute;
+    bottom: 0;
+    margin: 0rem 0.6rem;
   }
 }

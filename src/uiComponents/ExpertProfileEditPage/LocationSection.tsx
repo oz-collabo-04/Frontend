@@ -48,10 +48,20 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
   return (
     <section className='expertProfileEditSection'>
       <MediumTitle title='활동 지역' />
+
       <div className='location content'>
-        <button onClick={() => openModal('locationModal')} className='changeBtn'>
+        <button
+          onClick={() => {
+            setSelect1(null);
+            setSelect2(null);
+            setSelect2DetailData('');
+            openModal('locationModal');
+          }}
+          className='changeBtn'
+        >
           {isExpert ? '수정' : '등록'}
         </button>
+
         {profileData.available_location?.length > 0 && (
           <button
             onClick={() => {
@@ -64,23 +74,27 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
             <CiSquareRemove size='2.5rem' />
           </button>
         )}
+
         <div>{dataListFunction()}</div>
       </div>
+
       <Modal
         modalId='locationModal'
         title='활동 지역'
         content={
           <LocationModal
+            select1={select1}
             setSelect1={setSelect1}
             select2={select2}
             setSelect2={setSelect2}
+            select2DetailData={select2DetailData}
             setSelect2DetailData={setSelect2DetailData}
           />
         }
         width='55rem'
         height='60vh'
         borderRadius='2rem'
-        firstBtn={true}
+        firstBtn={select1 || select2 ? true : false}
         firstBtnName='저장하기'
         firstBtnOnClick={() => {
           return select1

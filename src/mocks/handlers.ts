@@ -1,3 +1,4 @@
+import { service } from '@/config/const';
 import { locationDummy } from '@/config/dummy';
 import { http, HttpResponse } from 'msw';
 
@@ -29,6 +30,15 @@ export const handlers = [
 
   http.get('/mock/services/location/list', () => {
     return HttpResponse.json(locationDummy, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }),
+
+  http.get('/mock/services/list', () => {
+    return HttpResponse.json(service, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
