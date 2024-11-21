@@ -4,21 +4,25 @@ import google from '@/uiComponents/LoginPage/google_g_logo.svg';
 import '@/styles/LoginPage/login.scss';
 import MainBtn from '@/components/Button/MainBtn';
 import XLargeTitle from '@/components/Title/XLargeTitle';
+import useLoginProviderStore from '@/store/useLoginProviderStore';
 
 export default function LoginPage() {
   const redirectBaseURL = import.meta.env.VITE_REDIRECT_BASE_URL;
   const naverClientID = import.meta.env.VITE_NAVER_CLIENT_ID;
   const googleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const kakaoClientID = import.meta.env.VITE_KAKAO_CLIENT_ID;
+  const { provider, setProvider } = useLoginProviderStore();
 
   const naverLoginPopup = () => {
+    setProvider('naver');
     window.open(
-      `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`,
+      `https://nid.${provider}.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`,
       'NaverLoginPopup',
       'width=600,height=600,left=400,top=100'
     );
   };
   const googleLoginPopup = () => {
+    setProvider('google');
     window.open(
       `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${googleClientID}&redirect_uri=${redirectBaseURL}/google/callback/&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&prompt=select_account`,
       'GoogleLoginPopup',
@@ -27,6 +31,7 @@ export default function LoginPage() {
   };
 
   const kakaoLoginPopup = () => {
+    setProvider('kakao');
     window.open(
       `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientID}&redirect_uri=${redirectBaseURL}/kakao/callback/&state=1234`,
       'popup',
@@ -39,7 +44,6 @@ export default function LoginPage() {
       <div className='loginPage'>
         <div className='loginContainer'>
           <XLargeTitle title='Login' />
-          <div className='loginText'></div>
           <MainBtn
             onClick={naverLoginPopup}
             img={<img className='logo' src={naverColor} alt='네이버 로고' />}
@@ -65,7 +69,6 @@ export default function LoginPage() {
             extraClass='loginBtn google'
           />
         </div>
-        <div></div>
       </div>
     </>
   );
