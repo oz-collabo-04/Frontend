@@ -16,7 +16,7 @@ import UserEstimationPage from './pages/UserEstimationPage';
 import Expertlistpage from './pages/Expertlistpage';
 import useLoginProviderStore from './store/useLoginProviderStore';
 import CallbackPage from './pages/CallbackPage';
-import Reservation from './pages/Reservation';
+import ReservationPage from './pages/ReservationPage';
 
 function App() {
   const { provider } = useLoginProviderStore();
@@ -28,7 +28,7 @@ function App() {
           <Route path='/' element={<MainPage />} />
           <Route path='/common' element={<Common />} />
           <Route path='/userestimation' element={<UserEstimationPage />} />
-          <Route path='/reservation' element={<Reservation />} />
+          <Route path='/reservation' element={<ReservationPage />} />
           <Route path='/estimationlist' element={<Estimationlistpage />} />
           <Route path='/expertlist' element={<Expertlistpage />} />
           <Route path='/login' element={<LoginPage />} />
