@@ -2,7 +2,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 5rem 4rem 0rem;
+  align-items: center;
+  margin: 0rem 4rem;
+  height: 100%;
 
   div {
     width: 13rem;

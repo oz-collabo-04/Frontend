@@ -4,16 +4,25 @@ import '@/styles/ExpertProfileEditPage/location.scss';
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
+  select1: string | null;
   setSelect1: React.Dispatch<React.SetStateAction<string | null>>;
   select2: string | null;
   setSelect2: React.Dispatch<React.SetStateAction<string | null>>;
+  select2DetailData: string | null;
   setSelect2DetailData: React.Dispatch<React.SetStateAction<string | null>>;
 };
 interface LocationDummy {
   [key: string]: string[];
 }
 
-export default function LocationModal({ setSelect1, select2, setSelect2, setSelect2DetailData }: Props) {
+export default function LocationModal({
+  select1,
+  setSelect1,
+  select2,
+  setSelect2,
+  select2DetailData,
+  setSelect2DetailData,
+}: Props) {
   const [locationData, setLocationData] = useState<LocationDummy | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const select1Ref = useRef<HTMLSelectElement>(null);
@@ -94,6 +103,10 @@ export default function LocationModal({ setSelect1, select2, setSelect2, setSele
                 </p>
               ))}
         </div>
+      )}
+
+      {(select1 || select2) && (
+        <div className='showLocation'>선택하신 지역: {select1 ?? (select2 && select2 + ' ' + select2DetailData)}</div>
       )}
     </div>
   );

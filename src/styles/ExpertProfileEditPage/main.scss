@@ -1,26 +1,31 @@
+@use '../variables.scss' as *;
+
 .expertProfileEditPage {
   margin: 15rem auto;
   max-width: 76.8rem;
 
   .expertProfileEditMain {
-    background-color: #f3f3f3;
+    background-color: rgba(255, 255, 255);
+    border-radius: 2rem;
+    border: solid 0.2rem $main-color;
     display: flex;
     flex-direction: column;
     margin: 6rem 0rem;
     padding: 5rem 3rem;
-    border-radius: 2rem;
 
     .expertProfileEditSection {
       margin: 1rem;
 
       .content {
-        background-color: #ffffff;
+        background-color: rgba($main-color, 0.35);
         margin: 1rem -1rem 2rem;
         padding: 2.5rem 2rem;
         border-radius: 2rem;
       }
 
       .profile {
+        position: relative;
+
         p {
           font-size: 1.6rem;
           font-weight: 600;
@@ -35,12 +40,17 @@
           margin: 2rem 0rem;
 
           label {
-            border: 0.2rem rgb(255, 217, 0) solid;
+            background-color: rgba(255, 255, 255);
+            border: solid 0.2rem $main-color;
             border-radius: 1rem;
             width: 8rem;
             height: 8rem;
             padding: 2.8rem;
             cursor: pointer;
+          }
+
+          label:active {
+            scale: 95%;
           }
 
           img {
@@ -51,10 +61,29 @@
           }
         }
 
-        .doneBtn {
-          font-size: 1.5rem;
-          font-weight: 600;
-          margin-left: -4rem;
+        textarea {
+          overflow-wrap: break-word;
+          width: 45rem;
+          height: auto;
+        }
+
+        .textareaChild {
+          position: absolute;
+          display: flex;
+          justify-content: end;
+          right: 12rem;
+          bottom: 1.3rem;
+          width: auto;
+
+          span {
+            font-size: 1.4rem;
+          }
+
+          .doneBtn {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-left: 2rem;
+          }
         }
       }
 
@@ -91,10 +120,11 @@
       .career {
         position: relative;
 
-        p {
+        li {
           font-size: 1.6rem;
           font-weight: 600;
           margin-bottom: 1.5rem;
+          list-style: square;
 
           &:last-child {
             margin-bottom: 0rem;

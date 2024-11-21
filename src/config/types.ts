@@ -3,6 +3,7 @@ export interface Career {
   explanation: string;
   start_date: string;
   end_date: string | null;
+  id?: string;
 }
 
 export interface ExpertRegister {
