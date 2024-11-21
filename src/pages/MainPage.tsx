@@ -13,7 +13,6 @@ export default function MainPage() {
     { label: '영상 촬영', content: <Filming /> },
     { label: '스냅 촬영', content: <Snapshot /> },
   ];
-
   return (
     <>
       <div className='mainPage'>

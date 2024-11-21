@@ -14,15 +14,10 @@
     flex-direction: column;
     gap: 2rem;
     min-width: 40rem;
-    min-height: 40rem;
+    min-height: 48rem;
     height: auto;
     border-radius: 0.7rem;
     background-color: #fed6d6;
-
-    .loginText {
-      font-size: large;
-      font-weight: 600;
-    }
 
     .loginBtn {
       display: flex;
