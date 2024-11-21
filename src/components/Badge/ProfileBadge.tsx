@@ -29,12 +29,12 @@ const ProfileBadge = ({
 
   return (
     <div
-      className={`profileBadge ${extraClass}`.trim()}
+      className={`profileBadge ${extraClass}`}
       style={{
         width,
         height,
         borderRadius,
-        backgroundColor,
+        backgroundColor
       }}
     >
       <img src={imgSrc} alt='프로필 배지' className='profileBadgeIcon' onError={handleError} />
