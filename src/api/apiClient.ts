@@ -28,7 +28,7 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 403) {
+    if (error.response?.status === 401) {
       console.error('권한이 없습니다. 로그인 페이지로 이동합니다....');
     }
     return Promise.reject(error);
