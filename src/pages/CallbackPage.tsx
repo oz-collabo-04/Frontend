@@ -46,10 +46,10 @@ export default function CallbackPage() {
           // localStorage.setItem('userType', userType);
           setIsLoggedIn(true);
           // setUserType(userType);
-          // if (window.opener) {
-          //   window.opener.location.href = '/';
-          // }
-          // window.close();
+          if (window.opener) {
+            window.opener.location.href = '/';
+          }
+          window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }

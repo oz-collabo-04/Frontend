@@ -43,31 +43,29 @@ export default function LoginPage() {
     <>
       <div className='loginPage'>
         <div className='loginContainer'>
-          <XLargeTitle title='Login' />
-          <MainBtn
-            onClick={naverLoginPopup}
-            img={<img className='logo' src={naverColor} alt='네이버 로고' />}
-            name='네이버 로그인'
-            height='4.6rem'
-            width='25rem'
-            extraClass='loginBtn naver'
-          />
-          <MainBtn
-            onClick={kakaoLoginPopup}
-            img={<img className='logo' src={kakao} alt='카카오 로고' />}
-            name='카카오 로그인'
-            height='4.6rem'
-            width='25rem'
-            extraClass='loginBtn kakao'
-          />
-          <MainBtn
-            onClick={googleLoginPopup}
-            img={<img className='logo' src={google} alt='구글 로고' />}
-            name='google 로그인'
-            height='4.6rem'
-            width='25rem'
-            extraClass='loginBtn google'
-          />
+          <div className='loginWrapper'>
+            <XLargeTitle title='Login' />
+            <div className='buttonBox'>
+              <MainBtn
+                onClick={naverLoginPopup}
+                img={<img className='logo' src={naverColor} alt='네이버 로고' />}
+                name='네이버 로그인'
+                extraClass='naver'
+              />
+              <MainBtn
+                onClick={kakaoLoginPopup}
+                img={<img className='logo' src={kakao} alt='카카오 로고' />}
+                name='카카오 로그인'
+                extraClass='kakao'
+              />
+              <MainBtn
+                onClick={googleLoginPopup}
+                img={<img className='logo' src={google} alt='구글 로고' />}
+                name='google 로그인'
+                extraClass='google'
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>

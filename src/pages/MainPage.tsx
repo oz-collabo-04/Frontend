@@ -18,9 +18,7 @@ export default function MainPage() {
       <div className='mainPage'>
         <Billboard />
         <main className='contentLayout'>
-          <div className='tabWrapper'>
-            <Tab tabs={tabs} />
-          </div>
+          <Tab tabs={tabs} />
         </main>
       </div>
     </>
