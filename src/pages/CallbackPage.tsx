@@ -32,6 +32,8 @@ export default function CallbackPage() {
 
         if (provider === 'naver' && state) {
           requestData.state = state;
+        } else if (provider === 'google' && provider === 'google') {
+          requestData.state = null;
         }
 
         const response = await client.post(`/users/login/${provider}/callback/`, requestData);
@@ -44,10 +46,10 @@ export default function CallbackPage() {
           // localStorage.setItem('userType', userType);
           setIsLoggedIn(true);
           // setUserType(userType);
-          if (window.opener) {
-            window.opener.location.href = '/';
-          }
-          window.close();
+          // if (window.opener) {
+          //   window.opener.location.href = '/';
+          // }
+          // window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }
