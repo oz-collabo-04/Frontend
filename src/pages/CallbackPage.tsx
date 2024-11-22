@@ -1,4 +1,4 @@
-import apiClient from '@/api/apiClient';
+import client from '@/api/client';
 import XSmallTitle from '@/components/Title/XSmallTitle';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
@@ -34,7 +34,7 @@ export default function CallbackPage() {
           requestData.state = state;
         }
 
-        const response = await apiClient.post(`/${provider}/callback/`, requestData);
+        const response = await client.post(`/users/login/${provider}/callback/`, requestData);
         console.log('Response:', response);
 
         const { access_token } = response.data;
