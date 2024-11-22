@@ -1,4 +1,4 @@
-import client from '@/api/client';
+import { client } from '@/api/client';
 import XSmallTitle from '@/components/Title/XSmallTitle';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
