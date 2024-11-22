@@ -1,5 +1,4 @@
 import TabContentType1 from './TabContentType1';
-import TabContentType2 from './TabContentType2';
 
 export default function WeddingMC() {
   return (
@@ -11,7 +10,7 @@ export default function WeddingMC() {
           name='김누구'
           description='평범한 웨딩은 가라! 여러분의 단 한번 뿐인 결혼식을 빛내줄 특별한 사회자 김누구입니다! 특별한 추억, 특별한 시간을 선물해드립니다. 서울/경기/대구/부산 어느 지역이나 가능합니다. (제주도 제외)'
         />
-        <TabContentType2
+        <TabContentType1
           src=''
           title='결혼식 사회자'
           name='김뿌까'

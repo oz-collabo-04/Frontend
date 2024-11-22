@@ -1,9 +1,10 @@
+@use '../variables.scss' as *;
+
 .loginPage {
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - 9rem);
   overflow: hidden;
 
@@ -12,36 +13,54 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 2rem;
+    justify-content: space-around;
     min-width: 40rem;
-    min-height: 48rem;
+    min-height: 45rem;
     height: auto;
     border-radius: 0.7rem;
-    background-color: #fed6d6;
+    border: solid 2px $main-color;
+    background-color: rgba($main-color, 0.3);
+    box-shadow: 1px 1px 6px rgba($main-color, 0.5);
 
-    .loginBtn {
+    .loginWrapper {
       display: flex;
-      flex-direction: row;
-      align-items: center;
+      flex-direction: column;
+      text-align: center;
       justify-content: center;
-      font-size: 2rem;
-      font-weight: 500;
-      margin-left: 3rem;
-      margin-right: 3rem;
-      gap: 1rem;
+      height: 100%;
+      gap: 10rem;
     }
-    .naver {
-      background-color: #03c75b;
-    }
-    .kakao {
-      background-color: #ffdc00;
-    }
-    .google {
-      background-color: #ffffff;
-    }
-    .logo {
-      width: 2rem;
-      height: 2rem;
+
+    .buttonBox {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      .mainBtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin: auto 2rem;
+        gap: 1rem;
+        height: 4.5rem;
+        width: 27rem;
+      }
+      .naver {
+        background-color: #03c75b;
+        color: #ffffff;
+      }
+      .kakao {
+        background-color: #ffdc00;
+      }
+      .google {
+        background-color: #ffffff;
+      }
+      .logo {
+        width: 2rem;
+        height: 2rem;
+      }
     }
   }
 }
