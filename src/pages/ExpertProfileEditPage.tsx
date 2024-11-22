@@ -1,24 +1,57 @@
 import '@/styles/ExpertProfileEditPage/main.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MainBtn from '@/components/Button/MainBtn';
 import PageTitle from '@/components/PageTitle/PageTitle';
-import { fetchExpertRegister } from '@/api/experts';
 import { ExpertRegister } from '@/config/types';
 import { expertRegister } from '@/config/const';
 import ProfileSection from '@/uiComponents/ExpertProfileEditPage/ProfileSection';
 import LocationSection from '@/uiComponents/ExpertProfileEditPage/LocationSection';
 import ServiceSection from '@/uiComponents/ExpertProfileEditPage/ServiceSection';
 import CareerSection from '@/uiComponents/ExpertProfileEditPage/CareerSection';
+import { fetchGetExpertRegister, fetchPatchExpertRegister, fetchPostExpertRegister } from '@/api/experts';
 
 export default function ExpertProfileEditPage() {
   const [profileData, setProfileData] = useState<ExpertRegister>(expertRegister);
   const fileRef = useRef<HTMLInputElement>(null);
   const [isExpert, setIsExpert] = useState(false); // 임시코드. 일단 전문가 아이디 확정되면 전문가아이디에 따라 boolean
 
-  const fetchData = async (formData: FormData) => {
+  useEffect(() => {
+    if (profileData.id && isExpert) {
+      getData(profileData.id);
+    }
+  }, [profileData.id, isExpert]);
+
+  const getData = async (id: string) => {
     try {
-      const data = await fetchExpertRegister(formData);
-      console.log(data);
+      const data = await fetchGetExpertRegister(id);
+      console.log('get', data);
+      setProfileData((prev) => ({
+        ...prev,
+        ...data,
+      }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const postData = async (formData: FormData) => {
+    try {
+      const data = await fetchPostExpertRegister(formData);
+      console.log('post', data);
+      setProfileData((prev) => ({ ...prev, id: data.id }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const patchData = async (id: string, formData: FormData) => {
+    try {
+      const data = await fetchPatchExpertRegister({ id, formData });
+      console.log('patch', data);
+      setProfileData((prev) => ({
+        ...prev,
+        ...data,
+      }));
     } catch (err) {
       console.error(err);
     }
@@ -40,7 +73,12 @@ export default function ExpertProfileEditPage() {
       console.log(pair[0], pair[1]);
     }
 
-    await fetchData(formData);
+    if (isExpert) {
+      await patchData(profileData.id!, formData);
+    } else {
+      await postData(formData);
+      setIsExpert(true);
+    }
   };
 
   return (

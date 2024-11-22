@@ -12,4 +12,5 @@ export interface ExpertRegister {
   service: string;
   careers: Career[];
   expert_image: string;
+  id?: string;
 }

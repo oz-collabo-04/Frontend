@@ -18,6 +18,7 @@ export default function ServiceModal({ isChecked, setIsChecked }: Props) {
         isChecked.map((data: Service, i: number) => (
           <div key={i}>
             <Checkbox
+              name='services'
               idFor={`service${i + 1}`}
               content={data.name}
               checked={data.check}
