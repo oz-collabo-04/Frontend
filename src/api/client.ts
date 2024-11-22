@@ -1,8 +1,16 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 const backendBaseURL = import.meta.env.VITE_BACKEND_BASE_URL;
 
-const client = axios.create({
+export const client = axios.create({
+  baseURL: backendBaseURL,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
+});
+
+export const auth = axios.create({
   baseURL: backendBaseURL,
   timeout: 5000,
   headers: {
@@ -15,7 +23,7 @@ const getAccessToken = (): string | null => {
   return localStorage.getItem('access_token');
 };
 
-client.interceptors.request.use(
+auth.interceptors.request.use(
   (config) => {
     //요청 인터셉트 시 사용할 config 객체
     const accessToken = getAccessToken();
@@ -32,7 +40,7 @@ client.interceptors.request.use(
 const refreshAccessToken = async (): Promise<string | null> => {
   try {
     const accessToken = getAccessToken();
-    const response = await client.post('login/refresh/', { access_token: accessToken });
+    const response = await axios.post('login/refresh/', { access_token: accessToken });
     const newAccessToken = response.data;
     localStorage.removeItem('access_token');
     localStorage.setItem('access_token', newAccessToken);
@@ -43,12 +51,11 @@ const refreshAccessToken = async (): Promise<string | null> => {
   }
 };
 
-client.interceptors.response.use(
+auth.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
-    const navigate = useNavigate();
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._isRetry) {
       originalRequest._isRetry = true;
@@ -60,9 +67,7 @@ client.interceptors.response.use(
       }
     } else if (error.response?.status === 401) {
       console.error('권한이 없습니다. 로그인 페이지로 이동합니다....');
-      navigate('/login');
     }
     return Promise.reject(error);
   }
 );
-export default client;
