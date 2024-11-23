@@ -1,4 +1,4 @@
-import { service } from '@/config/const';
+import { services } from '@/config/const';
 import { expertDummy, locationDummy } from '@/config/dummy';
 import { http, HttpResponse } from 'msw';
 
@@ -11,18 +11,17 @@ export const handlers = [
 
   http.post('/mock/experts/register', async ({ request }) => {
     const formData = await request.formData();
-    // Extracting form data values to validate or process
-    const appeal = formData.get('appeal')?.toString() || ''; // 기본값 ''
+
+    const appeal = formData.get('appeal')?.toString() || '';
     const service = formData.get('service')?.toString() || '';
     const expert_image = formData.get('expert_image')?.toString() || '';
     const available_location = formData.get('available_location')
       ? JSON.parse(formData.get('available_location')!.toString())
       : [];
-    const careers = formData.get('careers') ? JSON.parse(formData.get('careers')!.toString()) : []; // JSON 파싱
+    const careers = formData.get('careers') ? JSON.parse(formData.get('careers')!.toString()) : [];
 
     const id = Date.now().toString();
 
-    // Creating a response
     const responseData = {
       id,
       appeal,
@@ -30,6 +29,11 @@ export const handlers = [
       expert_image,
       available_location,
       careers,
+      user: {
+        id: (Date.now() + 1).toString(),
+        name: '박미선',
+        gender: '여자',
+      },
     };
 
     expertDummy.push(responseData);
@@ -88,7 +92,7 @@ export const handlers = [
   }),
 
   http.get('/mock/services/list', () => {
-    return HttpResponse.json(service, {
+    return HttpResponse.json(services, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

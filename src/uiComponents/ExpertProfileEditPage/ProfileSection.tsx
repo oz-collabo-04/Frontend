@@ -10,8 +10,8 @@ type Props = {
 };
 
 export default function ProfileSection({ fileRef, profileData, setProfileData }: Props) {
-  const [previewImage, setPreviewImage] = useState<string | null>(profileData.expert_image ?? '');
-  const [textChange, setTextChange] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string>(profileData.expert_image);
+  const [textChange, setTextChange] = useState<string>(profileData.appeal ?? '');
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,7 +50,7 @@ export default function ProfileSection({ fileRef, profileData, setProfileData }:
             />
           </label>
 
-          {profileData.expert_image && <img src={previewImage!} alt='이미지있으면보임' />}
+          {previewImage && <img src={previewImage!} alt='이미지' />}
         </div>
 
         <p>프로필 설명</p>
