@@ -1,3 +1,13 @@
+export interface User {
+  id: string;
+  name: string;
+  gender: string;
+}
+
+export interface Expert extends ExpertRegister {
+  id: string;
+  user: User;
+}
 export interface Career {
   title: string;
   explanation: string;
@@ -12,5 +22,5 @@ export interface ExpertRegister {
   service: string;
   careers: Career[];
   expert_image: string;
-  id?: string;
+  standard_charge?: string;
 }

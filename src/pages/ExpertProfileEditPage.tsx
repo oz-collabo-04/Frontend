@@ -3,28 +3,38 @@ import { useEffect, useRef, useState } from 'react';
 import MainBtn from '@/components/Button/MainBtn';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import { ExpertRegister } from '@/config/types';
-import { expertRegister } from '@/config/const';
 import ProfileSection from '@/uiComponents/ExpertProfileEditPage/ProfileSection';
 import LocationSection from '@/uiComponents/ExpertProfileEditPage/LocationSection';
 import ServiceSection from '@/uiComponents/ExpertProfileEditPage/ServiceSection';
 import CareerSection from '@/uiComponents/ExpertProfileEditPage/CareerSection';
 import { fetchGetExpertRegister, fetchPatchExpertRegister, fetchPostExpertRegister } from '@/api/experts';
+import { useExpertStore } from '@/store/expertStore';
 
 export default function ExpertProfileEditPage() {
-  const [profileData, setProfileData] = useState<ExpertRegister>(expertRegister);
+  const { expert, setExpert } = useExpertStore();
+  const [profileData, setProfileData] = useState<ExpertRegister>({
+    available_location: expert.available_location ?? [],
+    appeal: expert.appeal ?? '',
+    service: expert.service ?? '',
+    careers: expert.careers ?? [],
+    expert_image: expert.expert_image ?? '',
+  });
+  const [isExpert, setIsExpert] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [isExpert, setIsExpert] = useState(false); // 임시코드. 일단 전문가 아이디 확정되면 전문가아이디에 따라 boolean
 
   useEffect(() => {
-    if (profileData.id && isExpert) {
-      getData(profileData.id);
+    if (expert.id && isExpert) {
+      getData(expert.id);
     }
-  }, [profileData.id, isExpert]);
+  }, [expert.id, isExpert]);
 
   const getData = async (id: string) => {
     try {
       const data = await fetchGetExpertRegister(id);
       console.log('get', data);
+
+      setExpert(data);
+
       setProfileData((prev) => ({
         ...prev,
         ...data,
@@ -38,7 +48,8 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchPostExpertRegister(formData);
       console.log('post', data);
-      setProfileData((prev) => ({ ...prev, id: data.id }));
+
+      setExpert({ id: data.id });
     } catch (err) {
       console.error(err);
     }
@@ -48,10 +59,6 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchPatchExpertRegister({ id, formData });
       console.log('patch', data);
-      setProfileData((prev) => ({
-        ...prev,
-        ...data,
-      }));
     } catch (err) {
       console.error(err);
     }
@@ -74,12 +81,22 @@ export default function ExpertProfileEditPage() {
     }
 
     if (isExpert) {
-      await patchData(profileData.id!, formData);
-    } else {
+      await patchData(expert.id, formData);
+    } else if (
+      profileData.appeal !== '' &&
+      profileData.available_location.length > 0 &&
+      profileData.careers.length > 0 &&
+      profileData.expert_image !== '' &&
+      profileData.service !== ''
+    ) {
       await postData(formData);
       setIsExpert(true);
+    } else {
+      alert('모두 입력해야합니다');
     }
   };
+
+  console.log('전문가 정보', expert);
 
   return (
     <>
