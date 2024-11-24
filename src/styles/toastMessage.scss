@@ -1,0 +1,49 @@
+.toastModal {
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 0 0 0.15rem 0.05rem #ffffff;
+  border-radius: 0.7rem;
+  display: flex;
+  align-items: center;
+  width: 25rem;
+  height: 6rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.6rem;
+  color: #ffffff;
+  transition: all, 1s;
+  animation-name: move;
+  animation-duration: 0.7s;
+  animation-fill-mode: forwards;
+
+  div {
+    margin-left: 0.7rem;
+  }
+}
+
+.success {
+  background-color: #07bc0c;
+  box-shadow: 0 0 0.15rem 0.05rem #07bc0c;
+}
+
+.error {
+  background-color: #e74c3c;
+  box-shadow: 0 0 0.15rem 0.05rem #e74c3c;
+}
+
+.opacity-80 {
+  opacity: 80%;
+}
+
+.opacity-30 {
+  opacity: 30%;
+}
+
+@keyframes move {
+  from {
+    transform: translateX(0rem);
+  }
+  to {
+    transform: translateX(-2rem);
+  }
+}

@@ -17,32 +17,36 @@ import Expertlistpage from './pages/Expertlistpage';
 import useLoginProviderStore from './store/useLoginProviderStore';
 import CallbackPage from './pages/CallbackPage';
 import ReservationPage from './pages/ReservationPage';
+import ToastLayout from './layouts/ToastLayout';
 
 function App() {
   const { provider } = useLoginProviderStore();
   return (
     <>
       <Routes>
-        {/* 푸터 포함 레이아웃 */}
-        <Route element={<CommonLayout />}>
-          <Route path='/' element={<MainPage />} />
-          <Route path='/common' element={<Common />} />
-          <Route path='/userestimation' element={<UserEstimationPage />} />
-          <Route path='/reservation' element={<ReservationPage />} />
-          <Route path='/estimationlist' element={<Estimationlistpage />} />
-          <Route path='/expertlist' element={<Expertlistpage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/mypage' element={<Mypage />} />
-          <Route path='/chatlistpage' element={<ChatListPage />} />
-          <Route path='/expertProfileEditPage' element={<ExpertProfileEditPage />} />
+        {/* 토스트 메시지 레이아웃 */}
+        <Route element={<ToastLayout />}>
+          {/* 푸터 포함 레이아웃 */}
+          <Route element={<CommonLayout />}>
+            <Route path='/' element={<MainPage />} />
+            <Route path='/common' element={<Common />} />
+            <Route path='/userestimation' element={<UserEstimationPage />} />
+            <Route path='/reservation' element={<ReservationPage />} />
+            <Route path='/estimationlist' element={<Estimationlistpage />} />
+            <Route path='/expertlist' element={<Expertlistpage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/mypage' element={<Mypage />} />
+            <Route path='/chatlistpage' element={<ChatListPage />} />
+            <Route path='/expertProfileEditPage' element={<ExpertProfileEditPage />} />
+          </Route>
+          {/* 푸터 제외 레이아웃 */}
+          <Route element={<NoFooterLayout />}>
+            <Route path='/chatpage' element={<ChatPage />} />
+            <Route path='/policy/conditions' element={<ConditionsOfUse />} />
+            <Route path='/policy/personal' element={<PersonalInformation />} />
+          </Route>
+          <Route path={`/login/${provider}/callback`} element={<CallbackPage />} />
         </Route>
-        {/* 푸터 제외 레이아웃 */}
-        <Route element={<NoFooterLayout />}>
-          <Route path='/chatpage' element={<ChatPage />} />
-          <Route path='/policy/conditions' element={<ConditionsOfUse />} />
-          <Route path='/policy/personal' element={<PersonalInformation />} />
-        </Route>
-        <Route path={`/login/${provider}/callback`} element={<CallbackPage />} />
       </Routes>
     </>
   );

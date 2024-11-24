@@ -46,7 +46,6 @@ export default function LocationModal({
     const option =
       locationData &&
       Object.entries(locationData!)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([_, value]) => {
           if (name === '특별/광역시') {
             return value.length === 0;

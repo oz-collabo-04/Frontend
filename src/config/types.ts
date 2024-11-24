@@ -72,3 +72,9 @@ interface IReservation {
 export interface IReservationData {
   reservations: IReservation[];
 }
+
+export interface Toast {
+  id: string;
+  title: string;
+  type: 'success' | 'error';
+}
