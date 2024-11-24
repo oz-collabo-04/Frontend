@@ -9,9 +9,12 @@ import ServiceSection from '@/uiComponents/ExpertProfileEditPage/ServiceSection'
 import CareerSection from '@/uiComponents/ExpertProfileEditPage/CareerSection';
 import { fetchGetExpertRegister, fetchPatchExpertRegister, fetchPostExpertRegister } from '@/api/experts';
 import { useExpertStore } from '@/store/expertStore';
+import { useToastStore } from '@/store/toastStore';
 
 export default function ExpertProfileEditPage() {
   const { expert, setExpert } = useExpertStore();
+  const { addToasts } = useToastStore();
+
   const [profileData, setProfileData] = useState<ExpertRegister>({
     available_location: expert.available_location ?? [],
     appeal: expert.appeal ?? '',
@@ -19,6 +22,7 @@ export default function ExpertProfileEditPage() {
     careers: expert.careers ?? [],
     expert_image: expert.expert_image ?? '',
   });
+
   const [isExpert, setIsExpert] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -82,6 +86,7 @@ export default function ExpertProfileEditPage() {
 
     if (isExpert) {
       await patchData(expert.id, formData);
+      addToasts({ type: 'success', title: '프로필이 수정되었습니다.', id: Date.now().toString() });
     } else if (
       profileData.appeal !== '' &&
       profileData.available_location.length > 0 &&
@@ -91,8 +96,9 @@ export default function ExpertProfileEditPage() {
     ) {
       await postData(formData);
       setIsExpert(true);
+      addToasts({ type: 'success', title: '프로필이 등록되었습니다.', id: Date.now().toString() });
     } else {
-      alert('모두 입력해야합니다');
+      addToasts({ type: 'error', title: '모두 입력하셔야 합니다', id: Date.now().toString() });
     }
   };
 

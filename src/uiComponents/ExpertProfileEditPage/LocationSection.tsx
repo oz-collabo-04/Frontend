@@ -5,6 +5,7 @@ import { useModalStore } from '@/store/modalStore';
 import { ExpertRegister } from '@/config/types';
 import Modal from '@/components/Modal/Modal';
 import { useState } from 'react';
+import { useToastStore } from '@/store/toastStore';
 
 type Props = {
   isExpert: boolean;
@@ -14,6 +15,8 @@ type Props = {
 
 export default function LocationSection({ isExpert, profileData, setProfileData }: Props) {
   const { openModal, closeModal } = useModalStore();
+  const { addToasts } = useToastStore();
+
   const [select1, setSelect1] = useState<string | null>(null);
   const [select2, setSelect2] = useState<string | null>(null);
   const [select2DetailData, setSelect2DetailData] = useState<string | null>(null);
@@ -35,13 +38,22 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
 
   const addDataFuction = (location: string) => {
     if (profileData.available_location.find((data) => data === location)) {
-      alert('이미 선택하신 지역입니다');
+      addToasts({ type: 'error', title: '이미 선택하신 지역입니다', id: Date.now().toString() });
     } else {
       setProfileData((prev) => ({
         ...prev,
         available_location: [...prev.available_location.sort(), location!],
       }));
       closeModal('locationModal');
+    }
+  };
+
+  const confirmFunction = () => {
+    if (confirm('데이터를 지우시겠습니까?') === true) {
+      setProfileData((prev) => ({ ...prev, available_location: [] }));
+      addToasts({ type: 'success', title: '데이터가 지워졌습니다.', id: Date.now().toString() });
+    } else {
+      addToasts({ type: 'error', title: '취소되었습니다.', id: Date.now().toString() });
     }
   };
 
@@ -63,14 +75,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
         </button>
 
         {profileData.available_location?.length > 0 && (
-          <button
-            onClick={() => {
-              if (confirm('데이터를 지우시겠습니까?') === true) {
-                setProfileData((prev) => ({ ...prev, available_location: [] }));
-              }
-            }}
-            className='deleteBtn'
-          >
+          <button onClick={() => confirmFunction()} className='deleteBtn'>
             <CiSquareRemove size='2.5rem' />
           </button>
         )}

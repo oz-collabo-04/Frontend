@@ -1,5 +1,6 @@
 import Input from '@/components/Input/Input';
 import { Career } from '@/config/types';
+import { useToastStore } from '@/store/toastStore';
 import '@/styles/ExpertProfileEditPage/career.scss';
 import { useState } from 'react';
 
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export default function CareerModal({ careerArray, setCareerArray }: Props) {
+  const { addToasts } = useToastStore();
   const [career, setCareer] = useState<Career>({
     id: Date.now().toString(),
     title: '',
@@ -33,7 +35,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
       career.end_date &&
       new Date(career.start_date).getTime() > new Date(career.end_date!).getTime()
     ) {
-      return alert('종료일이 시작일보다 빠릅니다!!');
+      return addToasts({ type: 'error', title: '종료일이 시작일보다 빠릅니다!!', id: Date.now().toString() });
     }
 
     setCareerArray((prev) => [...prev, career]);
