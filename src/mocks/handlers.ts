@@ -1,5 +1,5 @@
 import { services } from '@/config/const';
-import { expertDummy, locationDummy } from '@/config/dummy';
+import { expertDummy, locationDummy, reservationsDummy } from '@/config/dummy';
 import { http, HttpResponse } from 'msw';
 
 export const handlers = [
@@ -93,6 +93,15 @@ export const handlers = [
 
   http.get('/mock/services/list', () => {
     return HttpResponse.json(services, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }),
+
+  http.get('/mock/reservations', () => {
+    return HttpResponse.json(reservationsDummy, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

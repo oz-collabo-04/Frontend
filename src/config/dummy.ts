@@ -284,3 +284,88 @@ export const expertDummy: Expert[] = [
     expert_image: 'https://example.com/images/hyunwoo.jpg',
   },
 ];
+
+export const reservationsDummy = [
+  {
+    reservations: [
+      {
+        id: 1,
+        status: '결제 대기',
+        estimation: {
+          id: 1,
+          request_id: 3,
+          expert_id: 4,
+          location: '경기도 광주',
+          due_date: '2024-12-24 12:20:00',
+          service: '사회자',
+          charge: 270000,
+          created_at: '2024-11-23 12:02:30',
+          request_user: {
+            id: 3,
+            name: '권순율',
+            phone: '010-1234-1234',
+          },
+          expert: {
+            user_id: 4,
+            email: 'example@example.com',
+            phone: '010-5678-5678',
+            name: '홍길동',
+            profile_image: 'ImageFile1',
+          },
+        },
+      },
+      {
+        id: 2,
+        status: '결제 완료',
+        estimation: {
+          id: 2,
+          request_id: 6,
+          expert_id: 7,
+          location: '서울 강남구',
+          due_date: '2025-01-05 15:00:00',
+          service: '사진 촬영',
+          charge: 1500000,
+          created_at: '2024-11-22 10:45:00',
+          request_user: {
+            id: 6,
+            name: '김민수',
+            phone: '010-3456-3456',
+          },
+          expert: {
+            user_id: 7,
+            email: 'photographer@example.com',
+            phone: '010-9876-5432',
+            name: '이영호',
+            profile_image: 'ImageFile2',
+          },
+        },
+      },
+      {
+        id: 3,
+        status: '취소됨',
+        estimation: {
+          id: 3,
+          request_id: 9,
+          expert_id: 11,
+          location: '부산 해운대구',
+          due_date: '2024-12-30 14:00:00',
+          service: '웨딩 플래너',
+          charge: 500000,
+          created_at: '2024-11-20 09:30:00',
+          request_user: {
+            id: 9,
+            name: '최지혜',
+            phone: '010-8765-8765',
+          },
+          expert: {
+            user_id: 11,
+            email: 'planner@example.com',
+            phone: '010-6543-2109',
+            name: '박지훈',
+            profile_image: 'ImageFile3',
+          },
+        },
+      },
+    ],
+  },
+];

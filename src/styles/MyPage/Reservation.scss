@@ -1,0 +1,89 @@
+@use '../variables.scss' as *;
+
+// 예약리스트 페이지 전체
+.reservationPage {
+  max-width: 76.8rem;
+  margin: 0 auto;
+  padding: 8rem 4rem;
+
+  // 예약리스트 묶음 전체
+  .reserveList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 8rem 0rem;
+    padding: 5rem 3rem;
+    background-color: rgba(255, 255, 255);
+    border-radius: 2rem;
+    border: solid 2px $main-color;
+    box-shadow: 4px 4px 8px rgba($main-color, 0.5); // 외곽 블러효과
+
+    // 예약컨텐츠 묶음
+    .reserveContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 4rem; // 예약리스트 제목-컨텐츠간 간격
+
+      // 예약컨텐츠 개별
+      .content {
+        display: flex;
+        justify-content: space-between;
+        height: 12rem;
+        margin: 1rem 0rem;
+        padding: 1rem 2rem;
+        background-color: rgba($main-color, 0.35);
+        border-radius: 2rem;
+        border: solid 2px $main-color;
+        box-shadow: 6px 6px 0px rgba($main-color, 0.5); // 컨텐츠 입체감
+        // 움직임 관련
+        // transition: all 0.1s;
+        // position: relative;
+        // top: 0;
+        // left: 0;
+        // // 효과 : 호버, 액티브 추가시 모달실행->효과 겹쳐서 오류생김
+        // &:active {
+        //   border: solid 2px $main-color;
+        //   box-shadow: none;
+        //   transform: translate(6px, 6px); // 그림자 크기만큼 이동
+        // }
+
+        // 전문가 정보안내
+        .expertInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 1.6rem;
+          font-size: 1.4rem;
+        }
+
+        // 예약 정보 안내
+        .reserve {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-end;
+
+          // 예약일시
+          .reserveInfo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+
+            .status {
+              padding: 0.3rem;
+              border: 1px solid black;
+              border-radius: 0.8rem;
+            }
+            .date {
+            }
+          }
+          // 버튼묶음
+          .mainBtn {
+            margin-left: 1rem; // 버튼간격
+          }
+        }
+      }
+    }
+  }
+}
