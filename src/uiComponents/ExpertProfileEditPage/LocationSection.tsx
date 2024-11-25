@@ -17,9 +17,8 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
   const { openModal, closeModal } = useModalStore();
   const { addToasts } = useToastStore();
 
-  const [select1, setSelect1] = useState<string | null>(null);
-  const [select2, setSelect2] = useState<string | null>(null);
-  const [select2DetailData, setSelect2DetailData] = useState<string | null>(null);
+  const [select, setSelect] = useState<string | null>(null);
+  const [selectDetailData, setSelectDetailData] = useState<string | null>(null);
   const [moreData, setMoreData] = useState<boolean>(false);
 
   const dataListFunction = () => {
@@ -64,9 +63,8 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
       <div className='location content'>
         <button
           onClick={() => {
-            setSelect1(null);
-            setSelect2(null);
-            setSelect2DetailData('');
+            setSelect(null);
+            setSelectDetailData('');
             openModal('locationModal');
           }}
           className='changeBtn'
@@ -88,25 +86,21 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
         title='활동 지역'
         content={
           <LocationModal
-            select1={select1}
-            setSelect1={setSelect1}
-            select2={select2}
-            setSelect2={setSelect2}
-            select2DetailData={select2DetailData}
-            setSelect2DetailData={setSelect2DetailData}
+            select={select}
+            setSelect={setSelect}
+            selectDetailData={selectDetailData}
+            setSelectDetailData={setSelectDetailData}
           />
         }
-        width='55rem'
+        width='41.5rem'
         height='60vh'
         borderRadius='2rem'
-        firstBtn={select1 || select2 ? true : false}
+        firstBtn={select ? true : false}
         firstBtnName='저장하기'
         firstBtnOnClick={() => {
-          return select1
-            ? addDataFuction(select1)
-            : select2 && !select2DetailData
-              ? addDataFuction(select2)
-              : addDataFuction(`${select2!} ${select2DetailData}`);
+          return select && !selectDetailData
+            ? addDataFuction(select)
+            : addDataFuction(`${select!} ${selectDetailData}`);
         }}
       />
     </section>

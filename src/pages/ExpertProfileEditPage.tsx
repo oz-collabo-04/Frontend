@@ -10,6 +10,11 @@ import CareerSection from '@/uiComponents/ExpertProfileEditPage/CareerSection';
 import { fetchGetExpertRegister, fetchPatchExpertRegister, fetchPostExpertRegister } from '@/api/experts';
 import { useExpertStore } from '@/store/expertStore';
 import { useToastStore } from '@/store/toastStore';
+import { fetchServiceLocation, fetchServiceServices } from '@/api/services';
+
+interface LocationDummy {
+  [key: string]: { [key: string]: string }[];
+}
 
 export default function ExpertProfileEditPage() {
   const { expert, setExpert } = useExpertStore();
@@ -25,11 +30,16 @@ export default function ExpertProfileEditPage() {
 
   const [isExpert, setIsExpert] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [enlocation, setEnLocation] = useState<LocationDummy | []>([]);
+  const [enService, setEnService] = useState([]);
 
   useEffect(() => {
     if (expert.id && isExpert) {
       getData(expert.id);
     }
+
+    locationData();
+    serviceData();
   }, [expert.id, isExpert]);
 
   const getData = async (id: string) => {
@@ -68,16 +78,58 @@ export default function ExpertProfileEditPage() {
     }
   };
 
+  const locationData = async () => {
+    try {
+      const data: LocationDummy[] = await fetchServiceLocation();
+      data!.flatMap((e) => setEnLocation(e));
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const serviceData = async () => {
+    try {
+      const data = await fetchServiceServices();
+      return setEnService(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const submitClick = async () => {
+    const length1 = profileData!.available_location.filter((e) => e.split(' ').length === 1);
+    const length2 = profileData!.available_location.filter((e) => e.split(' ').length === 2);
+
+    const enLocationArray: string[] = [];
+
+    length1.filter((e) =>
+      Object.entries(enlocation).filter(([key, value]) => e === key && enLocationArray.push(...Object.values(value[0])))
+    );
+
+    length2.filter((e) =>
+      Object.entries(enlocation).filter(
+        ([key, value]) => e.split(' ')[0] === key && enLocationArray.push(...Object.values(value[0]))
+      )
+    );
+
+    let enServiceString;
+
+    Object.entries(enService).filter(
+      ([_, value]) => profileData.service === Object.keys(value)[0] && (enServiceString = Object.values(value)[0])
+    );
+
+    console.log(enServiceString);
+
     const formData = new FormData();
 
     if (fileRef.current?.files?.[0]) {
       formData.append('expert_image', fileRef.current?.files?.[0]);
     }
 
-    formData.append('available_location', JSON.stringify(profileData.available_location));
+    formData.append('available_location', JSON.stringify(enLocationArray));
     formData.append('appeal', profileData.appeal);
-    formData.append('service', profileData.service);
+    formData.append('service', enServiceString!);
     formData.append('careers', JSON.stringify(profileData.careers));
 
     for (const pair of formData.entries()) {
