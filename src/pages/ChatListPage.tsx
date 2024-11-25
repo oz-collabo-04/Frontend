@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import '@/styles/ChatListPage/chatListPage.scss';
 import AllChats from '@/uiComponents/ChatListPage/AllChats';
