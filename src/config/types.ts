@@ -26,14 +26,14 @@ export interface ExpertRegister {
 }
 
 // 예약리스트 관련
-export interface IReserveContentProps {
-  title: string;
-  reserveStatus: string;
-  name: string;
-  charge: string | number;
-  ServiceTime: string | number;
-  date: string | number;
-  reviewId: number;
+export interface IReservationContentProps {
+  title: string; // 서비스명
+  reserveStatus: string; // 예약상태
+  name: string; // 전문가 이름
+  charge: number | string; // 금액
+  ServiceTime: string; // 서비스 시간
+  date: string; // 예약 생성 날짜/시간
+  reviewId: number; // 리뷰 ID
 }
 
 interface IRequestUser {
@@ -48,30 +48,33 @@ interface IExpert {
   phone: string;
   name: string;
   profile_image: string;
+  // Expert 추가필드
+  available_location?: string[]; // 선택적 필드
+  appeal?: string;
+  service?: string;
+  standard_charge?: string;
 }
 
 interface IEstimation {
-  id: number;
-  request_id: number;
-  expert_id: number;
-  location: string;
-  due_date: string; // 날짜/시간 문자열
-  service: string;
-  charge: number; // 숫자 형식
-  created_at: string; // 날짜/시간 문자열
-  request_user: IRequestUser;
-  expert: IExpert;
+  id: number; // 견적 ID
+  request_id: number; // 요청 ID
+  expert_id: number; // 전문가 ID
+  location: string; // 서비스 제공 위치
+  due_date: string; // 서비스 예정시간 - 날짜/시간 문자열
+  service: string; // 서비스명
+  charge: number; // 서비스 비용
+  created_at: string; // 예약생성 시간 - 날짜/시간 문자열
+  request_user: IRequestUser; // 요청 사용자 정보
+  expert: IExpert; // 전문가 정보
 }
 
 interface IReservation {
-  id: number;
-  status: string;
-  estimation: IEstimation;
+  id: number; // 예약 ID
+  status: string; // 예약 상태
+  estimation: IEstimation; // 견적정보
 }
 
-export interface IReservationData {
-  reservations: IReservation[];
-}
+export type IReservationData = IReservation[]; // 배열형태
 
 export interface Toast {
   id: string;

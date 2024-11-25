@@ -3,7 +3,7 @@ import Modal from '@/components/Modal/Modal';
 import XSmallTitle from '@/components/Title/XSmallTitle';
 import UserReview from './UserReview';
 import { useModalStore } from '@/store/modalStore';
-import { IReserveContentProps } from '@/config/types';
+import { IReservationContentProps } from '@/config/types';
 
 const ReservationContent = ({
   title,
@@ -13,8 +13,23 @@ const ReservationContent = ({
   reserveStatus,
   date,
   reviewId,
-}: IReserveContentProps) => {
+}: IReservationContentProps) => {
   const { openModal } = useModalStore();
+
+  const getStatusClass = (status: string) => {
+    switch (status) {
+      case '채팅 중':
+        return 'status-chatting';
+      case '예약 확정':
+        return 'status-confirmed';
+      case '서비스 완료':
+        return 'status-complete';
+      case '예약 취소':
+        return 'status-canceled';
+      default:
+        return 'status-default';
+    }
+  };
 
   return (
     <>
@@ -29,7 +44,7 @@ const ReservationContent = ({
         </div>
         <div className='reserve'>
           <div className='reserveInfo'>
-            <div className='status'>{reserveStatus}</div>
+            <div className={`status ${getStatusClass(reserveStatus)}`}>{reserveStatus}</div>
             <div>예약 일시 {date}</div>
           </div>
           <div className='reserveBtn'>
