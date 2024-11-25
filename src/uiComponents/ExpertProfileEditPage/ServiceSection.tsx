@@ -46,8 +46,8 @@ export default function ServiceSection({ isExpert, profileData, setProfileData }
               setIsChecked(
                 serviceName
                   ? serviceName.map((name) => ({
-                      name: name,
-                      check: profileData.service === name,
+                      name: Object.keys(name)[0],
+                      check: profileData.service === Object.keys(name)[0],
                     }))
                   : []
               );
