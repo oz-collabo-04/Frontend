@@ -5,6 +5,7 @@
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
+    "removeComments": true,
     "moduleResolution": "node",
     "types": ["vite/client"],
     "skipLibCheck": true,

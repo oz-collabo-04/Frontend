@@ -1,6 +1,5 @@
 
 import TabContentType1 from './TabContentType1';
-import TabContentType2 from './TabContentType2';
 
 export default function Filming() {
   return (
@@ -17,7 +16,7 @@ export default function Filming() {
           title='축가 가수'
           name='김뿌까'
           description='새로운 웨딩! 웨딩의 페러다임을 바꾸다. 원하시는 모든 것이 여기 있습니다. 여기 당신의 곁에, 결혼식에만 보는 사회자는 그만! 철저한 사전 협의와 리허설로 완벽한 웨딩을 만들어드릴게요!'
-        />{' '}
+        />
         <TabContentType1
           src=''
           title='축가 가수'
