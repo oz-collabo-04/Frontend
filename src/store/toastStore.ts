@@ -7,13 +7,18 @@ interface ToastStore {
   removeToasts: (id: string) => void;
 }
 
-export const useToastStore = create<ToastStore>((set) => ({
+export const useToastStore = create<ToastStore>((set, get) => ({
   toasts: [],
 
-  addToasts: (newToast) =>
-    set((state) => ({
-      toasts: [...state.toasts, newToast],
-    })),
+  addToasts: (newToast) => {
+    const { toasts } = get();
+
+    if (toasts.length === 0) {
+      set((state) => ({
+        toasts: [...state.toasts, newToast],
+      }));
+    }
+  },
 
   removeToasts: (id) =>
     set((prevToast) => ({
