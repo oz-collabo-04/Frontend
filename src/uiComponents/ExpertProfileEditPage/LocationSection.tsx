@@ -13,12 +13,17 @@ type Props = {
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
 
+interface LocationDetail {
+  [key: string]: { [key: string]: string }[];
+}
+
 export default function LocationSection({ isExpert, profileData, setProfileData }: Props) {
   const { openModal, closeModal } = useModalStore();
   const { addToasts } = useToastStore();
 
   const [select, setSelect] = useState<string | null>(null);
   const [selectDetailData, setSelectDetailData] = useState<string | null>(null);
+  const [noSelect, setNoSelect] = useState<LocationDetail[] | []>([]);
   const [moreData, setMoreData] = useState<boolean>(false);
 
   const dataListFunction = () => {
@@ -36,8 +41,16 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
   };
 
   const addDataFuction = (location: string) => {
+    let noSelectCheck: boolean = false;
+
+    noSelectCheck = [...noSelect].some((data) =>
+      Object.entries(data).find(([key]) => key === select && !selectDetailData)
+    );
+
     if (profileData.available_location.find((data) => data === location)) {
       addToasts({ type: 'error', title: '이미 선택하신 지역입니다', id: Date.now().toString() });
+    } else if (noSelectCheck) {
+      addToasts({ type: 'error', title: '상세지역까지 선택해주세요', id: Date.now().toString() });
     } else {
       setProfileData((prev) => ({
         ...prev,
@@ -90,6 +103,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
             setSelect={setSelect}
             selectDetailData={selectDetailData}
             setSelectDetailData={setSelectDetailData}
+            setNoSelect={setNoSelect}
           />
         }
         width='41.5rem'
