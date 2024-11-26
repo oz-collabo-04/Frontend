@@ -108,3 +108,30 @@ export const modalSize = `const { openModal } = useModalStore();
   secondBtnName='두 번째 버튼'
   secondBtnOnClick={() => console.log('두 번째 버튼 클릭')}
 />`;
+
+// Confirm
+export const confirmDefault = `
+const { openConfirm, closeConfirm } = useConfirmStore();
+const { addToasts } = useToastStore();
+
+<MainBtn name='confirm' onClick={() => openConfirm('confirm')} />
+<Confirm
+  confirmId='confirm'
+  title='Title'
+  content='Content'
+  width='35em'
+  height='17vh'
+  borderRadius='2rem'
+  trueBtn={true}
+  trueBtnName='확인'
+  trueBtnOnClick={() => {
+    addToasts({ type: 'success', title: '확인되었습니다.', id: Date.now().toString() });
+    closeConfirm('confirm');
+  }}
+  falseBtn={true}
+  falseBtnName='취소'
+  falseBtnOnClick={() => {
+    addToasts({ type: 'error', title: '취소되었습니다.', id: Date.now().toString() });
+    closeConfirm('confirm');
+  }}
+/>`;
