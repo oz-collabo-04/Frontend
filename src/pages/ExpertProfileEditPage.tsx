@@ -13,7 +13,7 @@ import { useToastStore } from '@/store/toastStore';
 import { fetchServiceLocation, fetchServiceServices } from '@/api/services';
 
 interface LocationDummy {
-  [key: string]: { [key: string]: string }[];
+  [key: string]: { [key: string]: string }[] | string;
 }
 
 export default function ExpertProfileEditPage() {
@@ -34,12 +34,16 @@ export default function ExpertProfileEditPage() {
   const [enService, setEnService] = useState([]);
 
   useEffect(() => {
-    if (expert.id && isExpert) {
-      getData(expert.id);
-    }
-
     locationData();
     serviceData();
+  }, []);
+
+  useEffect(() => {
+    if (expert.id && isExpert) {
+      getData(expert.id);
+
+      console.log('전문가 정보', expert);
+    }
   }, [expert.id, isExpert]);
 
   const getData = async (id: string) => {
@@ -80,8 +84,8 @@ export default function ExpertProfileEditPage() {
 
   const locationData = async () => {
     try {
-      const data: LocationDummy[] = await fetchServiceLocation();
-      data!.flatMap((e) => setEnLocation(e));
+      const data = await fetchServiceLocation();
+      setEnLocation(data);
       return data;
     } catch (err) {
       console.error(err);
@@ -104,7 +108,9 @@ export default function ExpertProfileEditPage() {
     const enLocationArray: string[] = [];
 
     length1.filter((e) =>
-      Object.entries(enlocation).filter(([key, value]) => e === key && enLocationArray.push(...Object.values(value[0])))
+      Object.entries(enlocation).filter(
+        ([key, value]) => e === key && typeof value === 'string' && enLocationArray.push(value)
+      )
     );
 
     length2.filter((e) =>
@@ -116,10 +122,8 @@ export default function ExpertProfileEditPage() {
     let enServiceString;
 
     Object.entries(enService).filter(
-      ([_, value]) => profileData.service === Object.keys(value)[0] && (enServiceString = Object.values(value)[0])
+      ([, value]) => profileData.service === Object.keys(value)[0] && (enServiceString = Object.values(value)[0])
     );
-
-    console.log(enServiceString);
 
     const formData = new FormData();
 
@@ -153,8 +157,6 @@ export default function ExpertProfileEditPage() {
       addToasts({ type: 'error', title: '모두 입력하셔야 합니다', id: Date.now().toString() });
     }
   };
-
-  console.log('전문가 정보', expert);
 
   return (
     <>
