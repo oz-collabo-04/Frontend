@@ -1,51 +1,67 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { MapPin } from 'lucide-react'
 import MainBtn from '@/components/Button/MainBtn'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
-import profile from '@/assets/images/dalbong.jpg'
 import ExpertModal from '@/uiComponents/ExpertProfileEditPage/ExpertModal'
 import { useModalStore } from '@/store/modalStore'
 import { useCategoryStore } from '@/store/expertListStore'
 import '@/styles/Expertlistpage/expertlistpage.scss'
 
-interface ExpertCardProps {
+interface Expert {
   id: number;
-  category: string;
-  name: string;
-  location: string;
-  venueName: string;
-  datetime: string;
-  profileImage?: string;
+  request: {
+    id: number;
+    user: {
+      id: number;
+      name: string;
+      email: string;
+      profile_image: string;
+    };
+    service_list: string[];
+    prefer_gender: string;
+    wedding_hall: string;
+    wedding_datetime: string;
+    location: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+  };
+  created_at: string;
+  updated_at: string;
+}
+
+interface ExpertCardProps {
+  expert: Expert;
   onProfileClick: (id: number) => void;
 }
 
 const ExpertCard: React.FC<ExpertCardProps> = ({ 
-  id,
-  category, 
-  name, 
-  location,
-  venueName,
-  datetime,
-  onProfileClick 
+  expert,
+  onProfileClick
 }) => {
+  if (!expert || !expert.request) {
+    return null; // 또는 로딩 상태를 표시하는 컴포넌트를 반환
+  }
+
   return (
     <div className="expertCard">
       <div className="expertCardHeader">
         <ProfileBadge
           width="8rem"
           height="8rem"
-          src={profile}
+          src={expert.request.user?.profile_image || ''}
           borderRadius={'0.8rem'}
         />
         <div className="expertCardInfo">
-          <div className="expertCardCategory">{category}</div>
-          <h3 className="expertCardName">{name}</h3>
+          <div className="expertCardCategory">{expert.request.service_list?.join(', ') || 'N/A'}</div>
+          <h3 className="expertCardName">{expert.request.user?.name || 'Unknown'}</h3>
         </div>
       </div>
       <div className='expertCardSchedule'>
         <div className="expertCardLocation">
           <MapPin size={16} />
-          <span>{location} {venueName}</span>
+          <span>{expert.request.location || 'N/A'} {expert.request.wedding_hall || 'N/A'}</span>
         </div>
         <div className="expertCardTime">
           <svg 
@@ -62,7 +78,7 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
             />
             <path d="M3 6H13" stroke="currentColor" strokeWidth="1.5"/>
           </svg>
-          <span>{datetime}</span>
+          <span>{expert.request.wedding_datetime ? new Date(expert.request.wedding_datetime).toLocaleString() : 'N/A'}</span>
         </div>
       </div>
       <div className="expertCardActions">
@@ -71,7 +87,7 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
           size="medium"
           backgroundColor="$main-color"
           color="$font-color"
-          onClick={() => onProfileClick(id)}
+          onClick={() => onProfileClick(expert.id)}
         />
         <MainBtn
           name="받은요청삭제"
@@ -84,107 +100,54 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
   )
 }
 
-interface Expert {
-  id: number;
-  category: string;
-  name: string;
-  location: string;
-  venueName: string;
-  datetime: string;
-  profileImage?: string;
-}
-
 const Expertlistpage: React.FC = () => {
   const { openModal } = useModalStore();
-  const { setCategory, getCategory } = useCategoryStore();
-  const [selectedExpertId, setSelectedExpertId] = React.useState<number | null>(null);
-
-  const experts: Expert[] = useMemo(() => [
-    { 
-      id: 1, 
-      category: '결혼식 사회자', 
-      name: '김대식', 
-      location: '서울시 서초구',
-      venueName: '더채플웨딩',
-      datetime: '2024-11-14  11:00',
-      profileImage: profile 
-    },
-    { 
-      id: 2, 
-      category: '결혼식 사회자', 
-      name: '김수민', 
-      location: '서울시 강남구',
-      venueName: '소노펠리체',
-      datetime: '2024-12-21  11:00',
-      profileImage: profile 
-    },
-    { 
-      id: 3, 
-      category: '결혼식 사회자', 
-      name: '박미선', 
-      location: '서울시 서초구',
-      venueName: '아펠가모',
-      datetime: '2024-12-22  11:00',
-      profileImage: profile 
-    },
-    { 
-      id: 4, 
-      category: '결혼식 사회자', 
-      name: '손수민', 
-      location: '서울시 용산구',
-      venueName: '더채플웨딩',
-      datetime: '2024-12-22  14:00',
-      profileImage: profile 
-    },
-    { 
-      id: 5, 
-      category: '결혼식 사회자', 
-      name: '이상민', 
-      location: '서울시 용산구',
-      venueName: '더채플웨딩',
-      datetime: '2024-12-14  14:00',
-      profileImage: profile 
-    },
-    { 
-      id: 6, 
-      category: '결혼식 사회자', 
-      name: '김규식', 
-      location: '서울시 강남구',
-      venueName: '소노펠리체',
-      datetime: '2024-12-25  14:00',
-      profileImage: profile 
-    },
-    { 
-      id: 7, 
-      category: '결혼식 사회자', 
-      name: '박대인', 
-      location: '서울시 서초구',
-      venueName: '아펠가모',
-      datetime: '2024-12-26  11:00',
-      profileImage: profile 
-    },
-    { 
-      id: 8, 
-      category: '결혼식 사회자', 
-      name: '손희준', 
-      location: '서울시 용산구',
-      venueName: '더채플웨딩',
-      datetime: '2024-12-30  11:00',
-      profileImage: profile 
-    },
-  ], []);
+  const { setCategory } = useCategoryStore();
+  const [selectedExpertId, setSelectedExpertId] = useState<number | null>(null);
+  const [experts, setExperts] = useState<Expert[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initialize categories in the global store
-    experts.forEach(expert => {
-      setCategory(expert.id, expert.category);
-    });
-  }, [experts, setCategory]);
+    const fetchExperts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get('/api/v1/experts/{expert_id}/estimations/request/');
+        console.log('API Response:', response.data); // 응답 로깅
+
+        // 응답이 배열인지 확인하고 처리
+        const expertsData = Array.isArray(response.data) ? response.data : [response.data];
+        setExperts(expertsData);
+        
+        // Initialize categories in the global store
+        expertsData.forEach((expert: Expert) => {
+          if (expert && expert.request && expert.request.service_list) {
+            setCategory(expert.id, expert.request.service_list.join(', '));
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching experts:', error);
+        setError('전문가 데이터를 불러오는 데 실패했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchExperts();
+  }, [setCategory]);
 
   const handleProfileClick = (id: number) => {
     setSelectedExpertId(id);
     openModal('expertProfile');
   };
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="expertListContainer">
@@ -193,9 +156,8 @@ const Expertlistpage: React.FC = () => {
         <div className="expertGrid">
           {experts.map(expert => (
             <ExpertCard 
-              key={expert.id} 
-              {...expert} 
-              category={getCategory(expert.id)}
+              key={expert.id}
+              expert={expert}
               onProfileClick={handleProfileClick}
             />
           ))}
@@ -207,3 +169,4 @@ const Expertlistpage: React.FC = () => {
 }
 
 export default Expertlistpage
+
