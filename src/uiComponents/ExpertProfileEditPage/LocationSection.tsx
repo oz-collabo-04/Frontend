@@ -6,6 +6,8 @@ import { ExpertRegister } from '@/config/types';
 import Modal from '@/components/Modal/Modal';
 import { useState } from 'react';
 import { useToastStore } from '@/store/toastStore';
+import { useConfirmStore } from '@/store/confirmStore';
+import Confirm from '@/components/Confirm/Confirm';
 
 type Props = {
   isExpert: boolean;
@@ -19,6 +21,7 @@ interface LocationDetail {
 
 export default function LocationSection({ isExpert, profileData, setProfileData }: Props) {
   const { openModal, closeModal } = useModalStore();
+  const { openConfirm, closeConfirm } = useConfirmStore();
   const { addToasts } = useToastStore();
 
   const [select, setSelect] = useState<string | null>(null);
@@ -60,15 +63,6 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
     }
   };
 
-  const confirmFunction = () => {
-    if (confirm('데이터를 지우시겠습니까?') === true) {
-      setProfileData((prev) => ({ ...prev, available_location: [] }));
-      addToasts({ type: 'success', title: '데이터가 지워졌습니다.', id: Date.now().toString() });
-    } else {
-      addToasts({ type: 'error', title: '취소되었습니다.', id: Date.now().toString() });
-    }
-  };
-
   return (
     <section className='expertProfileEditSection'>
       <MediumTitle title='활동 지역' />
@@ -86,13 +80,35 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
         </button>
 
         {profileData.available_location?.length > 0 && (
-          <button onClick={() => confirmFunction()} className='deleteBtn'>
+          <button onClick={() => openConfirm('locationDataClear')} className='deleteBtn'>
             <CiSquareRemove size='2.5rem' />
           </button>
         )}
 
         <div>{dataListFunction()}</div>
       </div>
+
+      <Confirm
+        confirmId='locationDataClear'
+        title='데이터를 지우시겠습니까?'
+        content='확인을 누르시면 활동 지역이 초기화 됩니다.'
+        width='35em'
+        height='17vh'
+        borderRadius='2rem'
+        trueBtn={true}
+        trueBtnName='확인'
+        trueBtnOnClick={() => {
+          setProfileData((prev) => ({ ...prev, available_location: [] }));
+          addToasts({ type: 'success', title: '데이터가 지워졌습니다.', id: Date.now().toString() });
+          closeConfirm('locationDataClear');
+        }}
+        falseBtn={true}
+        falseBtnName='취소'
+        falseBtnOnClick={() => {
+          addToasts({ type: 'error', title: '취소되었습니다.', id: Date.now().toString() });
+          closeConfirm('locationDataClear');
+        }}
+      />
 
       <Modal
         modalId='locationModal'
