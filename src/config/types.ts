@@ -74,10 +74,4 @@ interface IReservation {
   estimation: IEstimation; // 견적정보
 }
 
-export type IReservationData = IReservation[]; // 배열형태
-
-export interface Toast {
-  id: string;
-  title: string;
-  type: 'success' | 'error';
-}
+export type IReservationData = IReservation[]; // 수정: 배열 형태로 직접 문의

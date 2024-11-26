@@ -10,7 +10,6 @@ import Estimationlistpage from './pages/Estimationlistpage';
 import NoFooterLayout from './layouts/NoFooterLayout';
 import ChatListPage from './pages/ChatListPage';
 import LoginPage from './pages/LoginPage';
-import { ConditionsOfUse, PersonalInformation } from './pages/Policy';
 import ExpertProfileEditPage from './pages/ExpertProfileEditPage';
 import UserEstimationPage from './pages/UserEstimationPage';
 import Expertlistpage from './pages/Expertlistpage';
@@ -42,8 +41,6 @@ function App() {
           {/* 푸터 제외 레이아웃 */}
           <Route element={<NoFooterLayout />}>
             <Route path='/chatpage' element={<ChatPage />} />
-            <Route path='/policy/conditions' element={<ConditionsOfUse />} />
-            <Route path='/policy/personal' element={<PersonalInformation />} />
           </Route>
           <Route path={`/login/${provider}/callback`} element={<CallbackPage />} />
         </Route>

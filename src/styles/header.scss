@@ -2,10 +2,10 @@
 
 // navbar 전체
 .headerNavBar {
+  width: 100%;
+  height: 7.2rem;
   display: flex;
   align-items: center;
-  height: 7.2rem;
-  padding: 0 24rem;
   margin: 0 auto;
   position: fixed;
   top: 0;
@@ -14,48 +14,113 @@
   z-index: 10;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); // 그림자 추가
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); // nav 하단 그림자 추가
 
+  // nav컨텐츠 묶음
   .contents {
     width: 100%;
-    height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
-    .title {
+    // CI
+    .headerTitle h6 {
+      white-space: nowrap; // 줄바꿈 하지 않음
       color: $main-color;
       text-shadow: 1px 4px 2px rgba(0, 0, 0, 0.3);
     }
-    .link {
+
+    // CI 제외 묶음
+    .headerWrapper {
+      width: 100%;
+      height: 100%;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      flex-grow: 1;
-      margin-left: 4rem;
+      font-size: 2rem;
 
-      ul {
+      // 왼쪽 메뉴
+      .headerLeft {
+        width: 100%;
         display: flex;
-        justify-content: space-between;
-        gap: 3.6rem;
-        font-size: 1.8rem;
-        padding: 0;
-        margin: 0;
-        margin-right: 4rem;
-        li {
-          a {
-            color: $font-color;
-            text-decoration: none;
-            transition: color 0.3s;
+        justify-content: flex-start;
+        margin-left: 2rem;
+        .headerMenu {
+          display: flex; // 가로 정렬 설정
+          gap: 1.5rem; // 각 항목 간의 간격
+        }
+      }
 
-            &:hover {
-              color: $main-color;
+      .headerRight {
+        width: 100%; // 오른쪽 메뉴의 비율 설정
+        display: flex;
+        justify-content: flex-end; // 오른쪽 정렬
+        .headerMenu {
+          display: flex; // 가로 정렬 설정
+          align-items: center;
+          gap: 1.5rem; // 각 항목 간의 간격
+          .btn {
+            .mainBtn {
+              width: auto;
+              margin: 0 auto;
             }
           }
         }
       }
     }
-    .btn {
-      margin-left: auto;
+
+    // 반응형 햄버거
+    .headerMiniMenu {
+      display: none;
+      .menuToggle {
+        display: none; // 체크박스 숨김
+      }
+      .iconMenu {
+        cursor: pointer;
+        font-size: 4rem;
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+  .contents {
+    padding: 0 3.2rem;
+
+    .headerWrapper {
+      display: none;
+      position: absolute;
+      top: 7.2rem; // 헤더 높이 아래에 나타나게 설정
+      left: 0;
+      right: 0;
+      background: #fffae5; // 배경색 추가
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // 그림자 추가
+      z-index: 5;
+      padding: 1rem;
+
+      // 메뉴 항목 정렬
+      .headerMenu {
+        flex-direction: row; // 세로 정렬
+        gap: 1rem; // 항목 간 간격
+      }
+    }
+
+    // 체크박스가 선택되었을 때 보이도록 설정
+    .menuToggle:checked ~ .headerWrapper {
+      display: flex;
+    }
+
+    // 반응형 추가
+    .headerMiniMenu {
+      display: block;
+      position: relative;
+      z-index: 10;
+      font-size: 4rem;
+
+      .iconMenu {
+        cursor: pointer;
+        font-size: 4rem;
+        color: black;
+      }
     }
   }
 }
