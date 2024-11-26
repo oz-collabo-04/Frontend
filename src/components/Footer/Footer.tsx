@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className='footerBar'>
       <div className='contentLayout'>
         <div className='contents'>
-          <div className='flex'>
+          <div className='infoWrapper'>
             <div className='company'>
               주소 : 서울특별시 강남대로 92길 31, 6층(역삼동)
               <br />
@@ -47,11 +47,6 @@ const Footer = () => {
               <MainBtn
                 img={<img className='logo' src={kakao} alt='카카오로고' />}
                 name='카카오톡 문의'
-                width='auto'
-                height='auto'
-                backgroundColor='#FEE500'
-                borderColor='#000000D9'
-                color='#000000'
                 extraClass='inquiry'
                 onClick={() => window.open('https://pf.kakao.com/_BxkaYG/chat?bot=true')}
               />
