@@ -16,8 +16,8 @@
 
       .profileBadge {
         //메인 페이지 전문가 이미지
-        min-width: 40rem;
-        min-height: 28rem;
+        width: 40rem;
+        height: 28rem;
         object-fit: cover;
       }
 
@@ -52,3 +52,40 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .profileBadge {
+    min-width: 35rem;
+    height: calc(100% * 7 / 10);
+  }
+}
+@media (max-width: 768px) {
+  .profileBadge {
+    min-width: 30rem;
+    min-height: calc(100% * 7 / 10);
+  }
+}
+@media (max-width: 512px) {
+  .profileBadge {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+// @media (max-width: 425px) {
+//   .profileBadge {
+//     min-width: 2rem;
+//     min-height: 2rem;
+//   }
+// }
+// @media (max-width: 375px) {
+//   .profileBadge {
+//     min-width: 20rem;
+//     min-height: 14rem;
+//   }
+// }
+// @media (max-width: 320px) {
+//   .profileBadge {
+//     min-width: 20rem;
+//     min-height: 14rem;
+//   }
+// }

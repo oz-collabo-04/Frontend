@@ -1,4 +1,4 @@
-import { client } from '@/api/client';
+import { client } from '@/api/axiosInstance';
 import XSmallTitle from '@/components/Title/XSmallTitle';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
@@ -13,7 +13,7 @@ interface LoginProps {
 export default function CallbackPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setName, email, id } = useUserStateStore();
   const { provider } = useLoginProviderStore();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function CallbackPage() {
 
         if (provider === 'naver' && state) {
           requestData.state = state;
-        } else if (provider === 'google' && provider === 'google') {
+        } else if (provider === 'google' || provider === 'kakao') {
           requestData.state = null;
         }
 
@@ -40,16 +40,22 @@ export default function CallbackPage() {
         console.log('Response:', response);
 
         const { access_token } = response.data;
-        // const { userType } = response.data;
+        const { email, id, is_expert, name, profile_image } = response.data.user;
         if (access_token) {
           localStorage.setItem('access_token', access_token);
-          // localStorage.setItem('userType', userType);
-          setIsLoggedIn(true);
-          // setUserType(userType);
-          if (window.opener) {
-            window.opener.location.href = '/';
+          localStorage.setItem('email', email);
+          localStorage.setItem('user_id', id);
+          localStorage.setItem('profile_image', profile_image);
+          if (setIsLoggedIn && setIsExpert && setName) {
+            setIsLoggedIn(true);
+            setIsExpert(is_expert);
+            setName(name);
+            
           }
-          window.close();
+          // if (window.opener) {
+          //   window.opener.location.href = '/';
+          // }
+          // window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }
