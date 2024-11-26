@@ -15,22 +15,25 @@ export default function LoginPage() {
 
   const loginPopup = (provider: 'naver' | 'google' | 'kakao') => {
     setProvider(provider);
+    let url = '';
+    switch (provider) {
+      case null:
+        break;
+      case 'naver':
+        url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`;
+        window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
+        break;
+      case 'google':
+        url = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${googleClientID}&redirect_uri=${redirectBaseURL}/google/callback/&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&prompt=select_account`;
+        window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
+        break;
+      case 'kakao':
+        url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientID}&redirect_uri=${redirectBaseURL}/kakao/callback/&state=1234`;
+        window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
+        break;
+      default:
+    }
   };
-  let url = '';
-
-  switch (provider) {
-    case 'naver':
-      url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`;
-      break;
-    case 'google':
-      url = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${googleClientID}&redirect_uri=${redirectBaseURL}/google/callback/&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&prompt=select_account`;
-      break;
-    case 'kakao':
-      url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientID}&redirect_uri=${redirectBaseURL}/kakao/callback/&state=1234`;
-      break;
-  }
-
-  window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
 
   // const naverLoginPopup = () => {
   //   setProvider('naver');
