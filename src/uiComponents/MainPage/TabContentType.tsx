@@ -2,8 +2,6 @@ import ProfileBadge from '@/components/Badge/ProfileBadge';
 import defaultImg from '@/assets/images/기본이미지.jpg';
 import LargeTitle from '@/components/Title/LargeTitle';
 
-import { useEffect } from 'react';
-
 interface tabContentsTypeProps {
   src: string;
   title: string;
@@ -11,8 +9,7 @@ interface tabContentsTypeProps {
   description: string;
 }
 
-export default function TabContentType1({ src, title, name, description }: tabContentsTypeProps) {
-  useEffect(()=>{})
+export default function TabContentType({ src, title, name, description }: tabContentsTypeProps) {
   return (
     <>
       <div className='tabContentsType'>

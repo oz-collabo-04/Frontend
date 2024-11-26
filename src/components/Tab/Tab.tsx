@@ -7,13 +7,15 @@ interface TabProps {
     content: ReactNode; // 탭에 표시될 내용 (컴포넌트)
   }[];
   extraClass?: string;
+  onTabChange?: (index: number) => void;
 }
 
-const Tab = ({ tabs, extraClass }: TabProps) => {
+const Tab = ({ tabs, extraClass, onTabChange = () => {} }: TabProps) => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
+    onTabChange(index);
   };
 
   return (
