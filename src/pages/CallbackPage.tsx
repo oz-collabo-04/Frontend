@@ -13,7 +13,7 @@ interface LoginProps {
 export default function CallbackPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setIsExpert, setName, email, id } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setName } = useUserStateStore();
   const { provider } = useLoginProviderStore();
 
   useEffect(() => {
@@ -50,11 +50,10 @@ export default function CallbackPage() {
             setIsLoggedIn(true);
             setIsExpert(is_expert);
             setName(name);
-            
           }
-          // if (window.opener) {
-          //   window.opener.location.href = '/';
-          // }
+          if (window.opener) {
+            window.opener.location.href = '/';
+          }
           // window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
@@ -64,7 +63,7 @@ export default function CallbackPage() {
       }
     };
     socialLoginHandler();
-  }, [location, navigate, provider, setIsLoggedIn]);
+  }, [location, navigate, provider, setIsExpert, setIsLoggedIn, setName]);
 
   return (
     <>
