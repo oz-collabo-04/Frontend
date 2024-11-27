@@ -13,7 +13,7 @@ interface InputProps {
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type, width, height, value, placeholder, disabled, onChange }, ref) => {
+  ({ type, width, height, value, placeholder, disabled = false, onChange }, ref) => {
     return (
       <input
         type={type}

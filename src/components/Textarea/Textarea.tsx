@@ -6,7 +6,7 @@ interface TextareaProps {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const Textarea = ({ width, height, placeholder, disabled, onChange }: TextareaProps) => {
+const Textarea = ({ width, height, placeholder, disabled = false, onChange }: TextareaProps) => {
   return (
     <textarea
       className='comTextarea'

@@ -9,7 +9,7 @@ interface CheckboxProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Checkbox = ({ idFor, content, checked, disabled, name, onChange }: CheckboxProps) => {
+const Checkbox = ({ idFor, content, checked, disabled = false, name, onChange }: CheckboxProps) => {
   return (
     <span className='chkBox'>
       <input

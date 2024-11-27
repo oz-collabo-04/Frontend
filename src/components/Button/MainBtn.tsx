@@ -29,6 +29,7 @@ const MainBtn = ({
 }: BtnProps) => {
   return (
     <button
+      type='button'
       className={`mainBtn ${size} ${extraClass}`}
       style={{ width, height, backgroundColor, borderColor, color }}
       disabled={disabled}
