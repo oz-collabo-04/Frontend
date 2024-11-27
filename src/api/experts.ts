@@ -1,5 +1,3 @@
-import { workerStartPromise } from '@/mocks/browsers';
-import axios from 'axios';
 import { auth, client } from './axiosInstance';
 
 interface props {
@@ -8,11 +6,8 @@ interface props {
 }
 
 export const fetchGetExpertRegister = async (id: string) => {
-  await workerStartPromise;
-
   try {
-    // const response = await client.get(`/experts/${id}/`);
-    const response = await axios.get(`/mock/experts/register/${id}`);
+    const response = await client.get(`/experts/${id}/`);
     return response.data;
   } catch (err) {
     console.error(err);
@@ -20,11 +15,12 @@ export const fetchGetExpertRegister = async (id: string) => {
 };
 
 export const fetchPostExpertRegister = async (expertRegister: FormData) => {
-  await workerStartPromise;
-
   try {
-    // const response = await auth.post('/experts/register/', expertRegister);
-    const response = await axios.post('/mock/experts/register', expertRegister);
+    const response = await auth.post('/experts/register/', expertRegister, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (err) {
     console.error(err);
@@ -32,11 +28,12 @@ export const fetchPostExpertRegister = async (expertRegister: FormData) => {
 };
 
 export const fetchPatchExpertRegister = async ({ id, formData }: props) => {
-  await workerStartPromise;
-
   try {
-    // const response = await auth.patch(`/experts/${id}/`, formData);
-    const response = await axios.patch(`/mock/experts/register/${id}`, formData);
+    const response = await auth.patch(`/experts/${id}/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (err) {
     console.error(err);

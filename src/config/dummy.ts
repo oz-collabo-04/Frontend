@@ -1,97 +1,5 @@
 import { Expert } from './types';
 
-interface LocationDummy {
-  [key: string]: { [key: string]: string }[] | string;
-}
-
-export const locationDummy: LocationDummy = {
-  경기도: [
-    { 수원시: 'gyeonggi_suwon' },
-    { 고양시: 'gyeonggi_goyang' },
-    { 용인시: 'gyeonggi_yongin' },
-    { 성남시: 'gyeonggi_seongnam' },
-    { 부천시: 'gyeonggi_bucheon' },
-    { 안산시: 'gyeonggi_ansan' },
-    { 안양시: 'gyeonggi_anyang' },
-    { 남양주시: 'gyeonggi_namyangju' },
-    { 화성시: 'gyeonggi_hwaseong' },
-    { 평택시: 'gyeonggi_pyeongtaek' },
-    { 의정부시: 'gyeonggi_uijeongbu' },
-    { 파주시: 'gyeonggi_paju' },
-    { 시흥시: 'gyeonggi_siheung' },
-    { 김포시: 'gyeonggi_gimpo' },
-    { 광명시: 'gyeonggi_gwangmyeong' },
-    { 광주시: 'gyeonggi_gwangju' },
-    { 군포시: 'gyeonggi_gunpo' },
-    { 오산시: 'gyeonggi_osan' },
-    { 이천시: 'gyeonggi_icheon' },
-    { 양주시: 'gyeonggi_yangju' },
-    { 구리시: 'gyeonggi_guri' },
-    { 안성시: 'gyeonggi_anseong' },
-    { 포천시: 'gyeonggi_pocheon' },
-    { 의왕시: 'gyeonggi_uiwang' },
-    { 하남시: 'gyeonggi_hanam' },
-    { 여주시: 'gyeonggi_yeoju' },
-    { 양평군: 'gyeonggi_yangpyeong' },
-    { 동두천시: 'gyeonggi_dongducheon' },
-    { 과천시: 'gyeonggi_gwacheon' },
-    { 가평군: 'gyeonggi_gapyeong' },
-    { 연천군: 'gyeonggi_yeoncheon' },
-  ],
-  경상남도: [
-    { 창원시: 'gyeongnam_changwon' },
-    { 김해시: 'gyeongnam_gimhae' },
-    { 진주시: 'gyeongnam_jinju' },
-    { 양산시: 'gyeongnam_yangsan' },
-    { 거제시: 'gyeongnam_geoje' },
-    { 통영시: 'gyeongnam_tongyeong' },
-    { 사천시: 'gyeongnam_sacheon' },
-    { 밀양시: 'gyeongnam_miryang' },
-    { 함안군: 'gyeongnam_haman' },
-    { 거창군: 'gyeongnam_geochang' },
-    { 창녕군: 'gyeongnam_changnyeong' },
-    { 고성군: 'gyeongnam_goseong' },
-    { 하동군: 'gyeongnam_hadong' },
-    { 합천군: 'gyeongnam_hapcheon' },
-    { 산청군: 'gyeongnam_sancheong' },
-    { 남해군: 'gyeongnam_namhae' },
-    { 의령군: 'gyeongnam_uiryeong' },
-  ],
-  경상북도: [
-    { 포항시: 'gyeongbuk_pohang' },
-    { 경주시: 'gyeongbuk_gyeongju' },
-    { 구미시: 'gyeongbuk_gumi' },
-    { 김천시: 'gyeongbuk_gimcheon' },
-    { 안동시: 'gyeongbuk_andong' },
-    { 영주시: 'gyeongbuk_yeongju' },
-    { 상주시: 'gyeongbuk_sangju' },
-    { 문경시: 'gyeongbuk_mungyeong' },
-    { 경산시: 'gyeongbuk_gyeongsan' },
-    { 영천시: 'gyeongbuk_yeongcheon' },
-    { 의성군: 'gyeongbuk_uiseong' },
-    { 청송군: 'gyeongbuk_cheongsong' },
-    { 영양군: 'gyeongbuk_yeongyang' },
-    { 영덕군: 'gyeongbuk_yeongdeok' },
-    { 청도군: 'gyeongbuk_cheongdo' },
-    { 고령군: 'gyeongbuk_goryeong' },
-    { 성주군: 'gyeongbuk_seongju' },
-    { 칠곡군: 'gyeongbuk_chilgok' },
-    { 예천군: 'gyeongbuk_yecheon' },
-    { 봉화군: 'gyeongbuk_bonghwa' },
-    { 울진군: 'gyeongbuk_uljin' },
-    { 울릉군: 'gyeongbuk_ulreung' },
-  ],
-  제주도: 'jeju',
-  서울특별시: 'seoul',
-  부산광역시: 'busan',
-  인천광역시: 'incheon',
-  대구광역시: 'daegu',
-  대전광역시: 'daejeon',
-  광주광역시: 'gwangju',
-  울산광역시: 'ulsan',
-  세종특별시: 'sejong',
-};
-
 export const expertDummy: Expert[] = [
   {
     id: '1',
@@ -106,7 +14,7 @@ export const expertDummy: Expert[] = [
     careers: [
       {
         title: '결혼식 사회자',
-        explanation: '중소규모 결혼식 전문 사회 진행',
+        description: '중소규모 결혼식 전문 사회 진행',
         start_date: '2020-05-10',
         end_date: '2023-09-20',
       },
@@ -126,7 +34,7 @@ export const expertDummy: Expert[] = [
     careers: [
       {
         title: '세미나 사회자',
-        explanation: '대형 세미나 및 컨퍼런스 전문 진행',
+        description: '대형 세미나 및 컨퍼런스 전문 진행',
         start_date: '2018-03-15',
         end_date: '2023-08-30',
       },
@@ -146,7 +54,7 @@ export const expertDummy: Expert[] = [
     careers: [
       {
         title: '이벤트 사회자',
-        explanation: '지역 축제 및 기업 이벤트 진행',
+        description: '지역 축제 및 기업 이벤트 진행',
         start_date: '2015-06-01',
         end_date: '2022-12-15',
       },
@@ -166,7 +74,7 @@ export const expertDummy: Expert[] = [
     careers: [
       {
         title: '스포츠 경기 사회자',
-        explanation: '지역 및 전국 단위 경기 진행',
+        description: '지역 및 전국 단위 경기 진행',
         start_date: '2017-04-20',
         end_date: '2023-05-15',
       },
@@ -186,7 +94,7 @@ export const expertDummy: Expert[] = [
     careers: [
       {
         title: '소규모 결혼식 사회자',
-        explanation: '제주 지역 결혼식 전문',
+        description: '제주 지역 결혼식 전문',
         start_date: '2019-01-01',
         end_date: null,
       },

@@ -21,14 +21,14 @@ export default function ExpertProfileEditPage() {
   const { addToasts } = useToastStore();
 
   const [profileData, setProfileData] = useState<ExpertRegister>({
-    available_location: expert.available_location ?? [],
+    available_location: expert.id ? (expert.available_location_display! ?? []) : (expert.available_location ?? []),
     appeal: expert.appeal ?? '',
-    service: expert.service ?? '',
+    service: expert.id ? (expert.service_display! ?? []) : (expert.service ?? []),
     careers: expert.careers ?? [],
     expert_image: expert.expert_image ?? '',
   });
 
-  const [isExpert, setIsExpert] = useState(false);
+  const [isExpert, setIsExpert] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
   const [enlocation, setEnLocation] = useState<LocationDummy | []>([]);
   const [enService, setEnService] = useState([]);
@@ -122,7 +122,7 @@ export default function ExpertProfileEditPage() {
     let enServiceString;
 
     Object.entries(enService).filter(
-      ([, value]) => profileData.service === Object.keys(value)[0] && (enServiceString = Object.values(value)[0])
+      ([, value]) => profileData.service === Object.values(value)[1] && (enServiceString = Object.values(value)[0])
     );
 
     const formData = new FormData();

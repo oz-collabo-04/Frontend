@@ -1,5 +1,4 @@
-import { services } from '@/config/const';
-import { expertDummy, locationDummy, reservationsDummy } from '@/config/dummy';
+import { expertDummy, reservationsDummy } from '@/config/dummy';
 import { http, HttpResponse } from 'msw';
 
 export const handlers = [
@@ -80,24 +79,6 @@ export const handlers = [
       findExpert.careers = [...findExpert.careers, ...data.careers];
 
     return HttpResponse.json(findExpert, { status: 200 });
-  }),
-
-  http.get('/mock/services/location/list', () => {
-    return HttpResponse.json(locationDummy, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-
-  http.get('/mock/services/list', () => {
-    return HttpResponse.json(services, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
   }),
 
   http.get('/mock/reservations', () => {

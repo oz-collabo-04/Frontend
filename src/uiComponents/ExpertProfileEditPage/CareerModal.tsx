@@ -14,7 +14,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
   const [career, setCareer] = useState<Career>({
     id: Date.now().toString(),
     title: '',
-    explanation: '',
+    description: '',
     start_date: '',
     end_date: null,
   });
@@ -24,7 +24,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
     if (career && careerArray.length >= 5) {
       return true;
     }
-    if (!career.title || !career.explanation || !career.start_date) {
+    if (!career.title || !career.description || !career.start_date) {
       return true;
     }
   };
@@ -43,7 +43,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
     setCareer({
       id: Date.now().toString(),
       title: '',
-      explanation: '',
+      description: '',
       start_date: '',
       end_date: null,
     });
@@ -90,15 +90,15 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
           <textarea
             className='comTextarea'
             placeholder='ex) 100만 규모 결혼식 사회 진행'
-            value={career.explanation || ''}
+            value={career.description || ''}
             onChange={(e) => {
               if (e.target.value.length > 100) {
                 return;
               }
-              setCareer((prev) => ({ ...prev, explanation: e.target.value }));
+              setCareer((prev) => ({ ...prev, description: e.target.value }));
             }}
           />
-          {career.explanation.length > 0 && <span>{career.explanation.length} / 100</span>}
+          {career.description.length > 0 && <span>{career.description.length} / 100</span>}
         </label>
 
         <label>
