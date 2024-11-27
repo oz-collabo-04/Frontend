@@ -1,5 +1,6 @@
 import { client } from '@/api/axiosInstance';
 import XSmallTitle from '@/components/Title/XSmallTitle';
+import { useToastStore } from '@/store/toastStore';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
 import { useEffect } from 'react';
@@ -15,6 +16,7 @@ export default function CallbackPage() {
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsExpert, setName } = useUserStateStore();
   const { provider } = useLoginProviderStore();
+  const { addToasts } = useToastStore();
 
   useEffect(() => {
     const socialLoginHandler = async () => {
