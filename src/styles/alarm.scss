@@ -1,0 +1,66 @@
+@use 'variables' as *;
+
+.alarmBox {
+  position: relative;
+  .alarmBtn {
+    width: 4rem;
+    height: 4rem;
+    font-size: 0;
+    background: $main-color url('/image/alarm_icon.svg') no-repeat 50% 50% / 70%;
+    border-radius: 0.4rem;
+    position: relative;
+    .on {
+      position: absolute;
+      right: 0.6rem;
+      top: 0.6rem;
+      width: 0.6rem;
+      height: 0.6rem;
+      background-color: red;
+      border-radius: 50%;
+    }
+  }
+  .alarmListBox {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    width: 24rem;
+    max-height: 18rem;
+    background-color: rgba($main-color, 0.3);
+    border: 2px solid;
+    border-color: $main-color;
+    border-radius: 0.4rem;
+    overflow: auto;
+    .noAlarm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 8rem;
+      font-size: 1.6rem;
+    }
+    .alarmList {
+      .alarm {
+        // width: 24rem;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid;
+        border-color: $main-color;
+        &:last-child {
+          border-bottom: none;
+        }
+        button {
+          display: -webkit-box;
+          padding: 0 1.2rem;
+          font-size: 1.4rem;
+          line-height: 1.5;
+          text-align: left;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
