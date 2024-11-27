@@ -7,6 +7,8 @@ import '@/styles/MainPage/main.scss';
 import Billboard from '@/uiComponents/MainPage/Billboard';
 import { useEffect, useState } from 'react';
 import { client } from '@/api/axiosInstance';
+import useUserStateStore from '@/store/useUserStateStore';
+import { useToastStore } from '@/store/toastStore';
 
 export interface ExpertProps {
   id: number;
@@ -32,6 +34,8 @@ export interface ExpertProps {
 export default function MainPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
+  const { isLoggedIn, name } = useUserStateStore();
+  const { addToasts } = useToastStore();
 
   const tabs = [
     { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
@@ -39,7 +43,12 @@ export default function MainPage() {
     { label: '영상 촬영', content: <Filming expertData={expertData} /> },
     { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
   ];
-
+  useEffect(() => {
+    if (isLoggedIn) {
+      addToasts({ type: 'success', title: `${name}님, 어서오세요 👋🏻`, id: Date.now().toString() });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addToasts, isLoggedIn]);
   useEffect(() => {
     const fetchExpertList = async () => {
       const services = ['mc', 'singer', 'video', 'snap'];
