@@ -1,5 +1,5 @@
 import { fetchServiceLocation } from '@/api/services';
-import LoadingSpinner from '@/components/LodingSpinner/LodingSpinner';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import Select from '@/components/Select/Select';
 import '@/styles/ExpertProfileEditPage/location.scss';
 import { useEffect, useState } from 'react';
