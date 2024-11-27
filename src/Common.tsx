@@ -5,6 +5,7 @@ import {
   CheckBoxContent,
   CheckboxDefault,
   CheckBoxDisabled,
+  confirmDefault,
   FuncTitleCode,
   iconBtnDefault,
   iconBtnIsFull,
@@ -65,9 +66,14 @@ import { useState } from 'react';
 import PageTitle from './components/PageTitle/PageTitle';
 import defaultImg from '@/assets/images/dalbong.jpg';
 import Select from './components/Select/Select';
+import { useConfirmStore } from './store/confirmStore';
+import Confirm from './components/Confirm/Confirm';
+import { useToastStore } from './store/toastStore';
 
 function Common() {
   const { openModal } = useModalStore();
+  const { openConfirm, closeConfirm } = useConfirmStore();
+  const { addToasts } = useToastStore();
 
   const [amount, setAmount] = useState<string | number>('');
 
@@ -647,7 +653,7 @@ function Common() {
 
       {/* MODAL */}
       <div className='commonBox'>
-        <h6 className='title'>Modal</h6>
+        <h6 className='title'>Modal / Confirm</h6>
         <div className='table-box'>
           <table>
             <colgroup>
@@ -692,6 +698,35 @@ function Common() {
                 <td>
                   <code>{modalSize}</code>
                   <CopyButton code={modalSize} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <MainBtn name='confirm' onClick={() => openConfirm('confirm')} />
+                  <Confirm
+                    confirmId='confirm'
+                    title='Title'
+                    content='Content'
+                    width='35em'
+                    height='17vh'
+                    borderRadius='2rem'
+                    trueBtn={true}
+                    trueBtnName='확인'
+                    trueBtnOnClick={() => {
+                      addToasts({ type: 'success', title: '확인되었습니다.', id: Date.now().toString() });
+                      closeConfirm('confirm');
+                    }}
+                    falseBtn={true}
+                    falseBtnName='취소'
+                    falseBtnOnClick={() => {
+                      addToasts({ type: 'error', title: '취소되었습니다.', id: Date.now().toString() });
+                      closeConfirm('confirm');
+                    }}
+                  />
+                </td>
+                <td>
+                  <code>{confirmDefault}</code>
+                  <CopyButton code={confirmDefault} />
                 </td>
               </tr>
             </tbody>
