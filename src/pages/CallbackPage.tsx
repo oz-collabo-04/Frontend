@@ -51,10 +51,10 @@ export default function CallbackPage() {
             setIsExpert(is_expert);
             setName(name);
           }
-          if (window.opener) {
-            window.opener.location.href = '/';
-          }
-          // window.close();
+          // if (window.opener) {
+          //   window.opener.location.href = '/';
+          // }
+          // // window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }

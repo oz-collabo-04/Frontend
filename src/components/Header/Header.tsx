@@ -4,10 +4,29 @@ import '@/global.scss';
 import MainBtn from '../Button/MainBtn';
 import LargeTitle from '../Title/LargeTitle';
 import useUserStateStore from '@/store/useUserStateStore';
+import { auth } from '@/api/axiosInstance';
 
 const Header = () => {
+  const { setIsLoggedIn, setName } = useUserStateStore();
   const userLogin = useUserStateStore((state) => state.isLoggedIn);
   console.log(userLogin);
+
+  const OnClick = () => {
+    const logout = async () => {
+      try {
+        const response = await auth.post('users/logout/');
+        console.log('로그아웃에 성공했습니다. 메인페이지로 이동합니다...', response.data);
+        if (setIsLoggedIn && setName) {
+          setIsLoggedIn(false);
+          setName(null);
+        }
+        localStorage.clear();
+      } catch (error) {
+        console.error('로그아웃 중에 오류가 발생했습니다', error);
+      }
+    };
+    logout();
+  };
 
   return (
     <header className='headerNavBar'>
@@ -60,7 +79,7 @@ const Header = () => {
                   </li>
                   <li className='btn'>
                     <Link to='/' aria-label='메인 페이지로 이동'>
-                      <MainBtn name='로그아웃' width='auto' />
+                      <MainBtn name='로그아웃' width='auto' onClick={OnClick} />
                     </Link>
                   </li>
                 </ul>

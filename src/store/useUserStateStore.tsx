@@ -7,7 +7,7 @@ interface UserState {
   isExpert: true | false | null;
   setIsExpert?: (userType: true | false | null) => void;
   name: string | null;
-  setName?: (name: string) => void;
+  setName?: (name: string | null) => void;
 }
 
 // const useUserStateStore = create<UserState>((set) => ({
