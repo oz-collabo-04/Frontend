@@ -28,6 +28,15 @@ const UserEstimationPage = () => {
               <Checkbox idFor='service3' content='스냅 촬영' />
               <Checkbox idFor='service4' content='축가 가수' />
             </div>
+            <div className='gender'>
+              <XSmallTitle title='전문가 선호 성별' />
+              <div className='choose'>
+                <Radio idFor='man' content='남성' name='gender' />
+                <Radio idFor='women' content='여성' name='gender' />
+                <Radio idFor='anyGender' content='상관 없음' name='gender' />
+              </div>
+            </div>
+            <div></div>
           </div>
           <div className='date'>
             <SmallTitle title='희망 일정 선택' />
