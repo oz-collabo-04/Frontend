@@ -6,7 +6,7 @@ import { ReservationSection } from '@/uiComponents/MyPage/ReservationSection';
 export default function Mypage() {
   // const [isExpert, setIsExpert] = useState(true); // 임시코드. 전문가 여부에 따라 수정 예정
 
-  const isExpert = true;
+  const isExpert = false;
 
   return (
     <div className='myPage contentLayout'>

@@ -4,12 +4,15 @@ import '@/global.scss';
 import MainBtn from '../Button/MainBtn';
 import LargeTitle from '../Title/LargeTitle';
 import useUserStateStore from '@/store/useUserStateStore';
+import { useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 
 const Header = () => {
   const { setIsLoggedIn, setName } = useUserStateStore();
   const userLogin = useUserStateStore((state) => state.isLoggedIn);
-  console.log(userLogin);
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  console.log(menuVisible);
 
   const OnClick = () => {
     const logout = async () => {
@@ -68,7 +71,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to='/chatpage' aria-label='채팅 리스트 페이지로 이동'>
+                    <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
                       채팅
                     </Link>
                   </li>
@@ -88,10 +91,36 @@ const Header = () => {
           </div>
         </div>
         <div className='headerMiniMenu'>
-          <input type='checkbox' id='menuToggle' className='menuToggle' />
-          <label htmlFor='menuToggle' className='iconMenu' aria-label='메뉴 열기'>
-            &#9776;
-          </label>
+          <span className='iconMenu'>
+            <button type='button' className='menuBtn' onClick={() => setMenuVisible((prev) => !prev)}>
+              &#9776;
+            </button>
+          </span>
+          {menuVisible && (
+            <div className='sliderMenu'>
+              {!userLogin ? (
+                <>
+                  <div>견적요청</div>
+                  <div>공통UI</div>
+                  <div>-</div>
+                  <div>로그인</div>
+                </>
+              ) : (
+                <>
+                  <div>프로필</div>
+                  <div>마이페이지</div>
+                  <div>견적요청</div>
+                  <hr />
+                  <div>전문가 전환</div>
+                  <hr />
+                  <div>받은 견적</div>
+                  <div>채팅</div>
+                  <hr />
+                  <div>로그아웃</div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </header>
