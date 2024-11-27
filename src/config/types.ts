@@ -5,6 +5,7 @@ export interface User {
 }
 
 export interface Expert extends ExpertRegister {
+  profile_image: string;
   id: string;
   user: User;
 }
