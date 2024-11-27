@@ -1,4 +1,5 @@
 import { fetchServiceLocation } from '@/api/services';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import Select from '@/components/Select/Select';
 import '@/styles/ExpertProfileEditPage/location.scss';
 import { useEffect, useState } from 'react';
@@ -24,6 +25,7 @@ export default function LocationModal({
   setSelectDetailData,
   setNoSelect,
 }: Props) {
+  const [isData, setIsData] = useState<boolean>(false);
   const [locationData, setLocationData] = useState<LocationDummy | []>([]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
@@ -32,6 +34,7 @@ export default function LocationModal({
       try {
         const data = await fetchServiceLocation();
         setLocationData(data);
+        setIsData(true);
         return data;
       } catch (err) {
         console.error(err);
@@ -61,7 +64,7 @@ export default function LocationModal({
       <div className='detailLocation'>
         {typeof detailData === 'object' &&
           detailData
-            .map((data) => Object.keys(data)[0])
+            .map((data) => Object.keys(data)[0].split(' ')[1])
             .map((el, i) => (
               <p onClick={() => setSelectDetailData(el)} key={i}>
                 {el}
@@ -70,6 +73,10 @@ export default function LocationModal({
       </div>
     );
   };
+
+  if (!isData) {
+    return <LoadingSpinner className='locationModalLoading' />;
+  }
 
   return (
     <div className='locationModal'>

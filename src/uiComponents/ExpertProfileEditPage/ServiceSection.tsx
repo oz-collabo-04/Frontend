@@ -12,6 +12,11 @@ type Props = {
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
 
+type ServiceArray = {
+  key: string;
+  label: string;
+};
+
 type Service = {
   name: string;
   check: boolean;
@@ -19,7 +24,7 @@ type Service = {
 
 export default function ServiceSection({ isExpert, profileData, setProfileData }: Props) {
   const { openModal, closeModal } = useModalStore();
-  const [serviceName, setServiceName] = useState([]);
+  const [serviceName, setServiceName] = useState<ServiceArray[]>([]);
   const [isChecked, setIsChecked] = useState<Service[]>([]);
 
   useEffect(() => {
@@ -46,8 +51,8 @@ export default function ServiceSection({ isExpert, profileData, setProfileData }
               setIsChecked(
                 serviceName
                   ? serviceName.map((name) => ({
-                      name: Object.keys(name)[0],
-                      check: profileData.service === Object.keys(name)[0],
+                      name: Object.values(name)[1],
+                      check: profileData.service === Object.values(name)[1],
                     }))
                   : []
               );

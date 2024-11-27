@@ -5,13 +5,12 @@ export interface User {
 }
 
 export interface Expert extends ExpertRegister {
-  profile_image: string;
   id: string;
   user: User;
 }
 export interface Career {
   title: string;
-  explanation: string;
+  description: string;
   start_date: string;
   end_date: string | null;
   id?: string;
@@ -19,8 +18,10 @@ export interface Career {
 
 export interface ExpertRegister {
   available_location: string[];
+  available_location_display?: string[];
   appeal: string;
   service: string;
+  service_display?: string;
   careers: Career[];
   expert_image: string;
   standard_charge?: string;

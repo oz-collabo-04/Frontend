@@ -35,15 +35,31 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
     return locationArray && locationArray.length > 4 ? (
       <>
         {!moreData && <p>{`${locationArray[0]} 외 ${locationArray.length - 1}곳`}</p>}
-        {moreData && locationArray.map((data, i) => <p key={i}>{data}</p>)}
+        {moreData &&
+          locationArray.map((data, i) => (
+            <p key={i}>
+              {data}
+              {i < locationArray.length - 1 && ','}
+            </p>
+          ))}
         <button onClick={() => setMoreData((e) => !e)}>{moreData ? '(간략하게)' : '(더보기)'}</button>
       </>
     ) : (
-      locationArray.map((data, i) => <p key={i}>{data}</p>)
+      locationArray.map((data, i) => (
+        <p key={i}>
+          {data}
+          {i < locationArray.length - 1 && ','}
+        </p>
+      ))
     );
   };
 
   const addDataFuction = (location: string) => {
+    if (profileData.available_location.length > 4) {
+      addToasts({ type: 'error', title: '활동 지역은 최대 5개까지 입니다.', id: Date.now().toString() });
+      return;
+    }
+
     let noSelectCheck: boolean = false;
 
     noSelectCheck = [...noSelect].some((data) =>

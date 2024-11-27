@@ -1,4 +1,4 @@
-import './loadingspinner.scss';
+import '@/styles/loadingspinner.scss';
 
 interface LoadingSpinnerProps {
   className?: string;
@@ -7,7 +7,7 @@ interface LoadingSpinnerProps {
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ className = '' }) => {
   return (
     <div className={`loadingspinner ${className}`}>
-      <div className="spinner"></div>
+      <div className='spinner'></div>
     </div>
   );
 };
