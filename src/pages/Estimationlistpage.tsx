@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
 import ExpertProfileModal from '@/uiComponents/ExpertProfileEditPage/ExpertProfileModal'
 import { useModalStore } from '@/store/modalStore'
+import { auth } from '@/api/axiosInstance'
 
 interface Career {
   id: number;
@@ -16,23 +16,24 @@ interface Career {
   end_date: string;
 }
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  phone_number: string;
-  gender: string;
-}
-
 interface Expert {
   id: number;
+  rating: string; 
   expert_image: string;
-  service: string;
+  service: 'mc' 
   standard_charge: number;
   appeal: string;
   available_location: string;
   user: User;
   careers: Career[];
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  gender: 'M' | 'F'; 
 }
 
 interface Estimation {
@@ -41,7 +42,7 @@ interface Estimation {
   expert: Expert;
   location: string;
   due_date: string;
-  service: string;
+  service: 'mc' 
   charge: number;
   created_at: string;
   updated_at: string;
@@ -70,7 +71,6 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
           height="8rem"
           src={estimation.expert.expert_image}
           borderRadius={'1.2rem'}
-          // alt={`${estimation.expert.user.name}의 프로필 이미지`}
         />
       </div>
       <p className="estimationCardPrice">{estimation.charge.toLocaleString()}원</p>
@@ -103,55 +103,14 @@ const EstimationList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  axios.interceptors.response.use(
-    (response) => {
-      console.log('Axios Interceptor - Response:', response);
-      return response;
-    },
-    (error) => {
-      console.error('Axios Interceptor - Error:', error);
-      return Promise.reject(error);
-    }
-  );
-
   const fetchEstimations = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('/estimations/');
-      console.log('API Response Type:', typeof response.data);
-      console.log('API Response:', response.data);
-      if (typeof response.data === 'string') {
-        try {
-          const parsedData = JSON.parse(response.data);
-          console.log('Parsed API Response:', parsedData);
-          if (Array.isArray(parsedData)) {
-            setEstimations(parsedData);
-            return;
-          }
-        } catch (parseError) {
-          console.error('Failed to parse API response:', parseError);
-        }
-      } else if (Array.isArray(response.data)) {
-        setEstimations(response.data);
-      } else if (response.data && typeof response.data === 'object') {
-        // 응답이 객체인 경우, 배열을 포함하는 키를 찾아봅니다.
-        const arrayData = Object.values(response.data).find(Array.isArray);
-        if (arrayData) {
-          setEstimations(arrayData);
-        } else {
-          throw new Error('API 응답에서 배열 데이터를 찾을 수 없습니다.');
-        }
-      } else {
-        throw new Error(`예상치 못한 API 응답 형식: ${typeof response.data}`);
-      }
+      const response = await auth.get('/estimations/');
+      setEstimations(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(`API 요청 실패: ${err.message}`);
-        console.error('API 요청 에러:', err.response?.data);
-      } else {
-        setError('알 수 없는 오류가 발생했습니다.');
-        console.error('예상치 못한 에러:', err);
-      }
+      setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
+      console.error('API 요청 에러:', err);
     } finally {
       setIsLoading(false);
     }
@@ -177,14 +136,18 @@ const EstimationList: React.FC = () => {
 
     return (
       <div className="estimationGrid">
-        {filteredEstimations.map(estimation => (
+      {filteredEstimations.length === 0 ? (
+        <div className="noEstimations">현재 견적이 없습니다.</div>
+      ) : (
+        filteredEstimations.map(estimation => (
           <EstimationCard 
             key={estimation.id} 
             estimation={estimation}
             onProfileClick={handleProfileClick}
             onChatClick={handleChatClick}
           />
-        ))}
+        ))
+      )}
       </div>
     )
   }
