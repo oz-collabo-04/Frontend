@@ -117,7 +117,7 @@ const EstimationList: React.FC = () => {
   const fetchEstimations = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('/api/v1/estimations/');
+      const response = await axios.get('/estimations/');
       console.log('API Response Type:', typeof response.data);
       console.log('API Response:', response.data);
       if (typeof response.data === 'string') {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { MapPin } from 'lucide-react'
 import MainBtn from '@/components/Button/MainBtn'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
@@ -7,6 +6,7 @@ import ExpertModal from '@/uiComponents/ExpertProfileEditPage/ExpertModal'
 import { useModalStore } from '@/store/modalStore'
 import { useCategoryStore } from '@/store/expertListStore'
 import '@/styles/Expertlistpage/expertlistpage.scss'
+import { auth } from '@/api/axiosInstance'
 
 interface Expert {
   id: number;
@@ -41,7 +41,7 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
   onProfileClick
 }) => {
   if (!expert || !expert.request) {
-    return null; // 또는 로딩 상태를 표시하는 컴포넌트를 반환
+    return null;
   }
 
   return (
@@ -112,14 +112,12 @@ const Expertlistpage: React.FC = () => {
     const fetchExperts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('/api/v1/experts/{expert_id}/estimations/request/');
-        console.log('API Response:', response.data); // 응답 로깅
+        const response = await auth.get('/experts/estimations/requests/');
+        console.log('API Response:', response.data);
 
-        // 응답이 배열인지 확인하고 처리
         const expertsData = Array.isArray(response.data) ? response.data : [response.data];
         setExperts(expertsData);
         
-        // Initialize categories in the global store
         expertsData.forEach((expert: Expert) => {
           if (expert && expert.request && expert.request.service_list) {
             setCategory(expert.id, expert.request.service_list.join(', '));
@@ -163,7 +161,7 @@ const Expertlistpage: React.FC = () => {
           ))}
         </div>
       </main>
-      <ExpertModal expertId={selectedExpertId} modalId={''} />
+      <ExpertModal expertId={selectedExpertId} modalId="expertProfile" />
     </div>
   )
 }
