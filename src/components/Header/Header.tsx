@@ -19,13 +19,15 @@ const Header = () => {
       try {
         const response = await auth.post('users/logout/');
         console.log('로그아웃에 성공했습니다. 메인페이지로 이동합니다...', response.data);
+
+        localStorage.clear();
+      } catch (error) {
+        console.error('로그아웃 중에 오류가 발생했습니다', error);
+        localStorage.clear();// 이 부분 쿠키 해결되면 지워야 함!!
         if (setIsLoggedIn && setName) {
           setIsLoggedIn(false);
           setName(null);
         }
-        localStorage.clear();
-      } catch (error) {
-        console.error('로그아웃 중에 오류가 발생했습니다', error);
       }
     };
     logout();

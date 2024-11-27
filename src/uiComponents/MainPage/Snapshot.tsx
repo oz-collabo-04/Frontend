@@ -1,6 +1,10 @@
+import { ExpertProps } from '@/pages/MainPage';
 import TabContentType from './TabContentType';
 
-export default function Snapshot() {
+interface ExpertData {
+  expertData: ExpertProps[] | null;
+}
+export default function Snapshot({ expertData }: ExpertData) {
   return (
     <>
       <div>

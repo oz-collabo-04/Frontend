@@ -1,6 +1,6 @@
 import TabContentType from './TabContentType';
 
-export default function Singer() {
+export default function Singer({expertData}) {
   return (
     <>
       <div>

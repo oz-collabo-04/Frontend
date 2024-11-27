@@ -1,6 +1,6 @@
 import TabContentType from './TabContentType';
 
-export default function Filming() {
+export default function Filming({expertData}) {
   return (
     <>
       <div>

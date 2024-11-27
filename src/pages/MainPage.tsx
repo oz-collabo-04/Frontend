@@ -8,14 +8,36 @@ import Billboard from '@/uiComponents/MainPage/Billboard';
 import { useEffect, useState } from 'react';
 import { client } from '@/api/axiosInstance';
 
+export interface ExpertProps {
+  id: number;
+  expert_image: string;
+  service: string;
+  standard_charge: number;
+  appeal: string;
+  available_location: string[];
+  careers: {
+    id: number;
+    title: string;
+    description: string;
+    start_date: string;
+    end_date: string | null;
+  }[];
+  user: {
+    id: number;
+    name: string;
+    gender: 'M' | 'F';
+  };
+}
+
 export default function MainPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
+  const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
 
   const tabs = [
-    { label: '결혼식 사회자', content: <WeddingMC /> },
-    { label: '축가 가수', content: <Singer /> },
-    { label: '영상 촬영', content: <Filming /> },
-    { label: '스냅 촬영', content: <Snapshot /> },
+    { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
+    { label: '축가 가수', content: <Singer expertData={expertData} /> },
+    { label: '영상 촬영', content: <Filming expertData={expertData} /> },
+    { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
   ];
 
   useEffect(() => {
@@ -24,9 +46,13 @@ export default function MainPage() {
       const service = services[activeTab] || 'mc';
       try {
         const response = await client.get('/experts', {
-          params: { service },
+          params: {
+            random: true,
+            service: service,
+          },
         });
         console.log('data :', response.data);
+        setExpertData(response.data);
       } catch (error) {
         console.log('API 요청에 실패했습니다 :', error);
       }

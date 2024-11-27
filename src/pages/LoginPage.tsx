@@ -11,7 +11,7 @@ export default function LoginPage() {
   const naverClientID = import.meta.env.VITE_NAVER_CLIENT_ID;
   const googleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const kakaoClientID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-  const { provider, setProvider } = useLoginProviderStore();
+  const { setProvider } = useLoginProviderStore();
 
   const loginPopup = (provider: 'naver' | 'google' | 'kakao') => {
     setProvider(provider);
