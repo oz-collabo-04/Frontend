@@ -75,3 +75,9 @@ interface IReservation {
 }
 
 export type IReservationData = IReservation[]; // 수정: 배열 형태로 직접 문의
+
+export interface Toast {
+  id: string;
+  title: string;
+  type: 'success' | 'error';
+}

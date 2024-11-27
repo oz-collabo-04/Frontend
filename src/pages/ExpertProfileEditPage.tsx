@@ -147,7 +147,7 @@ export default function ExpertProfileEditPage() {
       profileData.appeal !== '' &&
       profileData.available_location.length > 0 &&
       profileData.careers.length > 0 &&
-      profileData.expert_image !== '' &&
+      fileRef.current?.files?.[0] !== undefined &&
       profileData.service !== ''
     ) {
       await postData(formData);
