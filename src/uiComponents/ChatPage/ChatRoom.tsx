@@ -1,5 +1,5 @@
 import InputField from './InputField';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // import socket from '@/config/server';
 import ChatContainer from './ChatContainer';
 
@@ -9,9 +9,9 @@ interface Message {
 }
 
 const ChatRoom = () => {
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user] = useState<{ name: string } | null>(null);
   const [message, setMessage] = useState<string>('');
-  const [messageList, setMessageList] = useState<Message[]>([]);
+  const [messageList] = useState<Message[]>([]);
   console.log('messageList', messageList);
 
   // // 웹소켓 연결
@@ -72,13 +72,13 @@ const ChatRoom = () => {
   //   askUserName();
   // }, []);
 
-  // // 메시지 전송 함수
-  // const sendMessage = (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   socket.emit('sendMessage', message, (res: { ok: boolean }) => {
-  //     console.log('sendMessage res', res);
-  //   });
-  // };
+  // 메시지 전송 함수
+  const sendMessage = (event: React.FormEvent) => {
+    event.preventDefault();
+    // socket.emit('sendMessage', message, (res: { ok: boolean }) => {
+    //   console.log('sendMessage res', res);
+    // });
+  };
 
   return (
     <div className='chatRoom'>
