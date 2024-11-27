@@ -13,6 +13,17 @@ const Header = () => {
   const userLogin = useUserStateStore((state) => state.isLoggedIn);
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
+  const [showAlarm, setShowAlarm] = useState(false);
+
+  const [alarmList, setAlarmList] = useState([
+    { id: 0, alarmContent: '알람 1번' },
+    { id: 1, alarmContent: '알람 2번' },
+    { id: 2, alarmContent: '알람 3번' },
+  ]);
+
+  const handleAlarm = () => {
+    setShowAlarm(!showAlarm);
+  };
 
   console.log(menuVisible);
 
@@ -44,58 +55,94 @@ const Header = () => {
             <LargeTitle title='So New Wedding' fontSize='3.6rem' />
           </Link>
         </h6>
-        <div className='headerWrapper'>
-          <div className='headerLeft'>
-            <nav>
-              <ul className='headerMenu' role='navigation' aria-label='주요 내비게이션'>
-                <li>
-                  <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
-                    견적요청
-                  </Link>
-                </li>
-                {/* 아래는 페이지 이동이 어느정도 완성되면 삭제 되어야 합니다 일단 편하라고 추가했어요 */}
-                <li>
-                  <Link to='/common'>공통UI</Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className='headerRight'>
-            {!userLogin ? (
-              <div className='btn'>
-                <Link to='/login' aria-label='로그인 페이지로 이동'>
-                  <MainBtn name='로그인' width='auto' />
+        <nav className='headerWrapper'>
+          <div className='headerMenu'>
+            <div className='headerNav' role='navigation' aria-label='주요 내비게이션'>
+              <div className='estimationEdit'>
+                <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
+                  견적요청
                 </Link>
               </div>
-            ) : (
-              <nav>
-                <ul className='headerMenu' role='navigation' aria-label='주요 내비게이션'>
-                  <li>
-                    <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
-                      받은견적
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
-                      채팅
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='/mypage' aria-label='마이 페이지로 이동'>
-                      마이페이지
-                    </Link>
-                  </li>
-                  <li className='btn'>
-                    <Link to='/' aria-label='메인 페이지로 이동'>
-                      <MainBtn name='로그아웃' width='auto' onClick={OnClick} />
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+              {!userLogin ? (
+                <div className='loginBtn'>
+                  <Link to='/login' aria-label='로그인 페이지로 이동'>
+                    <MainBtn name='로그인' width='auto' />
+                  </Link>
+                </div>
+              ) : (
+                <div className='headerMenu'>
+                  <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                    <li>
+                      <div className='alarmBox'>
+                        <button className='alarmBtn' onClick={handleAlarm}>
+                          알람
+                          <span className='on'></span>
+                        </button>
+                        {showAlarm && (
+                          <div className='alarmListBox'>
+                            {alarmList.length > 0 ? (
+                              <ul className='alarmList'>
+                                {alarmList.map((alarm) => (
+                                  <li className='alarm' key={alarm.id}>
+                                    <button>{alarm.alarmContent}</button>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <div className='noAlarm'>알람이 없습니다.</div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                    <li>
+                      <Link to='/mypage' aria-label='마이 페이지로 이동'>
+                        마이
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
+                        받은견적
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
+                        채팅
+                      </Link>
+                    </li>
+                    <li className='btn'>
+                      <Link to='/' aria-label='메인 페이지로 이동'>
+                        <MainBtn name='로그아웃' width='auto' onClick={OnClick} />
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
+        <div className='headerMiniMenu'>
+          <div className='alarmBox'>
+            <button className='alarmBtn' onClick={handleAlarm}>
+              알람
+              <span className='on'></span>
+            </button>
+            {showAlarm && (
+              <div className='alarmListBox'>
+                {alarmList.length > 0 ? (
+                  <ul className='alarmList'>
+                    {alarmList.map((alarm) => (
+                      <li className='alarm' key={alarm.id}>
+                        <button>{alarm.alarmContent}</button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className='noAlarm'>알람이 없습니다.</div>
+                )}
+              </div>
             )}
           </div>
-        </div>
-        <div className='headerMiniMenu'>
           <span className='iconMenu'>
             <button type='button' className='menuBtn' onClick={() => setMenuVisible((prev) => !prev)}>
               &#9776;
@@ -104,25 +151,50 @@ const Header = () => {
           {menuVisible && (
             <div className='sliderMenu'>
               {!userLogin ? (
-                <>
-                  <div>견적요청</div>
-                  <div>공통UI</div>
-                  <div>-</div>
-                  <div>로그인</div>
-                </>
+                <div className='loginMenu'>
+                  <div className='estimationEdit'>
+                    <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
+                      견적요청
+                    </Link>
+                  </div>
+                  <hr />
+                  <div className='loginBtn'>
+                    <Link to='/login' aria-label='로그인 페이지로 이동'>
+                      <MainBtn name='로그인' width='auto' />
+                    </Link>
+                  </div>
+                </div>
               ) : (
-                <>
+                <div className='userMenu'>
                   <div>프로필</div>
-                  <div>마이페이지</div>
-                  <div>견적요청</div>
+                  <div>
+                    <Link to='/mypage' aria-label='마이 페이지로 이동'>
+                      마이페이지
+                    </Link>
+                  </div>
+                  <div className='estimationEdit'>
+                    <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
+                      견적요청
+                    </Link>
+                  </div>
                   <hr />
                   <div>전문가 전환</div>
                   <hr />
-                  <div>받은 견적</div>
-                  <div>채팅</div>
+                  <div>
+                    <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
+                      받은견적
+                    </Link>
+                  </div>
+                  <div>
+                    <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
+                      채팅
+                    </Link>
+                  </div>
                   <hr />
-                  <div>로그아웃</div>
-                </>
+                  <Link to='/' aria-label='메인 페이지로 이동' onClick={OnClick}>
+                    로그아웃
+                  </Link>
+                </div>
               )}
             </div>
           )}
