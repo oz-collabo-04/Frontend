@@ -20,7 +20,7 @@ const IconBtn = ({
   src,
   alt,
   fallbackSrc = '/image/default_user_icon.svg',
-  isFull,
+  isFull = false,
   onClick,
 }: IconBtnProps) => {
   const [imgSrc, setImgSrc] = useState(src || fallbackSrc);

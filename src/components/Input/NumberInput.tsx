@@ -9,16 +9,23 @@ interface NumberInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const NumberInput = ({ width, height, placeholder, disabled, value = '', onChange }: NumberInputProps) => {
+const NumberInput = ({ width, height, placeholder, disabled = false, value = '', onChange }: NumberInputProps) => {
   // 숫자를 천 단위 콤마로 포맷하는 함수
   const formatNumber = (num: string | number) => {
     const numericValue = String(num).replace(/\D/g, ''); // 숫자 이외의 문자는 제거
+    if (!numericValue || numericValue === '0') return numericValue; // 0일 때는 그대로 반환
     return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // 천 단위 콤마 추가
   };
 
   // 입력 값 처리 함수
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/,/g, ''); // 콤마를 제거하여 숫자만 남기기
+    let inputValue = e.target.value.replace(/,/g, ''); // 콤마를 제거하여 숫자만 남기기
+
+    // "0"이 두 개 이상 들어오지 않도록 처리
+    if (/^0\d+/.test(inputValue)) {
+      inputValue = inputValue.replace(/^0+/, ''); // 선행하는 "0" 제거
+    }
+
     if (onChange) {
       onChange({
         ...e,
