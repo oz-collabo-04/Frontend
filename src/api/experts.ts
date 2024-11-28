@@ -1,13 +1,8 @@
 import { auth, client } from './axiosInstance';
 
-interface props {
-  id: string;
-  formData: FormData;
-}
-
-export const fetchGetExpertRegister = async (id: string) => {
+export const fetchGetExpertRegister = async () => {
   try {
-    const response = await client.get(`/experts/${id}/`);
+    const response = await client.get('/experts/detail/');
     return response.data;
   } catch (err) {
     console.error(err);
@@ -27,9 +22,9 @@ export const fetchPostExpertRegister = async (expertRegister: FormData) => {
   }
 };
 
-export const fetchPatchExpertRegister = async ({ id, formData }: props) => {
+export const fetchPatchExpertRegister = async (formData: FormData) => {
   try {
-    const response = await auth.patch(`/experts/${id}/`, formData, {
+    const response = await auth.patch('/experts/detail/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

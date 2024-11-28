@@ -11,12 +11,14 @@ import { fetchGetExpertRegister, fetchPatchExpertRegister, fetchPostExpertRegist
 import { useExpertStore } from '@/store/expertStore';
 import { useToastStore } from '@/store/toastStore';
 import { fetchServiceLocation, fetchServiceServices } from '@/api/services';
+// import useUserStateStore from '@/store/useUserStateStore';
 
 interface LocationDummy {
   [key: string]: { [key: string]: string }[] | string;
 }
 
 export default function ExpertProfileEditPage() {
+  // const {isExpert, setIsExpert} = useUserStateStore()
   const { expert, setExpert } = useExpertStore();
   const { addToasts } = useToastStore();
 
@@ -39,16 +41,16 @@ export default function ExpertProfileEditPage() {
   }, []);
 
   useEffect(() => {
-    if (expert.id && isExpert) {
-      getData(expert.id);
+    if (isExpert) {
+      getData();
 
       console.log('전문가 정보', expert);
     }
-  }, [expert.id, isExpert]);
+  }, [isExpert]);
 
-  const getData = async (id: string) => {
+  const getData = async () => {
     try {
-      const data = await fetchGetExpertRegister(id);
+      const data = await fetchGetExpertRegister();
       console.log('get', data);
 
       setExpert(data);
@@ -66,17 +68,16 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchPostExpertRegister(formData);
       console.log('post', data);
-
-      setExpert({ id: data.id });
     } catch (err) {
       console.error(err);
     }
   };
 
-  const patchData = async (id: string, formData: FormData) => {
+  const patchData = async (formData: FormData) => {
     try {
-      const data = await fetchPatchExpertRegister({ id, formData });
+      const data = await fetchPatchExpertRegister(formData);
       console.log('patch', data);
+      setExpert(data);
     } catch (err) {
       console.error(err);
     }
@@ -141,20 +142,22 @@ export default function ExpertProfileEditPage() {
     }
 
     if (isExpert) {
-      await patchData(expert.id, formData);
+      await patchData(formData);
       addToasts({ type: 'success', title: '프로필이 수정되었습니다.', id: Date.now().toString() });
-    } else if (
-      profileData.appeal !== '' &&
-      profileData.available_location.length > 0 &&
-      profileData.careers.length > 0 &&
-      fileRef.current?.files?.[0] !== undefined &&
-      profileData.service !== ''
-    ) {
-      await postData(formData);
-      setIsExpert(true);
-      addToasts({ type: 'success', title: '프로필이 등록되었습니다.', id: Date.now().toString() });
     } else {
-      addToasts({ type: 'error', title: '모두 입력하셔야 합니다', id: Date.now().toString() });
+      if (
+        profileData.appeal !== '' &&
+        profileData.available_location.length > 0 &&
+        profileData.careers.length > 0 &&
+        fileRef.current?.files?.[0] !== undefined &&
+        profileData.service !== ''
+      ) {
+        await postData(formData);
+        setIsExpert(true);
+        addToasts({ type: 'success', title: '프로필이 등록되었습니다.', id: Date.now().toString() });
+      } else {
+        addToasts({ type: 'error', title: '모두 입력하셔야 합니다', id: Date.now().toString() });
+      }
     }
   };
 
