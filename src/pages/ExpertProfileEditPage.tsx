@@ -30,7 +30,7 @@ export default function ExpertProfileEditPage() {
     expert_image: expert.expert_image ?? '',
   });
 
-  const [isExpert, setIsExpert] = useState(true);
+  const [isExpert, setIsExpert] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [enlocation, setEnLocation] = useState<LocationDummy | []>([]);
   const [enService, setEnService] = useState([]);
@@ -40,18 +40,27 @@ export default function ExpertProfileEditPage() {
     serviceData();
   }, []);
 
-  useEffect(() => {
-    if (isExpert) {
-      getData();
+  // useEffect(() => {
+  //   if (isExpert) {
+  //     getData();
 
-      console.log('전문가 정보', expert);
-    }
-  }, [isExpert]);
+  //     console.log('전문가 정보', expert);
+  //   }
+  // }, [isExpert]);
+
+  useEffect(() => {
+    getData();
+
+    console.log('전문가 정보', expert);
+  }, []);
 
   const getData = async () => {
     try {
       const data = await fetchGetExpertRegister();
       console.log('get', data);
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      data === undefined ? setIsExpert(false) : setIsExpert(true);
 
       setExpert(data);
 
@@ -132,7 +141,7 @@ export default function ExpertProfileEditPage() {
       formData.append('expert_image', fileRef.current?.files?.[0]);
     }
 
-    formData.append('available_location', JSON.stringify(enLocationArray));
+    enLocationArray.map((location) => formData.append('available_location', location));
     formData.append('appeal', profileData.appeal);
     formData.append('service', enServiceString!);
     formData.append('careers', JSON.stringify(profileData.careers));

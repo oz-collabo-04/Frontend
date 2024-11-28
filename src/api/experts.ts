@@ -1,8 +1,8 @@
-import { auth, client } from './axiosInstance';
+import { auth } from './axiosInstance';
 
 export const fetchGetExpertRegister = async () => {
   try {
-    const response = await client.get('/experts/detail/');
+    const response = await auth.get('/experts/detail/');
     return response.data;
   } catch (err) {
     console.error(err);

@@ -65,7 +65,15 @@ export default function CareerSection({ isExpert, profileData, setProfileData }:
         firstBtn={careerArray.length || profileData.careers.length ? true : false}
         firstBtnName='저장하기'
         firstBtnOnClick={() => {
-          setProfileData((prev) => ({ ...prev, careers: careerArray }));
+          const newArray: Career[] = [];
+
+          Object.values(careerArray).map((career) => {
+            const obj = career;
+            const { id, ...rest } = obj;
+            return newArray.push(rest);
+          });
+
+          setProfileData((prev) => ({ ...prev, careers: newArray }));
           closeModal('careerModal');
         }}
       />
