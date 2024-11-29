@@ -1,9 +1,9 @@
 import { client } from '@/api/axiosInstance';
-import XSmallTitle from '@/components/Title/XSmallTitle';
-import { useToastStore } from '@/store/toastStore';
+import LoadingSpinner from '@/components/LodingSpinner/LodingSpinner';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
-import { useEffect } from 'react';
+import '@/styles/CallbackPage/callbackPage.scss';
+import { useEffect} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LoginProps {
@@ -67,8 +67,8 @@ export default function CallbackPage() {
   }, [location, navigate, provider, setIsExpert, setIsLoggedIn, setName]);
 
   return (
-    <>
-      <XSmallTitle title='로그인 중입니다....' />
-    </>
+    <div className='loginLoadingSpinnerBox'>
+      <LoadingSpinner />
+    </div>
   );
 }
