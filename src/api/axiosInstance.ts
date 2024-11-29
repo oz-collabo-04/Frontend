@@ -40,7 +40,7 @@ auth.interceptors.request.use(
 const refreshAccessToken = async (): Promise<string | null> => {
   try {
     const accessToken = getAccessToken();
-    const response = await auth.post('users/token/refresh', { access_token: accessToken });
+    const response = await auth.post('users/token/refresh/', { access_token: accessToken });
     const newAccessToken = response.data;
     localStorage.removeItem('access_token');
     localStorage.setItem('access_token', newAccessToken);
@@ -71,3 +71,7 @@ auth.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+let redirectLogin
+
+export const setRedirectFunction = ()=>{}
