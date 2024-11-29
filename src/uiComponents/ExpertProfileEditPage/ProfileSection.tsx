@@ -50,7 +50,7 @@ export default function ProfileSection({ fileRef, profileData, setProfileData }:
             />
           </label>
 
-          {previewImage !== '' && <img src={previewImage} alt='이미지' />}
+          <img src={previewImage !== '' ? previewImage : profileData.expert_image} alt='이미지' />
         </div>
 
         <p>프로필 설명</p>
@@ -58,7 +58,7 @@ export default function ProfileSection({ fileRef, profileData, setProfileData }:
         <textarea
           className='comTextarea'
           placeholder='설명글'
-          value={textChange}
+          value={textChange !== '' ? textChange : profileData.appeal}
           onChange={(e) => {
             if (e.target.value.length > 100) {
               return;
