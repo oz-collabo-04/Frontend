@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { MapPin } from 'lucide-react'
 import MainBtn from '@/components/Button/MainBtn'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
-import ExpertModal from '@/uiComponents/ExpertProfileEditPage/ExpertModal'
+import ExpertModal from '@/uiComponents/Expertlist/ExpertModal'
 import { useModalStore } from '@/store/modalStore'
 import { useCategoryStore } from '@/store/expertListStore'
 import '@/styles/Expertlistpage/expertlistpage.scss'
 import { auth } from '@/api/axiosInstance'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+
 
 interface Expert {
   id: number;
@@ -18,7 +20,7 @@ interface Expert {
       email: string;
       profile_image: string;
     };
-    service_list: string[];
+    service_list: string[] | string;
     prefer_gender: string;
     wedding_hall: string;
     wedding_datetime: string;
@@ -44,6 +46,10 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
     return null;
   }
 
+  const serviceList = Array.isArray(expert.request.service_list)
+    ? expert.request.service_list.join(', ')
+    : expert.request.service_list || 'N/A';
+
   return (
     <div className="expertCard">
       <div className="expertCardHeader">
@@ -54,7 +60,7 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
           borderRadius={'0.8rem'}
         />
         <div className="expertCardInfo">
-          <div className="expertCardCategory">{expert.request.service_list?.join(', ') || 'N/A'}</div>
+          <div className="expertCardCategory">{serviceList}</div>
           <h3 className="expertCardName">{expert.request.user?.name || 'Unknown'}</h3>
         </div>
       </div>
@@ -120,7 +126,10 @@ const Expertlistpage: React.FC = () => {
         
         expertsData.forEach((expert: Expert) => {
           if (expert && expert.request && expert.request.service_list) {
-            setCategory(expert.id, expert.request.service_list.join(', '));
+            const serviceList = Array.isArray(expert.request.service_list)
+              ? expert.request.service_list.join(', ')
+              : expert.request.service_list;
+            setCategory(expert.id, serviceList);
           }
         });
       } catch (error) {
@@ -140,8 +149,9 @@ const Expertlistpage: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
+    return ( <div className="estimationContainer">
+    <LoadingSpinner className="estimationLoading" />
+  </div>)}
 
   if (error) {
     return <div>{error}</div>;
