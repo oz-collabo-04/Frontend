@@ -4,9 +4,10 @@ import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
-import ExpertProfileModal from '@/uiComponents/ExpertProfileEditPage/ExpertProfileModal'
+import ExpertProfileModal from '@/uiComponents/Estimationlist/ExpertProfileModal'
 import { useModalStore } from '@/store/modalStore'
-import { auth } from '@/api/axiosInstance'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import { fetchEstimations } from '@/api/estimations'
 
 interface Career {
   id: number;
@@ -103,21 +104,21 @@ const EstimationList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchEstimations = async () => {
-    setIsLoading(true);
-    try {
-      const response = await auth.get('/estimations/');
-      setEstimations(Array.isArray(response.data) ? response.data : []);
-    } catch (err) {
-      setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
-      console.error('API 요청 에러:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchEstimations();
+    const getEstimations = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchEstimations();
+        setEstimations(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
+        console.error('API 요청 에러:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getEstimations();
   }, []);
 
   const handleProfileClick = (id: number) => {
@@ -158,11 +159,15 @@ const EstimationList: React.FC = () => {
   }))
 
   if (isLoading) {
-    return <div aria-live="polite" aria-busy="true">견적 목록을 불러오는 중...</div>;
+    return (
+      <div className="estimationContainer">
+        <LoadingSpinner className="estimationLoading" />
+      </div>
+    );
   }
 
   if (error) {
-    return <div aria-live="assertive" role="alert">{error}</div>;
+    return <div aria-live="assertive" role="alert" className="estimationError">{error}</div>;
   }
 
   return (
@@ -177,4 +182,3 @@ const EstimationList: React.FC = () => {
 }
 
 export default EstimationList
-
