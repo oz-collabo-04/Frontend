@@ -15,7 +15,7 @@ const Header = () => {
   const { addToasts } = useToastStore();
   const [showAlarm, setShowAlarm] = useState(false);
 
-  const [alarmList, setAlarmList] = useState([
+  const [alarmList /* setAlarmList */] = useState([
     { id: 0, alarmContent: '알람 1번' },
     { id: 1, alarmContent: '알람 2번' },
     { id: 2, alarmContent: '알람 3번' },

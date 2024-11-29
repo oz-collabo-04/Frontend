@@ -7,6 +7,7 @@ interface ExpertData {
   expertData: ExpertProps[] | null;
 }
 export default function Snapshot({ expertData }: ExpertData) {
+  console.log(expertData);
   return (
     <>
       <div>

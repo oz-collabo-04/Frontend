@@ -1,8 +1,12 @@
+import { ExpertProps } from '@/pages/MainPage';
 import TabContentType from './TabContentType';
+
 interface ExpertData {
   expertData: ExpertProps[] | null;
 }
-export default function Filming({expertData}) {
+
+export default function Filming({ expertData }: ExpertData) {
+  console.log(expertData);
   return (
     <>
       <div>

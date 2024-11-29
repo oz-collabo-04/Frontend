@@ -17,6 +17,8 @@ export default function CallbackPage() {
   const { setIsLoggedIn, setIsExpert, setName } = useUserStateStore();
   const { provider } = useLoginProviderStore();
 
+  console.log(addToasts);
+
   useEffect(() => {
     const socialLoginHandler = async () => {
       try {

@@ -4,7 +4,6 @@ import PageTitle from '@/components/PageTitle/PageTitle';
 import MediumTitle from '@/components/Title/MediumTitle';
 import ReservationContent from '@/uiComponents/MyPage/Reservation/ReservationContent';
 import { useEffect, useState } from 'react';
-import { fetchReserveList } from '@/api/reserve';
 import { IReservationData } from '@/config/types';
 
 const ReservationPage = () => {

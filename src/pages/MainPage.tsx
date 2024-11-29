@@ -50,6 +50,7 @@ export default function MainPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     const fetchExpertList = async () => {
       const services = ['mc', 'singer', 'video', 'snap'];
@@ -69,6 +70,7 @@ export default function MainPage() {
     };
     fetchExpertList();
   }, [activeTab]);
+
   return (
     <>
       <div className='mainPage'>
