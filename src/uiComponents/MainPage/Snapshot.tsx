@@ -1,6 +1,8 @@
 import { ExpertProps } from '@/pages/MainPage';
 import TabContentType from './TabContentType';
-
+interface ExpertData {
+  expertData: ExpertProps[] | null;
+}
 interface ExpertData {
   expertData: ExpertProps[] | null;
 }

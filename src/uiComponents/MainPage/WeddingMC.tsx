@@ -12,7 +12,7 @@ export default function WeddingMC({ expertData }: ExpertData) {
           <TabContentType
             key={data.id}
             src={data.expert_image}
-            title={data.service}
+            title={data.service_display}
             name={data.user.name}
             description={data.appeal}
           />

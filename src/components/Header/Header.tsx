@@ -22,6 +22,10 @@ const Header = () => {
         const response = await auth.post('users/logout/');
         console.log('로그아웃에 성공했습니다. 메인페이지로 이동합니다...', response.data);
         localStorage.clear();
+        if (setIsLoggedIn && setName) {
+          setIsLoggedIn(false);
+          setName(null);
+        }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
       } catch (error) {
         console.error('로그아웃 중에 오류가 발생했습니다', error);

@@ -11,6 +11,7 @@ import useUserStateStore from '@/store/useUserStateStore';
 import { useToastStore } from '@/store/toastStore';
 
 export interface ExpertProps {
+  service_display: string;
   id: number;
   expert_image: string;
   service: string;
@@ -47,8 +48,8 @@ export default function MainPage() {
     if (isLoggedIn) {
       addToasts({ type: 'success', title: `${name}님, 어서오세요 👋🏻`, id: Date.now().toString() });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToasts, isLoggedIn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     const fetchExpertList = async () => {
       const services = ['mc', 'singer', 'video', 'snap'];

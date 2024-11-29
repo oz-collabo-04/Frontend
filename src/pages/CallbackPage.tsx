@@ -16,7 +16,6 @@ export default function CallbackPage() {
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsExpert, setName } = useUserStateStore();
   const { provider } = useLoginProviderStore();
-  const { addToasts } = useToastStore();
 
   useEffect(() => {
     const socialLoginHandler = async () => {
