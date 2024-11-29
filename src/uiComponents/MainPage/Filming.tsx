@@ -1,5 +1,7 @@
 import TabContentType from './TabContentType';
-
+interface ExpertData {
+  expertData: ExpertProps[] | null;
+}
 export default function Singer({expertData}) {
   return (
     <>
