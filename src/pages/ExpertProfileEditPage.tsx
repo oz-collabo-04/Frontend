@@ -2,7 +2,7 @@ import '@/styles/ExpertProfileEditPage/main.scss';
 import { useEffect, useRef, useState } from 'react';
 import MainBtn from '@/components/Button/MainBtn';
 import PageTitle from '@/components/PageTitle/PageTitle';
-import { ExpertRegister } from '@/config/types';
+import { Career, ExpertRegister } from '@/config/types';
 import ProfileSection from '@/uiComponents/ExpertProfileEditPage/ProfileSection';
 import LocationSection from '@/uiComponents/ExpertProfileEditPage/LocationSection';
 import ServiceSection from '@/uiComponents/ExpertProfileEditPage/ServiceSection';
@@ -11,10 +11,15 @@ import { fetchGetExpertRegister, fetchPatchExpertRegister, fetchPostExpertRegist
 import { useExpertStore } from '@/store/expertStore';
 import { useToastStore } from '@/store/toastStore';
 import { fetchServiceLocation, fetchServiceServices } from '@/api/services';
+import { useConfirmStore } from '@/store/confirmStore';
+import Confirm from '@/components/Confirm/Confirm';
 // import useUserStateStore from '@/store/useUserStateStore';
 
 interface LocationDummy {
   [key: string]: { [key: string]: string }[] | string;
+}
+interface LocatioinObject {
+  [key: string]: string;
 }
 
 export default function ExpertProfileEditPage() {
@@ -23,9 +28,11 @@ export default function ExpertProfileEditPage() {
   const { addToasts } = useToastStore();
 
   const [profileData, setProfileData] = useState<ExpertRegister>({
-    available_location: expert.id ? (expert.available_location_display! ?? []) : (expert.available_location ?? []),
+    available_location: expert.available_location ?? [],
+    available_location_display: expert.available_location_display! ?? [],
     appeal: expert.appeal ?? '',
-    service: expert.id ? (expert.service_display! ?? []) : (expert.service ?? []),
+    service: expert.service ?? '',
+    service_display: expert.service_display! ?? '',
     careers: expert.careers ?? [],
     expert_image: expert.expert_image ?? '',
   });
@@ -34,6 +41,8 @@ export default function ExpertProfileEditPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [enlocation, setEnLocation] = useState<LocationDummy | []>([]);
   const [enService, setEnService] = useState([]);
+  const { openConfirm, closeConfirm } = useConfirmStore();
+  const [isPrev, setIsPrev] = useState<boolean>(false);
 
   useEffect(() => {
     locationData();
@@ -53,6 +62,26 @@ export default function ExpertProfileEditPage() {
 
     console.log('전문가 정보', expert);
   }, []);
+
+  // const prevCheck = () => {
+  //   if (
+  //     expert.expert_image !== profileData.expert_image ||
+  //     expert.appeal !== profileData.appeal ||
+  //     expert.available_location_display !== profileData.available_location_display ||
+  //     expert.service_display !== profileData.service_display ||
+  //     expert.careers !== profileData.careers
+  //   ) {
+  //     openConfirm('preCheckConfirm');
+  //   }
+  // };
+
+  // const prevUrl = () => {
+  //   if (isPrev === true) {
+  //     return '/';
+  //   } else {
+  //     return '#';
+  //   }
+  // };
 
   const getData = async () => {
     try {
@@ -112,8 +141,8 @@ export default function ExpertProfileEditPage() {
   };
 
   const submitClick = async () => {
-    const length1 = profileData!.available_location.filter((e) => e.split(' ').length === 1);
-    const length2 = profileData!.available_location.filter((e) => e.split(' ').length === 2);
+    const length1 = profileData!.available_location_display!.filter((e) => e.split(' ').length === 1);
+    const length2 = profileData!.available_location_display!.filter((e) => e.split(' ').length === 2);
 
     const enLocationArray: string[] = [];
 
@@ -125,15 +154,28 @@ export default function ExpertProfileEditPage() {
 
     length2.filter((e) =>
       Object.entries(enlocation).filter(
-        ([key, value]) => e.split(' ')[0] === key && enLocationArray.push(...Object.values(value[0]))
+        ([key, value]) =>
+          e.split(' ')[0] === key &&
+          Object.values(value).filter(
+            (el: LocatioinObject) => Object.entries(el)[0][0] === e && enLocationArray.push(Object.entries(el)[0][1])
+          )
       )
     );
 
     let enServiceString;
 
     Object.entries(enService).filter(
-      ([, value]) => profileData.service === Object.values(value)[1] && (enServiceString = Object.values(value)[0])
+      ([, value]) =>
+        profileData.service_display === Object.values(value)[1] && (enServiceString = Object.values(value)[0])
     );
+
+    const newArray: Career[] = [];
+
+    Object.values(profileData.careers).map((career) => {
+      const obj = career;
+      const { id, ...rest } = obj;
+      return newArray.push(rest);
+    });
 
     const formData = new FormData();
 
@@ -144,7 +186,7 @@ export default function ExpertProfileEditPage() {
     enLocationArray.map((location) => formData.append('available_location', location));
     formData.append('appeal', profileData.appeal);
     formData.append('service', enServiceString!);
-    formData.append('careers', JSON.stringify(profileData.careers));
+    formData.append('careers', JSON.stringify(newArray));
 
     for (const pair of formData.entries()) {
       console.log(pair[0], pair[1]);
@@ -153,13 +195,14 @@ export default function ExpertProfileEditPage() {
     if (isExpert) {
       await patchData(formData);
       addToasts({ type: 'success', title: '프로필이 수정되었습니다.', id: Date.now().toString() });
+      getData();
     } else {
       if (
         profileData.appeal !== '' &&
-        profileData.available_location.length > 0 &&
+        profileData.available_location_display!.length > 0 &&
         profileData.careers.length > 0 &&
         fileRef.current?.files?.[0] !== undefined &&
-        profileData.service !== ''
+        profileData.service_display !== ''
       ) {
         await postData(formData);
         setIsExpert(true);
@@ -173,8 +216,32 @@ export default function ExpertProfileEditPage() {
   return (
     <>
       <div className='expertProfileEditPage contentLayout'>
-        <PageTitle title={isExpert ? '전문가 프로필 관리' : '전문가 프로필 등록'} isPrevBtn={true} prevUrl='/' />
+        <PageTitle
+          title={isExpert ? '전문가 프로필 관리' : '전문가 프로필 등록'}
+          isPrevBtn={true}
+          prevUrl='/'
+          // onAddClickFunction={prevCheck}
+        />
 
+        {/* <Confirm
+          confirmId='preCheckConfirm'
+          title='저장하지 않은 데이터가 남아있습니다.'
+          content='저장하지 않고 나가시겠습니까?'
+          width='35em'
+          height='17vh'
+          borderRadius='2rem'
+          trueBtn={true}
+          trueBtnName='나가기'
+          trueBtnOnClick={() => {
+            closeConfirm('preCheckConfirm');
+            setIsPrev((e) => !e);
+          }}
+          falseBtn={true}
+          falseBtnName='머무르기'
+          falseBtnOnClick={() => {
+            closeConfirm('preCheckConfirm');
+          }}
+        /> */}
         <main className='expertProfileEditMain'>
           <ProfileSection fileRef={fileRef} profileData={profileData} setProfileData={setProfileData} />
 

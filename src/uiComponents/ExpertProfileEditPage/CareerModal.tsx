@@ -54,8 +54,8 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
       careerArray &&
       careerArray
         .sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime())
-        .map((data) => (
-          <li key={data.id}>
+        .map((data, i) => (
+          <li key={i}>
             {`${data.title} ${data.start_date} ~ ${data.end_date ?? ''}`}
             <button onClick={() => setCareerArray((prev) => prev.filter((e) => data.id !== e.id))}>X</button>
           </li>
