@@ -7,6 +7,7 @@ import useUserStateStore from '@/store/useUserStateStore';
 import { useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
+import Alarm from '../Alarm/Alarm';
 
 const Header = () => {
   const { setIsLoggedIn, setUserName } = useUserStateStore();
@@ -77,31 +78,16 @@ const Header = () => {
                 <div className='headerMenu'>
                   <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
                     <li>
-                      <div className='alarmBox'>
-                        <button className='alarmBtn' onClick={handleAlarm}>
-                          알람
-                          <span className='on'></span>
-                        </button>
-                        {showAlarm && (
-                          <div className='alarmListBox'>
-                            {alarmList.length > 0 ? (
-                              <ul className='alarmList'>
-                                {alarmList.map((alarm) => (
-                                  <li className='alarm' key={alarm.id}>
-                                    <button>{alarm.alarmContent}</button>
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <div className='noAlarm'>알람이 없습니다.</div>
-                            )}
-                          </div>
-                        )}
-                      </div>
+                      <Alarm />
                     </li>
                     <li>
                       <Link to='/mypage' aria-label='마이 페이지로 이동'>
                         마이
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to='/expertProfileEditPage' aria-label='전문가 프로필페이지로 이동'>
+                        전문가
                       </Link>
                     </li>
                     <li>
@@ -126,27 +112,7 @@ const Header = () => {
           </div>
         </nav>
         <div className='headerMiniMenu'>
-          <div className='alarmBox'>
-            <button className='alarmBtn' onClick={handleAlarm}>
-              알람
-              <span className='on'></span>
-            </button>
-            {showAlarm && (
-              <div className='alarmListBox'>
-                {alarmList.length > 0 ? (
-                  <ul className='alarmList'>
-                    {alarmList.map((alarm) => (
-                      <li className='alarm' key={alarm.id}>
-                        <button>{alarm.alarmContent}</button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className='noAlarm'>알람이 없습니다.</div>
-                )}
-              </div>
-            )}
-          </div>
+          {userLogin && <Alarm />}
           <span className='iconMenu'>
             <button type='button' className='menuBtn' onClick={() => setMenuVisible((prev) => !prev)}>
               &#9776;
@@ -164,7 +130,7 @@ const Header = () => {
                   <hr />
                   <div className='loginBtn'>
                     <Link to='/login' aria-label='로그인 페이지로 이동'>
-                      <MainBtn name='로그인' width='auto' />
+                      로그인
                     </Link>
                   </div>
                 </div>
@@ -182,7 +148,11 @@ const Header = () => {
                     </Link>
                   </div>
                   <hr />
-                  <div>전문가 전환</div>
+                  <div className='expertConversion'>
+                    <Link to='/expertProfileEditPage' aria-label='전문가 프로필페이지로 이동'>
+                      전문가 전환
+                    </Link>
+                  </div>
                   <hr />
                   <div>
                     <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
