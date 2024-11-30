@@ -5,30 +5,20 @@ interface UserState {
   isLoggedIn: boolean;
   setIsLoggedIn?: (isLoggedIn: boolean) => void;
   isExpert: true | false | null;
-  setIsExpert?: (userType: true | false | null) => void;
-  name: string | null;
-  setName?: (name: string | null) => void;
+  setIsExpert?: (isExpert: true | false | null) => void;
+  userName: string | null;
+  setUserName?: (name: string | null) => void;
 }
-
-// const useUserStateStore = create<UserState>((set) => ({
-//   isLoggedIn: false,
-//   isExpert: null,
-//   name: null,
-//   userProfileImage: null,
-//   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
-//   setIsExpert: (isExpert) => set({ isExpert }),
-//   setName: (name) => set({ name }),
-// }));
 
 const useUserStateStore = create(
   persist<UserState>(
     (set) => ({
       isLoggedIn: false,
       isExpert: null,
-      name: null,
+      userName: null,
       setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
       setIsExpert: (isExpert) => set({ isExpert }),
-      setName: (name) => set({ name }),
+      setUserName: (userName) => set({ userName }),
     }),
     {
       name: 'user_state', // localStorage에 저장될 키 이름
@@ -36,7 +26,7 @@ const useUserStateStore = create(
       partialize: (state) => ({
         isLoggedIn: state.isLoggedIn,
         isExpert: state.isExpert,
-        name: state.name,
+        userName: state.userName,
       }),
     }
   )

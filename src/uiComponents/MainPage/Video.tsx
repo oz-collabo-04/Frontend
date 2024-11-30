@@ -4,7 +4,7 @@ import TabContentType from './TabContentType';
 interface ExpertData {
   expertData: ExpertProps[] | null;
 }
-export default function singer({ expertData }: ExpertData) {
+export default function Video({ expertData }: ExpertData) {
   return (
     <>
       <div>

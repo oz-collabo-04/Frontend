@@ -1,4 +1,3 @@
-import Filming from '@/uiComponents/MainPage/Filming';
 import Singer from '@/uiComponents/MainPage/Singer';
 import Snapshot from '@/uiComponents/MainPage/Snapshot';
 import WeddingMC from '@/uiComponents/MainPage/WeddingMC';
@@ -7,9 +6,9 @@ import '@/styles/MainPage/main.scss';
 import Billboard from '@/uiComponents/MainPage/Billboard';
 import { useEffect, useState } from 'react';
 import { client } from '@/api/axiosInstance';
-import useUserStateStore from '@/store/useUserStateStore';
+import Video from '@/uiComponents/MainPage/Video';
+import useLoginToastStateStore from '@/store/loginToastStateStore';
 import { useToastStore } from '@/store/toastStore';
-import Video from '@/uiComponents/MainPage/Singer';
 
 export interface ExpertProps {
   service_display: string;
@@ -36,21 +35,23 @@ export interface ExpertProps {
 export default function MainPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
-  const { isLoggedIn, name } = useUserStateStore();
+  const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
   const { addToasts } = useToastStore();
-
   const tabs = [
     { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
     { label: '축가 가수', content: <Singer expertData={expertData} /> },
     { label: '영상 촬영', content: <Video expertData={expertData} /> },
     { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
   ];
-  useEffect(() => {
-    if (isLoggedIn) {
-      addToasts({ type: 'success', title: `${name}님, 어서오세요 👋🏻`, id: Date.now().toString() });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  if (isLoginToastShown) {
+    addToasts({
+      id: Date.now.toString(),
+      title: '로그인 되셨습니다. 어서오세요! 👋🏻',
+      type: 'success',
+    });
+    setIsLoginToastShown(false);
+  }
   useEffect(() => {
     const fetchExpertList = async () => {
       const services = ['mc', 'singer', 'video', 'snap'];

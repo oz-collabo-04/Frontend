@@ -9,7 +9,7 @@ import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
 
 const Header = () => {
-  const { setIsLoggedIn, setName } = useUserStateStore();
+  const { setIsLoggedIn, setUserName } = useUserStateStore();
   const userLogin = useUserStateStore((state) => state.isLoggedIn);
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
@@ -33,19 +33,19 @@ const Header = () => {
         const response = await auth.post('users/logout/');
         console.log('로그아웃에 성공했습니다.', response.data);
         localStorage.clear();
-        if (setIsLoggedIn && setName) {
+        if (setIsLoggedIn && setUserName) {
           setIsLoggedIn(false);
-          setName(null);
+          setUserName(null);
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
       } catch (error) {
-        console.error('로그아웃 중에 오류가 발생했습니다', error);
-        localStorage.clear(); // 이 부분 쿠키 해결되면 지워야 함!!
-        if (setIsLoggedIn && setName) {
+        localStorage.clear();
+        if (setIsLoggedIn && setUserName) {
           setIsLoggedIn(false);
-          setName(null);
+          setUserName(null);
         }
-        addToasts({ type: 'success', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
+        console.error('로그아웃 중에 오류가 발생했습니다', error);
+        addToasts({ type: 'error', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
       }
     };
     logout();

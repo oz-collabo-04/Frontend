@@ -1,8 +1,11 @@
 import { client } from '@/api/axiosInstance';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
+import useLoginToastStateStore from '@/store/loginToastStateStore';
+import { useToastStore } from '@/store/toastStore';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
-// import '@/styles/CallbackPage/callbackPage.scss'; //제대로 임포트 되고 있는지 확인부탁드립니다.
+import '@/styles/CallbackPage/callbackPage.scss';
+
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -14,8 +17,10 @@ interface LoginProps {
 export default function CallbackPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setIsExpert, setName } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setUserName, userName, isLoggedIn } = useUserStateStore();
   const { provider } = useLoginProviderStore();
+  const { addToasts } = useToastStore();
+  const { setIsLoginToastShown } = useLoginToastStateStore();
 
   useEffect(() => {
     const socialLoginHandler = async () => {
@@ -47,10 +52,11 @@ export default function CallbackPage() {
           localStorage.setItem('email', email);
           localStorage.setItem('user_id', id);
           localStorage.setItem('profile_image', profile_image);
-          if (setIsLoggedIn && setIsExpert && setName) {
+          if (setIsLoggedIn && setIsExpert && setUserName) {
             setIsLoggedIn(true);
             setIsExpert(is_expert);
-            setName(name);
+            setUserName(name);
+            setIsLoginToastShown(true);
           }
           if (window.opener) {
             window.opener.location.href = '/';
@@ -64,7 +70,7 @@ export default function CallbackPage() {
       }
     };
     socialLoginHandler();
-  }, [location, navigate, provider, setIsExpert, setIsLoggedIn, setName]);
+  }, [addToasts, isLoggedIn, location, navigate, provider, setIsExpert, setIsLoggedIn, setIsLoginToastShown, setUserName, userName]);
 
   return (
     <div className='loginLoadingSpinnerBox'>
