@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '@/styles/header.scss';
 import '@/global.scss';
 import MainBtn from '../Button/MainBtn';
@@ -8,13 +8,15 @@ import { useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
 import Alarm from '../Alarm/Alarm';
+import axios from 'axios';
 
 const Header = () => {
-  const { setIsLoggedIn, setUserName } = useUserStateStore();
+  const { setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
   const userLogin = useUserStateStore((state) => state.isLoggedIn);
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
   const [showAlarm, setShowAlarm] = useState(false);
+  const navigate = useNavigate();
 
   const [alarmList, setAlarmList] = useState([
     { id: 0, alarmContent: '알람 1번' },
@@ -27,6 +29,32 @@ const Header = () => {
   };
 
   console.log(menuVisible);
+
+  const onClickExpert = () => {
+    const expertDetailData = async () => {
+      try {
+        const response = await auth.get('experts/detail/');
+        if (response.status === 200) {
+          navigate('/');
+          addToasts({
+            id: Date.now().toString(),
+            title: '전문가님, 안녕하세요!',
+            type: 'success',
+          });
+          if (setIsExpert) {
+            setIsExpert(true);
+          }
+        }
+        console.log(response);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error('fetchError', error.response);
+          navigate('/expertProfileEditPage');
+        }
+      }
+    };
+    expertDetailData();
+  };
 
   const OnClick = () => {
     const logout = async () => {
@@ -85,10 +113,8 @@ const Header = () => {
                         마이
                       </Link>
                     </li>
-                    <li>
-                      <Link to='/expertProfileEditPage' aria-label='전문가 프로필페이지로 이동'>
-                        전문가
-                      </Link>
+                    <li onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동' style={{ cursor: 'pointer' }}>
+                      전문가
                     </li>
                     <li>
                       <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
@@ -148,10 +174,13 @@ const Header = () => {
                     </Link>
                   </div>
                   <hr />
-                  <div className='expertConversion'>
-                    <Link to='/expertProfileEditPage' aria-label='전문가 프로필페이지로 이동'>
-                      전문가 전환
-                    </Link>
+                  <div
+                    onClick={onClickExpert}
+                    className='expertConversion'
+                    aria-label='전문가 프로필페이지로 이동'
+                    style={{ cursor: 'pointer' }}
+                  >
+                    전문가 전환
                   </div>
                   <hr />
                   <div>

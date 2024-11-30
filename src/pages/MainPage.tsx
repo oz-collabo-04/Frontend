@@ -9,6 +9,7 @@ import { client } from '@/api/axiosInstance';
 import Video from '@/uiComponents/MainPage/Video';
 import useLoginToastStateStore from '@/store/loginToastStateStore';
 import { useToastStore } from '@/store/toastStore';
+import useUserStateStore from '@/store/useUserStateStore';
 
 export interface ExpertProps {
   service_display: string;
@@ -36,6 +37,7 @@ export default function MainPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
   const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
+  const { userName } = useUserStateStore();
   const { addToasts } = useToastStore();
   const tabs = [
     { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
@@ -47,7 +49,7 @@ export default function MainPage() {
   if (isLoginToastShown) {
     addToasts({
       id: Date.now.toString(),
-      title: '로그인 되셨습니다. 어서오세요! 👋🏻',
+      title: `${userName}님, 어서오세요! 👋🏻`,
       type: 'success',
     });
     setIsLoginToastShown(false);
@@ -57,7 +59,7 @@ export default function MainPage() {
       const services = ['mc', 'singer', 'video', 'snap'];
       const service = services[activeTab] || 'mc';
       try {
-        const response = await client.get('/experts', {
+        const response = await client.get('/experts/', {
           params: {
             random: true,
             service: service,
