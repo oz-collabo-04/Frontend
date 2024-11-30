@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { fetchServiceServices } from '@/api/services';
 
 type Props = {
-  isExpert: boolean;
+  isExpert: boolean | null;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };

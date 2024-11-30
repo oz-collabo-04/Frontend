@@ -7,11 +7,19 @@ type Props = {
   fileRef: React.RefObject<HTMLInputElement>;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
+  isAppeals: boolean;
+  setIsAppeals: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function ProfileSection({ fileRef, profileData, setProfileData }: Props) {
+export default function ProfileSection({ fileRef, profileData, setProfileData, isAppeals, setIsAppeals }: Props) {
   const [previewImage, setPreviewImage] = useState<string>(profileData.expert_image ?? '');
-  const [textChange, setTextChange] = useState<string>(profileData.appeal ?? '');
+  const [textChange, setTextChange] = useState<string>(profileData.appeal);
+
+  useEffect(() => {
+    if (isAppeals) {
+      setProfileData((prev) => ({ ...prev, appeal: textChange }));
+    }
+  }, [isAppeals]);
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,23 +63,21 @@ export default function ProfileSection({ fileRef, profileData, setProfileData }:
 
         <p>프로필 설명</p>
 
-        <textarea
-          className='comTextarea'
-          placeholder='설명글'
-          value={textChange !== '' ? textChange : profileData.appeal}
-          onChange={(e) => {
-            if (e.target.value.length > 100) {
-              return;
-            }
-            setTextChange(e.target.value);
-          }}
-        />
+        <div className='textareaDiv'>
+          <textarea
+            className='comTextarea'
+            placeholder='설명글'
+            value={textChange}
+            onChange={(e) => {
+              if (e.target.value.length > 100) {
+                return;
+              }
+              setTextChange(e.target.value);
+              setIsAppeals(false);
+            }}
+          />
 
-        <div className='textareaChild'>
           {textChange.length > 0 && <span>{textChange.length} / 100</span>}
-          <button onClick={() => setProfileData((prev) => ({ ...prev, appeal: textChange }))} className='doneBtn'>
-            완료
-          </button>
         </div>
       </div>
     </section>

@@ -6,7 +6,7 @@ import { Career, ExpertRegister } from '@/config/types';
 import { useState } from 'react';
 
 type Props = {
-  isExpert: boolean;
+  isExpert: boolean | null;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
