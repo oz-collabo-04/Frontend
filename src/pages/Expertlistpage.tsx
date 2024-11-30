@@ -9,7 +9,6 @@ import '@/styles/Expertlistpage/expertlistpage.scss'
 import { auth } from '@/api/axiosInstance'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 
-
 interface Expert {
   id: number;
   request: {
@@ -126,10 +125,7 @@ const Expertlistpage: React.FC = () => {
         
         expertsData.forEach((expert: Expert) => {
           if (expert && expert.request && expert.request.service_list) {
-            const serviceList = Array.isArray(expert.request.service_list)
-              ? expert.request.service_list.join(', ')
-              : expert.request.service_list;
-            setCategory(expert.id, serviceList);
+            setCategory(expert.id, Array.isArray(expert.request.service_list) ? expert.request.service_list.join(', ') : expert.request.service_list);
           }
         });
       } catch (error) {
@@ -149,9 +145,12 @@ const Expertlistpage: React.FC = () => {
   };
 
   if (isLoading) {
-    return ( <div className="estimationContainer">
-    <LoadingSpinner className="estimationLoading" />
-  </div>)}
+    return (
+      <div className="estimationLoading">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   if (error) {
     return <div>{error}</div>;
