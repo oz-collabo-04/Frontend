@@ -50,6 +50,11 @@ const Header = () => {
         if (axios.isAxiosError(error)) {
           console.error('fetchError', error.response);
           navigate('/expertProfileEditPage');
+          addToasts({
+            id: Date.now().toString(),
+            title: '📋 So New Wedding 의 전문가가 되어보세요!',
+            type: 'success',
+          });
         }
       }
     };
