@@ -10,7 +10,7 @@ import { useConfirmStore } from '@/store/confirmStore';
 import Confirm from '@/components/Confirm/Confirm';
 
 type Props = {
-  isExpert: boolean;
+  isExpert: boolean | null;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };

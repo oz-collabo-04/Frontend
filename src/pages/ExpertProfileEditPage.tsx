@@ -13,6 +13,9 @@ import { useToastStore } from '@/store/toastStore';
 import { fetchServiceLocation, fetchServiceServices } from '@/api/services';
 import { useConfirmStore } from '@/store/confirmStore';
 import Confirm from '@/components/Confirm/Confirm';
+import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
+import useUserStateStore from '@/store/useUserStateStore';
 // import useUserStateStore from '@/store/useUserStateStore';
 
 interface LocationDummy {
@@ -23,9 +26,10 @@ interface LocatioinObject {
 }
 
 export default function ExpertProfileEditPage() {
-  // const {isExpert, setIsExpert} = useUserStateStore()
+  const { isExpert, setIsExpert } = useUserStateStore();
   const { expert, setExpert } = useExpertStore();
   const { addToasts } = useToastStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [profileData, setProfileData] = useState<ExpertRegister>({
     available_location: expert.available_location ?? [],
@@ -37,59 +41,33 @@ export default function ExpertProfileEditPage() {
     expert_image: expert.expert_image ?? '',
   });
 
-  const [isExpert, setIsExpert] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [isAppeals, setIsAppeals] = useState<boolean>(false);
+
   const [enlocation, setEnLocation] = useState<LocationDummy | []>([]);
   const [enService, setEnService] = useState([]);
+
   const { openConfirm, closeConfirm } = useConfirmStore();
-  const [isPrev, setIsPrev] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     locationData();
     serviceData();
   }, []);
 
-  // useEffect(() => {
-  //   if (isExpert) {
-  //     getData();
-
-  //     console.log('전문가 정보', expert);
-  //   }
-  // }, [isExpert]);
-
   useEffect(() => {
-    getData();
+    if (isExpert) {
+      getData();
 
-    console.log('전문가 정보', expert);
-  }, []);
-
-  // const prevCheck = () => {
-  //   if (
-  //     expert.expert_image !== profileData.expert_image ||
-  //     expert.appeal !== profileData.appeal ||
-  //     expert.available_location_display !== profileData.available_location_display ||
-  //     expert.service_display !== profileData.service_display ||
-  //     expert.careers !== profileData.careers
-  //   ) {
-  //     openConfirm('preCheckConfirm');
-  //   }
-  // };
-
-  // const prevUrl = () => {
-  //   if (isPrev === true) {
-  //     return '/';
-  //   } else {
-  //     return '#';
-  //   }
-  // };
+      console.log('전문가 정보', expert);
+    }
+  }, [isExpert === true]);
 
   const getData = async () => {
     try {
       const data = await fetchGetExpertRegister();
       console.log('get', data);
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      data === undefined ? setIsExpert(false) : setIsExpert(true);
+      setIsLoading((e) => !e);
 
       setExpert(data);
 
@@ -124,6 +102,7 @@ export default function ExpertProfileEditPage() {
   const locationData = async () => {
     try {
       const data = await fetchServiceLocation();
+      setIsLoading((e) => !e);
       setEnLocation(data);
       return data;
     } catch (err) {
@@ -134,6 +113,7 @@ export default function ExpertProfileEditPage() {
   const serviceData = async () => {
     try {
       const data = await fetchServiceServices();
+      setIsLoading((e) => !e);
       return setEnService(data);
     } catch (err) {
       console.error(err);
@@ -195,7 +175,6 @@ export default function ExpertProfileEditPage() {
     if (isExpert) {
       await patchData(formData);
       addToasts({ type: 'success', title: '프로필이 수정되었습니다.', id: Date.now().toString() });
-      getData();
     } else {
       if (
         profileData.appeal !== '' &&
@@ -205,7 +184,11 @@ export default function ExpertProfileEditPage() {
         profileData.service_display !== ''
       ) {
         await postData(formData);
-        setIsExpert(true);
+
+        if (setIsExpert) {
+          setIsExpert(true);
+        }
+
         addToasts({ type: 'success', title: '프로필이 등록되었습니다.', id: Date.now().toString() });
       } else {
         addToasts({ type: 'error', title: '모두 입력하셔야 합니다', id: Date.now().toString() });
@@ -213,17 +196,38 @@ export default function ExpertProfileEditPage() {
     }
   };
 
+  const prevCheck = () => {
+    if (
+      expert.expert_image !== profileData.expert_image ||
+      expert.appeal !== profileData.appeal ||
+      expert.available_location_display !== profileData.available_location_display ||
+      expert.service_display !== profileData.service_display ||
+      expert.careers !== profileData.careers
+    ) {
+      return openConfirm('preCheckConfirm');
+    }
+
+    return navigate('/');
+  };
+
+  if (!isLoading) {
+    return (
+      <>
+        <LoadingSpinner className='expertProfileEditSpinner' />
+      </>
+    );
+  }
+
   return (
     <>
-      <div className='expertProfileEditPage contentLayout'>
+      <div className='expertProfileEditPage contentLayout' onClick={() => setIsAppeals(true)}>
         <PageTitle
           title={isExpert ? '전문가 프로필 관리' : '전문가 프로필 등록'}
           isPrevBtn={true}
-          prevUrl='/'
-          // onAddClickFunction={prevCheck}
+          onAddClickFunction={prevCheck}
         />
 
-        {/* <Confirm
+        <Confirm
           confirmId='preCheckConfirm'
           title='저장하지 않은 데이터가 남아있습니다.'
           content='저장하지 않고 나가시겠습니까?'
@@ -234,16 +238,22 @@ export default function ExpertProfileEditPage() {
           trueBtnName='나가기'
           trueBtnOnClick={() => {
             closeConfirm('preCheckConfirm');
-            setIsPrev((e) => !e);
+            return navigate('/');
           }}
           falseBtn={true}
           falseBtnName='머무르기'
           falseBtnOnClick={() => {
             closeConfirm('preCheckConfirm');
           }}
-        /> */}
+        />
         <main className='expertProfileEditMain'>
-          <ProfileSection fileRef={fileRef} profileData={profileData} setProfileData={setProfileData} />
+          <ProfileSection
+            fileRef={fileRef}
+            profileData={profileData}
+            setProfileData={setProfileData}
+            isAppeals={isAppeals}
+            setIsAppeals={setIsAppeals}
+          />
 
           <LocationSection isExpert={isExpert} profileData={profileData} setProfileData={setProfileData} />
 
