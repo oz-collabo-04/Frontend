@@ -1,9 +1,9 @@
 import { client } from '@/api/axiosInstance';
-import LoadingSpinner from '@/components/LodingSpinner/LodingSpinner';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
-import '@/styles/CallbackPage/callbackPage.scss';
-import { useEffect} from 'react';
+// import '@/styles/CallbackPage/callbackPage.scss'; //제대로 임포트 되고 있는지 확인부탁드립니다.
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LoginProps {
