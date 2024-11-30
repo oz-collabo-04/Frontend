@@ -4,9 +4,10 @@ import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
-import ExpertProfileModal from '@/uiComponents/ExpertProfileEditPage/ExpertProfileModal'
+import ExpertProfileModal from '@/uiComponents/Estimationlist/ExpertProfileModal'
 import { useModalStore } from '@/store/modalStore'
 import { auth } from '@/api/axiosInstance'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 
 interface Career {
   id: number;
@@ -158,7 +159,11 @@ const EstimationList: React.FC = () => {
   }))
 
   if (isLoading) {
-    return <div aria-live="polite" aria-busy="true">견적 목록을 불러오는 중...</div>;
+    return (
+      <div className="estimationLoading">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (error) {
@@ -177,4 +182,3 @@ const EstimationList: React.FC = () => {
 }
 
 export default EstimationList
-

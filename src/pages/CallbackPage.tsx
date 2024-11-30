@@ -5,6 +5,7 @@ import { useToastStore } from '@/store/toastStore';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
 import '@/styles/CallbackPage/callbackPage.scss';
+
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
