@@ -16,9 +16,8 @@ export default function LoginPage() {
   const loginPopup = (provider: 'naver' | 'google' | 'kakao') => {
     setProvider(provider);
     let url = '';
+
     switch (provider) {
-      case null:
-        break;
       case 'naver':
         url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`;
         window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
@@ -28,10 +27,9 @@ export default function LoginPage() {
         window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
         break;
       case 'kakao':
-        url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientID}&redirect_uri=${redirectBaseURL}/kakao/callback/&state=1234`;
+        url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientID}&redirect_uri=${redirectBaseURL}/kakao/callback/`;
         window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
         break;
-      default:
     }
   };
 
