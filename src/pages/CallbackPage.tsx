@@ -61,7 +61,7 @@ export default function CallbackPage() {
           if (window.opener) {
             window.opener.location.href = '/';
           }
-          window.close();
+          // window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }
@@ -70,7 +70,18 @@ export default function CallbackPage() {
       }
     };
     socialLoginHandler();
-  }, [addToasts, isLoggedIn, location, navigate, provider, setIsExpert, setIsLoggedIn, setIsLoginToastShown, setUserName, userName]);
+  }, [
+    addToasts,
+    isLoggedIn,
+    location,
+    navigate,
+    provider,
+    setIsExpert,
+    setIsLoggedIn,
+    setIsLoginToastShown,
+    setUserName,
+    userName,
+  ]);
 
   return (
     <div className='loginLoadingSpinnerBox'>
