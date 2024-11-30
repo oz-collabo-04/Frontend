@@ -4,8 +4,8 @@ import { useModalStore } from '@/store/modalStore'
 import { useCategoryStore } from '@/store/expertListStore'
 import NumberInput from '@/components/Input/NumberInput'
 import '@/styles/Expertlistpage/expertModal.scss'
-import { useNavigate } from 'react-router-dom'
 import { auth } from '@/api/axiosInstance'
+import { useToastStore } from '@/store/toastStore'
 
 interface ExpertModalProps {
   modalId: string;
@@ -14,6 +14,8 @@ interface ExpertModalProps {
 
 interface EstimationRequest {
   request: number;
+  due_date: string;
+  service: string;
   charge: number;
 }
 
@@ -32,9 +34,11 @@ interface EstimationResponse {
 const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
   const { openModal, closeModal } = useModalStore()
   const { setEstimation, getEstimation } = useCategoryStore()
+  const { addToasts } = useToastStore()
   const [amount, setAmount] = useState<string | number>('')
   const [description, setDescription] = useState('')
-  const navigate = useNavigate()
+  const [dueDate, setDueDate] = useState('')
+  const [service, setService] = useState('mc')
 
   useEffect(() => {
     if (expertId !== null) {
@@ -43,9 +47,13 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
       if (existingEstimation) {
         setAmount(existingEstimation.amount)
         setDescription(existingEstimation.description)
+        setDueDate(existingEstimation.dueDate || '')
+        setService(existingEstimation.service || 'mc')
       } else {
         setAmount('')
         setDescription('')
+        setDueDate('')
+        setService('mc')
       }
     }
   }, [expertId, modalId, openModal, getEstimation])
@@ -65,6 +73,8 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
     if (expertId !== null) {
       const estimationData: EstimationRequest = {
         request: expertId,
+        due_date: dueDate,
+        service: service,
         charge: Number(amount)
       }
 
@@ -77,21 +87,30 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
           dueDate: response.due_date,
         })
         console.log('Estimation sent successfully:', response)
+        addToasts({ type: 'success', title: '견적이 등록되었습니다.', id: Date.now().toString() })
         closeModal(modalId)
-        navigate(`/estimationlist/${expertId}`)
       } catch (error) {
         console.error('Failed to send estimation:', error)
+        addToasts({ type: 'error', title: '견적 등록에 실패했습니다.', id: Date.now().toString() })
       }
     }
   }
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value);
-  };
+    setAmount(e.target.value)
+  }
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
-  };
+    setDescription(e.target.value)
+  }
+
+  const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDueDate(e.target.value)
+  }
+
+  const handleServiceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setService(e.target.value)
+  }
 
   const modalContent = (
     <div className="expert-modal__container">
@@ -108,6 +127,30 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
               onChange={handleAmountChange}
               width='100%'
             />
+          </div>
+
+          <div className="expert-modal__input-wrapper">
+            <label htmlFor="dueDate" className="expert-modal__label">마감일</label>
+            <input
+              type="date"
+              id="dueDate"
+              value={dueDate}
+              onChange={handleDueDateChange}
+              className="comInput"
+            />
+          </div>
+
+          <div className="expert-modal__input-wrapper">
+            <label htmlFor="service" className="expert-modal__label">서비스</label>
+            <select
+              id="service"
+              value={service}
+              onChange={handleServiceChange}
+              className="comInput"
+            >
+              {/* 예시문장 벡엔드랑 협의 봐야함 */}
+              <option value="mc">mc</option>
+            </select>
           </div>
 
           <div className="expert-modal__input-wrapper expert-modal__textarea-wrapper">

@@ -3,25 +3,33 @@ import Modal from '@/components/Modal/Modal';
 import StarRating from '@/components/Rating/StarRating';
 import ProfileBadge from '@/components/Badge/ProfileBadge'
 import '@/styles/Estimationpage/expertprofile.scss';
-import { fetchExpertData } from '@/api/estimations';
+import { auth } from '@/api/axiosInstance';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 
-interface Review {
-  customerName: string;
-  content: string;
-  rating: number;
-  hasImage: boolean;
+interface User {
+  id: number;
+  name: string;
+  email: string;
 }
 
-interface ExpertData {
-  id: number; 
-  name: string;
-  avatar: string;
-  rating: number;
-  services: string[];
-  standardCharge: string; 
-  appeal: string; 
-  description: string;
-  reviews: Review[];
+interface Career {
+  id: number;
+  company: string;
+  position: string;
+  start_date: string;
+  end_date: string | null;
+}
+
+interface Expert {
+  id: number;
+  rating: string; 
+  expert_image: string;
+  service: 'mc' 
+  standard_charge: number;
+  appeal: string;
+  available_location: string;
+  user: User;
+  careers: Career[];
 }
 
 interface ExpertProfileModalProps {
@@ -29,22 +37,21 @@ interface ExpertProfileModalProps {
 }
 
 const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => {
-  const [expertData, setExpertData] = useState<ExpertData | null>(null);
+  const [expertData, setExpertData] = useState<Expert | null>(null);
   const [showFullEstimate, setShowFullEstimate] = useState(false);
-  const [showFullReviews, setShowFullReviews] = useState<{ [key: string]: boolean }>({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadExpertData = async () => {
+    const fetchExpertData = async () => {
       if (!expertId) return;
 
       setIsLoading(true);
       setError(null);
 
       try {
-        const data = await fetchExpertData(expertId);
-        setExpertData(data);
+        const response = await auth.get(`/estimations/${expertId}/`);
+        setExpertData(response.data);
       } catch (err) {
         setError('전문가 데이터를 불러오는 데 실패했습니다.');
         console.error('Error fetching expert data:', err);
@@ -53,26 +60,15 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
       }
     };
 
-    loadExpertData();
+    fetchExpertData();
   }, [expertId]);
 
   const toggleEstimate = () => setShowFullEstimate(!showFullEstimate);
   
   const handleRatingChange = (newRating: number) => {
     if (expertData) {
-      setExpertData({ ...expertData, rating: newRating });
+      setExpertData({ ...expertData, rating: newRating.toString() });
     }
-  };
-
-  const toggleReview = (reviewId: string) => {
-    setShowFullReviews(prev => ({
-      ...prev,
-      [reviewId]: !prev[reviewId]
-    }));
-  };
-
-  const handleImageUpload = (reviewIndex: number) => {
-    console.log(`Upload image for review ${reviewIndex}`);
   };
 
   const renderExpertContent = () => {
@@ -82,82 +78,59 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
       <div className="expert-profile-content">
         <div className="expert-profile-header">
           <ProfileBadge
-            src={expertData.avatar}
+            src={expertData.expert_image}
             width="120px"
             height="120px"
             borderRadius="1.2rem"
             isFull={true}
           />
           <div className="expert-profile-name-rating">
-            <h3 className="expert-name">{expertData.name}</h3>
+            <h3 className="expert-name">{expertData.user.name}</h3>
             <div className="rating-wrapper">
-              <StarRating initialRating={expertData.rating} onChange={handleRatingChange} />
+              <StarRating initialRating={parseFloat(expertData.rating)} onChange={handleRatingChange} />
             </div>
           </div>
-          <p className="expert-description">{expertData.description}</p>
+          <p className="expert-description">{expertData.appeal}</p>
         </div>
 
-        {expertData.services && expertData.services.length > 0 && (
-          <div className="expert-profile-section">
-            <h3 className="section-title">제공 서비스</h3>
-            <div className="service-tag-wrapper">
-              {expertData.services.map((service, index) => (
-                <span key={index} className="service-tag">{service}</span>
-              ))}
-            </div>
+        <div className="expert-profile-section">
+          <h3 className="section-title">제공 서비스</h3>
+          <div className="service-tag-wrapper">
+            <span className="service-tag">{expertData.service}</span>
           </div>
-        )}
+        </div>
 
-        {expertData.appeal && (
-          <div className="expert-profile-section">
-            <h3 className="section-title">견적</h3>
-            <div className="estimate-content">
-              <p>{showFullEstimate ? expertData.appeal : `${expertData.appeal.slice(0, 100)}...`}</p>
-              <button onClick={toggleEstimate} className="more-button">
-                {showFullEstimate ? '접기' : 'more'}
-              </button>
-            </div>
+        <div className="expert-profile-section">
+          <h3 className="section-title">견적</h3>
+          <div className="estimate-content">
+            <p>{showFullEstimate ? expertData.appeal : `${expertData.appeal.slice(0, 100)}...`}</p>
+            <button onClick={toggleEstimate} className="more-button">
+              {showFullEstimate ? '접기' : 'more'}
+            </button>
           </div>
-        )}
+        </div>
 
-        {expertData.standardCharge && (
-          <div className="expert-profile-section">
-            <h3 className="section-title">비용</h3>
-            <p className="cost-value">{expertData.standardCharge}</p>
-          </div>
-        )}
+        <div className="expert-profile-section">
+          <h3 className="section-title">비용</h3>
+          <p className="cost-value">{expertData.standard_charge}원</p>
+        </div>
 
-        {expertData.reviews && expertData.reviews.length > 0 && (
+        <div className="expert-profile-section">
+          <h3 className="section-title">활동 지역</h3>
+          <p>{expertData.available_location}</p>
+        </div>
+
+        {expertData.careers && expertData.careers.length > 0 && (
           <div className="expert-profile-section">
-            <div className="review-header">
-              <h3 className="section-title">최근 리뷰</h3>
-            </div>
-            <div className="review-cards">
-              {expertData.reviews.map((review, index) => (
-                <div key={index} className="review-card">
-                  <div className="review-card-header">
-                    <span className="reviewer-name">{review.customerName}</span>
-                    <div className="review-rating">
-                      <StarRating initialRating={review.rating} onChange={() => {}} />
-                    </div>
-                  </div>
-                  <p className="review-content">
-                    {showFullReviews[`review-${index}`] ? review.content : `${review.content.slice(0, 50)}...`}
+            <h3 className="section-title">경력</h3>
+            <div className="career-list">
+              {expertData.careers.map((career, index) => (
+                <div key={index} className="career-item">
+                  <p className="career-company">{career.company}</p>
+                  <p className="career-position">{career.position}</p>
+                  <p className="career-period">
+                    {career.start_date} - {career.end_date || '현재'}
                   </p>
-                  <div className="review-card-actions">
-                    <button 
-                      className="more-button"
-                      onClick={() => toggleReview(`review-${index}`)}
-                    >
-                      {showFullReviews[`review-${index}`] ? '접기' : 'more'}
-                    </button>
-                    <button 
-                      className="image-button"
-                      onClick={() => handleImageUpload(index)}
-                    >
-                      이미지 추가
-                    </button>
-                  </div>
                 </div>
               ))}
             </div>
@@ -170,7 +143,9 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
   const modalContent = (
     <div className="expert-profile-container">
       {isLoading ? (
-        <div className="loading">로딩 중...</div>
+        <div className="loading">
+          <LoadingSpinner className="estimationLoading" />
+        </div>
       ) : error ? (
         <div className="error">{error}</div>
       ) : (
@@ -191,5 +166,4 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
   );
 };
 
-export default ExpertProfileModal;
-
+export default ExpertProfileModal
