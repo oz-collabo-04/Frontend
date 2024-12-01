@@ -19,17 +19,26 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
     end_date: null,
   });
   const todayDate = new Date();
+  const [detailList, setDetailList] = useState<boolean>(false);
 
   const disabledButton = () => {
+    if (detailList) {
+      return false;
+    }
+
     if (career && careerArray.length >= 5) {
       return true;
     }
+
     if (!career.title || !career.description || !career.start_date) {
       return true;
     }
   };
 
   const addCareerList = () => {
+    const updateArray = careerArray.filter((array) => array.id !== career.id!);
+    updateArray.push(career);
+
     if (
       career.start_date &&
       career.end_date &&
@@ -38,7 +47,11 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
       return addToasts({ type: 'error', title: '종료일이 시작일보다 빠릅니다!!', id: Date.now().toString() });
     }
 
-    setCareerArray((prev) => [...prev, career]);
+    if (updateArray) {
+      setCareerArray(updateArray);
+    } else {
+      setCareerArray((prev) => [...prev, career]);
+    }
 
     setCareer({
       id: Date.now().toString(),
@@ -47,6 +60,8 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
       start_date: '',
       end_date: null,
     });
+
+    setDetailList(false);
   };
 
   const showCareerList = () => {
@@ -55,9 +70,24 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
       careerArray
         .sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime())
         .map((data, i) => (
-          <li key={i}>
+          <li
+            onClick={() => {
+              setCareer(data);
+              setDetailList(true);
+            }}
+            key={i}
+          >
             {`${data.title} ${data.start_date} ~ ${data.end_date ?? ''}`}
-            <button onClick={() => setCareerArray((prev) => prev.filter((e) => data.id !== e.id))}>X</button>
+            {!detailList && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCareerArray((prev) => prev.filter((e) => data.id !== e.id));
+                }}
+              >
+                X
+              </button>
+            )}
           </li>
         ))
     );
@@ -71,7 +101,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
         <label>
           <p>경력</p>
           <Input
-            value={career.title || ''}
+            value={career.title}
             onChange={(e) => {
               if (e.target.value.length > 20) {
                 return;
@@ -90,7 +120,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
           <textarea
             className='comTextarea'
             placeholder='ex) 100만 규모 결혼식 사회 진행'
-            value={career.description || ''}
+            value={career.description}
             onChange={(e) => {
               if (e.target.value.length > 100) {
                 return;
@@ -104,7 +134,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
         <label>
           <p>시작일</p>
           <input
-            value={career.start_date || ''}
+            value={career.start_date}
             onChange={(e) => {
               setCareer((prev) => ({ ...prev, start_date: e.target.value }));
             }}
@@ -127,8 +157,8 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
           />
         </label>
 
-        <button onClick={addCareerList} disabled={disabledButton()} className={disabledButton() && 'disabledText'}>
-          추가하기
+        <button onClick={addCareerList} disabled={disabledButton()} className={disabledButton() ? 'disabledText' : ''}>
+          {detailList ? '수정하기' : '추가하기'}
         </button>
       </div>
 

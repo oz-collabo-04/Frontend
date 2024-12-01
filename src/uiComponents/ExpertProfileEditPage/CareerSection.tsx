@@ -29,6 +29,8 @@ export default function CareerSection({ isExpert, profileData, setProfileData }:
 
     if (Math.floor((years * 12 + months) / 12) < 1) {
       return `${(years * 12 + months) % 12}개월`;
+    } else if ((years * 12 + months) % 12 === 0) {
+      return `${Math.floor((years * 12 + months) / 12)}년`;
     } else {
       return `${Math.floor((years * 12 + months) / 12)}년 ${(years * 12 + months) % 12}개월`;
     }
@@ -51,7 +53,7 @@ export default function CareerSection({ isExpert, profileData, setProfileData }:
 
         {profileData.careers.map((data, i) => (
           <li key={i}>
-            {data.title} {getDateDifference(data.start_date, data.end_date)} {!data.end_date && '재직중'}
+            {data.title} {getDateDifference(data.start_date, data.end_date)} {!data.end_date && <span>재직중</span>}
           </li>
         ))}
       </div>

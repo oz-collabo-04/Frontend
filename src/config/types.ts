@@ -13,7 +13,7 @@ export interface Career {
   description: string;
   start_date: string;
   end_date: string | null;
-  id?: string;
+  id: string;
 }
 
 export interface ExpertRegister {
