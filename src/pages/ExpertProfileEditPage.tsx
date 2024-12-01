@@ -2,7 +2,7 @@ import '@/styles/ExpertProfileEditPage/main.scss';
 import { useEffect, useRef, useState } from 'react';
 import MainBtn from '@/components/Button/MainBtn';
 import PageTitle from '@/components/PageTitle/PageTitle';
-import { Career, ExpertRegister } from '@/config/types';
+import { ExpertRegister } from '@/config/types';
 import ProfileSection from '@/uiComponents/ExpertProfileEditPage/ProfileSection';
 import LocationSection from '@/uiComponents/ExpertProfileEditPage/LocationSection';
 import ServiceSection from '@/uiComponents/ExpertProfileEditPage/ServiceSection';
@@ -23,6 +23,13 @@ interface LocationDummy {
 }
 interface LocatioinObject {
   [key: string]: string;
+}
+
+interface FormCareer {
+  title: string;
+  description: string;
+  start_date: string;
+  end_date: string | null;
 }
 
 export default function ExpertProfileEditPage() {
@@ -57,9 +64,11 @@ export default function ExpertProfileEditPage() {
 
   useEffect(() => {
     if (isExpert) {
-      getData();
-
-      console.log('전문가 정보', expert);
+      const timeId = setTimeout(() => {
+        getData();
+        console.log('전문가 정보', expert);
+      }, 60);
+      return () => clearTimeout(timeId);
     }
   }, [isExpert === true]);
 
@@ -149,7 +158,7 @@ export default function ExpertProfileEditPage() {
         profileData.service_display === Object.values(value)[1] && (enServiceString = Object.values(value)[0])
     );
 
-    const newArray: Career[] = [];
+    const newArray: FormCareer[] = [];
 
     Object.values(profileData.careers).map((career) => {
       const obj = career;
@@ -246,6 +255,7 @@ export default function ExpertProfileEditPage() {
             closeConfirm('preCheckConfirm');
           }}
         />
+
         <main className='expertProfileEditMain'>
           <ProfileSection
             fileRef={fileRef}
