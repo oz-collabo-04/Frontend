@@ -5,6 +5,20 @@
   margin: 0 auto;
   padding: 3rem 2rem;
   min-height: 65vh;
+  position: relative;
+}
+
+.estimationLoading {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $disabled-font;
+  z-index: 1000;
 }
 
 .expertListMainTitle {

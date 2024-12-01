@@ -4,12 +4,17 @@ interface PageTitleProps {
   title: string;
   isPrevBtn?: boolean;
   prevUrl?: string;
+  onAddClickFunction?: () => void;
 }
 
-const PageTitle = ({ title, isPrevBtn = true, prevUrl }: PageTitleProps) => {
+const PageTitle = ({ title, isPrevBtn = true, prevUrl, onAddClickFunction }: PageTitleProps) => {
   const navigate = useNavigate();
 
   const handlePrevClick = () => {
+    if (onAddClickFunction) {
+      onAddClickFunction(); // 버튼 클릭했을 때 추가적인 기능을 위해
+    }
+
     if (prevUrl) {
       navigate(prevUrl);
     }

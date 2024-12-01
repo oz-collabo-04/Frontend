@@ -4,8 +4,7 @@ import TabContentType from './TabContentType';
 interface ExpertData {
   expertData: ExpertProps[] | null;
 }
-export default function Snapshot({ expertData }: ExpertData) {
-  console.log(expertData);
+export default function Video({ expertData }: ExpertData) {
   return (
     <>
       <div>

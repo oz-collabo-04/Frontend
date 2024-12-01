@@ -11,5 +11,4 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ className = '' }) => {
     </div>
   );
 };
-
 export default LoadingSpinner;

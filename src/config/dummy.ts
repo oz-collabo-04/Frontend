@@ -313,3 +313,431 @@ export const reservationsDummy = [
     },
   },
 ];
+
+export const estimationsDummy = [
+  {
+    "id": 2402,
+    "request": 50,
+    "expert": {
+      "id": 51,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/dummyimage.com/200x200",
+      "service": "singer",
+      "service_displays":"축가가수",
+      "standard_charge": 712786,
+      "appeal": "Odit sunt itaque debitis. Ex temporibus deserunt totam soluta labore porro. Ut nobis perspiciatis provident ipsum ducimus recusandae.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 100,
+        "name": "안수민",
+        "email": "영진706@naver.com",
+        "phone_number": "010-4323-4220",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 98,
+          "title": "(유) 한 4년 근무",
+          "description": "Maxime adipisci culpa officiis tenetur. Sunt reprehenderit quae ipsa error mollitia dolorem officia.",
+          "start_date": "2024-11-29",
+          "end_date": "2028-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 315785,
+    "created_at": "2024-11-29T10:52:27.736151+09:00",
+    "updated_at": "2024-11-29T10:52:27.736154+09:00"
+  },
+  {
+    "id": 2403,
+    "request": 50,
+    "expert": {
+      "id": 52,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/picsum.photos/200/200",
+      "service": "mc",
+      "standard_charge": 810785,
+      "appeal": "Neque rerum aliquam minus ea. Neque quisquam voluptas mollitia excepturi iusto quod. Molestias vitae itaque tenetur saepe vitae. Facilis corrupti voluptatem nam repellat ab. Earum animi at facere veritatis laboriosam vitae. Repudiandae eius ut nisi quidem nulla excepturi.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 101,
+        "name": "김수민",
+        "email": "서준394@naver.com",
+        "phone_number": "010-7454-8084",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 99,
+          "title": "유한회사 김 2년 근무",
+          "description": "Assumenda ipsum earum ipsam facilis ad. Porro deserunt cum perspiciatis consequatur eos.",
+          "start_date": "2024-11-29",
+          "end_date": "2026-11-29"
+        },
+        {
+          "id": 100,
+          "title": "(유) 김 3년 근무",
+          "description": "Atque distinctio reiciendis ipsum modi porro asperiores illo. Sequi sequi cupiditate alias.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        },
+        {
+          "id": 101,
+          "title": "송송 3년 근무",
+          "description": "Officia libero voluptate architecto vero.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "mc",
+    "charge": 39811,
+    "created_at": "2024-11-29T10:52:27.738181+09:00",
+    "updated_at": "2024-11-29T10:52:27.738184+09:00"
+  },
+  {
+    "id": 2404,
+    "request": 50,
+    "expert": {
+      "id": 53,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/dummyimage.com/200x200",
+      "service": "singer",
+      "standard_charge": 111245,
+      "appeal": "In fugit beatae doloribus asperiores. Culpa a magnam inventore ab officia suscipit. Sit corporis hic magni dicta facilis. Recusandae ducimus sint cum vitae maxime hic.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 102,
+        "name": "류영미",
+        "email": "광수122@naver.com",
+        "phone_number": "010-9695-8826",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 102,
+          "title": "박오전 4년 근무",
+          "description": "Dolorem accusantium dolorum sequi voluptatibus laborum neque. Delectus facere repellat officia laborum velit laudantium velit.",
+          "start_date": "2024-11-29",
+          "end_date": "2028-11-29"
+        },
+        {
+          "id": 103,
+          "title": "김이박 3년 근무",
+          "description": "Quaerat corporis rem tenetur necessitatibus labore aperiam.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        },
+        {
+          "id": 104,
+          "title": "김성김 3년 근무",
+          "description": "Eos vitae ea blanditiis quae sed inventore praesentium. Repellendus inventore sint sint.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 207300,
+    "created_at": "2024-11-29T10:52:27.739682+09:00",
+    "updated_at": "2024-11-29T10:52:27.739685+09:00"
+  },
+  {
+    "id": 2405,
+    "request": 50,
+    "expert": {
+      "id": 54,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/placekitten.com/200/200",
+      "service": "singer",
+      "standard_charge": 677298,
+      "appeal": "Accusantium quia fugiat nam. Neque eveniet optio ea voluptates odit. Minima atque voluptatum voluptatibus blanditiis. Exercitationem sunt ratione cumque fugiat placeat mollitia. Eius quod mollitia.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 103,
+        "name": "백성현",
+        "email": "경자864@naver.com",
+        "phone_number": "010-3404-5631",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 105,
+          "title": "(유) 최김김 1년 근무",
+          "description": "Voluptatibus facere sunt vitae illum temporibus. Perferendis error asperiores tenetur cupiditate.",
+          "start_date": "2024-11-29",
+          "end_date": "2025-11-29"
+        },
+        {
+          "id": 106,
+          "title": "김박 5년 근무",
+          "description": "Voluptatum magni alias fugit qui iste saepe earum. Illo porro dicta sequi totam debitis facere accusantium.",
+          "start_date": "2024-11-29",
+          "end_date": "2029-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 311760,
+    "created_at": "2024-11-29T10:52:27.741206+09:00",
+    "updated_at": "2024-11-29T10:52:27.741209+09:00"
+  },
+  {
+    "id": 2406,
+    "request": 50,
+    "expert": {
+      "id": 55,
+      "rating": 3.5,
+      "expert_image": "http://localhost/media/https%3A/picsum.photos/200/200",
+      "service": "singer",
+      "standard_charge": 727722,
+      "appeal": "Porro sapiente quae dolore. Culpa minima voluptate ipsum optio ad. Quos dignissimos eos natus expedita tempore nam dignissimos. Ducimus accusantium soluta fugiat accusamus consequuntur placeat. Facere eum fugit veritatis aut sequi. Porro quis asperiores pariatur molestiae ad facilis ipsam.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 104,
+        "name": "이명숙",
+        "email": "종수323@naver.com",
+        "phone_number": "010-4956-9577",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 107,
+          "title": "이나김 5년 근무",
+          "description": "Sit praesentium distinctio repudiandae. Culpa libero repellat sit saepe inventore id.",
+          "start_date": "2024-11-29",
+          "end_date": "2029-11-29"
+        },
+        {
+          "id": 108,
+          "title": "(주) 최 1년 근무",
+          "description": "Rem sequi sint odit soluta.",
+          "start_date": "2024-11-29",
+          "end_date": "2025-11-29"
+        },
+        {
+          "id": 109,
+          "title": "유한회사 구 1년 근무",
+          "description": "Accusamus corrupti repellendus aspernatur assumenda sit corrupti.",
+          "start_date": "2024-11-29",
+          "end_date": "2025-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 453414,
+    "created_at": "2024-11-29T10:52:27.742895+09:00",
+    "updated_at": "2024-11-29T10:52:27.742897+09:00"
+  },
+  {
+    "id": 2407,
+    "request": 50,
+    "expert": {
+      "id": 56,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/picsum.photos/200/200",
+      "service": "singer",
+      "standard_charge": 788978,
+      "appeal": "Nesciunt soluta molestiae repudiandae. Totam atque repellendus quos enim molestias. Illo sit reprehenderit earum facilis molestias mollitia.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 105,
+        "name": "김재현",
+        "email": "지연932@naver.com",
+        "phone_number": "010-8884-3619",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 110,
+          "title": "(유) 손 2년 근무",
+          "description": "Iusto iste consequuntur sit doloremque fugit. Eum ex minus modi repudiandae.",
+          "start_date": "2024-11-29",
+          "end_date": "2026-11-29"
+        },
+        {
+          "id": 111,
+          "title": "안안 2년 근무",
+          "description": "Et perferendis itaque dignissimos quia.",
+          "start_date": "2024-11-29",
+          "end_date": "2026-11-29"
+        },
+        {
+          "id": 112,
+          "title": "이김김 3년 근무",
+          "description": "Eligendi suscipit debitis minus cum.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 287303,
+    "created_at": "2024-11-29T10:52:27.744467+09:00",
+    "updated_at": "2024-11-29T10:52:27.744470+09:00"
+  },
+  {
+    "id": 2408,
+    "request": 50,
+    "expert": {
+      "id": 57,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/picsum.photos/200/200",
+      "service": "singer",
+      "standard_charge": 741490,
+      "appeal": "Amet rem consectetur distinctio quos. Doloribus minus beatae nobis quis omnis officiis. Dicta error molestias at. Repudiandae numquam blanditiis esse nostrum quisquam.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 106,
+        "name": "박시우",
+        "email": "수빈910@naver.com",
+        "phone_number": "010-8590-7321",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 113,
+          "title": "주식회사 양 3년 근무",
+          "description": "Omnis suscipit veritatis.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        },
+        {
+          "id": 114,
+          "title": "유한회사 최한류 1년 근무",
+          "description": "Veniam quaerat error vel nam. Eius atque veniam excepturi ratione nesciunt reiciendis.",
+          "start_date": "2024-11-29",
+          "end_date": "2025-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 93471,
+    "created_at": "2024-11-29T10:52:27.745925+09:00",
+    "updated_at": "2024-11-29T10:52:27.745928+09:00"
+  },
+  {
+    "id": 2409,
+    "request": 50,
+    "expert": {
+      "id": 58,
+      "rating": 3,
+      "expert_image": "http://localhost/media/https%3A/picsum.photos/200/200",
+      "service": "mc",
+      "standard_charge": 878590,
+      "appeal": "Impedit eum sapiente provident. Deserunt commodi eligendi quia. Omnis ut quas molestias quo voluptates. Temporibus exercitationem facere repellendus ea rem nam. Recusandae consequuntur quaerat aspernatur ab.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 107,
+        "name": "이예은",
+        "email": "숙자815@naver.com",
+        "phone_number": "010-9669-8372",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 115,
+          "title": "장박문 3년 근무",
+          "description": "Placeat voluptates rem quo voluptatem voluptates. Necessitatibus enim aperiam nobis fugit.",
+          "start_date": "2024-11-29",
+          "end_date": "2027-11-29"
+        },
+        {
+          "id": 116,
+          "title": "유한회사 이 2년 근무",
+          "description": "Culpa earum quia accusantium quae. Tenetur quo tempora ducimus.",
+          "start_date": "2024-11-29",
+          "end_date": "2026-11-29"
+        },
+        {
+          "id": 117,
+          "title": "이윤김 1년 근무",
+          "description": "Impedit cum libero.",
+          "start_date": "2024-11-29",
+          "end_date": "2025-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "mc",
+    "charge": 112346,
+    "created_at": "2024-11-29T10:52:27.747396+09:00",
+    "updated_at": "2024-11-29T10:52:27.747399+09:00"
+  },
+  {
+    "id": 2410,
+    "request": 50,
+    "expert": {
+      "id": 59,
+      "rating": 0,
+      "expert_image": "http://localhost/media/https%3A/dummyimage.com/200x200",
+      "service": "singer",
+      "standard_charge": 534985,
+      "appeal": "Quo suscipit repudiandae eum praesentium illo. Numquam quasi atque aspernatur tempore in. Dolores amet illum nisi.",
+      "available_location": [
+        "jeonnam_suncheon"
+      ],
+      "user": {
+        "id": 108,
+        "name": "서우진",
+        "email": "경희853@naver.com",
+        "phone_number": "010-8610-4059",
+        "gender": "F"
+      },
+      "careers": [
+        {
+          "id": 118,
+          "title": "노김허 4년 근무",
+          "description": "Magnam unde accusamus ipsum placeat. Possimus quam cum voluptatem veniam.",
+          "start_date": "2024-11-29",
+          "end_date": "2028-11-29"
+        },
+        {
+          "id": 119,
+          "title": "양김오 5년 근무",
+          "description": "Cupiditate aperiam ex eaque qui explicabo quam. Quia debitis sit dolorum quia rerum.",
+          "start_date": "2024-11-29",
+          "end_date": "2029-11-29"
+        }
+      ]
+    },
+    "location": "jeonnam_suncheon",
+    "due_date": "2024-12-26",
+    "service": "singer",
+    "charge": 132847,
+    "created_at": "2024-11-29T10:52:27.748998+09:00",
+    "updated_at": "2024-11-29T10:52:27.749000+09:00"
+  }
+];

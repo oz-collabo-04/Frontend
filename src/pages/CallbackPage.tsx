@@ -1,8 +1,11 @@
 import { client } from '@/api/axiosInstance';
-import XSmallTitle from '@/components/Title/XSmallTitle';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
+import useLoginToastStateStore from '@/store/loginToastStateStore';
 import { useToastStore } from '@/store/toastStore';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
+import '@/styles/CallbackPage/callbackPage.scss';
+
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -14,8 +17,10 @@ interface LoginProps {
 export default function CallbackPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setIsExpert, setName } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setUserName, userName, isLoggedIn } = useUserStateStore();
   const { provider } = useLoginProviderStore();
+  const { addToasts } = useToastStore();
+  const { setIsLoginToastShown } = useLoginToastStateStore();
 
   console.log(addToasts);
 
@@ -49,15 +54,16 @@ export default function CallbackPage() {
           localStorage.setItem('email', email);
           localStorage.setItem('user_id', id);
           localStorage.setItem('profile_image', profile_image);
-          if (setIsLoggedIn && setIsExpert && setName) {
+          if (setIsLoggedIn && setIsExpert && setUserName) {
             setIsLoggedIn(true);
             setIsExpert(is_expert);
-            setName(name);
+            setUserName(name);
+            setIsLoginToastShown(true);
           }
           if (window.opener) {
             window.opener.location.href = '/';
           }
-          window.close();
+          // window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }
@@ -66,11 +72,22 @@ export default function CallbackPage() {
       }
     };
     socialLoginHandler();
-  }, [location, navigate, provider, setIsExpert, setIsLoggedIn, setName]);
+  }, [
+    addToasts,
+    isLoggedIn,
+    location,
+    navigate,
+    provider,
+    setIsExpert,
+    setIsLoggedIn,
+    setIsLoginToastShown,
+    setUserName,
+    userName,
+  ]);
 
   return (
-    <>
-      <XSmallTitle title='로그인 중입니다....' />
-    </>
+    <div className='loginLoadingSpinnerBox'>
+      <LoadingSpinner />
+    </div>
   );
 }

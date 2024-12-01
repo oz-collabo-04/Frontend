@@ -6,6 +6,8 @@
   .contentLayout {
     display: flex;
     margin: 6rem auto;
+    width: 100%;
+    flex-direction: column;
 
     .tabContentsType {
       display: flex;
@@ -16,6 +18,12 @@
 
       .profileBadge {
         //메인 페이지 전문가 이미지
+        width: 40rem;
+        height: 28rem;
+        object-fit: cover;
+      }
+
+      .profileBadgeIcon {
         width: 40rem;
         height: 28rem;
         object-fit: cover;
