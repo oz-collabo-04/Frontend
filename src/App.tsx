@@ -20,6 +20,7 @@ import ToastLayout from './layouts/ToastLayout';
 
 import { useToastStore } from './store/toastStore';
 import { setRedirectFunction } from './api/axiosInstance';
+import CalenderPage from './pages/CalenderPage';
 
 function App() {
   const { provider } = useLoginProviderStore();
@@ -45,6 +46,7 @@ function App() {
             <Route path='/common' element={<Common />} />
             <Route path='/userestimation' element={<UserEstimationPage />} />
             <Route path='/reservation' element={<ReservationPage />} />
+            <Route path='/calenderPage' element={<CalenderPage />} />
             <Route path='/estimationlist' element={<Estimationlistpage />} />
             <Route path='/expertlist' element={<Expertlistpage />} />
             <Route path='/login' element={<LoginPage />} />
