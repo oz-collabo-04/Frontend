@@ -1,13 +1,12 @@
 import { client } from '@/api/axiosInstance';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import useLoginToastStateStore from '@/store/loginToastStateStore';
-import { useToastStore } from '@/store/toastStore';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
 import '@/styles/CallbackPage/callbackPage.scss';
 
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 interface LoginProps {
   code: string | null;
@@ -16,10 +15,8 @@ interface LoginProps {
 
 export default function CallbackPage() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { setIsLoggedIn, setIsExpert, setUserName, userName, isLoggedIn } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setUserName } = useUserStateStore();
   const { provider } = useLoginProviderStore();
-  const { addToasts } = useToastStore();
   const { setIsLoginToastShown } = useLoginToastStateStore();
 
   useEffect(() => {
@@ -46,6 +43,7 @@ export default function CallbackPage() {
         console.log('Response:', response);
 
         const { access_token } = response.data;
+        console.log(typeof access_token);
         const { email, id, is_expert, name, profile_image } = response.data.user;
         if (access_token) {
           localStorage.setItem('access_token', access_token);
@@ -70,18 +68,9 @@ export default function CallbackPage() {
       }
     };
     socialLoginHandler();
-  }, [
-    addToasts,
-    isLoggedIn,
-    location,
-    navigate,
-    provider,
-    setIsExpert,
-    setIsLoggedIn,
-    setIsLoginToastShown,
-    setUserName,
-    userName,
-  ]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='loginLoadingSpinnerBox'>
