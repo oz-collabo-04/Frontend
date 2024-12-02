@@ -76,7 +76,7 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchGetExpertRegister();
       console.log('get', data);
-      setIsLoading((e) => !e);
+      setIsLoading(true);
 
       setExpert(data);
 
@@ -111,9 +111,8 @@ export default function ExpertProfileEditPage() {
   const locationData = async () => {
     try {
       const data = await fetchServiceLocation();
-      setIsLoading((e) => !e);
-      setEnLocation(data);
-      return data;
+      setIsLoading(true);
+      return setEnLocation(data);
     } catch (err) {
       console.error(err);
     }
@@ -122,7 +121,7 @@ export default function ExpertProfileEditPage() {
   const serviceData = async () => {
     try {
       const data = await fetchServiceServices();
-      setIsLoading((e) => !e);
+      setIsLoading(true);
       return setEnService(data);
     } catch (err) {
       console.error(err);
