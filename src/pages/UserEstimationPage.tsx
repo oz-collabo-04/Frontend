@@ -1,4 +1,4 @@
-import '@/styles/UserEstimationPage/userEstimation.scss';
+import '@/styles/UserEstimationPage/main.scss';
 import '@/global.scss';
 import MainBtn from '@/components/Button/MainBtn';
 import Checkbox from '@/components/Checkbox/Checkbox';
