@@ -12,14 +12,16 @@ export default function LoginPage() {
   const googleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const kakaoClientID = import.meta.env.VITE_KAKAO_CLIENT_ID;
   const { setProvider } = useLoginProviderStore();
-
+  const RandomState = () => {
+    return Math.floor(Math.random() * 90000000) + 10000000;
+  };
   const loginPopup = (provider: 'naver' | 'google' | 'kakao') => {
     setProvider(provider);
     let url = '';
 
     switch (provider) {
       case 'naver':
-        url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=1234`;
+        url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&redirect_uri=${redirectBaseURL}/naver/callback/&state=${RandomState()}`;
         window.open(url, `${provider}loginPopup`, 'width=600,height=600,left=400,top=100');
         break;
       case 'google':
