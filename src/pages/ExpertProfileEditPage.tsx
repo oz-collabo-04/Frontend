@@ -16,7 +16,6 @@ import Confirm from '@/components/Confirm/Confirm';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import useUserStateStore from '@/store/useUserStateStore';
-// import useUserStateStore from '@/store/useUserStateStore';
 
 interface LocationDummy {
   [key: string]: { [key: string]: string }[] | string;
@@ -67,8 +66,10 @@ export default function ExpertProfileEditPage() {
       const timeId = setTimeout(() => {
         getData();
         console.log('전문가 정보', expert);
-      }, 60);
+      }, 600);
       return () => clearTimeout(timeId);
+    } else {
+      setIsLoading(true);
     }
   }, [isExpert === true]);
 
@@ -76,7 +77,7 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchGetExpertRegister();
       console.log('get', data);
-      setIsLoading(true);
+      setIsLoading((e) => !e);
 
       setExpert(data);
 
@@ -111,7 +112,6 @@ export default function ExpertProfileEditPage() {
   const locationData = async () => {
     try {
       const data = await fetchServiceLocation();
-      setIsLoading(true);
       return setEnLocation(data);
     } catch (err) {
       console.error(err);
@@ -121,7 +121,6 @@ export default function ExpertProfileEditPage() {
   const serviceData = async () => {
     try {
       const data = await fetchServiceServices();
-      setIsLoading(true);
       return setEnService(data);
     } catch (err) {
       console.error(err);
