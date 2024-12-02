@@ -37,17 +37,15 @@ auth.interceptors.request.use(
   }
 );
 
-const refreshAccessToken = async (): Promise<string | null> => {
+const refreshAccessToken = async () => {
   try {
-    const accessToken = getAccessToken();
-    const response = await auth.post('users/token/refresh/', { access_token: accessToken });
+    const response = await client.post('users/token/refresh/');
     const newAccessToken = response.data;
     localStorage.removeItem('access_token');
     localStorage.setItem('access_token', newAccessToken);
     return newAccessToken;
   } catch (error) {
     console.error('access_token 갱신 실패', error);
-    return null;
   }
 };
 
@@ -58,7 +56,7 @@ auth.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._isRetry) {
+    if (error.response.status === 401 && !originalRequest._isRetry) {
       try {
         // 무한 요청 방지
         originalRequest._isRetry = true;
@@ -75,16 +73,20 @@ auth.interceptors.response.use(
         } else {
           console.error('토큰 갱신 실패: 로그인 페이지로 리다이렉트합니다.');
           redirectToLoginPage();
+          return Promise.reject(error);
         }
       } catch (refreshError) {
         console.error('토큰 갱신 중 에러 발생:', refreshError);
+        redirectToLoginPage();
+        return Promise.reject(refreshError);
       }
     }
 
-    // 다른 401 에러 처리 (무한 반복 요청 방지)
-    if (error.response?.status === 401) {
-      console.error('에러로 인한 토큰 재발급 실패', error);
-    }
+    // // 다른 401 에러 처리 (무한 반복 요청 방지)
+    // if (error.response.status !== 200) {
+    //   console.error('에러로 인한 토큰 재발급 실패', error);
+    //   return;
+    // }
 
     // 다른 에러는 그대로 반환
     return Promise.reject(error);

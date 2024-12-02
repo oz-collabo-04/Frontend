@@ -61,7 +61,7 @@ export default function CallbackPage() {
           if (window.opener) {
             window.opener.location.href = '/';
           }
-          // window.close();
+          window.close();
         } else {
           console.error('AT를 찾을 수 없습니다 :', response.data);
         }
