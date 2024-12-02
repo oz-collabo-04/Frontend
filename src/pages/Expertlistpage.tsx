@@ -35,11 +35,15 @@ interface Expert {
 interface ExpertCardProps {
   expert: Expert;
   onProfileClick: (id: number) => void;
+  onDelete: (id: number) => void;
+  isDeleting: boolean;
 }
 
 const ExpertCard: React.FC<ExpertCardProps> = ({ 
   expert,
-  onProfileClick
+  onProfileClick,
+  onDelete,
+  isDeleting
 }) => {
   if (!expert || !expert.request) {
     return null;
@@ -92,13 +96,15 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
           size="medium"
           backgroundColor="$main-color"
           color="$font-color"
-          onClick={() => onProfileClick(expert.id)}
+          onClick={() => onProfileClick(expert.request.id)}
         />
         <MainBtn
-          name="받은요청삭제"
+          name={isDeleting ? "삭제 중..." : "받은요청삭제"}
           size="medium"
           backgroundColor="$main-color"
           color="$font-color"
+          onClick={() => onDelete(expert.id)}
+          disabled={isDeleting}
         />
       </div>
     </div>
@@ -112,6 +118,7 @@ const Expertlistpage: React.FC = () => {
   const [experts, setExperts] = useState<Expert[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingExperts, setDeletingExperts] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     const fetchExperts = async () => {
@@ -144,6 +151,24 @@ const Expertlistpage: React.FC = () => {
     openModal('expertProfile');
   };
 
+  const handleDelete = async (id: number) => {
+    setDeletingExperts(prev => ({ ...prev, [id]: true }));
+    try {
+      await auth.delete(`/experts/estimations/requests/${id}/`);
+      setExperts(prevExperts => prevExperts.filter(expert => expert.id !== id));
+      console.log(`Expert with id ${id} deleted successfully.`);
+    } catch (error: unknown) {
+      console.error('Error deleting request:', error);
+      if (error instanceof Error) {
+        setError(`요청을 삭제하는 데 실패했습니다: ${error.message}`);
+      } else {
+        setError('요청을 삭제하는 데 실패했습니다.');
+      }
+    } finally {
+      setDeletingExperts(prev => ({ ...prev, [id]: false }));
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="estimationLoading">
@@ -166,6 +191,8 @@ const Expertlistpage: React.FC = () => {
               key={expert.id}
               expert={expert}
               onProfileClick={handleProfileClick}
+              onDelete={handleDelete}
+              isDeleting={deletingExperts[expert.id] || false}
             />
           ))}
         </div>
@@ -176,4 +203,3 @@ const Expertlistpage: React.FC = () => {
 }
 
 export default Expertlistpage
-

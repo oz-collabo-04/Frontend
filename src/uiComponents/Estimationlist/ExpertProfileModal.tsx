@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '@/components/Modal/Modal';
 import StarRating from '@/components/Rating/StarRating';
-import ProfileBadge from '@/components/Badge/ProfileBadge'
+import ProfileBadge from '@/components/Badge/ProfileBadge';
 import '@/styles/Estimationpage/expertprofile.scss';
 import { auth } from '@/api/axiosInstance';
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 interface User {
   id: number;
@@ -22,14 +22,35 @@ interface Career {
 
 interface Expert {
   id: number;
-  rating: string; 
+  rating: string;
   expert_image: string;
-  service: 'mc' 
+  service: 'mc';
   standard_charge: number;
   appeal: string;
   available_location: string;
   user: User;
   careers: Career[];
+}
+
+interface ReviewImage {
+  id: number;
+  image: string;
+}
+
+interface Review {
+  id: number;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    phone_number: string;
+  };
+  reservation: number;
+  content: string;
+  rating: number;
+  review_images: ReviewImage[];
+  created_at: string;
+  updated_at: string;
 }
 
 interface ExpertProfileModalProps {
@@ -38,6 +59,7 @@ interface ExpertProfileModalProps {
 
 const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => {
   const [expertData, setExpertData] = useState<Expert | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [showFullEstimate, setShowFullEstimate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,8 +72,12 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
       setError(null);
 
       try {
-        const response = await auth.get(`/estimations/${expertId}/`);
-        setExpertData(response.data);
+        const [expertResponse, reviewsResponse] = await Promise.all([
+          auth.get(`/estimations/${expertId}/`),
+          auth.get('/experts/reviews/')
+        ]);
+        setExpertData(expertResponse.data);
+        setReviews(reviewsResponse.data);
       } catch (err) {
         setError('전문가 데이터를 불러오는 데 실패했습니다.');
         console.error('Error fetching expert data:', err);
@@ -64,7 +90,7 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
   }, [expertId]);
 
   const toggleEstimate = () => setShowFullEstimate(!showFullEstimate);
-  
+
   const handleRatingChange = (newRating: number) => {
     if (expertData) {
       setExpertData({ ...expertData, rating: newRating.toString() });
@@ -136,6 +162,38 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
             </div>
           </div>
         )}
+
+        <div className="expert-profile-section">
+          <h3 className="section-title">리뷰</h3>
+          {reviews.length === 0 ? (
+            <p className="no-reviews">아직 리뷰가 없습니다.</p>
+          ) : (
+            reviews.map((review) => (
+              <div key={review.id} className="review-item">
+                <div className="review-header">
+                  <p className="reviewer-name">{review.user.name}</p>
+                  <StarRating initialRating={review.rating} />
+                  <p className="review-date">{new Date(review.created_at).toLocaleDateString('ko-KR')}</p>
+                </div>
+                <p className="review-content">{review.content}</p>
+                {review.review_images.length > 0 && (
+                  <div className="review-images">
+                    {review.review_images.map((image) => (
+                      <img
+                        key={image.id}
+                        src={image.image}
+                        alt="리뷰 이미지"
+                        width={100}
+                        height={100}
+                        className="review-image"
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
       </div>
     );
   };
@@ -166,4 +224,5 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ expertId }) => 
   );
 };
 
-export default ExpertProfileModal
+export default ExpertProfileModal;
+
