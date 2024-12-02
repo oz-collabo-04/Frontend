@@ -47,7 +47,7 @@ const Header = () => {
         console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error('fetchError', error.response);
+          // console.error('fetchError', error.response);
           navigate('/expertProfileEditPage');
           addToasts({
             id: Date.now().toString(),
