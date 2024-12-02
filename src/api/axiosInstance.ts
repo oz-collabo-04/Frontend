@@ -40,7 +40,7 @@ auth.interceptors.request.use(
 const refreshAccessToken = async () => {
   try {
     const response = await client.post('users/token/refresh/');
-    const newAccessToken = response.data;
+    const newAccessToken = response.data.access_token;
     localStorage.removeItem('access_token');
     localStorage.setItem('access_token', newAccessToken);
     return newAccessToken;
@@ -73,12 +73,10 @@ auth.interceptors.response.use(
         } else {
           console.error('토큰 갱신 실패: 로그인 페이지로 리다이렉트합니다.');
           redirectToLoginPage();
-          return Promise.reject(error);
         }
       } catch (refreshError) {
         console.error('토큰 갱신 중 에러 발생:', refreshError);
         redirectToLoginPage();
-        return Promise.reject(refreshError);
       }
     }
 
