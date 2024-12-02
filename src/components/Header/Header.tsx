@@ -11,8 +11,7 @@ import Alarm from '../Alarm/Alarm';
 import axios from 'axios';
 
 const Header = () => {
-  const { setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
-  const userLogin = useUserStateStore((state) => state.isLoggedIn);
+  const { isLoggedIn, setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
   const [showAlarm, setShowAlarm] = useState(false);
@@ -101,7 +100,7 @@ const Header = () => {
                   견적요청
                 </Link>
               </div>
-              {!userLogin ? (
+              {!isLoggedIn ? (
                 <div className='loginBtn'>
                   <Link to='/login' aria-label='로그인 페이지로 이동'>
                     <MainBtn name='로그인' width='auto' />
@@ -143,7 +142,7 @@ const Header = () => {
           </div>
         </nav>
         <div className='headerMiniMenu'>
-          {userLogin && <Alarm />}
+          {isLoggedIn && <Alarm />}
           <span className='iconMenu'>
             <button type='button' className='menuBtn' onClick={() => setMenuVisible((prev) => !prev)}>
               &#9776;
@@ -151,7 +150,7 @@ const Header = () => {
           </span>
           {menuVisible && (
             <div className='sliderMenu'>
-              {!userLogin ? (
+              {!isLoggedIn ? (
                 <div className='loginMenu'>
                   <div className='estimationEdit'>
                     <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>

@@ -7,6 +7,7 @@ import PageTitle from '@/components/PageTitle/PageTitle';
 import Radio from '@/components/Radio/Radio';
 import SmallTitle from '@/components/Title/SmallTitle';
 import XSmallTitle from '@/components/Title/XSmallTitle';
+import MediumTitle from '@/components/Title/MediumTitle';
 
 const UserEstimationPage = () => {
   // 지역선택 시, 시,도 하위 내용이 없을경우 선택 X
@@ -20,23 +21,23 @@ const UserEstimationPage = () => {
       <div className='userEstimationPage contentLayout'>
         <PageTitle title='견적 요청하기' isPrevBtn={true} prevUrl='/' />
         <div className='contents'>
+          <MediumTitle extraClass={'mainTitle'} title='견적 요청서' />
           <div className='service'>
             <SmallTitle title='서비스 선택' />
-            <div className='service choose'>
+            <div className='choose'>
               <Checkbox idFor='service1' content='사회자' />
               <Checkbox idFor='service2' content='영상 촬영' />
               <Checkbox idFor='service3' content='스냅 촬영' />
               <Checkbox idFor='service4' content='축가 가수' />
             </div>
-            <div className='gender'>
-              <XSmallTitle title='전문가 선호 성별' />
-              <div className='choose'>
-                <Radio idFor='man' content='남성' name='gender' />
-                <Radio idFor='women' content='여성' name='gender' />
-                <Radio idFor='anyGender' content='상관 없음' name='gender' />
-              </div>
+          </div>
+          <div className='gender'>
+            <XSmallTitle title='전문가 선호 성별' />
+            <div className='choose'>
+              <Radio idFor='man' content='남성' name='gender' />
+              <Radio idFor='women' content='여성' name='gender' />
+              <Radio idFor='anyGender' content='상관 없음' name='gender' />
             </div>
-            <div></div>
           </div>
           <div className='date'>
             <SmallTitle title='희망 일정 선택' />
