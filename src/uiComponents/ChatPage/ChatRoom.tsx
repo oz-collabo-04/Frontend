@@ -1,89 +1,90 @@
 import InputField from './InputField';
-import { useState } from 'react';
-// import socket from '@/config/server';
+import { useEffect, useRef, useState } from 'react';
 import ChatContainer from './ChatContainer';
+import { ChatRoomProps } from '@/pages/ChatPage';
+import ChatSocket from '@/utils/chatSocket';
+import useMessageStore from '@/store/useMessageStore';
 
-interface Message {
-  chat: string; // 메시지 내용
-  user: { name: string }; // 보낸 사람의 이름
-}
+const socketBaseUrl = import.meta.env.VITE_BACKEND_CHAT_URL;
 
-const ChatRoom = () => {
-  const [user] = useState<{ name: string } | null>(null);
-  const [message, setMessage] = useState<string>('');
-  const [messageList] = useState<Message[]>([]);
-  console.log('messageList', messageList);
+const ChatRoom = ({ roomId }: ChatRoomProps) => {
+  const chatSocketRef = useRef<ChatSocket | null>(null); // ChatSocket 인스턴스 관리
+  const messages = useMessageStore((state) => state.messages); // 메시지 스토어에서 메시지 가져오기
+
+  useEffect(() => {
+    if (roomId) {
+      // ChatSocket 인스턴스 생성
+      chatSocketRef.current = new ChatSocket(`${socketBaseUrl}/chat/${roomId}/`, [
+        localStorage.getItem('access_token')!,
+      ]);
+      // chatSocketRef.current = chatSocket;
+
+      console.log(`ChatSocket initialized for room ID: ${roomId}`);
+
+      // 컴포넌트가 언마운트되거나 방 ID가 변경될 때 WebSocket 연결 종료
+      return () => {
+        if (chatSocketRef.current?.webSocket?.readyState === 3) {
+          chatSocketRef.current?.close();
+          console.log('ChatSocket closed');
+        }
+      };
+    }
+  }, [roomId]);
+
+  // 메시지 전송 핸들러
+  const handleSendMessage = (messageContent: string) => {
+    if (chatSocketRef.current) {
+      const message = {
+        type: 'chat_message',
+        content: messageContent,
+        timestamp: new Date().toISOString(),
+      };
+      chatSocketRef.current.sendMessage(message);
+    }
+  };
+
+  // const socketRef = useRef<WebSocket | null>(null);
+  // const [socket, setSocket] = useState<WebSocket | null>(null); // WebSocket 객체 상태
+  // const [message, setMessage] = useState(''); // 사용자 입력 메시지 상태
+  // const [chatLog, setChatLog] = useState([]); // 채팅 기록 상태
 
   // // 웹소켓 연결
   // useEffect(() => {
-  //   console.log('Socket instance:', socket);
-  //   // socket 객체가 제대로 초기화되었는지 확인하기 위해 출력
+  //   const newSocket = new WebSocket(`${socketBaseUrl}/chat/${roomId}/`, [localStorage.getItem('access_token')!]);
+  //   // setSocket(newSocket); // 상태에 새로 생성된 소켓 객체 저장
+  //   socketRef.current = newSocket;
 
-  //   socket.on('connect', () => {
-  //     console.log('Connected to server with id:', socket.id);
-  //   });
-  //   // 서버와 연결이 성공했을 때 실행되는 콜백 함수 등록
-  //   // 서버로부터 할당받은 socket ID를 출력
-
-  //   socket.on('response', (msg) => {
-  //     console.log('Message from server:', msg);
-  //   });
-  //   // 서버에서 "response"라는 이벤트가 발생했을 때 실행되는 콜백 함수 등록
-  //   // 서버에서 전송된 메시지를 콘솔에 출력
-
-  //   socket.on('disconnect', () => {
-  //     console.log('Disconnected from server');
-  //   });
-  //   // 서버와의 연결이 끊어졌을 때 실행되는 콜백 함수 등록
-  //   // 연결 해제 메시지를 콘솔에 출력
-
-  //   return () => {
-  //     socket.off('connect');
-  //     // "connect" 이벤트에 대한 리스너를 제거
-
-  //     socket.off('response');
-  //     // "response" 이벤트에 대한 리스너를 제거
-
-  //     socket.off('disconnect');
-  //     // "disconnect" 이벤트에 대한 리스너를 제거
+  //   // WebSocket 연결이 성공적으로 열렸을 때 호출되는 이벤트 핸들러
+  //   newSocket.onopen = () => {
+  //     console.log('WebSocket 연결이 성공적으로 열렸습니다.');
+  //     // newSocket.send(JSON.stringify({ type: 'chat_message', content: '메시지' }));
   //   };
-  //   // 컴포넌트가 언마운트되거나 리렌더링될 때 리스너 정리
-  //   // 메모리 누수 및 중복 이벤트 등록 방지
-  // }, []);
 
-  // // 유저 이름을 입력받고 로그인 처리
-  // const askUserName = () => {
-  //   const userName = prompt('당신의 이름을 입력하세요.');
-  //   console.log('userName', userName);
+  //   // 서버로부터 메시지를 수신했을 때 호출되는 이벤트 핸들러
+  //   newSocket.onmessage = (event) => {
+  //     console.log('서버로부터 받은 메시지:', event.data);
+  //   };
 
-  //   socket.emit('login', userName, (res: { ok: boolean; data: { name: string } }) => {
-  //     if (res?.ok) {
-  //       setUser(res.data);
-  //     }
-  //   });
-  // };
+  //   // WebSocket 통신 중 에러가 발생했을 때 호출되는 이벤트 핸들러
+  //   newSocket.onerror = (error) => {
+  //     console.error('WebSocket 에러:', error);
+  //   };
 
-  // // 서버에서 메시지 수신 시 처리
-  // useEffect(() => {
-  //   socket.on('message', (message) => {
-  //     setMessageList((prevState) => prevState.concat(message));
-  //   });
+  //   // WebSocket 연결이 닫혔을 때 호출되는 이벤트 핸들러
+  //   newSocket.onclose = () => {
+  //     console.log('WebSocket 연결이 닫혔습니다.');
+  //   };
 
-  //   askUserName();
-  // }, []);
-
-  // 메시지 전송 함수
-  const sendMessage = (event: React.FormEvent) => {
-    event.preventDefault();
-    // socket.emit('sendMessage', message, (res: { ok: boolean }) => {
-    //   console.log('sendMessage res', res);
-    // });
-  };
+  //   // 컴포넌트가 언마운트되거나 리렌더링될 때 소켓 연결을 종료
+  //   return () => {
+  //     newSocket.close();
+  //   };
+  // }, [roomId]);
 
   return (
     <div className='chatRoom'>
-      <ChatContainer messageList={messageList} user={user} />
-      <InputField message={message} setMessage={setMessage} sendMessage={sendMessage} />
+      {/* <ChatContainer messageList={messageList} user={user} />
+      <InputField message={message} setMessage={setMessage} sendMessage={sendMessage} /> */}
     </div>
   );
 };

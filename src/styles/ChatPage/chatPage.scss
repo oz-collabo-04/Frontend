@@ -132,9 +132,9 @@
           display: flex;
           flex-direction: column;
           gap: 0.8rem;
-          .address {
+          .expertOcc {
             font-size: 1.4rem;
-            font-weight: 700;
+            font-weight: 500;
             color: $font-deactivate-color;
           }
         }
@@ -168,6 +168,17 @@
                 background-color: $main-color;
               }
             }
+          }
+        }
+      }
+      .weddingSchedule {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        li {
+          font-size: 1.4rem;
+          strong {
+            font-weight: 600;
           }
         }
       }

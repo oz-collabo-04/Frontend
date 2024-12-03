@@ -63,7 +63,7 @@ function App() {
           </Route>
           {/* 푸터 제외 레이아웃 */}
           <Route element={<NoFooterLayout />}>
-            <Route path='/chatpage' element={<ChatPage />} />
+            <Route path='/chatpage/:roomId' element={<ChatPage />} />
           </Route>
           <Route path={`/login/${provider}/callback`} element={<CallbackPage />} />
         </Route>
