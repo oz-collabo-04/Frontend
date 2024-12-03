@@ -1,11 +1,7 @@
-import Chat from './Chat';
-
 const OngoingChats = () => {
   return (
     <div className='chatListContainer'>
-      <div className='chatList'>
-        <Chat />
-      </div>
+      <div className='chatList'>진행중</div>
     </div>
   );
 };

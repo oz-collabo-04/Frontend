@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import '@/styles/ChatListPage/chatListPage.scss';
 import AllChats from '@/uiComponents/ChatListPage/AllChats';
 import OngoingChats from '@/uiComponents/ChatListPage/OngoingChats';
 import CompletedChats from '@/uiComponents/ChatListPage/CompletedChats';
-import { auth } from '@/api/axiosInstance';
 
 const ChatListPage = () => {
   const [activeTab, setActiveTab] = useState('전체');
@@ -20,18 +19,6 @@ const ChatListPage = () => {
         return <AllChats />;
     }
   };
-
-  useEffect(() => {
-    const fetchChatList = async () => {
-      try {
-        const response = await auth.get('/chat/chatrooms/');
-        console.log('data :', response.data);
-      } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
-      }
-    };
-    fetchChatList();
-  }, []);
 
   return (
     <div className='chatListPage'>
