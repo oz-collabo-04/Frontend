@@ -23,18 +23,20 @@ import { setRedirectFunction } from './api/axiosInstance';
 
 import useUserStateStore from './store/useUserStateStore';
 import CalenderPage from './pages/CalenderPage';
-
+import useModeChangerStore from './store/modeChangerStore';
 
 function App() {
   const { provider } = useLoginProviderStore();
   const { setIsLoggedIn } = useUserStateStore();
+  const { setMode } = useModeChangerStore();
   const navigate = useNavigate();
   const { addToasts } = useToastStore();
 
   setRedirectFunction(() => {
     navigate('/login');
-    if (setIsLoggedIn) {
+    if (setIsLoggedIn && setMode) {
       setIsLoggedIn(false);
+      setMode('guest');
     }
     addToasts({
       id: Date.now().toString(),
