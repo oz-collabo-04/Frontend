@@ -11,7 +11,7 @@ import Alarm from '../Alarm/Alarm';
 import axios from 'axios';
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
+  const { isLoggedIn, isExpert, setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
   const [showAlarm, setShowAlarm] = useState(false);
@@ -37,7 +37,7 @@ const Header = () => {
           navigate('/');
           addToasts({
             id: Date.now().toString(),
-            title: '전문가님, 안녕하세요!',
+            title: '유저로 전환되셨습니다.',
             type: 'success',
           });
           if (setIsExpert) {
@@ -47,7 +47,6 @@ const Header = () => {
         console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          // console.error('fetchError', error.response);
           navigate('/expertProfileEditPage');
           addToasts({
             id: Date.now().toString(),
@@ -58,6 +57,18 @@ const Header = () => {
       }
     };
     expertDetailData();
+  };
+
+  const onClickUser = () => {
+    navigate('/');
+    addToasts({
+      id: Date.now().toString(),
+      title: '전문가님, 안녕하세요!',
+      type: 'success',
+    });
+    if (setIsExpert) {
+      setIsExpert(false);
+    }
   };
 
   const OnClick = () => {
@@ -72,11 +83,6 @@ const Header = () => {
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
       } catch (error) {
-        // localStorage.clear();
-        // if (setIsLoggedIn && setUserName) {
-        //   setIsLoggedIn(false);
-        //   setUserName(null);
-        // }
         console.error('로그아웃 중에 오류가 발생했습니다', error);
         addToasts({ type: 'error', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
       }
@@ -117,9 +123,15 @@ const Header = () => {
                         마이
                       </Link>
                     </li>
-                    <li onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동' style={{ cursor: 'pointer' }}>
-                      전문가
-                    </li>
+                    {isExpert ? (
+                      <li onClick={onClickUser} aria-label='유저로 전환' style={{ cursor: 'pointer' }}>
+                        유저
+                      </li>
+                    ) : (
+                      <li onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동' style={{ cursor: 'pointer' }}>
+                        전문가
+                      </li>
+                    )}
                     <li>
                       <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
                         받은견적
@@ -178,14 +190,20 @@ const Header = () => {
                     </Link>
                   </div>
                   <hr />
-                  <div
-                    onClick={onClickExpert}
-                    className='expertConversion'
-                    aria-label='전문가 프로필페이지로 이동'
-                    style={{ cursor: 'pointer' }}
-                  >
-                    전문가 전환
-                  </div>
+                  {isExpert ? (
+                    <div onClick={onClickUser} aria-label='유저로 전환' style={{ cursor: 'pointer' }}>
+                      유저 전환
+                    </div>
+                  ) : (
+                    <div
+                      onClick={onClickExpert}
+                      className='expertConversion'
+                      aria-label='전문가 프로필페이지로 이동'
+                      style={{ cursor: 'pointer' }}
+                    >
+                      전문가 전환
+                    </div>
+                  )}
                   <hr />
                   <div>
                     <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>

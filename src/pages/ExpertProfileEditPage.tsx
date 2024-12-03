@@ -69,8 +69,8 @@ export default function ExpertProfileEditPage() {
         console.log('전문가 정보', expert);
       }, 60);
       return () => clearTimeout(timeId);
-    }
-  }, [isExpert === true]);
+    }[isExpert === true]
+  }, );
 
   const getData = async () => {
     try {

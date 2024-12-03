@@ -20,14 +20,19 @@ import ToastLayout from './layouts/ToastLayout';
 
 import { useToastStore } from './store/toastStore';
 import { setRedirectFunction } from './api/axiosInstance';
+import useUserStateStore from './store/useUserStateStore';
 
 function App() {
   const { provider } = useLoginProviderStore();
+  const { setIsLoggedIn } = useUserStateStore();
   const navigate = useNavigate();
   const { addToasts } = useToastStore();
 
   setRedirectFunction(() => {
     navigate('/login');
+    if (setIsLoggedIn) {
+      setIsLoggedIn(false);
+    }
     addToasts({
       id: Date.now().toString(),
       title: '로그인이 만료되었습니다. 다시 로그인 해주세요',
