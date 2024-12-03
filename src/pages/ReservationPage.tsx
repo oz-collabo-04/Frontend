@@ -6,23 +6,46 @@ import ReservationContent from '@/uiComponents/MyPage/Reservation/ReservationCon
 import { useEffect, useState } from 'react';
 import { fetchReserveList } from '@/api/reserve';
 import { IReservationData } from '@/config/types';
+import { useNavigate } from 'react-router-dom';
+import { useModalStore } from '@/store/modalStore';
+import { useExpertStore } from '@/store/expertStore';
 
 const ReservationPage = () => {
   const [reserveData, setReserveData] = useState<IReservationData | null>([]);
+  const { expert, setExpert } = useExpertStore();
+  const [isLoading, setIsLoading] = useState(true);
+  const { openModal } = useModalStore;
 
+  const navigate = useNavigate();
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const data: IReservationData = await fetchReserveList();
+      setReserveData(data);
+      console.log('data:', data);
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 예약 리스트 로딩
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data: IReservationData = await fetchReserveList();
-        setReserveData(data);
-        console.log('data:', data);
-        return data;
-      } catch (err) {
-        console.error(err);
-      }
-    };
     fetchData();
+    // setExpert(reserveData);
   }, []);
+
+  // 전문가 리뷰 연결
+  const handleReviewClick = (id: number) => {
+    // setSelectedExpertId(id);
+    openModal('expertReview');
+  };
+
+  // 채팅방연결
+  const handleChatClick = (id: number) => {
+    navigate(`/chatpage/${id}`);
+  };
 
   return (
     <>
@@ -39,12 +62,14 @@ const ReservationPage = () => {
                 <ReservationContent
                   key={reservation.id}
                   title={estimation.service}
-                  name={expert.name}
+                  name={expert.user.name}
                   charge={estimation.charge}
-                  ServiceTime={estimation.due_date}
+                  serviceTime={estimation.due_date}
                   reserveStatus={status}
                   date={estimation.created_at}
-                  reviewId={estimation.id}
+                  reviewId={expert.id}
+                  onChatClick={() => handleChatClick(expert.id)}
+                  onReviewClick={() => handleReviewClick(reservation.id)}
                 />
               );
             })}

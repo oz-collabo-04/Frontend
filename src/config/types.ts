@@ -33,41 +33,43 @@ export interface IReservationContentProps {
   reserveStatus: string; // 예약상태
   name: string; // 전문가 이름
   charge: number | string; // 금액
-  ServiceTime: string; // 서비스 시간
+  serviceTime: string; // 서비스 시간
   date: string; // 예약 생성 날짜/시간
   reviewId: number; // 리뷰 ID
+  onChatClick?: () => void;
+  onReviewClick?: () => void;
 }
 
 interface IRequestUser {
+  email: string;
   id: number;
   name: string;
-  phone: string;
+  phone_number: string;
 }
 
 interface IExpert {
-  user_id: number;
+  expert_image: string;
+  id: number;
+  user: IExpertUser;
+}
+
+interface IExpertUser {
   email: string;
-  phone: string;
+  id: number;
   name: string;
-  profile_image: string;
-  // Expert 추가필드
-  available_location?: string[]; // 선택적 필드
-  appeal?: string;
-  service?: string;
-  standard_charge?: string;
+  phone_number: string;
 }
 
 interface IEstimation {
-  id: number; // 견적 ID
-  request_id: number; // 요청 ID
-  expert_id: number; // 전문가 ID
-  location: string; // 서비스 제공 위치
-  due_date: string; // 서비스 예정시간 - 날짜/시간 문자열
-  service: string; // 서비스명
   charge: number; // 서비스 비용
   created_at: string; // 예약생성 시간 - 날짜/시간 문자열
-  request_user: IRequestUser; // 요청 사용자 정보
+  due_date: string; // 서비스 예정시간 - 날짜/시간 문자열
   expert: IExpert; // 전문가 정보
+  id: number; // 견적 ID
+  location: string; // 서비스 제공 위치
+  request_id: number; // 요청 ID
+  request_user: IRequestUser; // 요청 사용자 정보
+  service: string; // 서비스명
 }
 
 interface IReservation {
