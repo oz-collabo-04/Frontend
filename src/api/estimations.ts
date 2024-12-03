@@ -1,10 +1,8 @@
-import { workerStartPromise } from '@/mocks/browsers';
-import axios from 'axios';
+import { auth } from '@/api/axiosInstance'
 
 export const fetchEstimations = async () => {
-  await workerStartPromise;
   try {
-    const response = await axios.get('/mock/estimations');
+    const response = await auth.get('/estimations/');
     console.log('response.status:', response.status);
     return response.data;
   } catch (err) {
@@ -12,10 +10,9 @@ export const fetchEstimations = async () => {
   }
 };
 
-export const fetchExpertData = async (expertId: number) => {
-    await workerStartPromise;
+export const fetchExpertData = async () => {
     try {
-      const response = await axios.get(`/mock/experts/${expertId}`);
+      const response = await auth.get('/experts/estimations/requests/');
       console.log('response.status:', response.status);
       return response.data;
     } catch (err) {
