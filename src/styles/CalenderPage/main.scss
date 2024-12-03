@@ -14,21 +14,21 @@
 
     .mainHeader {
       display: flex;
-      justify-content: space-between;
-      width: 32rem;
+      justify-content: center;
+      width: 20rem;
       margin: 0 auto;
-      font-size: 1.9rem;
+      font-size: 2.4rem;
 
       p {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 12rem;
+        width: 20rem;
         font-weight: 600;
         cursor: pointer;
 
         button {
-          font-size: 2.4rem;
+          font-size: 3rem;
         }
       }
     }
@@ -65,6 +65,10 @@
             p {
               font-size: 1.1rem;
               font-weight: 600;
+            }
+
+            .disabledWeek {
+              color: rgb(173, 173, 173);
             }
           }
         }
