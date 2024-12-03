@@ -91,6 +91,15 @@
     line-height: 1;
     color: #333;
   }
+
+  .estimationprofileBadge {
+    width: 8rem !important;
+    height: 8rem !important;
+    max-width: 8rem !important;
+    max-height: 8rem !important;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
 }
 
 .estimationCardPrice {

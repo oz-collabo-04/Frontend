@@ -65,7 +65,15 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
   const [showFullEstimate, setShowFullEstimate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { description } = useEstimationStore();
+  const estimationStore = useEstimationStore();
+
+  useEffect(() => {
+    console.log('ExpertProfileModal - Current description:', estimationStore.description);
+  }, [estimationStore.description]);
+
+  useEffect(() => {
+    console.log('ExpertProfileModal - Mounted');
+  }, []);
 
   useEffect(() => {
     const fetchExpertData = async () => {
@@ -103,6 +111,9 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
   const renderExpertContent = () => {
     if (!expertData || !estimationData) return null;
 
+    const displayDescription = estimationStore.description || estimationData.description || '';
+    console.log('ExpertProfileModal - Display description:', displayDescription);
+
     return (
       <div className="expert-profile-content">
         <div className="expert-profile-header">
@@ -132,9 +143,9 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
         <div className="expert-profile-section">
           <h3 className="section-title">견적</h3>
           <div className="estimate-content">
-            {description || estimationData.description ? (
+            {displayDescription ? (
               <>
-                <p>{showFullEstimate ? (description || estimationData.description) : `${(description || estimationData.description).slice(0, 100)}...`}</p>
+                <p>{showFullEstimate ? displayDescription : `${displayDescription.slice(0, 100)}...`}</p>
                 <button onClick={toggleEstimate} className="more-button">
                   {showFullEstimate ? '접기' : 'more'}
                 </button>

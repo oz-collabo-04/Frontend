@@ -9,106 +9,34 @@ import '@/styles/Expertlistpage/expertlistpage.scss'
 import { auth } from '@/api/axiosInstance'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 
-interface Expert {
+export interface User {
   id: number;
-  request: {
-    id: number;
-    user: {
-      id: number;
-      name: string;
-      email: string;
-      profile_image: string;
-    };
-    service_list: string[] | string;
-    prefer_gender: string;
-    wedding_hall: string;
-    wedding_datetime: string;
-    location: string;
-    status: string;
-    created_at: string;
-    updated_at: string;
-  };
+  name: string;
+  email: string;
+  profile_image: string;
+}
+
+export interface Request {
+  id: number;
+  user: User;
+  service_list: string[] | string;
+  service_list_display: string[] | string;
+  prefer_gender: string;
+  prefer_gender_display: string;
+  wedding_hall: string;
+  wedding_datetime: string;
+  location: string;
+  location_display: string;
+  status: string;
   created_at: string;
   updated_at: string;
 }
 
-interface ExpertCardProps {
-  expert: Expert;
-  onProfileClick: (id: number) => void;
-  onDelete: (id: number) => void;
-  isDeleting: boolean;
-}
-
-const ExpertCard: React.FC<ExpertCardProps> = ({ 
-  expert,
-  onProfileClick,
-  onDelete,
-  isDeleting
-}) => {
-  if (!expert || !expert.request) {
-    return null;
-  }
-
-  const serviceList = Array.isArray(expert.request.service_list)
-    ? expert.request.service_list.join(', ')
-    : expert.request.service_list || 'N/A';
-
-  return (
-    <div className="expertCard">
-      <div className="expertCardHeader">
-        <ProfileBadge
-          width="8rem"
-          height="8rem"
-          src={expert.request.user?.profile_image || ''}
-          borderRadius={'0.8rem'}
-        />
-        <div className="expertCardInfo">
-          <div className="expertCardCategory">{serviceList}</div>
-          <h3 className="expertCardName">{expert.request.user?.name || 'Unknown'}</h3>
-        </div>
-      </div>
-      <div className='expertCardSchedule'>
-        <div className="expertCardLocation">
-          <MapPin size={16} />
-          <span>{expert.request.location || 'N/A'} {expert.request.wedding_hall || 'N/A'}</span>
-        </div>
-        <div className="expertCardTime">
-          <svg 
-            width="16" 
-            height="16" 
-            viewBox="0 0 16 16" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              d="M12 2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V3C13 2.44772 12.5523 2 12 2Z" 
-              stroke="currentColor" 
-              strokeWidth="1.5"
-            />
-            <path d="M3 6H13" stroke="currentColor" strokeWidth="1.5"/>
-          </svg>
-          <span>{expert.request.wedding_datetime ? new Date(expert.request.wedding_datetime).toLocaleString() : 'N/A'}</span>
-        </div>
-      </div>
-      <div className="expertCardActions">
-        <MainBtn
-          name="견적서 보내기"
-          size="medium"
-          backgroundColor="$main-color"
-          color="$font-color"
-          onClick={() => onProfileClick(expert.request.id)}
-        />
-        <MainBtn
-          name={isDeleting ? "삭제 중..." : "받은요청삭제"}
-          size="medium"
-          backgroundColor="$main-color"
-          color="$font-color"
-          onClick={() => onDelete(expert.id)}
-          disabled={isDeleting}
-        />
-      </div>
-    </div>
-  )
+export interface Expert {
+  id: number;
+  request: Request;
+  created_at: string;
+  updated_at: string;
 }
 
 const Expertlistpage: React.FC = () => {
@@ -119,6 +47,10 @@ const Expertlistpage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingExperts, setDeletingExperts] = useState<{ [key: number]: boolean }>({});
+
+  const formatServiceList = (serviceList: string[] | string): string => {
+    return Array.isArray(serviceList) ? serviceList.join(', ') : serviceList || 'N/A';
+  };
 
   useEffect(() => {
     const fetchExperts = async () => {
@@ -132,7 +64,7 @@ const Expertlistpage: React.FC = () => {
         
         expertsData.forEach((expert: Expert) => {
           if (expert && expert.request && expert.request.service_list) {
-            setCategory(expert.id, Array.isArray(expert.request.service_list) ? expert.request.service_list.join(', ') : expert.request.service_list);
+            setCategory(expert.id, formatServiceList(expert.request.service_list));
           }
         });
       } catch (error) {
@@ -169,6 +101,71 @@ const Expertlistpage: React.FC = () => {
     }
   };
 
+  const renderExpertCard = (expert: Expert) => {
+    if (!expert || !expert.request) {
+      return null;
+    }
+
+    const service_list_display = formatServiceList(expert.request.service_list_display);
+
+    return (
+      <div key={expert.id} className="expertCard">
+        <div className="expertCardHeader">
+          <ProfileBadge
+            width="8rem"
+            height="8rem"
+            src={expert.request.user?.profile_image || ''}
+            borderRadius={'0.8rem'}
+          />
+          <div className="expertCardInfo">
+            <div className="expertCardCategory">{service_list_display}</div>
+            <h3 className="expertCardName">{expert.request.user?.name || 'Unknown'}</h3>
+          </div>
+        </div>
+        <div className='expertCardSchedule'>
+          <div className="expertCardLocation">
+            <MapPin size={16} />
+            <span>{expert.request.location_display || 'N/A'} {expert.request.wedding_hall || 'N/A'}</span>
+          </div>
+          <div className="expertCardTime">
+            <svg 
+              width="16" 
+              height="16" 
+              viewBox="0 0 16 16" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M12 2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V3C13 2.44772 12.5523 2 12 2Z" 
+                stroke="currentColor" 
+                strokeWidth="1.5"
+              />
+              <path d="M3 6H13" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <span>{expert.request.wedding_datetime ? new Date(expert.request.wedding_datetime).toLocaleString() : 'N/A'}</span>
+          </div>
+        </div>
+        <div className="expertCardActions">
+          <MainBtn
+            name="견적서 보내기"
+            size="medium"
+            backgroundColor="$main-color"
+            color="$font-color"
+            onClick={() => handleProfileClick(expert.request.id)}
+          />
+          <MainBtn
+            name={deletingExperts[expert.id] ? "삭제 중..." : "받은요청삭제"}
+            size="medium"
+            backgroundColor="$main-color"
+            color="$font-color"
+            onClick={() => handleDelete(expert.id)}
+            disabled={deletingExperts[expert.id]}
+          />
+        </div>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="estimationLoading">
@@ -186,15 +183,7 @@ const Expertlistpage: React.FC = () => {
       <main className="expertListMain">
         <h2 className="expertListMainTitle">받은 요청 리스트</h2>
         <div className="expertGrid">
-          {experts.map(expert => (
-            <ExpertCard 
-              key={expert.id}
-              expert={expert}
-              onProfileClick={handleProfileClick}
-              onDelete={handleDelete}
-              isDeleting={deletingExperts[expert.id] || false}
-            />
-          ))}
+          {experts.map(renderExpertCard)}
         </div>
       </main>
       <ExpertModal expertId={selectedExpertId} modalId="expertProfile" />

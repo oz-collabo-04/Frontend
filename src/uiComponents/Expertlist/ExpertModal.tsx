@@ -19,6 +19,7 @@ interface EstimationRequest {
   due_date: string;
   service: string;
   charge: number;
+  description: string;
 }
 
 interface EstimationResponse {
@@ -83,9 +84,8 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
         due_date: dueDate,
         service: service,
         charge: Number(amount),
+        description: description
       }
-
-      console.log('Sending estimation data:', estimationData)
 
       try {
         const response = await sendEstimation(estimationData)
@@ -95,7 +95,8 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
           service: response.service,
           dueDate: response.due_date,
         })
-        setDescription(description)
+        setDescription(description);
+        console.log('ExpertModal - Setting description:', description);
         console.log('Estimation sent successfully:', response)
         addToasts({ type: 'success', title: '견적이 등록되었습니다.', id: Date.now().toString() })
         closeModal(modalId)

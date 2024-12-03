@@ -7,6 +7,9 @@ interface EstimationState {
 
 export const useEstimationStore = create<EstimationState>((set) => ({
   description: '',
-  setDescription: (description) => set({ description }),
+  setDescription: (description) => {
+    console.log('EstimationStore - Setting description:', description);
+    set({ description });
+  },
 }))
 

@@ -82,6 +82,7 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
           height="8rem"
           src={estimation.expert.expert_image}
           borderRadius={'1.2rem'}
+          className="estimationprofileBadge"
         />
       </div>
       <p className="estimationCardPrice">{estimation.charge.toLocaleString()}원</p>
@@ -198,4 +199,3 @@ const EstimationList: React.FC = () => {
 }
 
 export default EstimationList
-

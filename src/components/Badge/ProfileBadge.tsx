@@ -10,6 +10,7 @@ interface ProfileBadgeProps {
   extraClass?: string;
   backgroundColor?: string;
   isFull?: boolean;
+  className?: string;
 }
 
 const ProfileBadge = ({
