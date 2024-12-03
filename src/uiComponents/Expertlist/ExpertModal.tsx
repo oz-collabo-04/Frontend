@@ -149,7 +149,8 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
               className="comInput"
             >
               {/* 예시문장 벡엔드랑 협의 봐야함 */}
-              <option value="mc">mc</option>
+              <option value="mc">결혼식사회자</option>
+              <option value="singer">축가 가수</option>
             </select>
           </div>
 

@@ -64,7 +64,7 @@ export default function ProfileSection({ fileRef, profileData, setProfileData, i
             />
           </label>
 
-          <img src={previewImage !== '' ? previewImage : profileData.expert_image} alt='이미지' />
+          {previewImage !== '' && <img src={profileData.expert_image} alt='전문가 프로필 이미지' />}
         </div>
 
         <p>프로필 설명</p>
