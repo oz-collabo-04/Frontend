@@ -6,6 +6,8 @@ import NumberInput from '@/components/Input/NumberInput'
 import '@/styles/Expertlistpage/expertModal.scss'
 import { auth } from '@/api/axiosInstance'
 import { useToastStore } from '@/store/toastStore'
+import axios from 'axios'
+import { useEstimationStore } from '@/store/estimationStore'
 
 interface ExpertModalProps {
   modalId: string;
@@ -35,10 +37,11 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
   const { openModal, closeModal } = useModalStore()
   const { setEstimation, getEstimation } = useCategoryStore()
   const { addToasts } = useToastStore()
+  const { setDescription } = useEstimationStore()
   const [amount, setAmount] = useState<string | number>('')
-  const [description, setDescription] = useState('')
+  const [description, setLocalDescription] = useState('')
   const [dueDate, setDueDate] = useState('')
-  const [service, setService] = useState('mc')
+  const [service, setService] = useState('')
 
   useEffect(() => {
     if (expertId !== null) {
@@ -46,14 +49,14 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
       const existingEstimation = getEstimation(expertId)
       if (existingEstimation) {
         setAmount(existingEstimation.amount)
-        setDescription(existingEstimation.description)
+        setLocalDescription(existingEstimation.description || '')
         setDueDate(existingEstimation.dueDate || '')
-        setService(existingEstimation.service || 'mc')
+        setService(existingEstimation.service || '')
       } else {
         setAmount('')
-        setDescription('')
+        setLocalDescription('')
         setDueDate('')
-        setService('mc')
+        setService('')
       }
     }
   }, [expertId, modalId, openModal, getEstimation])
@@ -63,6 +66,10 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
       const response = await auth.post<EstimationResponse>('/experts/estimations/', estimationData)
       return response.data
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.response?.data)
+        throw new Error(`API 요청 실패: ${error.response?.data?.message || error.message}`)
+      }
       console.error('Error sending estimation:', error)
       throw error
     }
@@ -75,8 +82,10 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
         request: expertId,
         due_date: dueDate,
         service: service,
-        charge: Number(amount)
+        charge: Number(amount),
       }
+
+      console.log('Sending estimation data:', estimationData)
 
       try {
         const response = await sendEstimation(estimationData)
@@ -86,11 +95,15 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
           service: response.service,
           dueDate: response.due_date,
         })
+        setDescription(description)
         console.log('Estimation sent successfully:', response)
         addToasts({ type: 'success', title: '견적이 등록되었습니다.', id: Date.now().toString() })
         closeModal(modalId)
       } catch (error) {
         console.error('Failed to send estimation:', error)
+        if (error instanceof Error) {
+          console.error('Error details:', error.message)
+        }
         addToasts({ type: 'error', title: '견적 등록에 실패했습니다.', id: Date.now().toString() })
       }
     }
@@ -101,7 +114,7 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
   }
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value)
+    setLocalDescription(e.target.value)
   }
 
   const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,9 +161,11 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
               onChange={handleServiceChange}
               className="comInput"
             >
-              {/* 예시문장 벡엔드랑 협의 봐야함 */}
-              <option value="mc">결혼식사회자</option>
+              <option value="">서비스를 선택하세요</option>
+              <option value="mc">결혼식 사회자</option>
               <option value="singer">축가 가수</option>
+              <option value="video">영상 촬영</option>
+              <option value="snap">스냅 촬영</option>
             </select>
           </div>
 
@@ -191,4 +206,3 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
 }
 
 export default ExpertModal
-
