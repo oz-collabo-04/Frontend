@@ -74,6 +74,7 @@ export default function ExpertProfileEditPage() {
     }
   }, [isExpert === true && isLoading === false]);
 
+ 
   const getData = async () => {
     try {
       const data = await fetchGetExpertRegister();
