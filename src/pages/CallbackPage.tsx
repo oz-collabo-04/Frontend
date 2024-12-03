@@ -1,6 +1,7 @@
 import { client } from '@/api/axiosInstance';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import useLoginToastStateStore from '@/store/loginToastStateStore';
+import useModeChangerStore from '@/store/modeChangerStore';
 import useLoginProviderStore from '@/store/useLoginProviderStore';
 import useUserStateStore from '@/store/useUserStateStore';
 import '@/styles/CallbackPage/callbackPage.scss';
@@ -16,6 +17,7 @@ interface LoginProps {
 export default function CallbackPage() {
   const location = useLocation();
   const { setIsLoggedIn, setIsExpert, setUserName } = useUserStateStore();
+  const { setMode } = useModeChangerStore();
   const { provider } = useLoginProviderStore();
   const { setIsLoginToastShown } = useLoginToastStateStore();
 
@@ -50,11 +52,12 @@ export default function CallbackPage() {
           localStorage.setItem('email', email);
           localStorage.setItem('user_id', id);
           localStorage.setItem('profile_image', profile_image);
-          if (setIsLoggedIn && setIsExpert && setUserName) {
+          if (setIsLoggedIn && setIsExpert && setUserName && setMode) {
             setIsLoggedIn(true);
             setIsExpert(is_expert);
             setUserName(name);
             setIsLoginToastShown(true);
+            setMode('user');
           }
           if (window.opener) {
             window.opener.location.href = '/';
