@@ -45,10 +45,10 @@ class ChatSocket {
   }
 
   // 메시지 전송 메서드
-  sendMessage(message: string) {
+  sendMessage(content: string) {
     if (this.webSocket?.readyState === WebSocket.OPEN) {
       // JSON.stringify로 객체를 문자열로 변환
-      this.webSocket.send(JSON.stringify({ message }));
+      this.webSocket.send(JSON.stringify({ content }));
     } else {
       console.warn('WebSocket이 연결되어 있지 않습니다.');
     }
