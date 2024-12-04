@@ -6,6 +6,7 @@ export const client = axios.create({
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate', // 캐싱 비활성화
   },
   withCredentials: true,
 });
