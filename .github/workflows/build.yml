@@ -1,6 +1,6 @@
 name: github CI/CD
 
-on: 
+on:
   push:
     branches:
       - build
@@ -28,6 +28,6 @@ jobs:
 
       - name: S3 Deploy
         run: aws s3 sync ./dist s3://sonew-wedding-web/ --acl bucket-owner-full-control --delete
-        
+
       - name: Invalidate CloudFront Cache
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id E3N9MOO0TH4IBK --paths "/*"
