@@ -17,6 +17,14 @@ jobs:
         run: npm install
 
       - name: Build
+        env:
+          VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
+          VITE_REDIRECT_BASE_URL: ${{ secrets.VITE_REDIRECT_BASE_URL }}
+          VITE_BACKEND_BASE_URL: ${{ secrets.VITE_BACKEND_BASE_URL }}
+          VITE_BACKEND_CHAT_URL: ${{ secrets.VITE_BACKEND_CHAT_URL }}
+
         run: npm run build
 
       - name: Configure AWS credentials
