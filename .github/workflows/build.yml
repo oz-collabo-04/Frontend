@@ -11,12 +11,13 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: npm install
 
       - name: Build
+        environment: production
         env:
           VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
@@ -24,7 +25,6 @@ jobs:
           VITE_REDIRECT_BASE_URL: ${{ secrets.VITE_REDIRECT_BASE_URL }}
           VITE_BACKEND_BASE_URL: ${{ secrets.VITE_BACKEND_BASE_URL }}
           VITE_BACKEND_CHAT_URL: ${{ secrets.VITE_BACKEND_CHAT_URL }}
-
         run: npm run build
 
       - name: Configure AWS credentials
