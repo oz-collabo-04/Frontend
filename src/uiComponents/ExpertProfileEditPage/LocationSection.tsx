@@ -10,7 +10,7 @@ import { useConfirmStore } from '@/store/confirmStore';
 import Confirm from '@/components/Confirm/Confirm';
 
 type Props = {
-  isExpert: boolean;
+  isExpert: boolean | null;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
@@ -30,7 +30,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
   const [moreData, setMoreData] = useState<boolean>(false);
 
   const dataListFunction = () => {
-    const locationArray = profileData.available_location;
+    const locationArray = profileData.available_location_display ?? profileData.available_location;
 
     return locationArray && locationArray.length > 4 ? (
       <>
@@ -55,7 +55,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
   };
 
   const addDataFuction = (location: string) => {
-    if (profileData.available_location.length > 4) {
+    if (profileData.available_location_display!.length > 4) {
       addToasts({ type: 'error', title: '활동 지역은 최대 5개까지 입니다.', id: Date.now().toString() });
       return;
     }
@@ -66,14 +66,14 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
       Object.entries(data).find(([key]) => key === select && !selectDetailData)
     );
 
-    if (profileData.available_location.find((data) => data === location)) {
+    if (profileData.available_location_display!.find((data) => data === location)) {
       addToasts({ type: 'error', title: '이미 선택하신 지역입니다', id: Date.now().toString() });
     } else if (noSelectCheck) {
       addToasts({ type: 'error', title: '상세지역까지 선택해주세요', id: Date.now().toString() });
     } else {
       setProfileData((prev) => ({
         ...prev,
-        available_location: [...prev.available_location.sort(), location!],
+        available_location_display: [...prev.available_location_display!, location!],
       }));
       closeModal('locationModal');
     }
@@ -95,7 +95,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
           {isExpert ? '수정' : '등록'}
         </button>
 
-        {profileData.available_location?.length > 0 && (
+        {profileData.available_location_display!.length > 0 && (
           <button onClick={() => openConfirm('locationDataClear')} className='deleteBtn'>
             <CiSquareRemove size='2.5rem' />
           </button>
@@ -114,7 +114,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
         trueBtn={true}
         trueBtnName='확인'
         trueBtnOnClick={() => {
-          setProfileData((prev) => ({ ...prev, available_location: [] }));
+          setProfileData((prev) => ({ ...prev, available_location_display: [] }));
           addToasts({ type: 'success', title: '데이터가 지워졌습니다.', id: Date.now().toString() });
           closeConfirm('locationDataClear');
         }}

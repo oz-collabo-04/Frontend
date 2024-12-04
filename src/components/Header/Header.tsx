@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '@/styles/header.scss';
 import '@/global.scss';
 import MainBtn from '../Button/MainBtn';
@@ -7,13 +7,16 @@ import useUserStateStore from '@/store/useUserStateStore';
 import { useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
+import Alarm from '../Alarm/Alarm';
+import axios from 'axios';
 
 const Header = () => {
-  const { setIsLoggedIn, setName } = useUserStateStore();
+  const { setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
   const userLogin = useUserStateStore((state) => state.isLoggedIn);
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
   const [showAlarm, setShowAlarm] = useState(false);
+  const navigate = useNavigate();
 
   const [alarmList /* setAlarmList */] = useState([
     { id: 0, alarmContent: '알람 1번' },
@@ -27,25 +30,56 @@ const Header = () => {
 
   console.log(menuVisible);
 
+  const onClickExpert = () => {
+    const expertDetailData = async () => {
+      try {
+        const response = await auth.get('experts/detail/');
+        if (response.status === 200) {
+          navigate('/');
+          addToasts({
+            id: Date.now().toString(),
+            title: '전문가님, 안녕하세요!',
+            type: 'success',
+          });
+          if (setIsExpert) {
+            setIsExpert(true);
+          }
+        }
+        console.log(response);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error('fetchError', error.response);
+          navigate('/expertProfileEditPage');
+          addToasts({
+            id: Date.now().toString(),
+            title: '📋 So New Wedding 의 전문가가 되어보세요!',
+            type: 'success',
+          });
+        }
+      }
+    };
+    expertDetailData();
+  };
+
   const OnClick = () => {
     const logout = async () => {
       try {
         const response = await auth.post('users/logout/');
-        console.log('로그아웃에 성공했습니다. 메인페이지로 이동합니다...', response.data);
+        console.log('로그아웃에 성공했습니다.', response.data);
         localStorage.clear();
-        if (setIsLoggedIn && setName) {
+        if (setIsLoggedIn && setUserName) {
           setIsLoggedIn(false);
-          setName(null);
+          setUserName(null);
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
       } catch (error) {
-        console.error('로그아웃 중에 오류가 발생했습니다', error);
-        localStorage.clear(); // 이 부분 쿠키 해결되면 지워야 함!!
-        if (setIsLoggedIn && setName) {
+        localStorage.clear();
+        if (setIsLoggedIn && setUserName) {
           setIsLoggedIn(false);
-          setName(null);
+          setUserName(null);
         }
-        addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
+        console.error('로그아웃 중에 오류가 발생했습니다', error);
+        addToasts({ type: 'error', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
       }
     };
     logout();
@@ -77,32 +111,15 @@ const Header = () => {
                 <div className='headerMenu'>
                   <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
                     <li>
-                      <div className='alarmBox'>
-                        <button className='alarmBtn' onClick={handleAlarm}>
-                          알람
-                          <span className='on'></span>
-                        </button>
-                        {showAlarm && (
-                          <div className='alarmListBox'>
-                            {alarmList.length > 0 ? (
-                              <ul className='alarmList'>
-                                {alarmList.map((alarm) => (
-                                  <li className='alarm' key={alarm.id}>
-                                    <button>{alarm.alarmContent}</button>
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <div className='noAlarm'>알람이 없습니다.</div>
-                            )}
-                          </div>
-                        )}
-                      </div>
+                      <Alarm />
                     </li>
                     <li>
                       <Link to='/mypage' aria-label='마이 페이지로 이동'>
                         마이
                       </Link>
+                    </li>
+                    <li onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동' style={{ cursor: 'pointer' }}>
+                      전문가
                     </li>
                     <li>
                       <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
@@ -126,27 +143,7 @@ const Header = () => {
           </div>
         </nav>
         <div className='headerMiniMenu'>
-          <div className='alarmBox'>
-            <button className='alarmBtn' onClick={handleAlarm}>
-              알람
-              <span className='on'></span>
-            </button>
-            {showAlarm && (
-              <div className='alarmListBox'>
-                {alarmList.length > 0 ? (
-                  <ul className='alarmList'>
-                    {alarmList.map((alarm) => (
-                      <li className='alarm' key={alarm.id}>
-                        <button>{alarm.alarmContent}</button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className='noAlarm'>알람이 없습니다.</div>
-                )}
-              </div>
-            )}
-          </div>
+          {userLogin && <Alarm />}
           <span className='iconMenu'>
             <button type='button' className='menuBtn' onClick={() => setMenuVisible((prev) => !prev)}>
               &#9776;
@@ -164,7 +161,7 @@ const Header = () => {
                   <hr />
                   <div className='loginBtn'>
                     <Link to='/login' aria-label='로그인 페이지로 이동'>
-                      <MainBtn name='로그인' width='auto' />
+                      로그인
                     </Link>
                   </div>
                 </div>
@@ -182,7 +179,14 @@ const Header = () => {
                     </Link>
                   </div>
                   <hr />
-                  <div>전문가 전환</div>
+                  <div
+                    onClick={onClickExpert}
+                    className='expertConversion'
+                    aria-label='전문가 프로필페이지로 이동'
+                    style={{ cursor: 'pointer' }}
+                  >
+                    전문가 전환
+                  </div>
                   <hr />
                   <div>
                     <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>

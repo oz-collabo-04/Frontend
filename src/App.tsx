@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import '@/global.scss';
 import MainPage from './pages/MainPage';
 import Common from './Common';
@@ -18,8 +18,22 @@ import CallbackPage from './pages/CallbackPage';
 import ReservationPage from './pages/ReservationPage';
 import ToastLayout from './layouts/ToastLayout';
 
+import { useToastStore } from './store/toastStore';
+import { setRedirectFunction } from './api/axiosInstance';
+
 function App() {
   const { provider } = useLoginProviderStore();
+  const navigate = useNavigate();
+  const { addToasts } = useToastStore();
+
+  setRedirectFunction(() => {
+    navigate('/login');
+    addToasts({
+      id: Date.now().toString(),
+      title: '로그인이 만료되었습니다. 다시 로그인 해주세요',
+      type: 'error',
+    });
+  });
   return (
     <>
       <Routes>

@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 
 interface Estimation {
+  service: string;
+  dueDate: string;
   amount: string | number;
   description: string;
 }
