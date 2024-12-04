@@ -85,3 +85,13 @@ export interface Toast {
   title: string;
   type: 'success' | 'error';
 }
+
+export interface Calender {
+  name: string;
+  phone_number: string;
+  service_display: string;
+  location_display: string;
+  wedding_hall: string;
+  wedding_datetime: string;
+  status_display: string;
+}
