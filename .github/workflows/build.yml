@@ -17,7 +17,7 @@ jobs:
         run: npm install
 
       - name: Build
-        environment: production
+        environment: .env.production
         env:
           VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
