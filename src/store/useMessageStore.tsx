@@ -10,11 +10,18 @@ interface Message {
 interface MessageStore {
   messages: Message[]; // 메시지 배열
   addMessage: (message: Message) => void; // 메시지 추가
+  getMessageList: (chat: Message[]) => void;
   clearMessages: () => void; // 메시지 초기화
 }
 
 const useMessageStore = create<MessageStore>((set) => ({
   messages: [],
+
+  // 서버로부터 가져온 메시지 리스트를 상태에 설정
+  getMessageList: (chat) =>
+    set(() => ({
+      messages: chat, // 기존 메시지를 대체합니다.
+    })),
 
   // 메시지 추가 메서드
   addMessage: (message) =>

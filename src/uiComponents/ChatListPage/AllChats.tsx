@@ -35,7 +35,11 @@ const AllChats = () => {
             <Link to={`/chatpage/${data.id}`} state={data} className='chat' key={data.id}>
               <div className='chatPreview'>
                 <div className='chatPreviewBox' key={data.id}>
-                  <ProfileBadge src={data.expert?.expert_image} width='10rem' height='10rem' />
+                  <ProfileBadge
+                    src={isExpert ? data.user?.profile_image : data.expert?.expert_image}
+                    width='10rem'
+                    height='10rem'
+                  />
                   <div className='chatContent'>
                     <span className='userName'>{isExpert ? data.user.name : data.expert.user.name}</span>
                     <ul className='requestList'>

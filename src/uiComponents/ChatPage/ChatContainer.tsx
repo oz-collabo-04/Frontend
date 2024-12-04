@@ -1,28 +1,32 @@
 import ProfileBadge from '@/components/Badge/ProfileBadge';
-import profile from '@/assets/images/dalbong.jpg';
+import { DataItem } from '../ChatListPage/chat';
 
-interface Message {
+export interface Message {
   content: string; // 메시지 내용
-  user: { name: string; profileImage?: string }; // 보낸 사람의 이름 및 프로필 이미지
-}
-
-interface User {
-  name: string; // 현재 유저 이름
+  sender: number; // 보낸 사람의 아이디
+  is_read: boolean;
+  timestamp: string;
 }
 
 interface ChatContainerProps {
   messageList: Message[]; // 메시지 목록
-  user: User | null; // 현재 유저 정보
+  roomData: DataItem;
 }
 
-const ChatContainer = ({ messageList, user }: ChatContainerProps) => {
-  console.log(messageList);
+const ChatContainer = ({ messageList, roomData }: ChatContainerProps) => {
+  const user_id = localStorage.getItem('user_id');
+  // let profile_image = ''
   return (
     <div className='chatContainer'>
       <div className='chatBox'>
         {messageList.map((message, index) => {
-          const isMyMessage = user?.name === message.user?.name; // 현재 유저 확인
-          const profileImage = message.user?.profileImage || profile; // 프로필 이미지 설정
+          const isMyMessage = Number(user_id) === message.sender; // 현재 유저 확인
+          // console.log(`내메시지야? - ${isMyMessage}, 보낸사람은? ${message.sender}, 나는누구? ${user_id}`);
+          const isExpert = message.sender === roomData.expert.user.id;
+          // console.log(
+          //   `메시지 보낸사람이 전문가? - ${isExpert}, 보낸사람은? ${message.sender}, 전문가는 누군데? ${roomData.expert.user.id}`
+          // );
+          const profileImage = isExpert ? roomData.expert.expert_image : roomData.user.profile_image; // 프로필 이미지 설정
 
           return (
             <div
