@@ -35,8 +35,8 @@ export interface ExpertProps {
 }
 
 export default function MainPage() {
-  const [activeTab, setActiveTab] = useState<number>(0);
-  const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
+  const [, setActiveTab] = useState<number>(0);
+  const [expertData] = useState<ExpertProps[] | null>(null);
   const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
   const { userName } = useUserStateStore();
   const { addToasts } = useToastStore();
@@ -49,25 +49,25 @@ export default function MainPage() {
     });
     setIsLoginToastShown(false);
   }
-  useEffect(() => {
-    const fetchExpertList = async () => {
-      const services = ['mc', 'singer', 'video', 'snap'];
-      const service = services[activeTab] || 'mc';
-      try {
-        const response = await client.get('/experts/', {
-          params: {
-            random: true,
-            service: service,
-          },
-        });
-        console.log('data :', response.data);
-        setExpertData(response.data);
-      } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
-      }
-    };
-    fetchExpertList();
-  }, [activeTab]);
+  // useEffect(() => {
+  //   const fetchExpertList = async () => {
+  //     const services = ['mc', 'singer', 'video', 'snap'];
+  //     const service = services[activeTab] || 'mc';
+  //     try {
+  //       const response = await client.get('/experts/', {
+  //         params: {
+  //           random: true,
+  //           service: service,
+  //         },
+  //       });
+  //       console.log('data :', response.data);
+  //       setExpertData(response.data);
+  //     } catch (error) {
+  //       console.log('API 요청에 실패했습니다 :', error);
+  //     }
+  //   };
+  //   fetchExpertList();
+  // }, [activeTab]);
 
   if (expertData) {
     const tabs = [
