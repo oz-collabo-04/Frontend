@@ -40,13 +40,6 @@ export default function MainPage() {
   const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
   const { userName } = useUserStateStore();
   const { addToasts } = useToastStore();
-  const [loading, setLoading] = useState<boolean>(false);
-  const tabs = [
-    { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
-    { label: '축가 가수', content: <Singer expertData={expertData} /> },
-    { label: '영상 촬영', content: <Video expertData={expertData} /> },
-    { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
-  ];
 
   if (isLoginToastShown) {
     addToasts({
@@ -60,7 +53,6 @@ export default function MainPage() {
     const fetchExpertList = async () => {
       const services = ['mc', 'singer', 'video', 'snap'];
       const service = services[activeTab] || 'mc';
-      setLoading(true);
       try {
         const response = await client.get('/experts/', {
           params: {
@@ -72,30 +64,37 @@ export default function MainPage() {
         setExpertData(response.data);
       } catch (error) {
         console.log('API 요청에 실패했습니다 :', error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchExpertList();
   }, [activeTab]);
 
-  return (
-    <>
-      <div className='mainPage'>
-        <Billboard />
-        <main className='contentLayout'>
-          {loading ? (
-            <LoadingSpinner />
-          ) : (
+  if (expertData) {
+    const tabs = [
+      { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
+      { label: '축가 가수', content: <Singer expertData={expertData} /> },
+      { label: '영상 촬영', content: <Video expertData={expertData} /> },
+      { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
+    ];
+    return (
+      <>
+        <div className='mainPage'>
+          <Billboard />
+          <main className='contentLayout'>
             <Tab
               tabs={tabs}
               onTabChange={(index) => {
                 setActiveTab(index);
               }}
             />
-          )}
-        </main>
-      </div>
+          </main>
+        </div>
+      </>
+    );
+  }
+  return (
+    <>
+      <LoadingSpinner />
     </>
   );
 }

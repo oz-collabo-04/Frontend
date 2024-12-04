@@ -16,12 +16,10 @@ interface LoginProps {
 
 export default function CallbackPage() {
   const location = useLocation();
-  const { setIsLoggedIn, setIsExpert, setUserName, isExpert } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setUserName } = useUserStateStore();
   const { setMode } = useModeChangerStore();
   const { provider } = useLoginProviderStore();
   const { setIsLoginToastShown } = useLoginToastStateStore();
-
-  console.log(addToasts);
 
   useEffect(() => {
     const socialLoginHandler = async () => {
