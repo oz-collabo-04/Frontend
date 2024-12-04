@@ -16,7 +16,7 @@ interface LoginProps {
 
 export default function CallbackPage() {
   const location = useLocation();
-  const { setIsLoggedIn, setIsExpert, setUserName } = useUserStateStore();
+  const { setIsLoggedIn, setIsExpert, setUserName, isExpert } = useUserStateStore();
   const { setMode } = useModeChangerStore();
   const { provider } = useLoginProviderStore();
   const { setIsLoginToastShown } = useLoginToastStateStore();
@@ -57,7 +57,7 @@ export default function CallbackPage() {
             setIsExpert(is_expert);
             setUserName(name);
             setIsLoginToastShown(true);
-            setMode('user');
+            setMode(is_expert ? 'expert' : 'user');
           }
           if (window.opener) {
             window.opener.location.href = '/';
