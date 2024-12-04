@@ -13,10 +13,7 @@
     padding: 4rem 4rem;
 
     .mainHeader {
-      display: flex;
-      justify-content: center;
-      width: 20rem;
-      margin: 0 auto;
+      position: relative;
       font-size: 2.4rem;
 
       p {
@@ -24,12 +21,26 @@
         justify-content: space-between;
         align-items: center;
         width: 20rem;
+        margin: 0 auto;
         font-weight: 600;
-        cursor: pointer;
 
         button {
           font-size: 3rem;
         }
+      }
+
+      .resetBtn {
+        position: absolute;
+        top: 0.4rem;
+        right: 0.4rem;
+      }
+
+      .hiddenText {
+        position: absolute;
+        top: 4.2rem;
+        right: 0.4rem;
+        font-size: 1.2rem;
+        color: gainsboro;
       }
     }
 
@@ -45,22 +56,33 @@
           font-size: 1.5rem;
           font-weight: 600;
         }
+
+        p:first-child {
+          color: rgb(252, 147, 147);
+        }
+        p:last-child {
+          color: rgb(160, 160, 252);
+        }
       }
 
       .contentList {
-        border: $main-color 0.15rem solid;
+        border: $main-color-light 0.15rem solid;
         border-radius: 1rem;
 
         ul {
           display: flex;
 
           li {
-            border: $main-color 0.1rem solid;
+            position: relative;
+            border: $main-color-light 0.1rem solid;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
             width: 100%;
-            height: 12rem;
+            height: 14rem;
             padding: 1rem 0.5rem;
+            overflow: hidden;
 
             p {
               font-size: 1.1rem;
@@ -69,6 +91,45 @@
 
             .disabledWeek {
               color: rgb(173, 173, 173);
+            }
+
+            .checkCount {
+              position: absolute;
+              top: 2rem;
+              right: 1rem;
+              width: 1.2rem;
+              height: 1.2rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: rgb(255, 149, 0);
+              border-radius: 100%;
+              color: white;
+              font-weight: 600;
+            }
+
+            .detailList {
+              background-color: #ffd6d631;
+              border-radius: 0.6rem;
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              width: 100%;
+              height: 100%;
+              margin-top: 1rem;
+              overflow-y: hidden;
+
+              div {
+                background-color: #fffae5;
+                border-radius: 0.8rem;
+                margin: 0.4rem 0rem;
+                padding: 0.5rem 0.8rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
             }
           }
         }
@@ -92,4 +153,13 @@
       }
     }
   }
+}
+
+.calenderLoading {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #fffae5;
 }

@@ -1,7 +1,10 @@
-import { fetchCalenderList } from '@/api/estimations';
+import { fetchCalenderList } from '@/api/reserve';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import PageTitle from '@/components/PageTitle/PageTitle';
+import { Calender } from '@/config/types';
 import '@/styles/CalenderPage/main.scss';
 import { useEffect, useState } from 'react';
+import { RxReset } from 'react-icons/rx';
 
 export default function CalenderPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -17,6 +20,18 @@ export default function CalenderPage() {
   endDay.setDate(lastDayOfMonth.getDate() + (6 - lastDayOfMonth.getDay()));
 
   const weeks = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const [isHover, setIsHover] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [calenderData, setCalenderData] = useState<Calender[] | []>({
+    name: '',
+    phone_number: '',
+    service_display: '',
+    location_display: '',
+    wedding_hall: '',
+    wedding_datetime: '',
+    status_display: '',
+  });
 
   const groupDatesByWeek = (startDay: Date, endDay: Date) => {
     const weeks = [];
@@ -43,17 +58,60 @@ export default function CalenderPage() {
   const weekArray = groupDatesByWeek(startDay, endDay);
 
   const getData = async () => {
-    const data = await fetchCalenderList({ month, year });
-    console.log(data);
+    try {
+      const data = await fetchCalenderList({ month, year });
+
+      const newArray: Calender[] = [];
+
+      data.map((el) =>
+        newArray.push({
+          name: el.user.name,
+          phone_number: el.user.phone_number,
+          service_display: el.service_display,
+          location_display: el.location_display,
+          wedding_hall: el.wedding_hall,
+          wedding_datetime: el.wedding_datetime,
+          status_display: el.status_display,
+        })
+      );
+
+      setCalenderData(newArray);
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getData();
   }, [month, year]);
 
+  const listCount = (week: number) => {
+    let detailLength = 0;
+
+    [...calenderData].map((data) => {
+      if (new Date(data.wedding_datetime).getDate() === week) {
+        detailLength = detailLength + 1;
+      }
+    });
+
+    if (detailLength > 3) {
+      return <div className='checkCount'>{detailLength}</div>;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className='calenderLoading'>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className='calenderPage contentLayout'>
-      <PageTitle title='일정보기' isPrevBtn={true} prevUrl='/' />
+      <PageTitle title='일정보기' isPrevBtn={true} prevUrl='/mypage' />
 
       <main className='calenderMain'>
         <div className='mainHeader'>
@@ -82,6 +140,21 @@ export default function CalenderPage() {
               type='button'
             >{`>`}</button>
           </p>
+
+          <button
+            onMouseMove={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+            onClick={() => {
+              setCurrentDate(new Date());
+              setYear(currentDate.getFullYear());
+              setMonth(currentDate.getMonth() + 1);
+            }}
+            className='resetBtn'
+            type='button'
+          >
+            {<RxReset size={'3rem'} />}
+          </button>
+          {isHover && <span className='hiddenText'>( 클릭 시 오늘 날짜로 이동합니다... )</span>}
         </div>
 
         <section className='contentSection'>
@@ -94,12 +167,27 @@ export default function CalenderPage() {
           <div className='contentList'>
             {weekArray.map((weeks, i) => (
               <ul key={i}>
-                {weeks.map((week, index) => (
-                  <li key={index}>
+                {weeks.map((week, i) => (
+                  <li key={i}>
                     {week < firstDayOfMonth || lastDayOfMonth < week ? (
                       <p className='disabledWeek'>{week.getDate()}</p>
                     ) : (
-                      <p>{week.getDate()}</p>
+                      <>
+                        <p>{week.getDate()}</p>
+                        {calenderData.length > 0 && listCount(week.getDate())}
+                        <div className='detailList'>
+                          {calenderData.length > 0 &&
+                            [...calenderData].map((data, i) => {
+                              if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
+                                return (
+                                  <div
+                                    key={i}
+                                  >{`${data.service_display} / ${data.name} / ${new Date(data.wedding_datetime).toTimeString().slice(0, 5)}`}</div>
+                                );
+                              }
+                            })}
+                        </div>
+                      </>
                     )}
                   </li>
                 ))}
