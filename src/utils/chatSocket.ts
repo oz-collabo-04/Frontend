@@ -1,5 +1,12 @@
 import useMessageStore from '@/store/useMessageStore';
 
+// interface Message {
+//   type: string; // 메시지의 유형 (예: "text", "image" 등)
+//   content: string; // 메시지 내용
+//   sender?: string; // 보낸 사람 (옵션)
+//   timestamp?: string; // 메시지가 생성된 시간 (옵션)
+// }
+
 class ChatSocket {
   webSocket: WebSocket | null = null;
 
@@ -38,9 +45,10 @@ class ChatSocket {
   }
 
   // 메시지 전송 메서드
-  sendMessage(message: any) {
+  sendMessage(message: string) {
     if (this.webSocket?.readyState === WebSocket.OPEN) {
-      this.webSocket.send(JSON.stringify(message));
+      // JSON.stringify로 객체를 문자열로 변환
+      this.webSocket.send(JSON.stringify({ message }));
     } else {
       console.warn('WebSocket이 연결되어 있지 않습니다.');
     }
