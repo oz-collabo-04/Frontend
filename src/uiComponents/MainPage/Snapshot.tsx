@@ -6,23 +6,21 @@ interface ExpertData {
   expertData: ExpertProps[] | null;
 }
 export default function Snapshot({ expertData }: ExpertData) {
-  console.log(expertData);
+  if (!expertData || expertData.length === 0) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
       <div>
-        {expertData ? (
-          expertData.map((data) => (
-            <TabContentType
-              key={data.id}
-              src={data.expert_image}
-              title={data.service_display}
-              name={data.user.name}
-              description={data.appeal}
-            />
-          ))
-        ) : (
-          <LoadingSpinner />
-        )}
+        {expertData.map((data) => (
+          <TabContentType
+            key={data.id}
+            src={data.expert_image}
+            title={data.service_display}
+            name={data.user.name}
+            description={data.appeal}
+          />
+        ))}
       </div>
     </>
   );
