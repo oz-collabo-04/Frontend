@@ -4,12 +4,14 @@ import '@/styles/starrating.scss';
 interface StarRatingProps {
   initialRating?: number
   onChange?: (rating: number) => void
+  readOnly?: boolean
 }
 
-export default function StarRating({ initialRating = 0, onChange }: StarRatingProps = {}) {
+export default function StarRating({ initialRating = 0, onChange, readOnly = false }: StarRatingProps) {
   const [rating, setRating] = useState(initialRating)
 
   const handleRatingChange = (newRating: number) => {
+    if (readOnly) return
     const clampedRating = Math.max(0, Math.min(5, newRating))
     setRating(clampedRating)
     if (onChange) {
@@ -18,6 +20,7 @@ export default function StarRating({ initialRating = 0, onChange }: StarRatingPr
   }
 
   const handleStarClick = (event: React.MouseEvent<HTMLButtonElement>, starIndex: number) => {
+    if (readOnly) return
     const rect = event.currentTarget.getBoundingClientRect()
     const x = event.clientX - rect.left
     const halfWidth = rect.width / 2
@@ -30,6 +33,7 @@ export default function StarRating({ initialRating = 0, onChange }: StarRatingPr
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, starIndex: number) => {
+    if (readOnly) return
     if (event.key === 'ArrowLeft') {
       handleRatingChange(Math.max(0, starIndex - 0.5))
     } else if (event.key === 'ArrowRight') {
@@ -46,6 +50,7 @@ export default function StarRating({ initialRating = 0, onChange }: StarRatingPr
           onKeyDown={(e) => handleKeyDown(e, starIndex)}
           className="star-button"
           aria-label={`${starIndex} 별점`}
+          disabled={readOnly}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -67,3 +72,4 @@ export default function StarRating({ initialRating = 0, onChange }: StarRatingPr
     </div>
   )
 }
+

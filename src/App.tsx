@@ -21,13 +21,23 @@ import ToastLayout from './layouts/ToastLayout';
 import { useToastStore } from './store/toastStore';
 import { setRedirectFunction } from './api/axiosInstance';
 
+import useUserStateStore from './store/useUserStateStore';
+import CalenderPage from './pages/CalenderPage';
+import useModeChangerStore from './store/modeChangerStore';
+
 function App() {
   const { provider } = useLoginProviderStore();
+  const { setIsLoggedIn } = useUserStateStore();
+  const { setMode } = useModeChangerStore();
   const navigate = useNavigate();
   const { addToasts } = useToastStore();
 
   setRedirectFunction(() => {
     navigate('/login');
+    if (setIsLoggedIn && setMode) {
+      setIsLoggedIn(false);
+      setMode('guest');
+    }
     addToasts({
       id: Date.now().toString(),
       title: '로그인이 만료되었습니다. 다시 로그인 해주세요',
@@ -45,6 +55,7 @@ function App() {
             <Route path='/common' element={<Common />} />
             <Route path='/userestimation' element={<UserEstimationPage />} />
             <Route path='/reservation' element={<ReservationPage />} />
+            <Route path='/calenderPage' element={<CalenderPage />} />
             <Route path='/estimationlist' element={<Estimationlistpage />} />
             <Route path='/expertlist' element={<Expertlistpage />} />
             <Route path='/login' element={<LoginPage />} />
@@ -54,7 +65,7 @@ function App() {
           </Route>
           {/* 푸터 제외 레이아웃 */}
           <Route element={<NoFooterLayout />}>
-            <Route path='/chatpage' element={<ChatPage />} />
+            <Route path='/chatpage/:roomId' element={<ChatPage />} />
           </Route>
           <Route path={`/login/${provider}/callback`} element={<CallbackPage />} />
         </Route>

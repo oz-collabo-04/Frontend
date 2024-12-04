@@ -1,5 +1,6 @@
 import MediumTitle from '@/components/Title/MediumTitle';
 import { ExpertRegister } from '@/config/types';
+import { useToastStore } from '@/store/toastStore';
 import { useEffect, useState } from 'react';
 import { LuPlusCircle } from 'react-icons/lu';
 
@@ -14,6 +15,7 @@ type Props = {
 export default function ProfileSection({ fileRef, profileData, setProfileData, isAppeals, setIsAppeals }: Props) {
   const [previewImage, setPreviewImage] = useState<string>(profileData.expert_image ?? '');
   const [textChange, setTextChange] = useState<string>(profileData.appeal);
+  const { addToasts } = useToastStore();
 
   useEffect(() => {
     if (isAppeals) {
@@ -25,6 +27,10 @@ export default function ProfileSection({ fileRef, profileData, setProfileData, i
     const file = e.target.files?.[0];
 
     if (file) {
+      if (file.size > 1024 ** 2 * 500) {
+        return addToasts({ type: 'error', title: '이미지 크기가 500MB를 넘습니다', id: Date.now().toString() });
+      }
+
       const imageUrl = URL.createObjectURL(file);
       setProfileData((prev) => ({ ...prev, expert_image: imageUrl }));
       setPreviewImage(imageUrl);
@@ -58,7 +64,7 @@ export default function ProfileSection({ fileRef, profileData, setProfileData, i
             />
           </label>
 
-          <img src={previewImage !== '' ? previewImage : profileData.expert_image} alt='이미지' />
+          {previewImage !== '' && <img src={profileData.expert_image} alt='전문가 프로필 이미지' />}
         </div>
 
         <p>프로필 설명</p>

@@ -10,6 +10,7 @@ import Video from '@/uiComponents/MainPage/Video';
 import useLoginToastStateStore from '@/store/loginToastStateStore';
 import { useToastStore } from '@/store/toastStore';
 import useUserStateStore from '@/store/useUserStateStore';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 export interface ExpertProps {
   service_display: string;
@@ -39,6 +40,7 @@ export default function MainPage() {
   const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
   const { userName } = useUserStateStore();
   const { addToasts } = useToastStore();
+  const [loading, setLoading] = useState<boolean>(false);
   const tabs = [
     { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
     { label: '축가 가수', content: <Singer expertData={expertData} /> },
@@ -58,6 +60,7 @@ export default function MainPage() {
     const fetchExpertList = async () => {
       const services = ['mc', 'singer', 'video', 'snap'];
       const service = services[activeTab] || 'mc';
+      setLoading(true);
       try {
         const response = await client.get('/experts/', {
           params: {
@@ -69,6 +72,8 @@ export default function MainPage() {
         setExpertData(response.data);
       } catch (error) {
         console.log('API 요청에 실패했습니다 :', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchExpertList();
@@ -79,12 +84,16 @@ export default function MainPage() {
       <div className='mainPage'>
         <Billboard />
         <main className='contentLayout'>
-          <Tab
-            tabs={tabs}
-            onTabChange={(index) => {
-              setActiveTab(index);
-            }}
-          />
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <Tab
+              tabs={tabs}
+              onTabChange={(index) => {
+                setActiveTab(index);
+              }}
+            />
+          )}
         </main>
       </div>
     </>

@@ -93,7 +93,7 @@
         color: #333;
       }
 
-      .review-cards {
+      .reviews-list {
         display: grid;
         gap: 1.5rem;
 
@@ -103,19 +103,33 @@
           padding: 1.5rem;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-          .review-card-header {
+          .review-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 1rem;
 
-            .reviewer-name {
-              font-size: 1.6rem;
-              font-weight: 500;
-              color: #333;
+            .review-user-info {
+              .review-user-name {
+                font-size: 1.6rem;
+                font-weight: 500;
+                color: #333;
+              }
+
+              .review-date {
+                font-size: 1.3rem;
+                color: #888;
+              }
             }
 
-            .review-rating {
-              font-size: 1.5rem;
+            .rating-wrapper {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+
+              .star-rating {
+                display: flex;
+                align-items: center;
+              }
             }
           }
 
@@ -126,16 +140,17 @@
             margin-bottom: 1rem;
           }
 
-          .review-date {
-            font-size: 1.3rem;
-            color: #888;
-            text-align: right;
-          }
-
-          .review-card-actions {
+          .review-images {
             display: flex;
-            justify-content: flex-end;
             gap: 1rem;
+            margin-top: 1rem;
+
+            .review-image {
+              width: 80px;
+              height: 80px;
+              object-fit: cover;
+              border-radius: 0.5rem;
+            }
           }
         }
       }

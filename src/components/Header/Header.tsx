@@ -8,15 +8,15 @@ import { useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
 import Alarm from '../Alarm/Alarm';
-import axios from 'axios';
+import useModeChangerStore from '@/store/modeChangerStore';
 
 const Header = () => {
-  const { setIsLoggedIn, setUserName, setIsExpert } = useUserStateStore();
-  const userLogin = useUserStateStore((state) => state.isLoggedIn);
+  const { isLoggedIn, isExpert, setIsLoggedIn, setUserName } = useUserStateStore();
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
   const [showAlarm, setShowAlarm] = useState(false);
   const navigate = useNavigate();
+  const { mode, setMode } = useModeChangerStore();
 
   const [alarmList /* setAlarmList */] = useState([
     { id: 0, alarmContent: '알람 1번' },
@@ -31,58 +31,65 @@ const Header = () => {
   console.log(menuVisible);
 
   const onClickExpert = () => {
-    const expertDetailData = async () => {
-      try {
-        const response = await auth.get('experts/detail/');
-        if (response.status === 200) {
-          navigate('/');
-          addToasts({
-            id: Date.now().toString(),
-            title: '전문가님, 안녕하세요!',
-            type: 'success',
-          });
-          if (setIsExpert) {
-            setIsExpert(true);
-          }
-        }
-        console.log(response);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error('fetchError', error.response);
-          navigate('/expertProfileEditPage');
-          addToasts({
-            id: Date.now().toString(),
-            title: '📋 So New Wedding 의 전문가가 되어보세요!',
-            type: 'success',
-          });
-        }
+    if (!isExpert && mode === 'user') {
+      navigate('/expertProfileEditPage');
+      addToasts({
+        id: Date.now().toString(),
+        title: '📋 So New Wedding 의 전문가가 되어보세요!',
+        type: 'success',
+      });
+    } else if (mode === 'user' && isExpert) {
+      if (setMode) {
+        setMode('expert');
+        navigate('/');
+        addToasts({
+          id: Date.now().toString(),
+          title: '전문가님 어서오세요! ',
+          type: 'success',
+        });
       }
-    };
-    expertDetailData();
+    }
+    //등록 완료 후 setMode('expert'), setIsExpert(true) 처리 필요
   };
 
-  const OnClick = () => {
+  const onClickUser = () => {
+    navigate('/');
+    if (setMode) {
+      setMode('user');
+    }
+    addToasts({
+      id: Date.now().toString(),
+      title: '고객님, 환영합니다 🤗',
+      type: 'success',
+    });
+  };
+
+  const onClickLogout = () => {
     const logout = async () => {
       try {
         const response = await auth.post('users/logout/');
         console.log('로그아웃에 성공했습니다.', response.data);
-        localStorage.clear();
-        if (setIsLoggedIn && setUserName) {
+        if (setIsLoggedIn && setUserName && setMode) {
           setIsLoggedIn(false);
           setUserName(null);
+          setMode('guest');
+          localStorage.clear();
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
       } catch (error) {
-        localStorage.clear();
-        if (setIsLoggedIn && setUserName) {
-          setIsLoggedIn(false);
-          setUserName(null);
-        }
         console.error('로그아웃 중에 오류가 발생했습니다', error);
         addToasts({ type: 'error', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
       }
     };
     logout();
+  };
+
+  const onClickCustomerRequest = () => {
+    if (mode === 'guest') {
+      navigate('/login');
+    } else if (mode === 'user') {
+      navigate('/userestimation');
+    }
   };
 
   return (
@@ -96,54 +103,141 @@ const Header = () => {
         <nav className='headerWrapper'>
           <div className='headerMenu'>
             <div className='headerNav' role='navigation' aria-label='주요 내비게이션'>
-              <div className='estimationEdit'>
-                <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
-                  견적요청
-                </Link>
-              </div>
-              {!userLogin ? (
-                <div className='loginBtn'>
-                  <Link to='/login' aria-label='로그인 페이지로 이동'>
-                    <MainBtn name='로그인' width='auto' />
-                  </Link>
-                </div>
+              {mode === 'guest' ? (
+                <>
+                  <div className='estimationEdit' aria-label='견적요청 또는 로그인 페이지로 이동'>
+                    <div
+                      role='button'
+                      tabIndex={0}
+                      style={{ cursor: 'pointer' }}
+                      onClick={onClickCustomerRequest}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          onClickCustomerRequest();
+                        }
+                      }}
+                    >
+                      견적 요청
+                    </div>
+                  </div>
+                  <div className='loginBtn'>
+                    <Link to='/login' aria-label='로그인 페이지로 이동'>
+                      <MainBtn name='로그인' width='auto' />
+                    </Link>
+                  </div>
+                </>
+              ) : mode === 'user' ? (
+                <>
+                  <div className='estimationEdit' aria-label='견적요청 또는 로그인 페이지로 이동'>
+                    <div
+                      role='button'
+                      tabIndex={0}
+                      style={{ cursor: 'pointer' }}
+                      onClick={onClickCustomerRequest}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          onClickCustomerRequest();
+                        }
+                      }}
+                    >
+                      견적 요청
+                    </div>
+                  </div>
+                  <div className='headerMenu'>
+                    <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                      <li>
+                        <Alarm />
+                      </li>
+                      <li>
+                        <Link to='/mypage' aria-label='마이 페이지로 이동'>
+                          마이
+                        </Link>
+                      </li>
+                      <>
+                        <li
+                          role='button'
+                          onClick={onClickExpert}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              onClickExpert();
+                              e.preventDefault();
+                            }
+                          }}
+                          aria-label='전문가 프로필페이지로 이동'
+                          style={{ cursor: 'pointer' }}
+                        >
+                          전문가
+                        </li>
+                        <li>
+                          <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
+                            받은 견적
+                          </Link>
+                        </li>
+                      </>
+                      <li>
+                        <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
+                          채팅
+                        </Link>
+                      </li>
+                      <li className='btn'>
+                        <Link to='/' aria-label='메인 페이지로 이동'>
+                          <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </>
               ) : (
-                <div className='headerMenu'>
-                  <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
-                    <li>
-                      <Alarm />
-                    </li>
-                    <li>
-                      <Link to='/mypage' aria-label='마이 페이지로 이동'>
-                        마이
-                      </Link>
-                    </li>
-                    <li onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동' style={{ cursor: 'pointer' }}>
-                      전문가
-                    </li>
-                    <li>
-                      <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
-                        받은견적
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
-                        채팅
-                      </Link>
-                    </li>
-                    <li className='btn'>
-                      <Link to='/' aria-label='메인 페이지로 이동'>
-                        <MainBtn name='로그아웃' width='auto' onClick={OnClick} />
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
+                <>
+                  <div className='headerMenu'>
+                    <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                      <li>
+                        <Alarm />
+                      </li>
+                      <li>
+                        <Link to='/mypage' aria-label='마이 페이지로 이동'>
+                          마이
+                        </Link>
+                      </li>
+                      <li
+                        onClick={onClickUser}
+                        aria-label='고객으로 전환'
+                        style={{ cursor: 'pointer' }}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            onClickUser();
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        고객
+                      </li>
+                      <li>
+                        <Link to='/expertlist' aria-label='받은요청 페이지로 이동'>
+                          받은 요청
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
+                          채팅
+                        </Link>
+                      </li>
+                      <li className='btn'>
+                        <Link to='/' aria-label='메인 페이지로 이동'>
+                          <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </>
               )}
             </div>
           </div>
         </nav>
         <div className='headerMiniMenu'>
-          {userLogin && <Alarm />}
+          {isLoggedIn && <Alarm />}
           <span className='iconMenu'>
             <button type='button' className='menuBtn' onClick={() => setMenuVisible((prev) => !prev)}>
               &#9776;
@@ -151,12 +245,23 @@ const Header = () => {
           </span>
           {menuVisible && (
             <div className='sliderMenu'>
-              {!userLogin ? (
+              {mode === 'guest' ? (
                 <div className='loginMenu'>
-                  <div className='estimationEdit'>
-                    <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
-                      견적요청
-                    </Link>
+                  <div className='estimationEdit' aria-label='로그인 여부에 따라 견적요청 또는 로그인 페이지로 이동'>
+                    <div
+                      role='button'
+                      tabIndex={0}
+                      style={{ cursor: 'pointer' }}
+                      onClick={onClickCustomerRequest}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          onClickCustomerRequest();
+                          e.preventDefault();
+                        }
+                      }}
+                    >
+                      견적 요청
+                    </div>
                   </div>
                   <hr />
                   <div className='loginBtn'>
@@ -173,33 +278,80 @@ const Header = () => {
                       마이페이지
                     </Link>
                   </div>
-                  <div className='estimationEdit'>
-                    <Link to='/userestimation' aria-label='견적요청 페이지로 이동'>
-                      견적요청
-                    </Link>
-                  </div>
-                  <hr />
-                  <div
-                    onClick={onClickExpert}
-                    className='expertConversion'
-                    aria-label='전문가 프로필페이지로 이동'
-                    style={{ cursor: 'pointer' }}
-                  >
-                    전문가 전환
-                  </div>
-                  <hr />
-                  <div>
-                    <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
-                      받은견적
-                    </Link>
-                  </div>
+
+                  {mode === 'user' ? (
+                    <>
+                      <div className='estimationEdit'>
+                        <div
+                          role='button'
+                          tabIndex={0}
+                          style={{ cursor: 'pointer' }}
+                          onClick={onClickCustomerRequest}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              onClickCustomerRequest();
+                              e.preventDefault();
+                            }
+                          }}
+                        >
+                          견적 요청
+                        </div>
+                      </div>
+                      <hr />
+                      <div
+                        onClick={onClickExpert}
+                        className='expertConversion'
+                        aria-label='전문가 프로필페이지로 이동'
+                        style={{ cursor: 'pointer' }}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            onClickExpert();
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        전문가 전환
+                      </div>
+                      <hr />
+                      <div>
+                        <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
+                          받은 견적
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <hr />
+                      <div
+                        onClick={onClickUser}
+                        aria-label='고객으로 전환'
+                        style={{ cursor: 'pointer' }}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            onClickUser();
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        고객 전환
+                      </div>
+                      <hr />
+                      <div>
+                        <Link to='/expertlist' aria-label='받은요청 페이지로 이동'>
+                          받은 요청
+                        </Link>
+                      </div>
+                    </>
+                  )}
                   <div>
                     <Link to='/chatlistpage' aria-label='채팅 리스트 페이지로 이동'>
                       채팅
                     </Link>
                   </div>
                   <hr />
-                  <Link to='/' aria-label='메인 페이지로 이동' onClick={OnClick}>
+                  <Link to='/' aria-label='메인 페이지로 이동' onClick={onClickLogout}>
                     로그아웃
                   </Link>
                 </div>

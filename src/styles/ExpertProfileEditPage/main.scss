@@ -110,7 +110,7 @@
 
         p {
           font-size: 1.6rem;
-          font-weight: 600;
+          font-weight: 500;
         }
       }
 
@@ -119,12 +119,16 @@
 
         li {
           font-size: 1.6rem;
-          font-weight: 600;
+          font-weight: 500;
           margin-bottom: 1.5rem;
           list-style: square;
 
           &:last-child {
             margin-bottom: 0rem;
+          }
+
+          span {
+            color: #5a5959;
           }
         }
       }

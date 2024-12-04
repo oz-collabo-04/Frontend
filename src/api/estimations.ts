@@ -1,10 +1,8 @@
-import { workerStartPromise } from '@/mocks/browsers';
-import axios from 'axios';
+import { auth } from '@/api/axiosInstance';
 
 export const fetchEstimations = async () => {
-  await workerStartPromise;
   try {
-    const response = await axios.get('/mock/estimations');
+    const response = await auth.get('/estimations/');
     console.log('response.status:', response.status);
     return response.data;
   } catch (err) {
@@ -12,14 +10,22 @@ export const fetchEstimations = async () => {
   }
 };
 
-export const fetchExpertData = async (expertId: number) => {
-    await workerStartPromise;
-    try {
-      const response = await axios.get(`/mock/experts/${expertId}`);
-      console.log('response.status:', response.status);
-      return response.data;
-    } catch (err) {
-      console.error('Error Fetching expert data:', err);
-      throw err;
-    }
-  };
+export const fetchExpertData = async () => {
+  try {
+    const response = await auth.get('/experts/estimations/requests/');
+    console.log('response.status:', response.status);
+    return response.data;
+  } catch (err) {
+    console.error('Error Fetching expert data:', err);
+    throw err;
+  }
+};
+
+export const fetchCalenderList = async ({ month, year }: { month: number; year: number }) => {
+  try {
+    const response = await auth.get(`/experts/estimations/list/?month=${month}&year=${year}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
