@@ -16,6 +16,7 @@ import Confirm from '@/components/Confirm/Confirm';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import useUserStateStore from '@/store/useUserStateStore';
+import useModeChangerStore from '@/store/modeChangerStore';
 
 interface LocationDummy {
   [key: string]: { [key: string]: string }[] | string;
@@ -33,6 +34,7 @@ interface FormCareer {
 
 export default function ExpertProfileEditPage() {
   const { isExpert, setIsExpert } = useUserStateStore();
+  const { setMode } = useModeChangerStore();
   const { expert, setExpert } = useExpertStore();
   const { addToasts } = useToastStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -74,7 +76,6 @@ export default function ExpertProfileEditPage() {
     }
   }, [isExpert === true && isLoading === false]);
 
- 
   const getData = async () => {
     try {
       const data = await fetchGetExpertRegister();
@@ -203,8 +204,9 @@ export default function ExpertProfileEditPage() {
       ) {
         await postData(formData);
 
-        if (setIsExpert) {
+        if (setIsExpert && setMode) {
           setIsExpert(true);
+          setMode('expert');
         }
 
         navigate('/');
@@ -226,7 +228,7 @@ export default function ExpertProfileEditPage() {
     ) {
       return openConfirm('preCheckConfirm');
     }
-    return navigate('/');
+    return navigate('/mypage');
   };
 
   if (isLoading === false) {
@@ -256,7 +258,7 @@ export default function ExpertProfileEditPage() {
             trueBtnName='나가기'
             trueBtnOnClick={() => {
               closeConfirm('preCheckConfirm');
-              return navigate('/');
+              return navigate('/mypage');
             }}
             falseBtn={true}
             falseBtnName='머무르기'
