@@ -2,44 +2,36 @@ import ProfileBadge from '@/components/Badge/ProfileBadge';
 import profile from '@/assets/images/dalbong.jpg';
 
 interface Message {
-  chat: string; // 메시지 내용
-  user: { name: string }; // 보낸 사람의 이름
+  content: string; // 메시지 내용
+  user: { name: string; profileImage?: string }; // 보낸 사람의 이름 및 프로필 이미지
 }
 
 interface User {
-  name: string; // 유저의 이름
+  name: string; // 현재 유저 이름
 }
 
 interface ChatContainerProps {
-  messageList: Message[]; // 메시지 목록 (Message 배열)
-  user: User | null; // 현재 유저 (User 객체 또는 null)
+  messageList: Message[]; // 메시지 목록
+  user: User | null; // 현재 유저 정보
 }
 
 const ChatContainer = ({ messageList, user }: ChatContainerProps) => {
+  console.log(messageList);
   return (
     <div className='chatContainer'>
       <div className='chatBox'>
         {messageList.map((message, index) => {
-          const isMyMessage = user && message.user?.name === user.name;
+          const isMyMessage = user?.name === message.user?.name; // 현재 유저 확인
+          const profileImage = message.user?.profileImage || profile; // 프로필 이미지 설정
 
-          return isMyMessage ? (
-            // 내가 보낸 메시지
-            <div className='messageBox myMessageBox' key={index}>
-              <ProfileBadge width='3.2rem' height='3.2rem' src={profile} />
+          return (
+            <div
+              key={index} // 고유 키 추가
+              className={`messageBox ${isMyMessage ? 'myMessageBox' : 'yourMessageBox'}`} // 동적 클래스
+            >
+              <ProfileBadge width='3.2rem' height='3.2rem' src={profileImage} />
               <div className='speechBubble'>
-                {message.chat}
-                <span className='createMessageTime'>
-                  오후 1:30
-                  <span className='messageUnread'>안읽음</span>
-                </span>
-              </div>
-            </div>
-          ) : (
-            // 상대방이 보낸 메시지
-            <div className='messageBox yourMessageBox' key={index}>
-              <ProfileBadge width='3.2rem' height='3.2rem' src={profile} />
-              <div className='speechBubble'>
-                {message.chat}
+                {message.content}
                 <span className='createMessageTime'>
                   오후 1:30
                   <span className='messageUnread'>안읽음</span>
