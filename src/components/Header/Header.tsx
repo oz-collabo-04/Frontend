@@ -44,7 +44,7 @@ const Header = () => {
         navigate('/');
         addToasts({
           id: Date.now().toString(),
-          title: '전문가님 어서오세요!  ',
+          title: '전문가님 어서오세요! ',
           type: 'success',
         });
       }
