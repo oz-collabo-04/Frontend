@@ -20,12 +20,3 @@ export const fetchExpertData = async () => {
     throw err;
   }
 };
-
-export const fetchCalenderList = async ({ month, year }: { month: number; year: number }) => {
-  try {
-    const response = await auth.get(`/experts/estimations/list/?month=${month}&year=${year}`);
-    return response.data;
-  } catch (err) {
-    console.error(err);
-  }
-};
