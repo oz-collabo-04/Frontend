@@ -9,6 +9,7 @@ interface tabContentsTypeProps {
 }
 
 export default function TabContentType({ src, title, name, description }: tabContentsTypeProps) {
+  console.log(src);
   return (
     <>
       <div className='tabContentsType'>

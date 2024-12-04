@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
 import MainBtn from '@/components/Button/MainBtn';
 import SmallTitle from '@/components/Title/SmallTitle';

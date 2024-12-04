@@ -1,14 +1,18 @@
 import { ExpertProps } from '@/pages/MainPage';
 import TabContentType from './TabContentType';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 interface ExpertData {
   expertData: ExpertProps[] | null;
 }
 export default function Snapshot({ expertData }: ExpertData) {
+  if (!expertData || expertData.length === 0) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
       <div>
-        {expertData?.map((data) => (
+        {expertData.map((data) => (
           <TabContentType
             key={data.id}
             src={data.expert_image}
