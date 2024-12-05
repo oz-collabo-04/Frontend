@@ -74,6 +74,7 @@ const Header = () => {
           setUserName(null);
           setMode('guest');
           localStorage.clear();
+          navigate('/');
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
       } catch (error) {
@@ -144,7 +145,7 @@ const Header = () => {
                     </div>
                   </div>
                   <div className='headerMenu'>
-                    <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                    <ul className='userNav' aria-label='고객 내비게이션'>
                       <li>
                         <Alarm />
                       </li>
@@ -181,9 +182,7 @@ const Header = () => {
                         </Link>
                       </li>
                       <li className='btn'>
-                        <Link to='/' aria-label='메인 페이지로 이동'>
-                          <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
-                        </Link>
+                        <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
                       </li>
                     </ul>
                   </div>
@@ -191,7 +190,7 @@ const Header = () => {
               ) : (
                 <>
                   <div className='headerMenu'>
-                    <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                    <ul className='expertNav' aria-label='전문가 내비게이션'>
                       <li>
                         <Alarm />
                       </li>
@@ -225,9 +224,7 @@ const Header = () => {
                         </Link>
                       </li>
                       <li className='btn'>
-                        <Link to='/' aria-label='메인 페이지로 이동'>
-                          <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
-                        </Link>
+                        <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
                       </li>
                     </ul>
                   </div>
@@ -351,7 +348,7 @@ const Header = () => {
                     </Link>
                   </div>
                   <hr />
-                  <Link to='/' aria-label='메인 페이지로 이동' onClick={onClickLogout}>
+                  <Link to='/' aria-label='로그아웃 후 메인 페이지로 이동' onClick={onClickLogout}>
                     로그아웃
                   </Link>
                 </div>
