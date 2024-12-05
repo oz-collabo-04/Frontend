@@ -1,6 +1,6 @@
 import InputField from './InputField';
 import { useEffect, useRef, useState } from 'react';
-import ChatContainer, { Message } from './ChatContainer';
+import ChatContainer from './ChatContainer';
 import { ChatRoomProps } from '@/pages/ChatPage';
 import ChatSocket from '@/utils/chatSocket';
 import useMessageStore from '@/store/useMessageStore';
@@ -15,11 +15,11 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
   const getMessageList = useMessageStore((state) => state.getMessageList); // 메시지 업데이트 함수 가져오기
   const [roomData, setRoomData] = useState<DataItem | null>(null);
 
+  // 채팅방 데이터 가져오기
   useEffect(() => {
     const fetchChatRoomData = async () => {
       try {
         const response = await auth.get(`chat/chatrooms/${roomId}/`);
-        console.log(response.data);
         setRoomData(response.data);
         // console.log('data :', response.data);
       } catch (error) {
@@ -29,6 +29,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
     fetchChatRoomData();
   }, []);
 
+  // 채팅 메시지 목록 가져오기
   useEffect(() => {
     const fetchChatList = async () => {
       try {
@@ -41,6 +42,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
     fetchChatList();
   }, []);
 
+  // WebSocket 연결 설정
   useEffect(() => {
     if (roomId && !chatSocketRef.current) {
       // WebSocket 연결이 중복되지 않도록 조건 추가
@@ -55,7 +57,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
       chatSocketRef.current = null; // WebSocket 인스턴스 초기화
       console.log('ChatSocket closed');
     };
-  }, [roomId]); // roomId 변경 시 WebSocket 연결 갱신
+  }, [roomId]);
 
   // 메시지 전송 핸들러
   const handleSendMessage = (messageContent: string) => {

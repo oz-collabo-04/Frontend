@@ -10,13 +10,14 @@ import { formatDate } from '@/utils/formatDate';
 
 interface ExpertWrapperProps {
   extraClass: string;
-  chatData: DataItem | undefined;
+  chatData: DataItem | null;
   isExpert: boolean;
 }
 
 const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) => {
   const { openModal } = useModalStore();
   const [btnListVisible, setBtnListVisible] = useState(false);
+  console.log(chatData?.expert.expert_image);
 
   return (
     <div className={`expertWrapper ${extraClass}`}>
