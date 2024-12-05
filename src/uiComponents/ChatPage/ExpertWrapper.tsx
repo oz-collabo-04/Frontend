@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
 import MainBtn from '@/components/Button/MainBtn';
 import SmallTitle from '@/components/Title/SmallTitle';
@@ -17,8 +17,6 @@ interface ExpertWrapperProps {
 const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) => {
   const { openModal } = useModalStore();
   const [btnListVisible, setBtnListVisible] = useState(false);
-  console.log(chatData?.expert.expert_image);
-
   return (
     <div className={`expertWrapper ${extraClass}`}>
       <div>
