@@ -1,5 +1,4 @@
 import ProfileBadge from '@/components/Badge/ProfileBadge';
-import LargeTitle from '@/components/Title/LargeTitle';
 
 interface tabContentsTypeProps {
   src: string;
@@ -9,13 +8,12 @@ interface tabContentsTypeProps {
 }
 
 export default function TabContentType({ src, title, name, description }: tabContentsTypeProps) {
-  console.log(src);
   return (
     <>
       <div className='tabContentsType'>
         <ProfileBadge src={src} />
         <div className='tabText'>
-          <LargeTitle title={title} />
+          <div className='tabContentTitle'>{title}</div>
           <div className='expertName'>
             {name} <span>전문가</span>
           </div>
