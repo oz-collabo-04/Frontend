@@ -127,7 +127,7 @@ main 브랜치는 배포 단계에서만 사용하는 브랜치입니다. featue
 ### 이상민
 
 - <b>UI</b>
-  - 페이지 : Estimation List Page / Expert List Page
+  - 페이지 : Estimation List Page/ Expert List Page
   - 공통 컴포넌트 : Badge / Rating / Loading Spinner
 - <b>기능</b>
 

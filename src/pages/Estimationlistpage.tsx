@@ -177,14 +177,15 @@ const EstimationList: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="estimationLoading">
-        <LoadingSpinner />
+      <div className="estimationContainer">
+        <LoadingSpinner className="estimationLoading" />
+        <span className="sr-only">견적 목록을 불러오는 중...</span>
       </div>
     );
   }
 
   if (error) {
-    return <div aria-live="assertive" role="alert">{error}</div>;
+    return <div aria-live="assertive" role="alert" className="estimationError">{error}</div>;
   }
 
   return (

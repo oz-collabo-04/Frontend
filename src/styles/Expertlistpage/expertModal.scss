@@ -105,5 +105,15 @@
     font-size: 1.7rem; 
     border: none;
     cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba($main-color, 0.5);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba($main-color, 0.5);
+    }
   }
 }
