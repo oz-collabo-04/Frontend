@@ -10,7 +10,6 @@ import Video from '@/uiComponents/MainPage/Video';
 import useLoginToastStateStore from '@/store/loginToastStateStore';
 import { useToastStore } from '@/store/toastStore';
 import useUserStateStore from '@/store/useUserStateStore';
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 export interface ExpertProps {
   service_display: string;
@@ -69,32 +68,25 @@ export default function MainPage() {
     fetchExpertList();
   }, [activeTab]);
 
-  if (expertData) {
-    const tabs = [
-      { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
-      { label: '축가 가수', content: <Singer expertData={expertData} /> },
-      { label: '영상 촬영', content: <Video expertData={expertData} /> },
-      { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
-    ];
-    return (
-      <>
-        <div className='mainPage'>
-          <Billboard />
-          <main className='contentLayout'>
-            <Tab
-              tabs={tabs}
-              onTabChange={(index) => {
-                setActiveTab(index);
-              }}
-            />
-          </main>
-        </div>
-      </>
-    );
-  }
+  const tabs = [
+    { label: '결혼식 사회자', content: <WeddingMC expertData={expertData} /> },
+    { label: '축가 가수', content: <Singer expertData={expertData} /> },
+    { label: '영상 촬영', content: <Video expertData={expertData} /> },
+    { label: '스냅 촬영', content: <Snapshot expertData={expertData} /> },
+  ];
   return (
     <>
-      <LoadingSpinner />
+      <div className='mainPage'>
+        <Billboard />
+        <main className='contentLayout'>
+          <Tab
+            tabs={tabs}
+            onTabChange={(index) => {
+              setActiveTab(index);
+            }}
+          />
+        </main>
+      </div>
     </>
   );
 }
