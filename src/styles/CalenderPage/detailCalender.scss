@@ -1,0 +1,39 @@
+@use '../variables.scss' as *;
+
+.calenderModal {
+  .calenderContent {
+    padding: 1rem 0rem;
+    border-bottom: 0.1rem solid $main-color-light;
+
+    .userContent {
+      position: relative;
+      display: flex;
+      padding: 1rem 0rem;
+
+      p {
+        margin: 0rem 0.4rem;
+        font-size: 1.75rem;
+      }
+
+      p:last-child {
+        position: absolute;
+        right: 0;
+        padding: 0.2rem 0.5rem;
+        font-size: 1.4rem;
+        color: white;
+        border-radius: 0.3rem;
+        background-color: $main-color;
+      }
+    }
+
+    .weddingContent {
+      display: flex;
+      padding-bottom: 1rem;
+
+      p {
+        margin: 0rem 0.4rem;
+        font-size: 1.75rem;
+      }
+    }
+  }
+}

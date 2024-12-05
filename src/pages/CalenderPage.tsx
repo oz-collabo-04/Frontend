@@ -1,8 +1,11 @@
 import { fetchCalenderList } from '@/api/reserve';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
+import Modal from '@/components/Modal/Modal';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import { Calender } from '@/config/types';
+import { useModalStore } from '@/store/modalStore';
 import '@/styles/CalenderPage/main.scss';
+import DetailCalender from '@/uiComponents/CalenderPage/DetailCalender';
 import { useEffect, useState } from 'react';
 import { RxReset } from 'react-icons/rx';
 
@@ -23,6 +26,9 @@ export default function CalenderPage() {
 
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { openModal } = useModalStore();
+  const [clickDate, setClickDate] = useState<string>('');
+  let clickActive: string = '';
   const [calenderData, setCalenderData] = useState<Calender[] | []>({
     name: '',
     phone_number: '',
@@ -175,12 +181,32 @@ export default function CalenderPage() {
                       <>
                         <p>{week.getDate()}</p>
                         {calenderData.length > 0 && listCount(week.getDate())}
-                        <div className='detailList'>
+                        <div
+                          onClick={() => {
+                            setClickDate(week.getDate().toString());
+
+                            [...calenderData].map((data) => {
+                              if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
+                                openModal('calenderModal');
+                              }
+                            });
+                          }}
+                          className={`detailList
+                              ${clickActive}
+                              ${
+                                currentDate.getFullYear() === year &&
+                                currentDate.getMonth() + 1 === month &&
+                                currentDate.getDate() === week.getDate() &&
+                                'todayList'
+                              }`}
+                        >
                           {calenderData.length > 0 &&
                             [...calenderData].map((data, i) => {
                               if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
+                                clickActive = 'clickActive';
                                 return (
                                   <div
+                                    className={`${data.status_display === 'completed' && 'completed'}`}
                                     key={i}
                                   >{`${data.service_display} / ${data.name} / ${new Date(data.wedding_datetime).toTimeString().slice(0, 5)}`}</div>
                                 );
@@ -196,6 +222,14 @@ export default function CalenderPage() {
           </div>
         </section>
       </main>
+      <Modal
+        modalId='calenderModal'
+        title={`${year} / ${month} / ${clickDate} 일정 상세`}
+        content={<DetailCalender calenderData={calenderData} clickDate={clickDate} />}
+        width='48rem'
+        height='50vh'
+        borderRadius='2rem'
+      />
     </div>
   );
 }
