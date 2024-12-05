@@ -95,3 +95,21 @@ export interface Calender {
   wedding_datetime: string;
   status_display: string;
 }
+
+// 견적서
+export interface IEstimationForm {
+  service_list: string;
+  prefer_gender: string;
+  wedding_datetime: string;
+  location: string;
+  wedding_hall: string;
+  recessional: boolean;
+}
+
+// 위치
+export interface ILocation {
+  [key: string]: { [key: string]: string }[] | string;
+}
+export interface ILocationObject {
+  [key: string]: string;
+}
