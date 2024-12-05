@@ -14,8 +14,10 @@ export interface ChatRoomProps {
 
 const ChatPage = () => {
   const [expertWrapperShow, setExpertWrapperShow] = useState(false);
-  const [chatData, setChatData] = useState<DataItem | undefined>(undefined);
+  const [chatData, setChatData] = useState<DataItem | null>(null);
   const { roomId } = useParams();
+
+  console.log(chatData);
 
   useEffect(() => {
     const fetchChatList = async () => {
@@ -30,8 +32,9 @@ const ChatPage = () => {
   }, [roomId]);
 
   // 고객 or 전문가 상태
-  const userState = useUserStateStore();
-  const [isExpert] = useState<boolean>(userState.isExpert ?? false);
+  // const userState = useUserStateStore();
+  // const [isExpert] = useState<boolean>(userState.isExpert ?? false);
+  const isExpert = Number(localStorage.getItem('user_id')) === chatData?.expert.user.id;
 
   // 모바일 화면 Expert창 토글 버튼
   const toggleExpertWrapper = () => {
@@ -57,11 +60,7 @@ const ChatPage = () => {
             <ChatRoom roomId={roomId!} />
 
             {/* expertWrapper */}
-            <ExpertWrapper
-              extraClass={expertWrapperShow ? 'show' : ''}
-              chatData={chatData || undefined}
-              isExpert={isExpert}
-            />
+            <ExpertWrapper extraClass={expertWrapperShow ? 'show' : ''} chatData={chatData} isExpert={isExpert} />
           </div>
 
           <button type='button' className='showBtn' onClick={toggleExpertWrapper}>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { DataList } from './chat';
 import { auth } from '@/api/axiosInstance';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
-import useUserStateStore from '@/store/useUserStateStore';
+// import useUserStateStore from '@/store/useUserStateStore';
 import { formatDate } from '@/utils/formatDate';
 
 const AllChats = () => {
@@ -23,14 +23,13 @@ const AllChats = () => {
     fetchChatList();
   }, []);
 
-  // 고객 or 전문가 상태
-  const userState = useUserStateStore();
-  const [isExpert] = useState(userState.isExpert);
+  const userId = localStorage.getItem('user_id');
 
   return (
     <div className='chatListContainer'>
       <div className='chatList'>
         {chatData?.map((data) => {
+          const isExpert = data.expert.user.id === Number(userId);
           return (
             <Link to={`/chatpage/${data.id}`} state={data} className='chat' key={data.id}>
               <div className='chatPreview'>
