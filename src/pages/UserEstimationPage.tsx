@@ -58,13 +58,15 @@ const UserEstimationPage = () => {
     console.log('touchedFields:', touchedFields);
     console.log(JSON.stringify(data));
     console.log('data:', data);
+    console.log(Object.entries(data));
     // API 요청 처리
     const service = getValues('service_list');
     const gender = getValues('prefer_gender');
     const datetime = getValues('wedding_datetime');
-    const location = select + selectDetailData?;
+    const location = select;
+    const locationDetail = selectDetailData;
     const hall = getValues('wedding_hall');
-    console.log(service, gender, datetime, location, hall);
+    console.log(service, gender, datetime, location, locationDetail, hall);
     console.log(select, selectDetailData);
   };
 
@@ -132,9 +134,13 @@ const UserEstimationPage = () => {
             <div className='dateTime'>
               <SmallTitle title='예식 일정 및 예식 시간' />
               <div className='time'>
-                <input className='comInput' type='datetime-local' id='dateTime' {...register('wedding_datetime')} />
+                <input
+                  className='comInput'
+                  type='datetime-local'
+                  id='dateTime'
+                  {...register('wedding_datetime', { required: '일정을 선택해 주세요.' })}
+                />
               </div>
-
               {errors.wedding_datetime && <span className='errorMsg'>{errors.wedding_datetime.message}</span>}
             </div>
             <div className='location'>

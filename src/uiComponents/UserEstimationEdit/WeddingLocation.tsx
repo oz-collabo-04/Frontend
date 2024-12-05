@@ -40,7 +40,7 @@ export default function WeddingLocation({ select, setSelect, selectDetailData, s
     Object.entries(locationData).filter(
       ([key, value]) => typeof value === 'object' && noSelectArray.push({ [key]: value })
     );
-  }, [locationData]);
+  }, [locationLoading]);
 
   const optionListDetail = () => {
     if (!Object.entries(locationData!).find(([key, value]) => typeof value === 'object' && key === select)) {
