@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 
 interface BtnProps {
+  type?: 'submit' | 'reset' | 'button' | undefined;
   img?: ReactElement;
   name: string;
   width?: string;
@@ -15,6 +16,7 @@ interface BtnProps {
 }
 
 const MainBtn = ({
+  type = 'button',
   img,
   name,
   width,
@@ -29,7 +31,7 @@ const MainBtn = ({
 }: BtnProps) => {
   return (
     <button
-      type='button'
+      type={type}
       className={`mainBtn ${size} ${extraClass}`}
       style={{ width, height, backgroundColor, borderColor, color }}
       disabled={disabled}

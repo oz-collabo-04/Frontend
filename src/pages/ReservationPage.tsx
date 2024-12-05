@@ -8,6 +8,7 @@ import { IReservationData } from '@/config/types';
 import { useNavigate } from 'react-router-dom';
 import { useModalStore } from '@/store/modalStore';
 import { useExpertStore } from '@/store/expertStore';
+import { fetchReserveList } from '@/api/reserve';
 
 const ReservationPage = () => {
   const [reserveData, setReserveData] = useState<IReservationData | null>([]);

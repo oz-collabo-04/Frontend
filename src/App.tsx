@@ -17,10 +17,8 @@ import useLoginProviderStore from './store/useLoginProviderStore';
 import CallbackPage from './pages/CallbackPage';
 import ReservationPage from './pages/ReservationPage';
 import ToastLayout from './layouts/ToastLayout';
-
 import { useToastStore } from './store/toastStore';
 import { setRedirectFunction } from './api/axiosInstance';
-
 import useUserStateStore from './store/useUserStateStore';
 import CalenderPage from './pages/CalenderPage';
 import useModeChangerStore from './store/modeChangerStore';
