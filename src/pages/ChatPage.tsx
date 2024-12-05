@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { auth } from '@/api/axiosInstance';
 import { DataItem } from '@/uiComponents/ChatListPage/chat';
 import ChatRoom from '@/uiComponents/ChatPage/ChatRoom';
-import useUserStateStore from '@/store/useUserStateStore';
 
 export interface ChatRoomProps {
   roomId?: string;
@@ -16,8 +15,6 @@ const ChatPage = () => {
   const [expertWrapperShow, setExpertWrapperShow] = useState(false);
   const [chatData, setChatData] = useState<DataItem | null>(null);
   const { roomId } = useParams();
-
-  console.log(chatData);
 
   useEffect(() => {
     const fetchChatList = async () => {
@@ -31,9 +28,6 @@ const ChatPage = () => {
     fetchChatList();
   }, [roomId]);
 
-  // 고객 or 전문가 상태
-  // const userState = useUserStateStore();
-  // const [isExpert] = useState<boolean>(userState.isExpert ?? false);
   const isExpert = Number(localStorage.getItem('user_id')) === chatData?.expert.user.id;
 
   // 모바일 화면 Expert창 토글 버튼

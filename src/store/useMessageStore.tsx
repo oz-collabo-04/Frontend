@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 
-interface Message {
+export interface Message {
   id: number; // 메시지 ID
-  sender: string; // 보낸 사람
+  sender: number; // 보낸 사람
   content: string; // 메시지 내용
   timestamp: string; // 보낸 시간
+  is_read: boolean; // 읽음 여부 상태
 }
 
 interface MessageStore {
