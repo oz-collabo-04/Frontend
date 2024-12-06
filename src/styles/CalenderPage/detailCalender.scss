@@ -21,8 +21,16 @@
         padding: 0.2rem 0.5rem;
         font-size: 1.4rem;
         color: white;
-        border-radius: 0.3rem;
-        background-color: $main-color;
+        border-radius: 0.8rem;
+        border: 0.2rem solid #0022cc80;
+        background-color: #c2ccff66;
+        color: #0022cc;
+      }
+
+      .completed {
+        border: 0.2rem solid #388e3c80;
+        background-color: #c8e6c966;
+        color: #388e3c;
       }
     }
 
