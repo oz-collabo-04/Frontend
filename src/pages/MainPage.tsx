@@ -10,6 +10,7 @@ import Video from '@/uiComponents/MainPage/Video';
 import useLoginToastStateStore from '@/store/loginToastStateStore';
 import { useToastStore } from '@/store/toastStore';
 import useUserStateStore from '@/store/useUserStateStore';
+import useModeChangerStore from '@/store/modeChangerStore';
 
 export interface ExpertProps {
   service_display: string;
@@ -37,8 +38,33 @@ export default function MainPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
   const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
-  const { userName } = useUserStateStore();
+  const { userName, setIsExpert, setIsLoggedIn, setUserName, isExpert } = useUserStateStore();
+  const { setMode } = useModeChangerStore();
   const { addToasts } = useToastStore();
+
+  window.addEventListener('message', (event) => {
+    const targetOrigins = ['https://sonew-wedding.kro.kr', 'http://localhost:5173'];
+    if (!targetOrigins.includes(event.origin)) {
+      console.warn('targetOrigins에서 온 메시지가 아닙니다.', event.origin);
+    }
+    console.log('recived Data', event.data);
+
+    const { access_token, email, id, profile_image, name, is_expert } = event.data;
+
+    if (access_token) {
+      sessionStorage.setItem('access_token', access_token);
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('user_id', id);
+      sessionStorage.setItem('profile_image', profile_image);
+      if (setIsLoggedIn && setIsExpert && setUserName && setMode) {
+        setIsLoggedIn(true);
+        setIsExpert(is_expert);
+        setUserName(name);
+        setIsLoginToastShown(true);
+        setMode(isExpert ? 'expert' : 'user');
+      }
+    }
+  });
 
   if (isLoginToastShown) {
     addToasts({

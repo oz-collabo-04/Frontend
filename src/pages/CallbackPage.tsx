@@ -40,26 +40,25 @@ export default function CallbackPage() {
         } else if (provider === 'google' || provider === 'kakao') {
           requestData.state = null;
         }
-
         const response = await client.post(`/users/login/${provider}/callback/`, requestData);
         console.log('Response:', response);
-
         const { access_token } = response.data;
         console.log(typeof access_token);
         const { email, id, is_expert, name, profile_image } = response.data.user;
         if (access_token) {
-          localStorage.setItem('access_token', access_token);
-          localStorage.setItem('email', email);
-          localStorage.setItem('user_id', id);
-          localStorage.setItem('profile_image', profile_image);
-          if (setIsLoggedIn && setIsExpert && setUserName && setMode) {
-            setIsLoggedIn(true);
-            setIsExpert(is_expert);
-            setUserName(name);
-            setIsLoginToastShown(true);
-            setMode(is_expert ? 'expert' : 'user');
-          }
           if (window.opener) {
+            const data = {
+              access_token,
+              email,
+              id,
+              profile_image,
+              is_expert,
+              name,
+              //로그인 상태, 로그인토스트 상태, 모드 상태 부모창에서 변경 필요함!!!!
+            };
+            console.log(data.access_token);
+            window.opener.postMessage(data, 'http://localhost:5173');
+            window.opener.postMessage(data, 'https://sonew-wedding.kro.kr');
             window.opener.location.href = '/';
             window.close();
           }

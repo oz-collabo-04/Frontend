@@ -47,7 +47,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
     if (roomId && !chatSocketRef.current) {
       // WebSocket 연결이 중복되지 않도록 조건 추가
       chatSocketRef.current = new ChatSocket(`${socketBaseUrl}/chat/${roomId}/`, [
-        localStorage.getItem('access_token')!, // WebSocket 인증용 토큰 전달
+        sessionStorage.getItem('access_token')!, // WebSocket 인증용 토큰 전달
       ]);
     }
 

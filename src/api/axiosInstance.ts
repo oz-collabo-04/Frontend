@@ -20,7 +20,7 @@ export const auth = axios.create({
 });
 
 const getAccessToken = (): string | null => {
-  return localStorage.getItem('access_token');
+  return sessionStorage.getItem('access_token');
 };
 
 auth.interceptors.request.use(
@@ -41,8 +41,8 @@ const refreshAccessToken = async () => {
   try {
     const response = await client.post('users/token/refresh/');
     const newAccessToken = response.data.access_token;
-    localStorage.removeItem('access_token');
-    localStorage.setItem('access_token', newAccessToken);
+    sessionStorage.removeItem('access_token');
+    sessionStorage.setItem('access_token', newAccessToken);
     return newAccessToken;
   } catch (error) {
     console.error('access_token 갱신 실패', error);

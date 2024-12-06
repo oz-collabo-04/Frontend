@@ -76,7 +76,7 @@ const Header = () => {
       try {
         const response = await auth.post('users/logout/');
         console.log('로그아웃에 성공했습니다.', response.data);
-        localStorage.clear();
+        sessionStorage.clear();
         if (setIsLoggedIn && setUserName) {
           setIsLoggedIn(false);
           setUserName(null);

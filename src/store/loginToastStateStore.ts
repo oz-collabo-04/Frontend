@@ -14,7 +14,7 @@ const useLoginToastStateStore = create(
     }),
     {
       name: 'toast_toggle',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );
