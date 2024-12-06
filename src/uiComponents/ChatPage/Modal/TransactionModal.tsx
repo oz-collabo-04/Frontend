@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import NumberInput from '@/components/Input/NumberInput';
 
-const DealModal = () => {
-  const [amount, setAmount] = useState<string | number>('');
+interface TransactionModalProps {
+  amount: string | number; // 부모로부터 전달받은 상태
+  setAmount: React.Dispatch<React.SetStateAction<string | number>>; // 상태 변경 함수
+}
+
+const TransactionModal = ({ amount, setAmount }: TransactionModalProps) => {
+  // const [amount, setAmount] = useState<string | number>('');
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value); // 부모 상태 업데이트
   };
 
   return (
-    <div className='dealModal'>
+    <div className='transactionModal'>
       <dl>
         <dt>금액</dt>
         <dd>
@@ -26,4 +31,4 @@ const DealModal = () => {
   );
 };
 
-export default DealModal;
+export default TransactionModal;
