@@ -7,6 +7,7 @@ import { formatDate } from '@/utils/formatDate';
 
 const AllChats = () => {
   const [chatData, setChatData] = useState<DataList>([]);
+  console.log(chatData);
 
   // chat list api 호출
   useEffect(() => {
@@ -41,15 +42,13 @@ const AllChats = () => {
                   <div className='chatContent'>
                     <span className='userName'>{isExpert ? data.user.name : data.expert.user.name}</span>
                     <ul className='requestList'>
-                      <li>{data.request.service_list_display}</li>
-                      <li>{data.request.location_display}</li>
+                      <li>{data.estimation.request.service_list_display}</li>
+                      <li>{data.estimation.request.location_display}</li>
                       <li>{data.user.name}</li>
-                      <li>{formatDate(data.request.wedding_datetime)}</li>
+                      <li>{formatDate(data.estimation.request.wedding_datetime)}</li>
                       <li>2부</li>
                     </ul>
-                    <p className='lastChat'>
-                      채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅
-                    </p>
+                    <p className='lastChat'>{data.last_message}</p>
                   </div>
                 </div>
                 <span className='createMessageTime'>오후 08:09</span>

@@ -1,6 +1,7 @@
 import ProfileBadge from '@/components/Badge/ProfileBadge';
 import { DataItem } from '../ChatListPage/chat';
 import { useEffect, useRef } from 'react';
+import { chatFormatDate } from '@/utils/chatFormatDate';
 
 export interface Message {
   content: string; // 메시지 내용
@@ -44,7 +45,8 @@ const ChatContainer = ({ messageList, roomData, otherExist }: ChatContainerProps
               <div className='speechBubble'>
                 {message.content}
                 <span className='createMessageTime'>
-                  {message.timestamp}
+                  {chatFormatDate(message.timestamp)}
+                  {/* {formatDate(message.timestamp)} */}
                   <span className='messageUnread'>
                     {!isMyMessage || message.is_read || otherExist ? '읽음' : '안읽음'}
                   </span>

@@ -41,13 +41,28 @@ export interface Request {
   updated_at: string; // ISO8601 date string
 }
 
+export interface Estimation {
+  id: number;
+  request: Request;
+  expert: number;
+  service: string;
+  service_display: string;
+  location: string;
+  location_display: string;
+  due_date: string;
+  charge: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface DataItem {
   id: number;
   user: User;
   expert: Expert;
-  request: Request;
+  estimation: Estimation;
   expert_exist: boolean;
   user_exist: boolean;
+  last_message: string;
 }
 
 export type DataList = DataItem[];

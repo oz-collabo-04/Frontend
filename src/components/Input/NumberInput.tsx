@@ -35,15 +35,18 @@ const NumberInput = ({ width, height, placeholder, disabled = false, value = '',
   };
 
   return (
-    <input
-      type='text' // 내부적으로는 text로 설정하여 천 단위 콤마를 처리
-      className='comInput'
-      placeholder={placeholder}
-      style={{ width, height }}
-      value={formatNumber(value)} // 천 단위 콤마 적용
-      disabled={disabled}
-      onChange={handleChange}
-    />
+    <span className='inpNum'>
+      <input
+        type='text' // 내부적으로는 text로 설정하여 천 단위 콤마를 처리
+        className='comInput'
+        placeholder={placeholder}
+        style={{ width, height }}
+        value={formatNumber(value)} // 천 단위 콤마 적용
+        disabled={disabled}
+        onChange={handleChange}
+      />
+      <span className='unit'>원</span>
+    </span>
   );
 };
 
