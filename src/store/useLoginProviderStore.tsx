@@ -13,8 +13,8 @@ const useLoginProviderStore = create(
       setProvider: (provider) => set({ provider }),
     }),
     {
-      name: 'login_Provider', // localStorage에 저장될 키 이름
-      storage: createJSONStorage(() => localStorage), // localStorage를 사용하도록 지정
+      name: 'login_Provider', // sessionStorage에 저장될 키 이름
+      storage: createJSONStorage(() => sessionStorage), // sessionStorage를 사용하도록 지정
     }
   )
 );

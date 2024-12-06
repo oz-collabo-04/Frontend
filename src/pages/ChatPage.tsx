@@ -28,7 +28,10 @@ const ChatPage = () => {
     fetchChatList();
   }, [roomId]);
 
-  const isExpert = Number(localStorage.getItem('user_id')) === chatData?.expert.user.id;
+  // 고객 or 전문가 상태
+  // const userState = useUserStateStore();
+  // const [isExpert] = useState<boolean>(userState.isExpert ?? false);
+  const isExpert = Number(sessionStorage.getItem('user_id')) === chatData?.expert.user.id;
 
   // 모바일 화면 Expert창 토글 버튼
   const toggleExpertWrapper = () => {

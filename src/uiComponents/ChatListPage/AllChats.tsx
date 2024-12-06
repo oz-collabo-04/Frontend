@@ -23,8 +23,8 @@ const AllChats = () => {
     fetchChatList();
   }, []);
 
-  // 고객 or 전문가 상태
-  const userId = localStorage.getItem('user_id');
+  const userId = sessionStorage.getItem('user_id');
+
   return (
     <div className='chatListContainer'>
       <div className='chatList'>
