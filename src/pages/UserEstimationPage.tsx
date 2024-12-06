@@ -10,6 +10,7 @@ import { IEstimationForm, ILocation } from '@/config/types';
 import { fetchServiceLocation } from '@/api/services';
 import { useEffect, useState } from 'react';
 import WeddingLocation from '@/uiComponents/UserEstimationEdit/WeddingLocation';
+import { auth } from '@/api/axiosInstance';
 
 // dirtyFields : 기본값이 수정된 필드
 // touchedFields : 사용자의 의해 수정된 필드들
@@ -18,7 +19,7 @@ import WeddingLocation from '@/uiComponents/UserEstimationEdit/WeddingLocation';
 const UserEstimationPage = () => {
   const {
     register,
-    formState: { errors, dirtyFields, touchedFields },
+    formState: { errors, dirtyFields },
     handleSubmit,
     watch,
     getValues,
@@ -33,34 +34,87 @@ const UserEstimationPage = () => {
     },
   });
 
-  // 지역선택 시, 시,도 하위 내용이 없을경우 선택 X
-  // 광역시, 특별시는 선택되었을때 견적요청하기 버튼 활성화되는 조건필요
-  // 캘린더, 시간도 기본값 아닌 내용 채워졌을때 버튼 활성화
-  // 희망일정 선택시 금일 날짜 이후 선택
+  const [apiLocation, setApiLocation] = useState<ILocation | []>([]);
 
-  const [enLocation, setEnLocation] = useState<ILocation | []>([]);
-
+  // 지역 data api
   const locationData = async () => {
     try {
       const data = await fetchServiceLocation();
-      return setEnLocation(data);
+      return setApiLocation(data);
     } catch (err) {
       console.error(err);
     }
   };
 
+  useEffect(() => {
+    locationData();
+    console.log(apiLocation);
+  }, []);
+
   const [select, setSelect] = useState<string | null>(null);
   const [selectDetailData, setSelectDetailData] = useState<string | null>(null);
 
+  // select와 enlocation간 일치하는 값 가져와서
+
+  // 광역시, 특별시는 선택되었을때 견적요청하기 버튼 활성화되는 조건필요
+  // 캘린더, 시간도 기본값 아닌 내용 채워졌을때 버튼 활성화
+  // 희망일정 선택시 금일 날짜 이후 선택
+  // 제출버튼을 눌렀을때 각 칸이 채워졌는지 검증하면서 +토스트
+  // 제출버튼 클릭후에는 서버응답 200일 경우 토스트 띄우고 메인
+
+  // POST 요청을 처리하는 함수
+  const postEstimationData = async (formData: IEstimationForm) => {
+    try {
+      // location 데이터를 매칭하는 함수
+      const findLocationKey = (location: string | null): string | undefined => {
+        if (!location) return undefined;
+        for (const [region, areas] of Object.entries(apiLocation)) {
+          if (Array.isArray(areas)) {
+            for (const area of areas) {
+              const matched = Object.entries(area).find(([k]) => k === location);
+              if (matched) return matched[1];
+            }
+          } else if (region === location) {
+            return areas; // 광역시나 특별시의 경우
+          }
+        }
+        return undefined;
+      };
+
+      // location 매칭
+      const matchedLocation = findLocationKey(select);
+
+      if (!matchedLocation) {
+        alert('선택한 지역이 서버 데이터와 일치하지 않습니다.');
+        return;
+      }
+
+      // POST 요청 데이터 생성
+      const payload = {
+        service_list: Array.isArray(formData.service_list) ? formData.service_list : [formData.service_list],
+        prefer_gender: formData.prefer_gender === 'man' ? 'M' : formData.prefer_gender === 'woman' ? 'F' : 'ANY',
+        wedding_hall: formData.wedding_hall,
+        wedding_datetime: formData.wedding_datetime,
+        location: matchedLocation,
+      };
+
+      console.log('Payload:', payload);
+
+      // 서버로 POST 요청
+      const response = await auth.post('/estimations/request/', payload);
+      console.log(response, '견적 요청이 성공적으로 전송되었습니다.');
+    } catch (error) {
+      console.error('POST 요청 실패:', error);
+      alert('견적 요청 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 폼 제출 처리
   const testSubmitClick = (data: IEstimationForm) => {
-    console.log('errors:', errors);
     console.log('dirtyFields:', dirtyFields);
-    console.log('touchedFields:', touchedFields);
-    console.log(JSON.stringify(data));
     console.log('data:', data);
     console.log(Object.entries(data));
-    // API 요청 처리
-    const service = getValues('service_list');
+    const service = watch('service_list');
     const gender = getValues('prefer_gender');
     const datetime = getValues('wedding_datetime');
     const location = select;
@@ -68,11 +122,9 @@ const UserEstimationPage = () => {
     const hall = getValues('wedding_hall');
     console.log(service, gender, datetime, location, locationDetail, hall);
     console.log(select, selectDetailData);
+    // api 요청처리
+    postEstimationData(data);
   };
-
-  useEffect(() => {
-    locationData();
-  }, []);
 
   return (
     <>
@@ -84,25 +136,25 @@ const UserEstimationPage = () => {
             <div className='service'>
               <SmallTitle title='서비스 선택' />
               <div className='choose'>
-                <span className='rdoBox'>
+                <span className='chkBox'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     id='mc'
                     value='mc'
                     {...register('service_list', { required: '서비스를 선택해 주세요.' })}
                   />
                   <label htmlFor='mc'>결혼식 사회자</label>
                 </span>
-                <span className='rdoBox'>
-                  <input type='radio' id='video' value='video' {...register('service_list')} />
+                <span className='chkBox'>
+                  <input type='checkbox' id='video' value='video' {...register('service_list')} />
                   <label htmlFor='video'>영상 촬영</label>
                 </span>
-                <span className='rdoBox'>
-                  <input type='radio' id='snap' value='snap' {...register('service_list')} />
+                <span className='chkBox'>
+                  <input type='checkbox' id='snap' value='snap' {...register('service_list')} />
                   <label htmlFor='snap'>스냅 촬영</label>
                 </span>
-                <span className='rdoBox'>
-                  <input type='radio' id='singer' value='singer' {...register('service_list')} />
+                <span className='chkBox'>
+                  <input type='checkbox' id='singer' value='singer' {...register('service_list')} />
                   <label htmlFor='singer'>축가 가수</label>
                 </span>
                 {errors.service_list && <span className='errorMsg'>{errors.service_list.message}</span>}

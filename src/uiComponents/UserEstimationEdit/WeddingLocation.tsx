@@ -12,13 +12,13 @@ type Props = {
 interface LocationDetail {
   [key: string]: { [key: string]: string }[];
 }
-interface LocationDummy {
+interface Location {
   [key: string]: { [key: string]: string }[] | string;
 }
 
 export default function WeddingLocation({ select, setSelect, selectDetailData, setSelectDetailData }: Props) {
   const [locationLoading, setLocationLoading] = useState<boolean>(false);
-  const [locationData, setLocationData] = useState<LocationDummy | []>([]);
+  const [locationData, setLocationData] = useState<Location | []>([]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   useEffect(() => {
