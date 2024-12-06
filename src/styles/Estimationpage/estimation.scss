@@ -60,38 +60,20 @@
   }
   align-items: flex-start;
 
-  .estimationCardInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
   .estimationCardCategory {
     font-size: 2rem;
     color: #666;
     font-weight: bold;
     line-height: 1;
   }
-  .estimationCardCategory {
-    font-size: 2rem;
-    color: #666;
-    font-weight: bold;
-    line-height: 1;
-  }
-
+  
   .estimationCardName {
     font-size: 1.6rem;
     font-weight: bold;
     line-height: 1;
     color: #333;
   }
-  .estimationCardName {
-    font-size: 1.6rem;
-    font-weight: bold;
-    line-height: 1;
-    color: #333;
-  }
-
+  
   .estimationprofileBadge {
     width: 8rem !important;
     height: 8rem !important;

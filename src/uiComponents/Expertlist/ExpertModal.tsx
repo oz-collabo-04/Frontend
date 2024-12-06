@@ -115,7 +115,8 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
   }
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setLocalDescription(e.target.value)
+    const newDescription = e.target.value.slice(0, 200);
+    setLocalDescription(newDescription)
   }
 
   const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -178,7 +179,11 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId }) => {
               value={description}
               onChange={handleDescriptionChange}
               className="comInput"
+              maxLength={200}
             />
+            <div className="expert-modal__char-count">
+              {description.length} / 200
+            </div>
           </div>
         </div>
 
