@@ -47,7 +47,7 @@ export default function MainPage() {
     if (!targetOrigins.includes(event.origin)) {
       console.warn('targetOrigins에서 온 메시지가 아닙니다.', event.origin);
     }
-    console.log('recived Data', event.data);
+    // console.log('recived Data', event.data);
 
     const { access_token, email, id, profile_image, name, is_expert } = event.data;
 

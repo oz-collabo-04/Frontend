@@ -1,26 +1,23 @@
-import useAlarmStore from '@/store/useAlarmStore';
-import '@/styles/alarm.scss';
-import AlarmSocket from '@/utils/alarmSocket';
-
 import { useEffect, useState } from 'react';
+import useAlarmStore from '@/store/useAlarmStore';
+import AlarmSocket from '@/utils/alarmSocket';
+import '@/styles/alarm.scss';
+
+const socketBaseUrl = import.meta.env.VITE_BACKEND_CHAT_URL;
 
 const Alarm = () => {
   const [showAlarm, setShowAlarm] = useState(false);
-  // const [alarmList] = useState([
-  //   { id: 0, alarmContent: '알람 1번' },
-  //   { id: 1, alarmContent: '알람 2번' },
-  //   { id: 2, alarmContent: '알람 3번' },
-  // ]);
-  const { alarms } = useAlarmStore();
+  const { alarms } = useAlarmStore(); // Zustand 스토어에서 알람 상태 가져오기
   const [alarmSocket, setAlarmSocket] = useState<AlarmSocket | null>(null);
+  console.log(alarmSocket);
 
   const handleAlarm = () => {
-    setShowAlarm(!showAlarm);
+    setShowAlarm((prev) => !prev);
   };
 
   useEffect(() => {
     // AlarmSocket 초기화
-    const socket = new AlarmSocket('wss://your-alarm-endpoint');
+    const socket = new AlarmSocket(`${socketBaseUrl}/notifications/`);
     setAlarmSocket(socket);
 
     return () => {
@@ -33,13 +30,13 @@ const Alarm = () => {
     <div className='alarmBox'>
       <button className='alarmBtn' onClick={handleAlarm}>
         알람
-        <span className='on'></span>
+        <span className={`on ${alarms.length > 0 ? 'active' : ''}`}></span>
       </button>
       {showAlarm && (
         <div className='alarmListBox'>
-          {/* {alarmList.length > 0 ? (
+          {alarms.length > 0 ? (
             <ul className='alarmList'>
-              {alarmList.map((alarm) => (
+              {alarms.map((alarm) => (
                 <li className='alarm' key={alarm.id}>
                   <button>{alarm.alarmContent}</button>
                 </li>
@@ -47,7 +44,7 @@ const Alarm = () => {
             </ul>
           ) : (
             <div className='noAlarm'>알람이 없습니다.</div>
-          )} */}
+          )}
         </div>
       )}
     </div>

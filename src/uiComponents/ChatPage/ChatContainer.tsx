@@ -16,7 +16,7 @@ interface ChatContainerProps {
   otherExist: boolean;
 }
 
-const ChatContainer = ({ messageList, roomData }: ChatContainerProps) => {
+const ChatContainer = ({ messageList, roomData, otherExist }: ChatContainerProps) => {
   const user_id = sessionStorage.getItem('user_id'); // 로컬스토리지 유저 id 추출
   const chatBoxRef = useRef<HTMLDivElement>(null); // 채팅 컨테이너의 참조 생성
 

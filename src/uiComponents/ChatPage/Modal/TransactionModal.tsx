@@ -1,17 +1,19 @@
 // import React, { useState } from 'react';
 import NumberInput from '@/components/Input/NumberInput';
+import { DataItem } from '@/uiComponents/ChatListPage/chat';
+import { formatDate } from '@/utils/formatDate';
 
 interface TransactionModalProps {
   amount: string | number; // 부모로부터 전달받은 상태
   setAmount: React.Dispatch<React.SetStateAction<string | number>>; // 상태 변경 함수
+  chatData: DataItem | null;
 }
 
-const TransactionModal = ({ amount, setAmount }: TransactionModalProps) => {
-  // const [amount, setAmount] = useState<string | number>('');
-
+const TransactionModal = ({ amount, setAmount, chatData }: TransactionModalProps) => {
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value); // 부모 상태 업데이트
   };
+  console.log(chatData);
 
   return (
     <div className='transactionModal'>
@@ -23,9 +25,15 @@ const TransactionModal = ({ amount, setAmount }: TransactionModalProps) => {
       </dl>
       <dl>
         <dt>일정</dt>
-        <dd>서울시 강남구</dd>
-        <dd>2024/11/14 11:00</dd>
-        <dd>2부</dd>
+        {chatData ? (
+          <>
+            <dd>{chatData.estimation.request.location_display}</dd>
+            <dd>{formatDate(chatData.estimation.request.wedding_datetime)}</dd>
+            <dd>2부</dd>
+          </>
+        ) : (
+          <dd>견적 정보가 없습니다.</dd>
+        )}
       </dl>
     </div>
   );
