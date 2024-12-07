@@ -4,7 +4,7 @@ import MainBtn from '@/components/Button/MainBtn';
 import SmallTitle from '@/components/Title/SmallTitle';
 import Modal from '@/components/Modal/Modal';
 import { useModalStore } from '@/store/modalStore';
-import { DataItem } from '../ChatListPage/chat';
+import { DataItem, EstimationDetails } from '../ChatListPage/chat';
 import { formatDate } from '@/utils/formatDate';
 import { auth } from '@/api/axiosInstance';
 import TransactionModal from './Modal/TransactionModal';
@@ -20,6 +20,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
   const { openModal } = useModalStore();
   const [btnListVisible, setBtnListVisible] = useState(false);
   const [amount, setAmount] = useState<string | number>(''); // 금액 상태 추가
+  const [estimationDetails, setEstimationDetails] = useState<EstimationDetails | null>(null);
 
   // 최종 견적 보내기 PATCH 요청
   const updateEstimation = async (estimationId: string) => {
@@ -41,6 +42,19 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
       return response.data;
     } catch (error) {
       console.error('API 요청에 실패했습니다:', error);
+      throw error;
+    }
+  };
+
+  // 최종 견적 확인하기 GET 요청
+  const fetchEstimationDetails = async (estimationId: string) => {
+    try {
+      const response = await auth.get(`/estimations/${estimationId}`);
+      // console.log('최종 견적 확인 성공:', response.data);
+      setEstimationDetails(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('최종 견적 확인 실패:', error);
       throw error;
     }
   };
@@ -112,21 +126,28 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
         </ul>
       </div>
       <div className='btnBox'>
-        {!isExpert ? (
+        {isExpert ? (
           <>
             <MainBtn name='거래요청' onClick={() => openModal('transactionModal')} />
             <MainBtn name='예약 완료' />
-            <MainBtn name='최종 견적 확인하기' onClick={() => openModal('transactionConfirmModal')} />
           </>
         ) : (
-          <div>dd</div>
+          <MainBtn
+            name='최종 견적 확인하기'
+            onClick={() => {
+              if (chatData?.id) {
+                fetchEstimationDetails(chatData.id); // 최종 견적 확인 요청
+                openModal('transactionConfirmModal'); // 모달 열기
+              }
+            }}
+          />
         )}
       </div>
 
       <Modal
         modalId='transactionModal'
         title='거래요청'
-        content={<TransactionModal amount={amount} setAmount={setAmount} />}
+        content={<TransactionModal amount={amount} setAmount={setAmount} chatData={chatData} />}
         width='32rem'
         firstBtn={true}
         firstBtnName='거래 요청하기'
@@ -140,7 +161,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
       <Modal
         modalId='transactionConfirmModal'
         title='최종 견적 확인하기'
-        content={<TransactionConfirmModal />}
+        content={<TransactionConfirmModal estimationDetails={estimationDetails} />}
         width='32rem'
       />
     </div>

@@ -55,6 +55,20 @@ export interface Estimation {
   updated_at: string;
 }
 
+export interface EstimationDetails {
+  id: number;
+  charge: number;
+  created_at: string;
+  updated_at: string;
+  due_date: string;
+  location: string;
+  location_display: string;
+  service: string;
+  service_display: string;
+  expert: Expert;
+  request: Request;
+}
+
 export interface DataItem {
   id: number;
   user: User;

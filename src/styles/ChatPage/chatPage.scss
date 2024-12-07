@@ -102,6 +102,9 @@
               left: 3.2rem;
               .createMessageTime {
                 left: calc(100% + 0.8rem);
+                .messageUnread {
+                  display: none;
+                }
               }
             }
           }
