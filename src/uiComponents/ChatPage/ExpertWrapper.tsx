@@ -59,6 +59,19 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
     }
   };
 
+  // 예약 완료 POST요청
+  const reservationComplete = async (estimationId: string) => {
+    try {
+      const response = await auth.post('/reservations/create/', {
+        estimation_id: estimationId,
+      });
+      console.log('예약 성공:', response.data);
+    } catch (error) {
+      console.error('예약 실패:', error);
+      alert('예약에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   // 채팅방 나가기 DELETE 요청
   const chatRoomExit = () => {
     const chatRoomDelete = async () => {
@@ -129,16 +142,14 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
         {isExpert ? (
           <>
             <MainBtn name='거래요청' onClick={() => openModal('transactionModal')} />
-            <MainBtn name='예약 완료' />
+            <MainBtn name='예약 완료' onClick={() => reservationComplete(chatData.id)} />
           </>
         ) : (
           <MainBtn
             name='최종 견적 확인하기'
             onClick={() => {
-              if (chatData?.id) {
-                fetchEstimationDetails(chatData.id); // 최종 견적 확인 요청
-                openModal('transactionConfirmModal'); // 모달 열기
-              }
+              fetchEstimationDetails(chatData.id); // 최종 견적 확인 요청
+              openModal('transactionConfirmModal'); // 모달 열기
             }}
           />
         )}

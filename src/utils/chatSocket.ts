@@ -1,13 +1,5 @@
 import useMessageStore from '@/store/useMessageStore';
 
-// interface Message {
-//   type: string; // 메시지의 유형 (예: "text", "image" 등)
-//   content: string; // 메시지 내용
-//   sender?: string; // 보낸 사람 (옵션)
-//   timestamp?: string; // 메시지가 생성된 시간 (옵션)
-// }
-// const [otherExist, setOtherExist] = useState<boolean>(false)
-
 interface otherUserState {
   user_id: number | null; // 상대방 유저 아이디
   is_exist: boolean;
@@ -27,25 +19,26 @@ class ChatSocket {
 
     // 웹소켓 연결
     this.webSocket.onopen = () => {
-      console.log('웹소켓 연결 ^^');
+      console.log('채팅 웹소켓 연결');
     };
 
     // 웹 소켓 에러
     this.webSocket.onerror = (error) => {
       // console.error('웹 소켓 에러', error);
-      console.error('웹 소켓 에러:', error);
+      console.error('채팅 웹 소켓 에러:', error);
       console.error('WebSocket 상태:', this.webSocket?.readyState);
     };
 
     // 웹소켓 종료
     this.webSocket.onclose = (event) => {
-      console.log('웹소켓 종료~', event);
+      console.log('채팅 웹소켓 종료', event);
     };
 
     // 웹소켓으로부터 메시지를 받았을 때 실행되는 함수
     this.webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type in ['announce_entered', 'announce_exist']) {
+      // if (data.type in ['announce_entered', 'announce_exist']) {
+      if (['announce_entered', 'announce_exist'].includes(data.type)) {
         this.setOtherUser(data.user_id, true);
         if (data.type === 'announce_entered') {
           this.sendMyExist();

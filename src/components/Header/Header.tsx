@@ -4,29 +4,37 @@ import '@/global.scss';
 import MainBtn from '../Button/MainBtn';
 import LargeTitle from '../Title/LargeTitle';
 import useUserStateStore from '@/store/useUserStateStore';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
 import Alarm from '../Alarm/Alarm';
 import useModeChangerStore from '@/store/modeChangerStore';
+import AlarmSocket from '@/utils/alarmSocket';
+
+const socketBaseUrl = import.meta.env.VITE_BACKEND_CHAT_URL;
 
 const Header = () => {
   const { isLoggedIn, isExpert, setIsLoggedIn, setUserName } = useUserStateStore();
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
-  const [showAlarm, setShowAlarm] = useState(false);
   const navigate = useNavigate();
   const { mode, setMode } = useModeChangerStore();
+  const alarmSocket = useRef<AlarmSocket | null>(null);
 
-  const [alarmList /* setAlarmList */] = useState([
-    { id: 0, alarmContent: '알람 1번' },
-    { id: 1, alarmContent: '알람 2번' },
-    { id: 2, alarmContent: '알람 3번' },
-  ]);
+  // 웹소켓 연결
+  useEffect(() => {
+    // alarmSocket.current가 null일 때만 초기화
+    if (!alarmSocket.current) {
+      alarmSocket.current = new AlarmSocket(`${socketBaseUrl}/notifications/`, [
+        sessionStorage.getItem('access_token')!,
+      ]);
+    }
 
-  const handleAlarm = () => {
-    setShowAlarm(!showAlarm);
-  };
+    return () => {
+      alarmSocket.current?.close();
+      alarmSocket.current = null; // 연결 해제 후 참조를 초기화
+    };
+  }, []);
 
   console.log(menuVisible);
 

@@ -21,9 +21,9 @@ class AlarmSocket {
     // 웹소켓으로부터 메시지를 받았을 때 실행되는 함수
     this.webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === 'alarm_notification') {
+      if (data.type === 'send_notification') {
         // 알람 데이터를 Zustand 스토어에 추가
-        useAlarmStore.getState().addAlarm(data.alarm);
+        useAlarmStore.getState().addAlarm(data.notification);
       }
     };
   }

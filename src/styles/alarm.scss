@@ -38,8 +38,9 @@
       font-size: 1.6rem;
     }
     .alarmList {
+      display: flex;
+      flex-direction: column-reverse;
       .alarm {
-        // width: 24rem;
         padding: 0.8rem 0;
         border-bottom: 1px solid;
         border-color: rgba($font-deactivate-color, 0.3);

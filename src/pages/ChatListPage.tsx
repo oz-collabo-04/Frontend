@@ -12,9 +12,9 @@ const ChatListPage = () => {
   const renderContent = () => {
     switch (activeTab) {
       case '진행중':
-        return <OngoingChats />;
+        return <AllChats status='pending' />;
       case '예약완료':
-        return <CompletedChats />;
+        return <AllChats status='reserved' />;
       default:
         return <AllChats />;
     }
@@ -31,7 +31,6 @@ const ChatListPage = () => {
                 key={tab}
                 type='button'
                 className={`
-                  ${messageUnread && tab === '진행중' ? 'highlight' : ''} 
                   ${activeTab === tab ? 'active' : ''}
                 `}
                 onClick={() => setActiveTab(tab)}

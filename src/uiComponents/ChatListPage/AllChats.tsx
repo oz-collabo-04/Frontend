@@ -5,7 +5,11 @@ import { auth } from '@/api/axiosInstance';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
 import { formatDate } from '@/utils/formatDate';
 
-const AllChats = () => {
+interface AllChatsProps {
+  status?: string; //상태에 따른 쿼리 파라미터
+}
+
+const AllChats = ({ status }: AllChatsProps) => {
   const [chatData, setChatData] = useState<DataList>([]);
   console.log(chatData);
 
@@ -13,7 +17,9 @@ const AllChats = () => {
   useEffect(() => {
     const fetchChatList = async () => {
       try {
-        const response = await auth.get('/chat/chatrooms/');
+        const response = await auth.get('/chat/chatrooms/', {
+          params: status ? { status } : undefined,
+        });
         // console.log('data :', response.data);
         setChatData(response.data);
       } catch (error) {
@@ -21,7 +27,7 @@ const AllChats = () => {
       }
     };
     fetchChatList();
-  }, []);
+  }, [status]);
 
   const userId = sessionStorage.getItem('user_id');
 
@@ -51,7 +57,6 @@ const AllChats = () => {
                     <p className='lastChat'>{data.last_message}</p>
                   </div>
                 </div>
-                <span className='createMessageTime'>오후 08:09</span>
               </div>
             </Link>
           );
