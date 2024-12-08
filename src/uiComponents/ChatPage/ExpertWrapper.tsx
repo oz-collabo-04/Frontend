@@ -9,6 +9,7 @@ import { formatDate } from '@/utils/formatDate';
 import { auth } from '@/api/axiosInstance';
 import TransactionModal from './Modal/TransactionModal';
 import TransactionConfirmModal from './Modal/TransactionConfirmModal';
+import { useToastStore } from '@/store/toastStore';
 
 interface ExpertWrapperProps {
   extraClass: string;
@@ -21,6 +22,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
   const [btnListVisible, setBtnListVisible] = useState(false);
   const [amount, setAmount] = useState<string | number>(''); // 금액 상태 추가
   const [estimationDetails, setEstimationDetails] = useState<EstimationDetails | null>(null);
+  const { addToasts } = useToastStore();
 
   // 최종 견적 보내기 PATCH 요청
   const updateEstimation = async (estimationId: string) => {
@@ -37,11 +39,13 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
 
     try {
       const response = await auth.patch(`/experts/estimations/${estimationId}/`, requestData);
-      console.log('업데이트 성공:', response.data);
+      // console.log('업데이트 성공:', response.data);
       useModalStore.getState().closeModal('transactionModal'); // 거래요청 후 모달 닫기
+      addToasts({ type: 'success', title: '견적을 보냈습니다.', id: Date.now().toString() });
       return response.data;
     } catch (error) {
       console.error('API 요청에 실패했습니다:', error);
+      addToasts({ type: 'error', title: '견적 요청을 실패했습니다.', id: Date.now().toString() });
       throw error;
     }
   };
@@ -65,10 +69,16 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
       const response = await auth.post('/reservations/create/', {
         estimation_id: estimationId,
       });
-      console.log('예약 성공:', response.data);
+      // console.log('예약 성공:', response.data);
+      if (response.status === 200) {
+        addToasts({ type: 'success', title: '예약이 완료되었습니다.', id: Date.now().toString() });
+      }
     } catch (error) {
-      console.error('예약 실패:', error);
-      alert('예약에 실패했습니다. 다시 시도해주세요.');
+      // alert('예약에 실패했습니다. 다시 시도해주세요.');
+      if (error.response.status === 400) {
+        console.error('예약 실패:', error);
+        addToasts({ type: 'error', title: '예약 요청에 실패했습니다.', id: Date.now().toString() });
+      }
     }
   };
 
@@ -105,9 +115,6 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
                     채팅방 나가기
                   </button>
                 </li>
-                {/* <li>
-                  <button type='button'>신고하기</button>
-                </li> */}
               </ul>
             )}
           </div>
@@ -134,7 +141,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
             의뢰자 : <strong>{chatData?.user.name}</strong>
           </li>
           <li>
-            2부 예식 여부 : <strong>대기</strong>
+            2부 예식 여부 : <strong>{chatData?.estimation.request.is_reception ? '진행' : '진행안함'}</strong>
           </li>
         </ul>
       </div>
@@ -145,13 +152,16 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
             <MainBtn name='예약 완료' onClick={() => reservationComplete(chatData.id)} />
           </>
         ) : (
-          <MainBtn
-            name='최종 견적 확인하기'
-            onClick={() => {
-              fetchEstimationDetails(chatData.id); // 최종 견적 확인 요청
-              openModal('transactionConfirmModal'); // 모달 열기
-            }}
-          />
+          <>
+            <MainBtn
+              name='최종 견적 확인하기'
+              onClick={() => {
+                fetchEstimationDetails(chatData.id); // 최종 견적 확인 요청
+                openModal('transactionConfirmModal'); // 모달 열기
+              }}
+            />
+            {/* <button onClick={}>토스트버튼</button> */}
+          </>
         )}
       </div>
 

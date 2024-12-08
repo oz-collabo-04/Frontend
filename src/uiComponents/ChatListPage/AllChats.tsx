@@ -52,7 +52,7 @@ const AllChats = ({ status }: AllChatsProps) => {
                       <li>{data.estimation.request.location_display}</li>
                       <li>{data.user.name}</li>
                       <li>{formatDate(data.estimation.request.wedding_datetime)}</li>
-                      <li>2부</li>
+                      {data.estimation.request.is_reception && <li>2부</li>}
                     </ul>
                     <p className='lastChat'>{data.last_message}</p>
                   </div>
