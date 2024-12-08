@@ -29,7 +29,7 @@ const TransactionModal = ({ amount, setAmount, chatData }: TransactionModalProps
           <>
             <dd>{chatData.estimation.request.location_display}</dd>
             <dd>{formatDate(chatData.estimation.request.wedding_datetime)}</dd>
-            <dd>2부</dd>
+            {chatData.estimation.request.is_reception && <dd>2부</dd>}
           </>
         ) : (
           <dd>견적 정보가 없습니다.</dd>

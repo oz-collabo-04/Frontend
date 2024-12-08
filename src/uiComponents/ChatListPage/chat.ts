@@ -39,6 +39,7 @@ export interface Request {
   status_display: string;
   created_at: string; // ISO8601 date string
   updated_at: string; // ISO8601 date string
+  is_reception: boolean;
 }
 
 export interface Estimation {

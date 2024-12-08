@@ -32,9 +32,7 @@ const ChatContainer = ({ messageList, roomData, otherExist }: ChatContainerProps
       <div className='chatBox' ref={chatBoxRef}>
         {messageList.map((message, index) => {
           const isMyMessage = Number(user_id) === message.sender; // 현재 유저 확인
-          // console.log(`내메시지야? - ${isMyMessage}, 보낸사람은? ${message.sender}, 나는누구? ${user_id}`)
           const isExpert = message.sender === roomData.expert.user.id;
-          // console.log(`메시지 보낸사람이 전문가? - ${isExpert}, 보낸사람은? ${message.sender}, 전문가는 누군데? ${roomData.expert.user.id}`)
           const profileImage = isExpert ? roomData.expert.expert_image : roomData.user.profile_image; // 프로필 이미지 설정
           return (
             <div
@@ -46,7 +44,6 @@ const ChatContainer = ({ messageList, roomData, otherExist }: ChatContainerProps
                 {message.content}
                 <span className='createMessageTime'>
                   {chatFormatDate(message.timestamp)}
-                  {/* {formatDate(message.timestamp)} */}
                   <span className='messageUnread'>
                     {!isMyMessage || message.is_read || otherExist ? '읽음' : '안읽음'}
                   </span>

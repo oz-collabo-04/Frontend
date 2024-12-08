@@ -23,7 +23,7 @@ const TransactionConfirmModal = ({ estimationDetails }: TransactionConfirmModalP
           <>
             <dd>{estimationDetails.request.location_display}</dd>
             <dd>{formatDate(estimationDetails.request.wedding_datetime)}</dd>
-            <dd>2부</dd>
+            {estimationDetails.request.is_reception && <dd>2부</dd>}
           </>
         ) : (
           <dd>견적 정보가 없습니다.</dd>
