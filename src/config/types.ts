@@ -29,15 +29,20 @@ export interface ExpertRegister {
 
 // 예약리스트 관련
 export interface IReservationContentProps {
+  key?: number; // Reservation PK
   title: string; // 서비스명
   reserveStatus: string; // 예약상태
   name: string; // 전문가 이름
   charge: number | string; // 금액
   serviceTime: string; // 서비스 시간
   date: string; // 예약 생성 날짜/시간
-  reviewId: number; // 리뷰 ID
-  onChatClick?: () => void;
-  onReviewClick?: () => void;
+  reservationId: number; // 예약 ID => 리뷰 식별 및 작성
+  estimationId: number; // 견적 ID => 견적서 확인
+  // 모달의 경우 번호가 겹칠경우 모달이 꼬임
+  estimationModal: string; // 견적서 모달식별 => 요청자 이름
+  reviewModal: number; // 리뷰 모달식별 => 전문가 이름
+  onEstimateClick?: () => void; // 최종견적서 버튼
+  onReviewClick?: () => void; // 리뷰작성 버튼
 }
 
 interface IRequestUser {

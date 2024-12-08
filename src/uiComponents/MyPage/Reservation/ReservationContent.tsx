@@ -1,9 +1,11 @@
 import MainBtn from '@/components/Button/MainBtn';
 import Modal from '@/components/Modal/Modal';
 import XSmallTitle from '@/components/Title/XSmallTitle';
-import UserReview from './UserReview';
 import { useModalStore } from '@/store/modalStore';
 import { IReservationContentProps } from '@/config/types';
+import EstimationConfirm from './EstimationConfirm';
+import UserReviewEdit from './UserReview/UserReviewEdit';
+import TwoUserReviewEditCopy from './UserReview/TwoUserReviewEditCopy';
 
 const ReservationContent = ({
   title,
@@ -12,12 +14,14 @@ const ReservationContent = ({
   serviceTime,
   reserveStatus,
   date,
-  reviewId,
-  onChatClick,
+  reservationId,
+  estimationId,
+  estimationModal,
+  reviewModal,
 }: IReservationContentProps) => {
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
 
-  // 데이터상태에 따른 스위치
+  // 데이터상태 한글변경
   const getStatus = (status: string) => {
     switch (status) {
       case 'confirmed':
@@ -27,10 +31,11 @@ const ReservationContent = ({
       case 'canceled':
         return '예약 취소';
       default:
-        return '상태 없음';
+        return '기본';
     }
   };
 
+  // 서비스 한글변경
   const getService = (service: string) => {
     switch (service) {
       case 'mc':
@@ -63,18 +68,26 @@ const ReservationContent = ({
             <div>예약 일시 {date}</div>
           </div>
           <div className='reserveBtn'>
-            <MainBtn name='채팅하기' size='medium' width='14rem' onClick={() => onChatClick?.()} />
-            <MainBtn name='후기 작성하기' size='medium' width='14rem' onClick={() => openModal(`${reviewId}`)} />
+            <MainBtn name='견적서 확인' size='medium' width='14rem' onClick={() => openModal(`${estimationModal}`)} />
             <Modal
-              modalId={`${reviewId}`}
-              title='후기 작성하기'
-              content={<UserReview />}
-              width='60rem'
-              height='40vh'
+              modalId={`${estimationModal}`}
+              title='최종 견적서'
+              content={<EstimationConfirm estimationId={estimationId} />}
+              width='40rem'
+              height='60vh'
               borderRadius='8px'
               firstBtn={true}
-              firstBtnName='후기 작성 완료'
-              firstBtnOnClick={() => console.log('첫 번째 버튼 클릭')}
+              firstBtnName='닫기'
+              firstBtnOnClick={() => closeModal(`${estimationModal}`)}
+            />
+            <MainBtn name='후기 작성하기' size='medium' width='14rem' onClick={() => openModal(`${reviewModal}`)} />
+            <Modal
+              modalId={`${reviewModal}`}
+              title='후기 작성하기'
+              content={<TwoUserReviewEditCopy name={name} serviceTime={serviceTime} reservationId={reservationId} />}
+              width='40rem'
+              height='60vh'
+              borderRadius='8px'
             />
           </div>
         </div>

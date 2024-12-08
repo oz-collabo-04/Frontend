@@ -71,17 +71,14 @@
             font-size: 1.2rem;
 
             // 예약상태
+            // 기본값(디폴트)
             .status {
               padding: 0.3rem;
               text-align: center;
               border-radius: 0.8rem;
-
-              // 기본값(디폴트)
-              &.default {
-                border: 2px solid rgba(0, 0, 0, 0.5);
-                background-color: rgba(128, 128, 128, 0.3);
-                color: rgba(0, 0, 0, 0.8);
-              }
+              border: 2px solid #ffd50080;
+              background-color: #fff5c266;
+              color: #ffd500cc;
 
               // 예약 완료(확정)
               &.confirmed {
