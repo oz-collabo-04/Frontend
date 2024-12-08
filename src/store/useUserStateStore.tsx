@@ -32,11 +32,4 @@ const useUserStateStore = create(
   )
 );
 
-window.addEventListener('message', (e) => {
-  if (e.data.type === 'upate_state') {
-    const { payload } = e.data;
-    const {setIsLoggedIn, setIsExpert, setUserName} = useUserStateStore.getState() 
-  }
-});
-
 export default useUserStateStore;

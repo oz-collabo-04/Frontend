@@ -80,13 +80,6 @@ auth.interceptors.response.use(
       }
     }
 
-    // // 다른 401 에러 처리 (무한 반복 요청 방지)
-    // if (error.response.status !== 200) {
-    //   console.error('에러로 인한 토큰 재발급 실패', error);
-    //   return;
-    // }
-
-    // 다른 에러는 그대로 반환
     return Promise.reject(error);
   }
 );
