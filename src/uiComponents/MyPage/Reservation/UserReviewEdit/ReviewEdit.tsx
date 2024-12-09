@@ -13,7 +13,7 @@ interface IUserReviewProps {
   name: string;
   serviceTime: string;
   reservationId: number;
-  reviewModal: number;
+  reviewModal: string;
 }
 
 interface IUserReviewForm {

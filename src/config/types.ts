@@ -33,16 +33,16 @@ export interface IReservationContentProps {
   title: string; // 서비스명
   reserveStatus: string; // 예약상태
   name: string; // 전문가 이름
-  charge: number | string; // 금액
+  charge: number; // 금액
   serviceTime: string; // 서비스 시간
   date: string; // 예약 생성 날짜/시간
   reservationId: number; // 예약 ID => 리뷰 식별 및 작성
   estimationId: number; // 견적 ID => 견적서 확인
+  chatroomId: number; // 채팅방 ID
+
   // 모달의 경우 번호가 겹칠경우 모달이 꼬임
   estimationModal: string; // 견적서 모달식별 => 요청자 이름
-  reviewModal: number; // 리뷰 모달식별 => 전문가 이름
-  onEstimateClick?: () => void; // 최종견적서 버튼
-  onReviewClick?: () => void; // 리뷰작성 버튼
+  reviewModal: string; // 리뷰 모달식별 => 전문가 ID
 }
 
 interface IRequestUser {
@@ -65,7 +65,8 @@ interface IExpertUser {
   phone_number: string;
 }
 
-interface IEstimation {
+// 견적서
+export interface IEstimation {
   charge: number; // 서비스 비용
   created_at: string; // 예약생성 시간 - 날짜/시간 문자열
   due_date: string; // 서비스 예정시간 - 날짜/시간 문자열
@@ -81,6 +82,7 @@ interface IReservation {
   id: number; // 예약 ID
   status: string; // 예약 상태
   estimation: IEstimation; // 견적정보
+  chatroom_id: number;
 }
 
 export type IReservationData = IReservation[]; // 수정: 배열 형태로 직접 문의
