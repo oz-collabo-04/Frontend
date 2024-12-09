@@ -13,7 +13,6 @@ const TransactionModal = ({ amount, setAmount, chatData }: TransactionModalProps
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value); // 부모 상태 업데이트
   };
-  console.log(chatData);
 
   return (
     <div className='transactionModal'>

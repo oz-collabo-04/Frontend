@@ -10,6 +10,8 @@ import { auth } from '@/api/axiosInstance';
 import TransactionModal from './Modal/TransactionModal';
 import TransactionConfirmModal from './Modal/TransactionConfirmModal';
 import { useToastStore } from '@/store/toastStore';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 interface ExpertWrapperProps {
   extraClass: string;
@@ -23,17 +25,18 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
   const [amount, setAmount] = useState<string | number>(''); // 금액 상태 추가
   const [estimationDetails, setEstimationDetails] = useState<EstimationDetails | null>(null);
   const { addToasts } = useToastStore();
+  const navigate = useNavigate();
 
   // 최종 견적 보내기 PATCH 요청
-  const updateEstimation = async (estimationId: string) => {
+  const updateEstimation = async (estimationId: number) => {
     if (!amount || Number(amount) <= 0) {
       console.error('유효한 금액을 입력하세요.');
       return;
     }
 
     const requestData = {
-      due_date: '2024-12-06',
-      service: 'mc',
+      due_date: chatData?.estimation.due_date,
+      service: chatData?.estimation.service,
       charge: Number(amount), // 숫자 변환 추가
     };
 
@@ -51,7 +54,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
   };
 
   // 최종 견적 확인하기 GET 요청
-  const fetchEstimationDetails = async (estimationId: string) => {
+  const fetchEstimationDetails = async (estimationId: number) => {
     try {
       const response = await auth.get(`/estimations/${estimationId}`);
       // console.log('최종 견적 확인 성공:', response.data);
@@ -64,20 +67,21 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
   };
 
   // 예약 완료 POST요청
-  const reservationComplete = async (estimationId: string) => {
+  const reservationComplete = async (estimationId?: number) => {
     try {
       const response = await auth.post('/reservations/create/', {
         estimation_id: estimationId,
       });
-      // console.log('예약 성공:', response.data);
       if (response.status === 200) {
         addToasts({ type: 'success', title: '예약이 완료되었습니다.', id: Date.now().toString() });
       }
     } catch (error) {
-      // alert('예약에 실패했습니다. 다시 시도해주세요.');
-      if (error.response.status === 400) {
-        console.error('예약 실패:', error);
-        addToasts({ type: 'error', title: '예약 요청에 실패했습니다.', id: Date.now().toString() });
+      const axiosError = error as AxiosError;
+      console.error('예약 실패:', axiosError);
+      if (error.response.status === 400 && error.response.data.detail === 'Reservation already exists') {
+        addToasts({ type: 'error', title: '이미 예약이 존재합니다.', id: Date.now().toString() });
+      } else {
+        addToasts({ type: 'error', title: '예약에 실패했습니다.', id: Date.now().toString() });
       }
     }
   };
@@ -87,6 +91,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
     const chatRoomDelete = async () => {
       try {
         const response = await auth.delete(`chat/chatrooms/${chatData?.id}/`);
+        navigate('/chatlistpage');
         console.log('삭제 성공:', response.data);
       } catch (error) {
         console.error('API 요청에 실패했습니다:', error);
@@ -149,19 +154,25 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
         {isExpert ? (
           <>
             <MainBtn name='거래요청' onClick={() => openModal('transactionModal')} />
-            <MainBtn name='예약 완료' onClick={() => reservationComplete(chatData.id)} />
-          </>
-        ) : (
-          <>
             <MainBtn
-              name='최종 견적 확인하기'
+              name='예약 완료'
               onClick={() => {
-                fetchEstimationDetails(chatData.id); // 최종 견적 확인 요청
-                openModal('transactionConfirmModal'); // 모달 열기
+                if (chatData?.estimation.id) {
+                  reservationComplete(chatData.estimation.id);
+                }
               }}
             />
-            {/* <button onClick={}>토스트버튼</button> */}
           </>
+        ) : (
+          <MainBtn
+            name='최종 견적 확인하기'
+            onClick={() => {
+              if (chatData?.estimation.id) {
+                fetchEstimationDetails(chatData.estimation.id);
+                openModal('transactionConfirmModal');
+              }
+            }}
+          />
         )}
       </div>
 
@@ -174,7 +185,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
         firstBtnName='거래 요청하기'
         firstBtnOnClick={() => {
           if (chatData?.id) {
-            updateEstimation(chatData.id); // 견적 업데이트
+            updateEstimation(chatData.estimation.id); // 견적 업데이트
             useModalStore.getState().closeModal('transactionModal'); // 모달 닫기
           }
         }}

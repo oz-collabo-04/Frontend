@@ -6,7 +6,6 @@ interface TransactionConfirmModalProps {
 }
 
 const TransactionConfirmModal = ({ estimationDetails }: TransactionConfirmModalProps) => {
-  console.log(estimationDetails);
   if (!estimationDetails) {
     return <p>견적 정보를 불러오는 중입니다...</p>;
   }
