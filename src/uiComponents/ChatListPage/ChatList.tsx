@@ -5,22 +5,20 @@ import { auth } from '@/api/axiosInstance';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
 import { formatDate } from '@/utils/formatDate';
 
-interface AllChatsProps {
+interface ChatListProps {
   status?: string; //상태에 따른 쿼리 파라미터
 }
 
-const AllChats = ({ status }: AllChatsProps) => {
+const ChatList = ({ status }: ChatListProps) => {
   const [chatData, setChatData] = useState<DataList>([]);
-  console.log(chatData);
 
-  // chat list api 호출
+  // 채팅방 리스트 GET 요청
   useEffect(() => {
     const fetchChatList = async () => {
       try {
         const response = await auth.get('/chat/chatrooms/', {
           params: status ? { status } : undefined,
         });
-        // console.log('data :', response.data);
         setChatData(response.data);
       } catch (error) {
         console.log('API 요청에 실패했습니다 :', error);
@@ -66,4 +64,4 @@ const AllChats = ({ status }: AllChatsProps) => {
   );
 };
 
-export default AllChats;
+export default ChatList;

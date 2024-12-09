@@ -24,7 +24,6 @@ class ChatSocket {
 
     // 웹 소켓 에러
     this.webSocket.onerror = (error) => {
-      // console.error('웹 소켓 에러', error);
       console.error('채팅 웹 소켓 에러:', error);
       console.error('WebSocket 상태:', this.webSocket?.readyState);
     };
@@ -37,7 +36,6 @@ class ChatSocket {
     // 웹소켓으로부터 메시지를 받았을 때 실행되는 함수
     this.webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      // if (data.type in ['announce_entered', 'announce_exist']) {
       if (['announce_entered', 'announce_exist'].includes(data.type)) {
         this.setOtherUser(data.user_id, true);
         if (data.type === 'announce_entered') {

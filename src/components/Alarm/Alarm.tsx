@@ -10,9 +10,6 @@ const Alarm = () => {
   const alarms = useAlarmStore((state) => state.alarms); // Zustand 스토어에서 알람 상태 가져오기
   const { addToasts } = useToastStore();
   const navigate = useNavigate();
-
-  console.log(alarms.map((item) => console.log(item)));
-
   const getAlarms = useAlarmStore((state) => state.getAlarms);
   const updateAlarm = useAlarmStore((state) => state.updateAlarm);
   const removeAlarm = useAlarmStore((state) => state.removeAlarm);

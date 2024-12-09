@@ -16,6 +16,7 @@ const ChatPage = () => {
   const [chatData, setChatData] = useState<DataItem | null>(null);
   const { roomId } = useParams();
 
+  // 채팅방 상세정보 GET 요청
   useEffect(() => {
     const fetchChatList = async () => {
       try {
@@ -28,9 +29,7 @@ const ChatPage = () => {
     fetchChatList();
   }, [roomId]);
 
-  // 고객 or 전문가 상태
-  // const userState = useUserStateStore();
-  // const [isExpert] = useState<boolean>(userState.isExpert ?? false);
+  // 세션스토리지의 user id와 expert id를 비교해 전문가인지 유저인지 판단
   const isExpert = Number(sessionStorage.getItem('user_id')) === chatData?.expert.user.id;
 
   // 모바일 화면 Expert창 토글 버튼

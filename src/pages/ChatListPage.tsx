@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import '@/styles/ChatListPage/chatListPage.scss';
-import AllChats from '@/uiComponents/ChatListPage/AllChats';
-import OngoingChats from '@/uiComponents/ChatListPage/OngoingChats';
-import CompletedChats from '@/uiComponents/ChatListPage/CompletedChats';
+import ChatList from '@/uiComponents/ChatListPage/ChatList';
 
 const ChatListPage = () => {
   const [activeTab, setActiveTab] = useState('전체');
-  const [messageUnread] = useState(true);
 
   const renderContent = () => {
     switch (activeTab) {
       case '진행중':
-        return <AllChats status='pending' />;
+        return <ChatList status='pending' />;
       case '예약완료':
-        return <AllChats status='reserved' />;
+        return <ChatList status='reserved' />;
       default:
-        return <AllChats />;
+        return <ChatList />;
     }
   };
 
