@@ -12,6 +12,7 @@ interface IFormState {
   setFormRating: (rating: number) => void;
   addReviewImage: (image: IReviewImg) => void;
   removeReviewImage: (id: number) => void;
+  resetReviewForm: () => void;
 }
 
 export const useFormRiftStore = create<IFormState>((set) => ({
@@ -19,8 +20,9 @@ export const useFormRiftStore = create<IFormState>((set) => ({
   reviewImages: [],
   setFormRating: (rating) => set({ formRating: rating }),
   addReviewImage: (image) => set((state) => ({ reviewImages: [...state.reviewImages, image] })),
-  removeReviewImage: (id) =>
+  removeReviewImage: (id: number) =>
     set((state) => ({
       reviewImages: state.reviewImages.filter((img) => img.id !== id),
     })),
+  resetReviewForm: () => set({ formRating: 0, reviewImages: [] }),
 }));

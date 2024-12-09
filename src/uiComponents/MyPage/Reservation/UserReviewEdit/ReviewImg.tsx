@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFormRiftStore } from '@/store/useFormRiftStore';
+import { LuPlusCircle } from 'react-icons/lu';
 
-const ReviewImgSection = () => {
+const ReviewImg = () => {
   const { reviewImages, addReviewImage, removeReviewImage } = useFormRiftStore();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +12,6 @@ const ReviewImgSection = () => {
         file,
       }));
       files.forEach((file) => addReviewImage(file)); // 상태에 추가
-      console.log(files); // 이미지 업로드 핸들러에서 파일 객체 확인
     }
   };
 
@@ -20,17 +20,28 @@ const ReviewImgSection = () => {
   };
 
   return (
-    <div>
-      <input type='file' multiple accept='image/*' onChange={handleImageUpload} />
+    <div className='imgContents'>
+      <div className='addFile'>
+        <label htmlFor='uploadInput'>
+          <LuPlusCircle size='2rem' />
+          <input
+            id='uploadInput'
+            type='file'
+            multiple
+            accept='image/*'
+            onChange={handleImageUpload}
+            style={{ display: 'none' }}
+          />
+        </label>
+      </div>
       <div className='preview'>
         {reviewImages.map((image) => (
-          <div key={image.id}>
+          <div className='previewImg' key={image.id}>
             <img
               src={URL.createObjectURL(image.file)}
-              alt='preview'
-              style={{ width: 100, height: 100, objectFit: 'cover' }}
+              alt={image.file.name}
+              onClick={() => handleRemoveImage(image.id!)}
             />
-            <button onClick={() => handleRemoveImage(image.id!)}>Remove</button>
           </div>
         ))}
       </div>
@@ -38,4 +49,4 @@ const ReviewImgSection = () => {
   );
 };
 
-export default ReviewImgSection;
+export default ReviewImg;

@@ -1,6 +1,6 @@
 import { auth } from './axiosInstance';
 
-// 유저 / 전문가 구분?
+// 유저 / 전문가 구분
 // 각 유저에 대한 예약내역 AT토큰으로 구분
 export const fetchReserveList = async () => {
   try {

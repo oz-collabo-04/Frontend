@@ -3,9 +3,9 @@ import Modal from '@/components/Modal/Modal';
 import XSmallTitle from '@/components/Title/XSmallTitle';
 import { useModalStore } from '@/store/modalStore';
 import { IReservationContentProps } from '@/config/types';
-import EstimationConfirm from './EstimationConfirm';
-import UserReviewEdit from './UserReview/UserReviewEdit';
-import TwoUserReviewEditCopy from './UserReview/TwoUserReviewEditCopy';
+import EstimationConfirm from './EstimationConfirm/EstimationConfirm';
+import UserReviewEdit from './UserReviewEdit/ReviewEdit';
+import { formatDate } from '@/utils/formatDate';
 
 const ReservationContent = ({
   title,
@@ -54,40 +54,48 @@ const ReservationContent = ({
   return (
     <>
       <div className='content'>
-        <div className='expertInfo'>
-          <XSmallTitle title={`${getService(title)}`} />
-          <div className='serviceInfo'>
+        <div className='expert'>
+          <div className='info'>
+            <XSmallTitle title={`${getService(title)}`} extraClass='title' />
             <div className='name'>{name}</div>
-            <div className='serviceCharge'>{charge}</div>
-            <div className='serviceTime'>진행 시간 : {serviceTime}</div>
           </div>
+          <div className='serviceInfo'>진행 일자 : {serviceTime}</div>
         </div>
         <div className='reserve'>
           <div className='reserveInfo'>
             <div className={`status ${reserveStatus}`}>{getStatus(reserveStatus)}</div>
-            <div>예약 일시 {date}</div>
+            <div>{formatDate(date)} 예약</div>
           </div>
           <div className='reserveBtn'>
+            <MainBtn name='후기 작성하기' size='medium' width='14rem' onClick={() => openModal(`${reviewModal}`)} />
+            <Modal
+              modalId={`${reviewModal}`}
+              title='후기 작성하기'
+              extraClass='reviewModal'
+              content={
+                <UserReviewEdit
+                  name={name}
+                  serviceTime={serviceTime}
+                  reservationId={reservationId}
+                  reviewModal={reviewModal}
+                />
+              }
+              width='40rem'
+              height='60vh'
+              borderRadius='8px'
+            />
             <MainBtn name='견적서 확인' size='medium' width='14rem' onClick={() => openModal(`${estimationModal}`)} />
             <Modal
               modalId={`${estimationModal}`}
               title='최종 견적서'
-              content={<EstimationConfirm estimationId={estimationId} />}
+              extraClass='estimationModal'
+              content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
               width='40rem'
               height='60vh'
               borderRadius='8px'
               firstBtn={true}
               firstBtnName='닫기'
               firstBtnOnClick={() => closeModal(`${estimationModal}`)}
-            />
-            <MainBtn name='후기 작성하기' size='medium' width='14rem' onClick={() => openModal(`${reviewModal}`)} />
-            <Modal
-              modalId={`${reviewModal}`}
-              title='후기 작성하기'
-              content={<TwoUserReviewEditCopy name={name} serviceTime={serviceTime} reservationId={reservationId} />}
-              width='40rem'
-              height='60vh'
-              borderRadius='8px'
             />
           </div>
         </div>

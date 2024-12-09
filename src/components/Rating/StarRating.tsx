@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '@/styles/starrating.scss';
-import { useFormRiftStore } from '@/store/useFormRiftStore';
 
 interface StarRatingProps {
   initialRating?: number;
@@ -10,16 +9,13 @@ interface StarRatingProps {
 
 export default function StarRating({ initialRating = 0, onChange, readOnly = false }: StarRatingProps) {
   const [rating, setRating] = useState(initialRating);
-  const { setFormRating } = useFormRiftStore();
 
   const handleRatingChange = (newRating: number) => {
     if (readOnly) return;
     const clampedRating = Math.max(0, Math.min(5, newRating));
     setRating(clampedRating);
-    setFormRating(clampedRating);
     if (onChange) {
       onChange(clampedRating);
-      setFormRating(clampedRating);
     }
   };
 
@@ -49,6 +45,7 @@ export default function StarRating({ initialRating = 0, onChange, readOnly = fal
     <div className='star-rating'>
       {[1, 2, 3, 4, 5].map((starIndex) => (
         <button
+          type='button'
           key={starIndex}
           onClick={(e) => handleStarClick(e, starIndex)}
           onKeyDown={(e) => handleKeyDown(e, starIndex)}

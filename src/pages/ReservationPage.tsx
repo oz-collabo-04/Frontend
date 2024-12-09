@@ -73,18 +73,6 @@ const ReservationPage = () => {
               );
             })}
           </div>
-          {/* <ReservationContent
-            key={12345}
-            title='singer'
-            name='김수민'
-            charge='100000'
-            serviceTime='2024/12/25 12:30'
-            reserveStatus='confirmed'
-            date='2024/12/11'
-            reviewId={11}
-            onEstimateClick={() => handleEstimationClick(11)}
-            onReviewClick={() => handleReviewClick(5)}
-          /> */}
         </div>
       </div>
     </>
