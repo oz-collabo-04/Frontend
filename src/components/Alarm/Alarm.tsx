@@ -3,14 +3,19 @@ import useAlarmStore from '@/store/useAlarmStore';
 import '@/styles/alarm.scss';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
+import { useNavigate } from 'react-router-dom';
 
 const Alarm = () => {
   const [showAlarm, setShowAlarm] = useState(false); // 알람 박스 표시 여부
   const alarms = useAlarmStore((state) => state.alarms); // Zustand 스토어에서 알람 상태 가져오기
   const { addToasts } = useToastStore();
+  const navigate = useNavigate();
+
+  console.log(alarms.map((item) => console.log(item)));
 
   const getAlarms = useAlarmStore((state) => state.getAlarms);
-  const updateAlarm = useAlarmStore((state) => state.updateAlarm); // Zustand에서 알림 업데이트 함수 추가
+  const updateAlarm = useAlarmStore((state) => state.updateAlarm);
+  const removeAlarm = useAlarmStore((state) => state.removeAlarm);
 
   // 알림 리스트 GET 요청
   useEffect(() => {
@@ -25,16 +30,13 @@ const Alarm = () => {
     fetchNotifications();
   }, [getAlarms]);
 
-  const handleAlarm = () => {
-    setShowAlarm((prev) => !prev);
-  };
-
   // 알림 읽음 상태 변경 및 알림 삭제
   const markAsRead = async (notificationId: number) => {
     try {
       const response = await auth.post(`/notifications/${notificationId}/`, {});
       if (response.status === 200) {
-        updateAlarm(notificationId); // Zustand에서 알림 업데이트
+        updateAlarm(notificationId); // 읽음 상태로 업데이트
+        removeAlarm(notificationId); // 읽음 처리 후 상태에서 삭제
         addToasts({ type: 'success', title: '알림 읽음 처리', id: Date.now().toString() });
       }
     } catch (error) {
@@ -53,6 +55,31 @@ const Alarm = () => {
     } catch (error) {
       console.error('전체 알림 읽음 처리 실패:', error);
     }
+  };
+
+  // 알림 타입에 따른 페이지 링크
+  const alarmNavigate = (notificationType: string) => {
+    switch (notificationType) {
+      case 'message': // 채팅 리스트
+        navigate('/chatlistpage');
+        break;
+      case 'reserve': // 예약내역
+        navigate('/reservation');
+        break;
+      case 'estimation': // 예약내역
+        navigate('/estimationlist');
+        break;
+      case 'estimation_request': // 받은요청
+        navigate('/expertlist');
+        break;
+      default:
+        console.warn('notificationType:', notificationType);
+    }
+  };
+
+  // 알림 on/off
+  const handleAlarm = () => {
+    setShowAlarm((prev) => !prev);
   };
 
   return (
@@ -82,7 +109,9 @@ const Alarm = () => {
           <ul className='alarmList'>
             {alarms.map((item) => (
               <li key={item.id} className='alarm'>
-                <p className='alarmTitle'>{item.title.trim()}</p>
+                <button className='alarmTitle' onClick={() => alarmNavigate(item.notification_type)}>
+                  {item.title.trim()}
+                </button>
                 {!item.is_read ? (
                   <button className='isReadBtn' onClick={() => markAsRead(item.id)}>
                     {/* 읽음 처리 */}

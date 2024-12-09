@@ -16,6 +16,7 @@ interface AlarmStore {
   updateAlarm: (id: number) => void; // 특정 알림 업데이트
   addAlarm: (alarm: Alarm) => void; // 새로운 알림 추가
   clearAlarms: () => void; // 알림 리스트 초기화
+  removeAlarm: (id: number) => void; // 알림 삭제 메서드 추가
 }
 
 const useAlarmStore = create<AlarmStore>((set) => ({
@@ -36,13 +37,19 @@ const useAlarmStore = create<AlarmStore>((set) => ({
   // 새로운 알림 추가
   addAlarm: (alarm) =>
     set((state) => ({
-      alarms: [...state.alarms, alarm], // 기존 알림에 추가
+      alarms: [alarm, ...state.alarms], // 기존 알림에 추가
     })),
 
   // 알림 리스트 초기화
   clearAlarms: () =>
     set(() => ({
       alarms: [],
+    })),
+
+  // 알람 삭제
+  removeAlarm: (id) =>
+    set((state) => ({
+      alarms: state.alarms.filter((alarm) => alarm.id !== id), // 해당 ID의 알림 제거
     })),
 }));
 
