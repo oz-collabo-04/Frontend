@@ -14,9 +14,9 @@ import { fetchServiceLocation, fetchServiceServices } from '@/api/services';
 import { useConfirmStore } from '@/store/confirmStore';
 import Confirm from '@/components/Confirm/Confirm';
 import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import useUserStateStore from '@/store/useUserStateStore';
 import useModeChangerStore from '@/store/modeChangerStore';
+import MediumTitle from '@/components/Title/MediumTitle';
 
 interface LocationDummy {
   [key: string]: { [key: string]: string }[] | string;
@@ -101,6 +101,17 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchPostExpertRegister(formData);
       console.log('post', data);
+
+      if (data !== undefined) {
+        if (setIsExpert && setMode) {
+          setIsExpert(true);
+          setMode('expert');
+        }
+
+        navigate('/');
+
+        addToasts({ type: 'success', title: '프로필이 등록되었습니다.', id: Date.now().toString() });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -110,12 +121,17 @@ export default function ExpertProfileEditPage() {
     try {
       const data = await fetchPatchExpertRegister(formData);
       console.log('patch', data);
-      setExpert(data);
 
-      setProfileData((prev) => ({
-        ...prev,
-        ...data,
-      }));
+      if (data !== undefined) {
+        setExpert(data);
+
+        setProfileData((prev) => ({
+          ...prev,
+          ...data,
+        }));
+
+        addToasts({ type: 'success', title: '프로필이 수정되었습니다.', id: Date.now().toString() });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -193,7 +209,6 @@ export default function ExpertProfileEditPage() {
 
     if (isExpert) {
       await patchData(formData);
-      addToasts({ type: 'success', title: '프로필이 수정되었습니다.', id: Date.now().toString() });
     } else {
       if (
         profileData.appeal !== '' &&
@@ -203,15 +218,6 @@ export default function ExpertProfileEditPage() {
         profileData.service_display !== ''
       ) {
         await postData(formData);
-
-        if (setIsExpert && setMode) {
-          setIsExpert(true);
-          setMode('expert');
-        }
-
-        navigate('/');
-
-        addToasts({ type: 'success', title: '프로필이 등록되었습니다.', id: Date.now().toString() });
       } else {
         addToasts({ type: 'error', title: '모두 입력하셔야 합니다', id: Date.now().toString() });
       }
@@ -234,7 +240,27 @@ export default function ExpertProfileEditPage() {
   if (isLoading === false) {
     return (
       <>
-        <LoadingSpinner className='expertProfileEditSpinner' />
+        <div className='expertProfileEditPage contentLayout'>
+          <PageTitle title={isExpert ? '전문가 프로필 관리' : '전문가 프로필 등록'} isPrevBtn={true} />
+          <main className='expertProfileEditMain'>
+            <section className='expertProfileEditSection'>
+              <MediumTitle title='프로필 설정' />
+              <div className='profile content skeleton-item'></div>
+            </section>
+            <section className='expertProfileEditSection'>
+              <MediumTitle title='활동 지역' />
+              <div className='location content skeleton-item'></div>
+            </section>
+            <section className='expertProfileEditSection'>
+              <MediumTitle title='제공 서비스' />
+              <div className='service content skeleton-item'></div>
+            </section>
+            <section className='expertProfileEditSection'>
+              <MediumTitle title='경력 ( 0 / 5 )' />
+              <div className='career content skeleton-item'></div>
+            </section>
+          </main>
+        </div>
       </>
     );
   } else {
