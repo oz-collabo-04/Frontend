@@ -27,8 +27,8 @@ export default function ProfileSection({ fileRef, profileData, setProfileData, i
     const file = e.target.files?.[0];
 
     if (file) {
-      if (file.size > 1024 ** 2 * 500) {
-        return addToasts({ type: 'error', title: '이미지 크기가 500MB를 넘습니다', id: Date.now().toString() });
+      if (file.size > 1024 ** 2 * 100) {
+        return addToasts({ type: 'error', title: '이미지 크기가 100MB를 넘습니다', id: Date.now().toString() });
       }
 
       const imageUrl = URL.createObjectURL(file);
@@ -64,13 +64,14 @@ export default function ProfileSection({ fileRef, profileData, setProfileData, i
             />
           </label>
 
-          {previewImage !== '' && <img src={profileData.expert_image} alt='전문가 프로필 이미지' />}
+          {previewImage !== '' && <img src={profileData.expert_image} alt='전문가 프로필' />}
         </div>
 
         <p>프로필 설명</p>
 
         <div className='textareaDiv'>
           <textarea
+            maxLength={100}
             className='comTextarea'
             placeholder='설명글'
             value={textChange}

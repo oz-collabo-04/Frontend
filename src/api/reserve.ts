@@ -14,7 +14,7 @@ export const fetchReserveList = async () => {
 
 export const fetchCalenderList = async ({ month, year }: { month: number; year: number }) => {
   try {
-    const response = await auth.get(`/reservations/schedule/?month=${month}&year=${year}`);
+    const response = await auth.get(`/experts/reservations/schedule/?month=${month}&year=${year}`);
     return response.data;
   } catch (err) {
     console.error(err);
