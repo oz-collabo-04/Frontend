@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { MapPin } from 'lucide-react'
-import MainBtn from '@/components/Button/MainBtn'
-import ProfileBadge from '@/components/Badge/ProfileBadge'
-import ExpertModal from '@/uiComponents/Expertlist/ExpertModal'
-import { useModalStore } from '@/store/modalStore'
-import { useCategoryStore } from '@/store/expertListStore'
-import '@/styles/Expertlistpage/expertlistpage.scss'
-import { auth } from '@/api/axiosInstance'
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import React, { useState, useEffect } from 'react';
+import { MapPin } from 'lucide-react';
+import MainBtn from '@/components/Button/MainBtn';
+import ProfileBadge from '@/components/Badge/ProfileBadge';
+import ExpertModal from '@/uiComponents/Expertlist/ExpertModal';
+import { useModalStore } from '@/store/modalStore';
+import { useCategoryStore } from '@/store/expertListStore';
+import '@/styles/Expertlistpage/expertlistpage.scss';
+import { auth } from '@/api/axiosInstance';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 export interface User {
   id: number;
@@ -47,6 +47,7 @@ const Expertlistpage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingExperts, setDeletingExperts] = useState<{ [key: number]: boolean }>({});
+  const [selectedDateTime, setSelectedDateTime] = useState('');
 
   const formatServiceList = (serviceList: string[] | string): string => {
     return Array.isArray(serviceList) ? serviceList.join(', ') : serviceList || 'N/A';
@@ -61,7 +62,7 @@ const Expertlistpage: React.FC = () => {
 
         const expertsData = Array.isArray(response.data) ? response.data : [response.data];
         setExperts(expertsData);
-        
+
         expertsData.forEach((expert: Expert) => {
           if (expert && expert.request && expert.request.service_list) {
             setCategory(expert.id, formatServiceList(expert.request.service_list));
@@ -78,16 +79,17 @@ const Expertlistpage: React.FC = () => {
     fetchExperts();
   }, [setCategory]);
 
-  const handleProfileClick = (id: number) => {
+  const handleProfileClick = (id: number, weddingDateTime: string) => {
     setSelectedExpertId(id);
+    setSelectedDateTime(weddingDateTime);
     openModal('expertProfile');
   };
 
   const handleDelete = async (id: number) => {
-    setDeletingExperts(prev => ({ ...prev, [id]: true }));
+    setDeletingExperts((prev) => ({ ...prev, [id]: true }));
     try {
       await auth.delete(`/experts/estimations/requests/${id}/`);
-      setExperts(prevExperts => prevExperts.filter(expert => expert.id !== id));
+      setExperts((prevExperts) => prevExperts.filter((expert) => expert.id !== id));
       console.log(`Expert with id ${id} deleted successfully.`);
     } catch (error: unknown) {
       console.error('Error deleting request:', error);
@@ -97,7 +99,7 @@ const Expertlistpage: React.FC = () => {
         setError('요청을 삭제하는 데 실패했습니다.');
       }
     } finally {
-      setDeletingExperts(prev => ({ ...prev, [id]: false }));
+      setDeletingExperts((prev) => ({ ...prev, [id]: false }));
     }
   };
 
@@ -109,55 +111,53 @@ const Expertlistpage: React.FC = () => {
     const service_list_display = formatServiceList(expert.request.service_list_display);
 
     return (
-      <div key={expert.id} className="expertCard">
-        <div className="expertCardHeader">
+      <div key={expert.id} className='expertCard'>
+        <div className='expertCardHeader'>
           <ProfileBadge
-            width="8rem"
-            height="8rem"
+            width='8rem'
+            height='8rem'
             src={expert.request.user?.profile_image || ''}
             borderRadius={'0.8rem'}
           />
-          <div className="expertCardInfo">
-            <div className="expertCardCategory">{service_list_display}</div>
-            <h3 className="expertCardName">{expert.request.user?.name || 'Unknown'}</h3>
+          <div className='expertCardInfo'>
+            <div className='expertCardCategory'>{service_list_display}</div>
+            <h3 className='expertCardName'>{expert.request.user?.name || 'Unknown'}</h3>
           </div>
         </div>
         <div className='expertCardSchedule'>
-          <div className="expertCardLocation">
+          <div className='expertCardLocation'>
             <MapPin size={16} />
-            <span>{expert.request.location_display || 'N/A'} {expert.request.wedding_hall || 'N/A'}</span>
+            <span>
+              {expert.request.location_display || 'N/A'} {expert.request.wedding_hall || 'N/A'}
+            </span>
           </div>
-          <div className="expertCardTime">
-            <svg 
-              width="16" 
-              height="16" 
-              viewBox="0 0 16 16" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path 
-                d="M12 2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V3C13 2.44772 12.5523 2 12 2Z" 
-                stroke="currentColor" 
-                strokeWidth="1.5"
+          <div className='expertCardTime'>
+            <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+              <path
+                d='M12 2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V3C13 2.44772 12.5523 2 12 2Z'
+                stroke='currentColor'
+                strokeWidth='1.5'
               />
-              <path d="M3 6H13" stroke="currentColor" strokeWidth="1.5"/>
+              <path d='M3 6H13' stroke='currentColor' strokeWidth='1.5' />
             </svg>
-            <span>{expert.request.wedding_datetime ? new Date(expert.request.wedding_datetime).toLocaleString() : 'N/A'}</span>
+            <span>
+              {expert.request.wedding_datetime ? new Date(expert.request.wedding_datetime).toLocaleString() : 'N/A'}
+            </span>
           </div>
         </div>
-        <div className="expertCardActions">
+        <div className='expertCardActions'>
           <MainBtn
-            name="견적서 보내기"
-            size="medium"
-            backgroundColor="$main-color"
-            color="$font-color"
-            onClick={() => handleProfileClick(expert.request.id)}
+            name='견적서 보내기'
+            size='medium'
+            backgroundColor='$main-color'
+            color='$font-color'
+            onClick={() => handleProfileClick(expert.request.id, expert.request.wedding_datetime)}
           />
           <MainBtn
-            name={deletingExperts[expert.id] ? "삭제 중..." : "받은요청삭제"}
-            size="medium"
-            backgroundColor="$main-color"
-            color="$font-color"
+            name={deletingExperts[expert.id] ? '삭제 중...' : '받은요청삭제'}
+            size='medium'
+            backgroundColor='$main-color'
+            color='$font-color'
             onClick={() => handleDelete(expert.id)}
             disabled={deletingExperts[expert.id]}
           />
@@ -168,7 +168,7 @@ const Expertlistpage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="estimationLoading">
+      <div className='estimationLoading'>
         <LoadingSpinner />
       </div>
     );
@@ -179,16 +179,14 @@ const Expertlistpage: React.FC = () => {
   }
 
   return (
-    <div className="expertListContainer">
-      <main className="expertListMain">
-        <h2 className="expertListMainTitle">받은 요청 리스트</h2>
-        <div className="expertGrid">
-          {experts.map(renderExpertCard)}
-        </div>
+    <div className='expertListContainer'>
+      <main className='expertListMain'>
+        <h2 className='expertListMainTitle'>받은 요청 리스트</h2>
+        <div className='expertGrid'>{experts.map(renderExpertCard)}</div>
       </main>
-      <ExpertModal expertId={selectedExpertId} modalId="expertProfile" />
+      <ExpertModal expertId={selectedExpertId} modalId='expertProfile' weddingDateTime={selectedDateTime} />
     </div>
-  )
-}
+  );
+};
 
-export default Expertlistpage
+export default Expertlistpage;
