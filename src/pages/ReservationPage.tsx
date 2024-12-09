@@ -5,21 +5,34 @@ import MediumTitle from '@/components/Title/MediumTitle';
 import ReservationContent from '@/uiComponents/MyPage/Reservation/ReservationContent';
 import { useEffect, useState } from 'react';
 import { IReservationData } from '@/config/types';
-import { useModalStore } from '@/store/modalStore';
-import { fetchReserveList } from '@/api/reserve';
+import { fetchReserveExpertList, fetchReserveUserList } from '@/api/reserve';
+import useModeChangerStore from '@/store/modeChangerStore';
+import useUserStateStore from '@/store/useUserStateStore';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 const ReservationPage = () => {
   const [reserveData, setReserveData] = useState<IReservationData | null>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { openModal } = useModalStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { mode, setMode } = useModeChangerStore();
+  const { isExpert } = useUserStateStore();
 
-  const fetchData = async () => {
+  const fetchUserData = async () => {
     setIsLoading(true);
     try {
-      const data: IReservationData = await fetchReserveList();
+      const data: IReservationData = await fetchReserveUserList();
       setReserveData(data);
       console.log('data:', data);
-      console.log('reserveData:', reserveData);
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const fetchExpertData = async () => {
+    setIsLoading(true);
+    try {
+      const data: IReservationData = await fetchReserveExpertList();
+      setReserveData(data);
+      console.log('data:', data);
       return data;
     } catch (err) {
       console.error(err);
@@ -28,63 +41,60 @@ const ReservationPage = () => {
 
   // 예약 리스트 로딩
   useEffect(() => {
-    fetchData();
-    console.log('reserveData:', reserveData);
-    // setExpert(reserveData);
-  }, []);
+    if (!isExpert && mode === 'user') {
+      fetchUserData();
+    } else if (isExpert && mode === 'expert') {
+      fetchExpertData();
+    } else if (isExpert && mode === 'user') {
+      fetchUserData();
+    } else if (mode === 'user') {
+      fetchUserData();
+    } else {
+      fetchUserData();
+    }
+    setIsLoading(false);
+  }, [isExpert, mode]);
 
-  // 최종견적서
-  const handleEstimationClick = (id: number) => {
-    openModal('estimationConfirm');
-  };
+  // if (isLoading) {
+  //   return <LoadingSpinner />;
+  // }
 
-  // 전문가 리뷰 연결
-  const handleReviewClick = (id: number) => {
-    // setSelectedExpertId(id);
-    openModal('expertReview');
-  };
   return (
     <>
       <div className='reservationPage contentLayout'>
         <PageTitle title='예약 내역' isPrevBtn={true} prevUrl='/mypage' />
         <div className='reserveList '>
           <MediumTitle title='예약 리스트' />
-          <div className='reserveContainer'>
-            {/* 리스트 개별 컨텐츠 반복 */}
-            {reserveData?.map((reservation) => {
-              const { estimation, status, id } = reservation;
-              const { expert } = estimation;
-              return (
-                <ReservationContent
-                  key={id}
-                  title={estimation.service}
-                  name={expert.user.name}
-                  charge={estimation.charge}
-                  serviceTime={estimation.due_date}
-                  reserveStatus={status}
-                  date={estimation.created_at}
-                  reservationId={id}
-                  estimationId={estimation.id}
-                  estimationModal={estimation.request_user.name}
-                  reviewModal={expert.user.id}
-                  onEstimateClick={() => handleEstimationClick(estimation.id)}
-                  onReviewClick={() => handleReviewClick(expert.user.id)}
-                />
-              );
-            })}
-          </div>
-          {/* <ReservationContent
-            key={12345}
-            title='singer'
-            name='김수민'
-            charge='100000'
-            serviceTime='2024/12/25 12:30'
-            reserveStatus='confirmed'
-            date='2024/12/11'
-            reviewId={11}
-            onEstimateClick={() => handleEstimationClick(11)}
-            onReviewClick={() => handleReviewClick(5)}
-          /> */}
+          {isLoading ? (
+            <div className='loading'>
+              <LoadingSpinner />
+              <p>견적 정보를 불러오는 중입니다...</p>
+            </div>
+          ) : (
+            <div className='reserveContainer'>
+              {/* 리스트 개별 컨텐츠 반복 */}
+              {reserveData?.map((reservation) => {
+                const { estimation, status, id, chatroom_id } = reservation;
+                const { expert } = estimation;
+                return (
+                  <ReservationContent
+                    key={id}
+                    title={estimation.service}
+                    name={expert.user.name}
+                    charge={estimation.charge}
+                    serviceTime={estimation.due_date}
+                    reserveStatus={status}
+                    date={estimation.created_at}
+                    chatroomId={chatroom_id}
+                    reservationId={id}
+                    reviewModal={expert.user.name}
+                    estimationId={id}
+                    estimationModal={estimation.request_user.name}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </>
