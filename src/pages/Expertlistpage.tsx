@@ -9,7 +9,7 @@ import { useCategoryStore } from '@/store/expertListStore';
 import '@/styles/Expertlistpage/expertlistpage.scss';
 import { auth } from '@/api/axiosInstance';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
-import AccessControl from '@/components/Control/AccessControl';
+import useModeChangerStore from '@/store/modeChangerStore';
 
 export interface User {
   id: number;
@@ -45,6 +45,7 @@ const Expertlistpage = () => {
   const navigate = useNavigate();
   const { openModal } = useModalStore();
   const { setCategory } = useCategoryStore();
+  const { mode } = useModeChangerStore();
   const [selectedExpertId, setSelectedExpertId] = useState<number | null>(null);
   const [experts, setExperts] = useState<Expert[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,16 +58,10 @@ const Expertlistpage = () => {
   };
 
   useEffect(() => {
-    const userState = sessionStorage.getItem('state');
-    if (userState) {
-      const stateObj = JSON.parse(userState);
-      if (stateObj.mode !== 'expert') {
-        navigate('/'); // expert가 아닌 경우 메인 페이지로 리다이렉트
-      }
-    } else {
-      navigate('/'); // state가 없는 경우도 메인 페이지로 리다이렉트
+    if (mode !== 'expert') {
+      navigate('/'); 
     }
-  }, [navigate]);
+  }, [navigate, mode]);
 
   useEffect(() => {
     const fetchExperts = async () => {
@@ -194,15 +189,13 @@ const Expertlistpage = () => {
   }
 
   return (
-    <AccessControl userType="expert">
-      <div className='expertListContainer'>
-        <main className='expertListMain'>
-          <h2 className='expertListMainTitle'>받은 요청 리스트</h2>
-          <div className='expertGrid'>{experts.map(renderExpertCard)}</div>
-        </main>
-        <ExpertModal expertId={selectedExpertId} modalId='expertProfile' weddingDateTime={selectedDateTime} />
-      </div>
-    </AccessControl>
+    <div className='expertListContainer'>
+      <main className='expertListMain'>
+        <h2 className='expertListMainTitle'>받은 요청 리스트</h2>
+        <div className='expertGrid'>{experts.map(renderExpertCard)}</div>
+      </main>
+      <ExpertModal expertId={selectedExpertId} modalId='expertProfile' weddingDateTime={selectedDateTime} />
+    </div>
   );
 };
 
