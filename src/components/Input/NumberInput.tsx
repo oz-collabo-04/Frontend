@@ -1,7 +1,6 @@
 import React from 'react';
 import { useToastStore } from '@/store/toastStore';
 import { Toast } from '@/config/types';
-import { toast } from 'react-toastify';
 
 interface NumberInputProps {
   width?: string;
@@ -35,14 +34,6 @@ const NumberInput = ({ width, height, placeholder, disabled = false, value = '',
 
     // 최대 금액 체크
     if (Number(inputValue) > MAX_AMOUNT) {
-      toast.error(' 이 이상의 금액을 입력하실 수 없습니다.', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
       const newToast: Toast = {
         id: `toast_${Date.now()}`,
         type: 'error',

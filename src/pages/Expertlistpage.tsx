@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import MainBtn from '@/components/Button/MainBtn';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
@@ -41,6 +42,7 @@ export interface Expert {
 }
 
 const Expertlistpage = () => {
+  const navigate = useNavigate();
   const { openModal } = useModalStore();
   const { setCategory } = useCategoryStore();
   const [selectedExpertId, setSelectedExpertId] = useState<number | null>(null);
@@ -53,6 +55,18 @@ const Expertlistpage = () => {
   const formatServiceList = (serviceList: string[] | string): string => {
     return Array.isArray(serviceList) ? serviceList.join(', ') : serviceList || 'N/A';
   };
+
+  useEffect(() => {
+    const userState = sessionStorage.getItem('state');
+    if (userState) {
+      const stateObj = JSON.parse(userState);
+      if (stateObj.mode !== 'expert') {
+        navigate('/'); // expert가 아닌 경우 메인 페이지로 리다이렉트
+      }
+    } else {
+      navigate('/'); // state가 없는 경우도 메인 페이지로 리다이렉트
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const fetchExperts = async () => {

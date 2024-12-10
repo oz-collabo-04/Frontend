@@ -1,4 +1,4 @@
-import  { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
@@ -136,8 +136,18 @@ const EstimationList = () => {
   };
 
   useEffect(() => {
-    fetchEstimations();
-  }, []);
+    const userState = sessionStorage.getItem('state')
+    if (userState) {
+      const stateObj = JSON.parse(userState);
+      if (stateObj.mode !== 'user') {
+        navigate('/') 
+      } else {
+        fetchEstimations()
+      }
+    } else {
+      navigate('/') 
+    }
+  }, [navigate])
 
   const handleProfileClick = (estimationId: number) => {
     setSelectedEstimationId(estimationId);
