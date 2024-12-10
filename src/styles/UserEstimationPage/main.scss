@@ -22,12 +22,12 @@
     }
 
     // 각 카테고리
-    .service,
-    .gender,
-    .dateTime,
-    .location,
-    .hallName,
-    .method {
+    .serviceWrapper,
+    .genderWrapper,
+    .dateTimeWrapper,
+    .locationWrapper,
+    .hallNameWrapper,
+    .methodWrapper {
       background-color: rgba($main-color, 0.35);
       margin: 1rem -1rem 2rem;
       padding: 2.5rem 2rem;
@@ -50,7 +50,7 @@
       }
 
       // 2부 예식
-      .recessional {
+      .isReception {
         display: flex;
         align-items: flex-start; // 2부예식-답변 줄 맞춤
         gap: 6rem; //2부예식-답변 사이 여백

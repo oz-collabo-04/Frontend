@@ -23,7 +23,8 @@ export const fetchReserveExpertList = async () => {
   }
 };
 
-//? 작동유무 확인 필요
+// 최종견적서확인 => id :estimation_id
+// reservation id는 예약과 관련되어있음
 export const fetchConfirmData = async (id: number) => {
   try {
     const response = await auth.get(`/reservations/${id}`);
