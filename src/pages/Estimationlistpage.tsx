@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import  { useState, useEffect, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
@@ -8,6 +8,7 @@ import ExpertProfileModal from '@/uiComponents/Estimationlist/ExpertProfileModal
 import { useModalStore } from '@/store/modalStore'
 import { auth } from '@/api/axiosInstance'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import AccessControl from '@/components/Control/AccessControl'
 
 interface Career {
   id: number;
@@ -42,7 +43,7 @@ interface User {
   gender_display: string;
 }
 
-export interface Estimation {
+interface Estimation {
   id: number;
   request: number;
   expert: Expert;
@@ -63,11 +64,11 @@ interface EstimationCardProps {
   onChatClick: (expert_id: number, estimation_id: number) => void;
 }
 
-const EstimationCard: React.FC<EstimationCardProps> = ({ 
+const EstimationCard = ({ 
   estimation,
   onProfileClick,
   onChatClick
-}) => {
+}: EstimationCardProps) => {
   return (
     <div className="estimationCard">
       <div className="estimationCardHeader">
@@ -107,7 +108,7 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
   )
 }
 
-const EstimationList: React.FC = () => {
+const EstimationList = () => {
   const navigate = useNavigate()
   const { openModal } = useModalStore();
   const [selectedEstimationId, setSelectedEstimationId] = useState<number | null>(null);
@@ -198,13 +199,15 @@ const EstimationList: React.FC = () => {
   }
 
   return (
-    <div className="estimationContainer">
-      <main className="estimationMain">
-        <h1 className="estimationMainPageTitle">받은 견적 리스트</h1>
-        <Tab tabs={tabContent} />
-      </main>
-      <ExpertProfileModal estimationId={selectedEstimationId} />
-    </div>
+    <AccessControl userType="user">
+      <div className="estimationContainer">
+        <main className="estimationMain">
+          <h1 className="estimationMainPageTitle">받은 견적 리스트</h1>
+          <Tab tabs={tabContent} />
+        </main>
+        <ExpertProfileModal estimationId={selectedEstimationId} />
+      </div>
+    </AccessControl>
   )
 }
 

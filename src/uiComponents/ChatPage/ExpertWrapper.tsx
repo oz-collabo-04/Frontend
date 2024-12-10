@@ -72,7 +72,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
       const response = await auth.post('/reservations/create/', {
         estimation_id: estimationId,
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         addToasts({ type: 'success', title: '예약이 완료되었습니다.', id: Date.now().toString() });
       }
     } catch (error) {

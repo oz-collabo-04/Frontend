@@ -14,6 +14,7 @@ interface Career {
   position: string;
   start_date: string;
   end_date: string | null;
+  description: string;
 }
 
 interface Expert {
@@ -62,7 +63,6 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
   const [estimationData, setEstimationData] = useState<Estimation | null>(null);
   const [expertData, setExpertData] = useState<Expert | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [showFullEstimate, setShowFullEstimate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const estimationStore = useEstimationStore();
@@ -106,13 +106,8 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
     fetchExpertData();
   }, [estimationId]);
 
-  const toggleEstimate = () => setShowFullEstimate(!showFullEstimate);
-
   const renderExpertContent = () => {
     if (!expertData || !estimationData) return null;
-
-    const displayDescription = estimationStore.description || estimationData.description || '';
-    console.log('ExpertProfileModal - Display description:', displayDescription);
 
     return (
       <div className="expert-profile-content">
@@ -141,24 +136,13 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
         </div>
 
         <div className="expert-profile-section">
-          <h3 className="section-title">견적</h3>
-          <div className="estimate-content">
-            {displayDescription ? (
-              <>
-                <p>{showFullEstimate ? displayDescription : `${displayDescription.slice(0, 100)}...`}</p>
-                <button onClick={toggleEstimate} className="more-button">
-                  {showFullEstimate ? '접기' : 'more'}
-                </button>
-              </>
-            ) : (
-              <p>견적 설명이 없습니다.</p>
-            )}
-          </div>
+          <h3 className="section-title">비용</h3>
+          <p className="cost-value">{estimationData.charge}원</p>
         </div>
 
         <div className="expert-profile-section">
-          <h3 className="section-title">비용</h3>
-          <p className="cost-value">{estimationData.charge}원</p>
+          <h3 className="section-title">견적 설명</h3>
+          <p className="estimation-description">안녕하세요, 저의 100만 구독자의 실력을 보고 깜짝놀랄 만한 작품을 만들어 내기에 이정도 가격으로 측정했습니다.</p>
         </div>
 
         <div className="expert-profile-section">
@@ -177,6 +161,7 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
                   <p className="career-period">
                     {career.start_date} - {career.end_date || '현재'}
                   </p>
+                  <p className="career-description">{career.description}</p>
                 </div>
               ))}
             </div>
