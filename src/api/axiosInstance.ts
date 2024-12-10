@@ -44,8 +44,8 @@ const refreshAccessToken = async () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.setItem('access_token', newAccessToken);
     return newAccessToken;
-  } catch (error) {
-    console.error('access_token 갱신 실패', error);
+  } catch {
+    // console.error('access_token 갱신 실패', error);
   }
 };
 
@@ -71,11 +71,9 @@ auth.interceptors.response.use(
           // 요청 재시도
           return auth(originalRequest);
         } else {
-          console.error('토큰 갱신 실패: 로그인 페이지로 리다이렉트합니다.');
           redirectToLoginPage();
         }
-      } catch (refreshError) {
-        console.error('토큰 갱신 중 에러 발생:', refreshError);
+      } catch {
         redirectToLoginPage();
       }
     }
@@ -93,7 +91,5 @@ export const setRedirectFunction = (redirectFuntion: () => void) => {
 export const redirectToLoginPage = () => {
   if (redirectToLogin) {
     redirectToLogin();
-  } else {
-    console.error('리다이렉트 함수가 없습니다.');
   }
 };

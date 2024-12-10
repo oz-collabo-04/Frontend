@@ -85,8 +85,8 @@ const Header = () => {
           navigate('/');
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
-      } catch (error) {
-        console.error('로그아웃 중에 오류가 발생했습니다', error);
+      } catch {
+        // console.error('로그아웃 중에 오류가 발생했습니다', error);
         addToasts({ type: 'error', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
       }
     };
