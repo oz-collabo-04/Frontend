@@ -22,7 +22,6 @@ import { setRedirectFunction } from './api/axiosInstance';
 import useUserStateStore from './store/useUserStateStore';
 import CalenderPage from './pages/CalenderPage';
 import useModeChangerStore from './store/modeChangerStore';
-import UEPage from './pages/UEPage copy';
 
 function App() {
   const { provider } = useLoginProviderStore();
@@ -52,7 +51,7 @@ function App() {
           <Route element={<CommonLayout />}>
             <Route path='/' element={<MainPage />} />
             <Route path='/common' element={<Common />} />
-            <Route path='/userestimation' element={<UEPage />} />
+            <Route path='/userestimation' element={<UserEstimationPage />} />
             <Route path='/reservation' element={<ReservationPage />} />
             <Route path='/calenderPage' element={<CalenderPage />} />
             <Route path='/estimationlist' element={<Estimationlistpage />} />
