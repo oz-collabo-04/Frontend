@@ -4,6 +4,7 @@ import '@/styles/alarm.scss';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
 import { useNavigate } from 'react-router-dom';
+import useUserStateStore from '@/store/useUserStateStore';
 
 const Alarm = () => {
   const [showAlarm, setShowAlarm] = useState(false); // 알람 박스 표시 여부
@@ -13,6 +14,9 @@ const Alarm = () => {
   const getAlarms = useAlarmStore((state) => state.getAlarms);
   const updateAlarm = useAlarmStore((state) => state.updateAlarm);
   const removeAlarm = useAlarmStore((state) => state.removeAlarm);
+
+  const userState = useUserStateStore();
+  const isExpert = userState.isExpert;
 
   // 알림 리스트 GET 요청
   useEffect(() => {
@@ -26,6 +30,17 @@ const Alarm = () => {
     };
     fetchNotifications();
   }, [getAlarms]);
+
+  // 알림 필터링: 고객 또는 전문가에 맞는 알림만 표시
+  const filteredAlarms = alarms.filter((alarm) => {
+    if (isExpert) {
+      // 전문가: message, reserve, estimation_request 표시
+      return ['message', 'reserve', 'estimation_request'].includes(alarm.notification_type);
+    } else {
+      // 고객: message, reserve, estimation 표시
+      return ['message', 'reserve', 'estimation'].includes(alarm.notification_type);
+    }
+  });
 
   // 알림 읽음 상태 변경 및 알림 삭제
   const markAsRead = async (notificationId: number) => {
@@ -102,9 +117,9 @@ const Alarm = () => {
             전체읽음
           </button>
         </div>
-        {alarms.length > 0 ? (
+        {filteredAlarms.length > 0 ? (
           <ul className='alarmList'>
-            {alarms.map((item) => (
+            {filteredAlarms.map((item) => (
               <li key={item.id} className='alarm'>
                 <button className='alarmTitle' onClick={() => alarmNavigate(item.notification_type)}>
                   {item.title.trim()}
