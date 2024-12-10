@@ -8,7 +8,7 @@ import ExpertProfileModal from '@/uiComponents/Estimationlist/ExpertProfileModal
 import { useModalStore } from '@/store/modalStore'
 import { auth } from '@/api/axiosInstance'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import AccessControl from '@/components/Control/AccessControl'
+import useModeChangerStore from '@/store/modeChangerStore'
 
 interface Career {
   id: number;
@@ -111,6 +111,7 @@ const EstimationCard = ({
 const EstimationList = () => {
   const navigate = useNavigate()
   const { openModal } = useModalStore();
+  const { mode } = useModeChangerStore(); 
   const [selectedEstimationId, setSelectedEstimationId] = useState<number | null>(null);
   const [estimations, setEstimations] = useState<Estimation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -136,18 +137,12 @@ const EstimationList = () => {
   };
 
   useEffect(() => {
-    const userState = sessionStorage.getItem('state')
-    if (userState) {
-      const stateObj = JSON.parse(userState);
-      if (stateObj.mode !== 'user') {
-        navigate('/') 
-      } else {
-        fetchEstimations()
-      }
+    if (mode === 'user') {
+      fetchEstimations()
     } else {
       navigate('/') 
     }
-  }, [navigate])
+  }, [navigate, mode])
 
   const handleProfileClick = (estimationId: number) => {
     setSelectedEstimationId(estimationId);
@@ -209,15 +204,13 @@ const EstimationList = () => {
   }
 
   return (
-    <AccessControl userType="user">
-      <div className="estimationContainer">
-        <main className="estimationMain">
-          <h1 className="estimationMainPageTitle">받은 견적 리스트</h1>
-          <Tab tabs={tabContent} />
-        </main>
-        <ExpertProfileModal estimationId={selectedEstimationId} />
-      </div>
-    </AccessControl>
+    <div className="estimationContainer">
+      <main className="estimationMain">
+        <h1 className="estimationMainPageTitle">받은 견적 리스트</h1>
+        <Tab tabs={tabContent} />
+      </main>
+      <ExpertProfileModal estimationId={selectedEstimationId} />
+    </div>
   )
 }
 
