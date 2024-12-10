@@ -33,6 +33,7 @@ export interface IReservationContentProps {
   title: string; // 서비스명
   reserveStatus: string; // 예약상태
   expertUser: string; // 전문가 이름
+  expertUserId: number; // 전문가 ID
   requestUser: string; // 요청자 이름
   charge: number; // 금액
   serviceTime: string; // 서비스 시간
@@ -120,4 +121,60 @@ export interface ILocation {
 }
 export interface ILocationObject {
   [key: string]: string;
+}
+
+// WeddingConfirm 데이터 타입
+export interface WeddingConfirm {
+  id: number;
+  user: number;
+  service_list: string[];
+  service_list_display: string;
+  prefer_gender: string;
+  prefer_gender_display: string;
+  created_at: string; // ISO8601 형식
+  updated_at: string; // ISO8601 형식
+  location: string;
+  location_display: string;
+  is_reception: boolean;
+  wedding_datetime: string; // ISO8601 형식
+  wedding_hall: string;
+  status: string;
+  status_display: string;
+}
+
+// ConfirmData 내부의 Estimation 타입
+export interface Estimation {
+  id: number;
+  charge: number;
+  created_at: string; // ISO8601 형식
+  due_date: string; // ISO8601 형식
+  location: string;
+  request: number;
+  request_user: {
+    id: number;
+    name: string;
+    email: string;
+    phone_number: string;
+  };
+  expert: {
+    id: number;
+    expert_image: string;
+    user: {
+      id: number;
+      name: string;
+      email: string;
+      phone_number: string;
+    };
+  };
+  service: string;
+}
+
+// ConfirmData 타입
+export interface ConfirmData {
+  id: number;
+  status: string;
+  created_at: string; // ISO8601 형식
+  updated_at: string; // ISO8601 형식
+  chatroom_id: number;
+  estimation: Estimation;
 }
