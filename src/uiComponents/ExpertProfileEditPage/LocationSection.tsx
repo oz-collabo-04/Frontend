@@ -108,7 +108,7 @@ export default function LocationSection({ isExpert, profileData, setProfileData 
         confirmId='locationDataClear'
         title='데이터를 지우시겠습니까?'
         content='확인을 누르시면 활동 지역이 초기화 됩니다.'
-        width='35em'
+        width='35rem'
         height='17vh'
         borderRadius='2rem'
         trueBtn={true}
