@@ -7,11 +7,13 @@ import EstimationConfirm from './EstimationConfirm/EstimationConfirm';
 import UserReviewEdit from './UserReviewEdit/ReviewEdit';
 import { formatDate } from '@/utils/formatDate';
 import { useNavigate } from 'react-router-dom';
-import useUserStateStore from '@/store/useUserStateStore';
+import useModeChangerStore from '@/store/modeChangerStore';
+import { fetchReserveUserList } from '@/api/reserve';
 
 const ReservationContent = ({
   title,
-  name,
+  expertUser,
+  requestUser,
   charge,
   serviceTime,
   reserveStatus,
@@ -23,7 +25,7 @@ const ReservationContent = ({
   estimationModal,
 }: IReservationContentProps) => {
   const { openModal, closeModal } = useModalStore();
-  const { isExpert } = useUserStateStore();
+  const { mode } = useModeChangerStore();
   const navigate = useNavigate();
 
   // 데이터상태 한글변경
@@ -61,28 +63,29 @@ const ReservationContent = ({
   };
 
   // 최종견적서 호출
-  // const handleConfirmClick = async () => {
-  //   const data = await fetchReserveUserList();
-  //   setConfirmData(data);
-  //   openModal(`${estimationModal}`);
-  // };
+  const handleConfirmClick = async () => {
+    const data = await fetchReserveUserList();
+    console.log('reserveUSERlist:', data);
+    openModal(`${estimationModal}`);
+  };
 
   // 예약 완료상태 api
-  // const handleCompleteClick = () => {};
+  const handleCompleteClick = () => {};
 
   // 예약 상태에 따른 버튼 렌더링
+  // 모드에 따른 버튼 렌더링도 달라야함
   const renderButtons = () => {
     switch (reserveStatus) {
       case 'confirmed':
         return (
           <>
             <MainBtn name='채팅방 이동' size='medium' width='10rem' onClick={() => chatRoomClick(chatroomId)} />
-            {isExpert ? (
+            {mode !== 'user' ? (
               <>
                 <MainBtn
                   name='견적서 확인'
                   size='medium'
-                  width='14rem'
+                  width='10rem'
                   onClick={() => openModal(`${estimationModal}`)}
                 />
                 <Modal
@@ -94,7 +97,7 @@ const ReservationContent = ({
                   extraClass='estimationModal'
                   content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
                   firstBtn={true}
-                  firstBtnName='닫기'
+                  firstBtnName='예약 취소'
                   firstBtnOnClick={() => closeModal(`${estimationModal}`)}
                   secondBtn={true}
                   secondBtnName='서비스완료'
@@ -113,7 +116,7 @@ const ReservationContent = ({
                   extraClass='reviewModal'
                   content={
                     <UserReviewEdit
-                      name={name}
+                      expertName={expertUser}
                       serviceTime={serviceTime}
                       reservationId={reservationId}
                       reviewModal={reviewModal}
@@ -146,9 +149,27 @@ const ReservationContent = ({
       case 'completed':
         return (
           <>
-            {!isExpert && (
+            {mode !== 'user' ? (
               <>
-                <MainBtn name='후기 작성' size='medium' width='14rem' onClick={() => openModal(`${reviewModal}`)} />
+                <MainBtn
+                  name='견적서 확인'
+                  size='medium'
+                  width='10rem'
+                  onClick={() => openModal(`${estimationModal}`)}
+                />
+                <Modal
+                  modalId={`${estimationModal}`}
+                  title='견적서 확인'
+                  width='40rem'
+                  height='60vh'
+                  borderRadius='8px'
+                  extraClass='estimationModal'
+                  content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+                />
+              </>
+            ) : (
+              <>
+                <MainBtn name='후기 작성' size='medium' width='10rem' onClick={() => openModal(`${reviewModal}`)} />
                 <Modal
                   modalId={`${reviewModal}`}
                   title='후기 작성하기'
@@ -158,35 +179,37 @@ const ReservationContent = ({
                   extraClass='reviewModal'
                   content={
                     <UserReviewEdit
-                      name={name}
+                      expertName={expertUser}
                       serviceTime={serviceTime}
                       reservationId={reservationId}
                       reviewModal={reviewModal}
                     />
                   }
                 />
+                <MainBtn
+                  name='견적서 확인'
+                  size='medium'
+                  width='10rem'
+                  onClick={() => openModal(`${estimationModal}`)}
+                />
+                <Modal
+                  modalId={`${estimationModal}`}
+                  title='견적서 확인'
+                  width='40rem'
+                  height='60vh'
+                  borderRadius='8px'
+                  extraClass='estimationModal'
+                  content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+                />
               </>
             )}
-            <MainBtn name='견적서 확인' size='medium' width='14rem' onClick={() => openModal(`${estimationModal}`)} />
-            <Modal
-              modalId={`${estimationModal}`}
-              title='견적서 확인'
-              width='40rem'
-              height='60vh'
-              borderRadius='8px'
-              extraClass='estimationModal'
-              content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
-              firstBtn={true}
-              firstBtnName='닫기'
-              firstBtnOnClick={() => closeModal(`${estimationModal}`)}
-            />
           </>
         );
 
       case 'canceled':
         return (
           <>
-            <MainBtn name='견적서 확인' size='medium' width='14rem' onClick={() => openModal(`${estimationModal}`)} />
+            <MainBtn name='견적서 확인' size='medium' width='10rem' onClick={() => openModal(`${estimationModal}`)} />
             <Modal
               modalId={`${estimationModal}`}
               title='최종 견적서'
@@ -195,9 +218,6 @@ const ReservationContent = ({
               borderRadius='8px'
               extraClass='estimationModal'
               content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
-              firstBtn={true}
-              firstBtnName='닫기'
-              firstBtnOnClick={() => closeModal(`${estimationModal}`)}
             />
           </>
         );
@@ -212,8 +232,17 @@ const ReservationContent = ({
       <div className='content'>
         <div className='expert'>
           <div className='info'>
-            <XSmallTitle title={`${getService(title)}`} extraClass='title' />
-            <div className='name'>{name}</div>
+            {mode !== 'user' ? (
+              <>
+                <XSmallTitle title={`${getService(title)}`} extraClass='title' />
+                <div className='name'>{requestUser}</div>
+              </>
+            ) : (
+              <>
+                <XSmallTitle title={`${getService(title)}`} extraClass='title' />
+                <div className='name'>{expertUser}</div>
+              </>
+            )}
           </div>
           <div className='serviceInfo'>진행 일자 : {serviceTime}</div>
         </div>
