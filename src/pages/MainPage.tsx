@@ -38,14 +38,14 @@ export default function MainPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [expertData, setExpertData] = useState<ExpertProps[] | null>(null);
   const { setIsLoginToastShown, isLoginToastShown } = useLoginToastStateStore();
-  const { userName, setIsExpert, setIsLoggedIn, setUserName, isExpert } = useUserStateStore();
+  const { userName, setIsExpert, setIsLoggedIn, setUserName } = useUserStateStore();
   const { setMode } = useModeChangerStore();
   const { addToasts } = useToastStore();
 
   window.addEventListener('message', (event) => {
     const targetOrigins = ['https://sonew-wedding.kro.kr', 'http://localhost:5173'];
     if (!targetOrigins.includes(event.origin)) {
-      console.warn('targetOrigins에서 온 메시지가 아닙니다.', event.origin);
+      return;
     }
     // console.log('recived Data', event.data);
 
@@ -85,10 +85,9 @@ export default function MainPage() {
             service: service,
           },
         });
-        console.log('data :', response.data);
         setExpertData(response.data);
-      } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
+      } catch {
+        // console.log('API 요청에 실패했습니다 :', error);
       }
     };
     fetchExpertList();

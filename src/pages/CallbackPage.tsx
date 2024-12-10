@@ -49,11 +49,9 @@ export default function CallbackPage() {
             window.opener.location.href = '/';
             window.close();
           }
-        } else {
-          console.error('AT를 찾을 수 없습니다 :', response.data);
         }
-      } catch (error) {
-        console.error('login error', error);
+      } catch {
+        // console.error('login error', error);
       }
     };
     socialLoginHandler();
