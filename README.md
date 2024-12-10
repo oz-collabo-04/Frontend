@@ -107,8 +107,9 @@ main 브랜치는 배포 단계에서만 사용하는 브랜치입니다. featue
 기능 단위로, 독립적인 개발 환경을 위하여 사용하였으며 merge 후 각 브랜치는 삭제하였습니다.
 
 ## 3. 프로젝트 구조
+```
+frontend
 
-frontend/
 ├── .github/             # GitHub Actions 및 워크플로우 설정 파일
 ├── assets/              # 정적 파일 (예: 이미지, 아이콘 등)
 ├── node_modules/        # 설치된 NPM 패키지
@@ -125,7 +126,7 @@ frontend/
 │   ├── uiComponents/    # UI를 구성하는 컴포넌트
 │   ├── utils/           # 유틸리티 함수
 │   ├── App.tsx          # 루트 컴포넌트
-│   ├── Common.tsx       # 공통 컴포넌트 table
+│   ├── Common.tsx       # 공통 컴포넌트 Table
 │   ├── global.scss      # 글로벌 스타일 설정
 │   ├── main.tsx         # 애플리케이션 진입 파일
 │   └── vite-env.d.ts    # Vite 관련 타입 정의
@@ -140,6 +141,7 @@ frontend/
 ├── package-lock.json    # NPM 패키지 버전 고정 파일
 └── README.md            # 프로젝트 설명 파일
 
+```
 
 ## 4. 역할분담
 
