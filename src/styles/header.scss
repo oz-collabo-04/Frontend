@@ -37,6 +37,7 @@
       height: 100%;
       display: flex;
       align-items: center;
+      flex-direction: column;
       justify-content: space-between;
       font-size: 2rem;
 
@@ -58,7 +59,8 @@
         }
 
         // 로그인 후 오른쪽편 메뉴
-        .userNav {
+        .userNav,
+        .expertNav {
           width: 100%;
           display: flex;
           align-items: center;
@@ -78,7 +80,7 @@
   }
 }
 
-// 반응형 햄버거 -
+// 반응형 햄버거
 .headerMiniMenu {
   display: none;
 }
@@ -157,8 +159,4 @@
       }
     }
   }
-}
-
-.modeChange {
-  color: pink;
 }

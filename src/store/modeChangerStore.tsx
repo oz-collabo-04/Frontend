@@ -14,7 +14,7 @@ const useModeChangerStore = create(
     }),
     {
       name: 'mode',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         mode: state.mode,
       }),

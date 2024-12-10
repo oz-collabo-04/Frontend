@@ -5,23 +5,32 @@ import MediumTitle from '@/components/Title/MediumTitle';
 import ReservationContent from '@/uiComponents/MyPage/Reservation/ReservationContent';
 import { useEffect, useState } from 'react';
 import { IReservationData } from '@/config/types';
-import { useNavigate } from 'react-router-dom';
-import { useModalStore } from '@/store/modalStore';
-import { useExpertStore } from '@/store/expertStore';
-import { fetchReserveList } from '@/api/reserve';
+import { fetchReserveExpertList, fetchReserveUserList } from '@/api/reserve';
+import useModeChangerStore from '@/store/modeChangerStore';
+import useUserStateStore from '@/store/useUserStateStore';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 const ReservationPage = () => {
   const [reserveData, setReserveData] = useState<IReservationData | null>([]);
-  const { expert, setExpert } = useExpertStore();
-  const [isLoading, setIsLoading] = useState(true);
-  const { openModal } = useModalStore;
+  const [isLoading, setIsLoading] = useState(false);
+  const { mode, setMode } = useModeChangerStore();
+  const { isExpert } = useUserStateStore();
 
-  const navigate = useNavigate();
-
-  const fetchData = async () => {
+  const fetchUserData = async () => {
     setIsLoading(true);
     try {
-      const data: IReservationData = await fetchReserveList();
+      const data: IReservationData = await fetchReserveUserList();
+      setReserveData(data);
+      console.log('data:', data);
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const fetchExpertData = async () => {
+    setIsLoading(true);
+    try {
+      const data: IReservationData = await fetchReserveExpertList();
       setReserveData(data);
       console.log('data:', data);
       return data;
@@ -32,20 +41,23 @@ const ReservationPage = () => {
 
   // 예약 리스트 로딩
   useEffect(() => {
-    fetchData();
-    // setExpert(reserveData);
-  }, []);
+    if (!isExpert && mode === 'user') {
+      fetchUserData();
+    } else if (isExpert && mode === 'expert') {
+      fetchExpertData();
+    } else if (isExpert && mode === 'user') {
+      fetchUserData();
+    } else if (mode === 'user') {
+      fetchUserData();
+    } else {
+      fetchUserData();
+    }
+    setIsLoading(false);
+  }, [isExpert, mode]);
 
-  // 전문가 리뷰 연결
-  const handleReviewClick = (id: number) => {
-    // setSelectedExpertId(id);
-    openModal('expertReview');
-  };
-
-  // 채팅방연결
-  const handleChatClick = (id: number) => {
-    navigate(`/chatpage/${id}`);
-  };
+  // if (isLoading) {
+  //   return <LoadingSpinner />;
+  // }
 
   return (
     <>
@@ -53,27 +65,36 @@ const ReservationPage = () => {
         <PageTitle title='예약 내역' isPrevBtn={true} prevUrl='/mypage' />
         <div className='reserveList '>
           <MediumTitle title='예약 리스트' />
-          <div className='reserveContainer'>
-            {/* 리스트 개별 컨텐츠 반복 */}
-            {reserveData?.map((reservation) => {
-              const { estimation, status } = reservation;
-              const { expert } = estimation;
-              return (
-                <ReservationContent
-                  key={reservation.id}
-                  title={estimation.service}
-                  name={expert.user.name}
-                  charge={estimation.charge}
-                  serviceTime={estimation.due_date}
-                  reserveStatus={status}
-                  date={estimation.created_at}
-                  reviewId={expert.id}
-                  onChatClick={() => handleChatClick(expert.id)}
-                  onReviewClick={() => handleReviewClick(reservation.id)}
-                />
-              );
-            })}
-          </div>
+          {isLoading ? (
+            <div className='loading'>
+              <LoadingSpinner />
+              <p>견적 정보를 불러오는 중입니다...</p>
+            </div>
+          ) : (
+            <div className='reserveContainer'>
+              {/* 리스트 개별 컨텐츠 반복 */}
+              {reserveData?.map((reservation) => {
+                const { estimation, status, id, chatroom_id } = reservation;
+                const { expert } = estimation;
+                return (
+                  <ReservationContent
+                    key={id}
+                    title={estimation.service}
+                    name={expert.user.name}
+                    charge={estimation.charge}
+                    serviceTime={estimation.due_date}
+                    reserveStatus={status}
+                    date={estimation.created_at}
+                    chatroomId={chatroom_id}
+                    reservationId={id}
+                    reviewModal={expert.user.name}
+                    estimationId={id}
+                    estimationModal={estimation.request_user.name}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </>

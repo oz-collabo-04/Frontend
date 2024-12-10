@@ -6,19 +6,19 @@ import { useEffect, useState } from 'react';
 type Props = {
   select: string | null;
   setSelect: React.Dispatch<React.SetStateAction<string | null>>;
-  selectDetailData: string | null;
-  setSelectDetailData: React.Dispatch<React.SetStateAction<string | null>>;
+  selectDetail: string | null;
+  setSelectDetail: React.Dispatch<React.SetStateAction<string | null>>;
 };
 interface LocationDetail {
   [key: string]: { [key: string]: string }[];
 }
-interface LocationDummy {
+interface Location {
   [key: string]: { [key: string]: string }[] | string;
 }
 
-export default function WeddingLocation({ select, setSelect, selectDetailData, setSelectDetailData }: Props) {
+export default function WeddingLocation({ select, setSelect, selectDetail, setSelectDetail }: Props) {
   const [locationLoading, setLocationLoading] = useState<boolean>(false);
-  const [locationData, setLocationData] = useState<LocationDummy | []>([]);
+  const [locationData, setLocationData] = useState<Location | []>([]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function WeddingLocation({ select, setSelect, selectDetailData, s
           detailData
             .map((data) => Object.keys(data)[0].split(' ')[1])
             .map((el, i) => (
-              <p onClick={() => setSelectDetailData(el)} key={i}>
+              <p onClick={() => setSelectDetail(el)} key={i}>
                 {el}
               </p>
             ))}
@@ -78,14 +78,14 @@ export default function WeddingLocation({ select, setSelect, selectDetailData, s
           onChange={(e) => {
             setSelect(e.target.value);
             setIsDetailOpen(true);
-            setSelectDetailData('');
+            setSelectDetail('');
           }}
         />
       </div>
 
       {isDetailOpen && optionListDetail()}
 
-      {select && <div className='showLocation'>선택하신 지역: {`${select} ${selectDetailData ?? ''}`}</div>}
+      {select && <div className='showLocation'>선택하신 지역: {`${select} ${selectDetail ?? ''}`}</div>}
     </div>
   );
 }

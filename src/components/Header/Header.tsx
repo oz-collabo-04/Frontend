@@ -4,29 +4,37 @@ import '@/global.scss';
 import MainBtn from '../Button/MainBtn';
 import LargeTitle from '../Title/LargeTitle';
 import useUserStateStore from '@/store/useUserStateStore';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { auth } from '@/api/axiosInstance';
 import { useToastStore } from '@/store/toastStore';
 import Alarm from '../Alarm/Alarm';
 import useModeChangerStore from '@/store/modeChangerStore';
+import AlarmSocket from '@/utils/alarmSocket';
+
+const socketBaseUrl = import.meta.env.VITE_BACKEND_CHAT_URL;
 
 const Header = () => {
   const { isLoggedIn, isExpert, setIsLoggedIn, setUserName } = useUserStateStore();
   const [menuVisible, setMenuVisible] = useState(false);
   const { addToasts } = useToastStore();
-  const [showAlarm, setShowAlarm] = useState(false);
   const navigate = useNavigate();
   const { mode, setMode } = useModeChangerStore();
+  const alarmSocket = useRef<AlarmSocket | null>(null);
 
-  const [alarmList /* setAlarmList */] = useState([
-    { id: 0, alarmContent: '알람 1번' },
-    { id: 1, alarmContent: '알람 2번' },
-    { id: 2, alarmContent: '알람 3번' },
-  ]);
+  // 웹소켓 연결
+  useEffect(() => {
+    // alarmSocket.current가 null일 때만 초기화
+    if (!alarmSocket.current) {
+      alarmSocket.current = new AlarmSocket(`${socketBaseUrl}/notifications/`, [
+        sessionStorage.getItem('access_token')!,
+      ]);
+    }
 
-  const handleAlarm = () => {
-    setShowAlarm(!showAlarm);
-  };
+    return () => {
+      alarmSocket.current?.close();
+      alarmSocket.current = null; // 연결 해제 후 참조를 초기화
+    };
+  }, []);
 
   console.log(menuVisible);
 
@@ -73,11 +81,12 @@ const Header = () => {
           setIsLoggedIn(false);
           setUserName(null);
           setMode('guest');
-          localStorage.clear();
+          sessionStorage.clear();
+          navigate('/');
         }
         addToasts({ type: 'success', title: '로그아웃 되셨습니다. 안녕히 가세요!', id: Date.now().toString() });
-      } catch (error) {
-        console.error('로그아웃 중에 오류가 발생했습니다', error);
+      } catch {
+        // console.error('로그아웃 중에 오류가 발생했습니다', error);
         addToasts({ type: 'error', title: '로그아웃 중 오류가 발생하였습니다.', id: Date.now().toString() });
       }
     };
@@ -106,19 +115,7 @@ const Header = () => {
               {mode === 'guest' ? (
                 <>
                   <div className='estimationEdit' aria-label='견적요청 또는 로그인 페이지로 이동'>
-                    <div
-                      role='button'
-                      tabIndex={0}
-                      style={{ cursor: 'pointer' }}
-                      onClick={onClickCustomerRequest}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          onClickCustomerRequest();
-                        }
-                      }}
-                    >
-                      견적 요청
-                    </div>
+                    <button onClick={onClickCustomerRequest}>견적 요청</button>
                   </div>
                   <div className='loginBtn'>
                     <Link to='/login' aria-label='로그인 페이지로 이동'>
@@ -129,22 +126,10 @@ const Header = () => {
               ) : mode === 'user' ? (
                 <>
                   <div className='estimationEdit' aria-label='견적요청 또는 로그인 페이지로 이동'>
-                    <div
-                      role='button'
-                      tabIndex={0}
-                      style={{ cursor: 'pointer' }}
-                      onClick={onClickCustomerRequest}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          onClickCustomerRequest();
-                        }
-                      }}
-                    >
-                      견적 요청
-                    </div>
+                    <button onClick={onClickCustomerRequest}>견적 요청</button>
                   </div>
                   <div className='headerMenu'>
-                    <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                    <ul className='userNav' aria-label='고객 내비게이션'>
                       <li>
                         <Alarm />
                       </li>
@@ -154,20 +139,10 @@ const Header = () => {
                         </Link>
                       </li>
                       <>
-                        <li
-                          role='button'
-                          onClick={onClickExpert}
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              onClickExpert();
-                              e.preventDefault();
-                            }
-                          }}
-                          aria-label='전문가 프로필페이지로 이동'
-                          style={{ cursor: 'pointer' }}
-                        >
-                          전문가
+                        <li>
+                          <button onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동'>
+                            전문가
+                          </button>
                         </li>
                         <li>
                           <Link to='/estimationlist' aria-label='받은견적 페이지로 이동'>
@@ -181,9 +156,7 @@ const Header = () => {
                         </Link>
                       </li>
                       <li className='btn'>
-                        <Link to='/' aria-label='메인 페이지로 이동'>
-                          <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
-                        </Link>
+                        <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
                       </li>
                     </ul>
                   </div>
@@ -191,7 +164,7 @@ const Header = () => {
               ) : (
                 <>
                   <div className='headerMenu'>
-                    <ul className='userNav' role='navigation' aria-label='주요 내비게이션'>
+                    <ul className='expertNav' aria-label='전문가 내비게이션'>
                       <li>
                         <Alarm />
                       </li>
@@ -200,19 +173,10 @@ const Header = () => {
                           마이
                         </Link>
                       </li>
-                      <li
-                        onClick={onClickUser}
-                        aria-label='고객으로 전환'
-                        style={{ cursor: 'pointer' }}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            onClickUser();
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        고객
+                      <li>
+                        <button onClick={onClickUser} aria-label='고객으로 전환'>
+                          고객
+                        </button>
                       </li>
                       <li>
                         <Link to='/expertlist' aria-label='받은요청 페이지로 이동'>
@@ -225,9 +189,7 @@ const Header = () => {
                         </Link>
                       </li>
                       <li className='btn'>
-                        <Link to='/' aria-label='메인 페이지로 이동'>
-                          <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
-                        </Link>
+                        <MainBtn name='로그아웃' width='auto' onClick={onClickLogout} />
                       </li>
                     </ul>
                   </div>
@@ -248,20 +210,7 @@ const Header = () => {
               {mode === 'guest' ? (
                 <div className='loginMenu'>
                   <div className='estimationEdit' aria-label='로그인 여부에 따라 견적요청 또는 로그인 페이지로 이동'>
-                    <div
-                      role='button'
-                      tabIndex={0}
-                      style={{ cursor: 'pointer' }}
-                      onClick={onClickCustomerRequest}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          onClickCustomerRequest();
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      견적 요청
-                    </div>
+                    <button onClick={onClickCustomerRequest}> 견적 요청</button>
                   </div>
                   <hr />
                   <div className='loginBtn'>
@@ -282,36 +231,17 @@ const Header = () => {
                   {mode === 'user' ? (
                     <>
                       <div className='estimationEdit'>
-                        <div
-                          role='button'
-                          tabIndex={0}
-                          style={{ cursor: 'pointer' }}
-                          onClick={onClickCustomerRequest}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              onClickCustomerRequest();
-                              e.preventDefault();
-                            }
-                          }}
-                        >
-                          견적 요청
-                        </div>
+                        <button onClick={onClickCustomerRequest}>견적 요청</button>
                       </div>
                       <hr />
-                      <div
-                        onClick={onClickExpert}
-                        className='expertConversion'
-                        aria-label='전문가 프로필페이지로 이동'
-                        style={{ cursor: 'pointer' }}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            onClickExpert();
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        전문가 전환
+                      <div>
+                        <button
+                          onClick={onClickExpert}
+                          className='expertConversion'
+                          aria-label='전문가 프로필페이지로 이동'
+                        >
+                          전문가 전환
+                        </button>
                       </div>
                       <hr />
                       <div>
@@ -323,19 +253,10 @@ const Header = () => {
                   ) : (
                     <>
                       <hr />
-                      <div
-                        onClick={onClickUser}
-                        aria-label='고객으로 전환'
-                        style={{ cursor: 'pointer' }}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            onClickUser();
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        고객 전환
+                      <div>
+                        <button onClick={onClickUser} aria-label='고객으로 전환'>
+                          고객 전환
+                        </button>
                       </div>
                       <hr />
                       <div>
@@ -351,7 +272,7 @@ const Header = () => {
                     </Link>
                   </div>
                   <hr />
-                  <Link to='/' aria-label='메인 페이지로 이동' onClick={onClickLogout}>
+                  <Link to='/' aria-label='로그아웃 후 메인 페이지로 이동' onClick={onClickLogout}>
                     로그아웃
                   </Link>
                 </div>

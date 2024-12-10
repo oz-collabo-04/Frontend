@@ -21,8 +21,8 @@ const useUserStateStore = create(
       setUserName: (userName) => set({ userName }),
     }),
     {
-      name: 'user_state', // localStorage에 저장될 키 이름
-      storage: createJSONStorage(() => localStorage), // localStorage를 사용하도록 지정
+      name: 'user_state', // sessionStorage에 저장될 키 이름
+      storage: createJSONStorage(() => sessionStorage), // sessionStorage를 사용하도록 지정
       partialize: (state) => ({
         isLoggedIn: state.isLoggedIn,
         isExpert: state.isExpert,

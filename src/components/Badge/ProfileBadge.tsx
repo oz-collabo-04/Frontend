@@ -22,7 +22,7 @@ const ProfileBadge = ({
   extraClass = '',
   backgroundColor,
 }: ProfileBadgeProps) => {
-  const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
+  const [imgSrc, setImgSrc] = useState(src);
 
   const handleError = () => {
     setImgSrc(fallbackSrc);
@@ -35,10 +35,10 @@ const ProfileBadge = ({
         width,
         height,
         borderRadius,
-        backgroundColor
+        backgroundColor,
       }}
     >
-      <img src={imgSrc} alt='프로필 배지' className='profileBadgeIcon' onError={handleError} />
+      <img src={imgSrc ? imgSrc : src} alt='프로필 배지' className='profileBadgeIcon' onError={handleError} />
     </div>
   );
 };

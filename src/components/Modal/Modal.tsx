@@ -14,6 +14,7 @@ interface ModalProps {
   secondBtn?: boolean;
   secondBtnName?: string;
   secondBtnOnClick?: () => void;
+  extraClass?: string;
 }
 
 const Modal = ({
@@ -29,6 +30,7 @@ const Modal = ({
   secondBtn = false,
   secondBtnName = '버튼2',
   secondBtnOnClick,
+  extraClass = '',
 }: ModalProps) => {
   const { modals, closeModal } = useModalStore();
   const isOpen = modals[modalId];
@@ -37,7 +39,7 @@ const Modal = ({
 
   return (
     <>
-      <div className='comModal'>
+      <div className={`comModal ${extraClass}`}>
         <div className='modalWrapper' style={{ width, height, borderRadius }}>
           <div className='modalHeader'>
             <h2 className='title'>{title}</h2>

@@ -60,7 +60,7 @@ export interface Estimation {
 interface EstimationCardProps {
   estimation: Estimation;
   onProfileClick: (estimationId: number) => void;
-  onChatClick: (id: number) => void;
+  onChatClick: (expert_id: number, estimation_id: number) => void;
 }
 
 const EstimationCard: React.FC<EstimationCardProps> = ({ 
@@ -100,7 +100,7 @@ const EstimationCard: React.FC<EstimationCardProps> = ({
           size="medium"
           backgroundColor="$main-color"
           color="$font-color"
-          onClick={() => onChatClick(estimation.id)}
+          onClick={() => onChatClick(estimation.expert.id, estimation.id)}
         />
       </div>
     </div>
@@ -143,8 +143,17 @@ const EstimationList: React.FC = () => {
     openModal('expertProfile');
   };
 
-  const handleChatClick = (id: number) => {
-    navigate(`/chatpage/${id}`);
+  const handleChatClick = async (expert_id: number, estimation_id: number) => {
+    try {
+      const response = await auth.post('/chat/chatrooms/', {
+        expert_id: expert_id, 
+        estimation_id: estimation_id,
+      });
+      const data = response.data;
+      navigate(`/chatpage/${data.id}`);
+    } catch (err) {
+      setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
+    }
   };
 
   const renderEstimationCards = (category: string) => {
@@ -177,14 +186,15 @@ const EstimationList: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="estimationLoading">
-        <LoadingSpinner />
+      <div className="estimationContainer">
+        <LoadingSpinner className="estimationLoading" />
+        <span className="sr-only">견적 목록을 불러오는 중...</span>
       </div>
     );
   }
 
   if (error) {
-    return <div aria-live="assertive" role="alert">{error}</div>;
+    return <div aria-live="assertive" role="alert" className="estimationError">{error}</div>;
   }
 
   return (

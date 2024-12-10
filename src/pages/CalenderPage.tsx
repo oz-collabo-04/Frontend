@@ -1,13 +1,15 @@
+import { fetchGetExpertRegister } from '@/api/experts';
 import { fetchCalenderList } from '@/api/reserve';
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import Modal from '@/components/Modal/Modal';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import { Calender } from '@/config/types';
 import { useModalStore } from '@/store/modalStore';
+import { useToastStore } from '@/store/toastStore';
 import '@/styles/CalenderPage/main.scss';
 import DetailCalender from '@/uiComponents/CalenderPage/DetailCalender';
 import { useEffect, useState } from 'react';
 import { RxReset } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 export default function CalenderPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -27,8 +29,9 @@ export default function CalenderPage() {
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { openModal } = useModalStore();
+  const { addToasts } = useToastStore();
   const [clickDate, setClickDate] = useState<string>('');
-  let clickActive: string = '';
+  const navigate = useNavigate();
   const [calenderData, setCalenderData] = useState<Calender[] | []>({
     name: '',
     phone_number: '',
@@ -38,6 +41,23 @@ export default function CalenderPage() {
     wedding_datetime: '',
     status_display: '',
   });
+
+  useEffect(() => {
+    getExpertData();
+  }, []);
+
+  const getExpertData = async () => {
+    try {
+      const data = await fetchGetExpertRegister();
+
+      if (data === undefined) {
+        addToasts({ type: 'error', title: '전문가 정보가 없습니다.', id: Date.now().toString() });
+        return navigate('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const groupDatesByWeek = (startDay: Date, endDay: Date) => {
     const weeks = [];
@@ -107,14 +127,6 @@ export default function CalenderPage() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className='calenderLoading'>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   return (
     <div className='calenderPage contentLayout'>
       <PageTitle title='일정보기' isPrevBtn={true} prevUrl='/mypage' />
@@ -126,9 +138,11 @@ export default function CalenderPage() {
               onClick={() => {
                 if (1 < month) {
                   setMonth((prev) => prev - 1);
+                  setIsLoading(true);
                 } else if (month === 1) {
                   setYear((prev) => prev - 1);
                   setMonth((prev) => prev + 11);
+                  setIsLoading(true);
                 }
               }}
               type='button'
@@ -138,9 +152,11 @@ export default function CalenderPage() {
               onClick={() => {
                 if (12 > month) {
                   setMonth((prev) => prev + 1);
+                  setIsLoading(true);
                 } else if (month === 12) {
                   setYear((prev) => prev + 1);
                   setMonth((prev) => prev - 11);
+                  setIsLoading(true);
                 }
               }}
               type='button'
@@ -154,6 +170,7 @@ export default function CalenderPage() {
               setCurrentDate(new Date());
               setYear(currentDate.getFullYear());
               setMonth(currentDate.getMonth() + 1);
+              setIsHover(false);
             }}
             className='resetBtn'
             type='button'
@@ -180,39 +197,42 @@ export default function CalenderPage() {
                     ) : (
                       <>
                         <p>{week.getDate()}</p>
-                        {calenderData.length > 0 && listCount(week.getDate())}
-                        <div
-                          onClick={() => {
-                            setClickDate(week.getDate().toString());
+                        {!isLoading && calenderData.length > 0 && listCount(week.getDate())}
+                        {isLoading ? (
+                          <div className='detailList'></div>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              setClickDate(week.getDate().toString());
 
-                            [...calenderData].map((data) => {
-                              if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
-                                openModal('calenderModal');
-                              }
-                            });
-                          }}
-                          className={`detailList
-                              ${clickActive}
+                              [...calenderData].map((data) => {
+                                if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
+                                  openModal('calenderModal');
+                                }
+                              });
+                            }}
+                            className={`detailList
                               ${
                                 currentDate.getFullYear() === year &&
                                 currentDate.getMonth() + 1 === month &&
                                 currentDate.getDate() === week.getDate() &&
                                 'todayList'
                               }`}
-                        >
-                          {calenderData.length > 0 &&
-                            [...calenderData].map((data, i) => {
-                              if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
-                                clickActive = 'clickActive';
-                                return (
-                                  <div
-                                    className={`${data.status_display === 'completed' && 'completed'}`}
-                                    key={i}
-                                  >{`${data.service_display} / ${data.name} / ${new Date(data.wedding_datetime).toTimeString().slice(0, 5)}`}</div>
-                                );
-                              }
-                            })}
-                        </div>
+                          >
+                            {!isLoading &&
+                              calenderData.length > 0 &&
+                              [...calenderData].map((data, i) => {
+                                if (new Date(data.wedding_datetime).getDate() === week.getDate()) {
+                                  return (
+                                    <div
+                                      className={`${data.status_display === '서비스 완료' && 'completed'}`}
+                                      key={i}
+                                    >{`${data.service_display} / ${data.name} / ${new Date(data.wedding_datetime).toTimeString().slice(0, 5)}`}</div>
+                                  );
+                                }
+                              })}
+                          </div>
+                        )}
                       </>
                     )}
                   </li>
@@ -227,7 +247,6 @@ export default function CalenderPage() {
         title={`${year} / ${month} / ${clickDate} 일정 상세`}
         content={<DetailCalender calenderData={calenderData} clickDate={clickDate} />}
         width='48rem'
-        height='50vh'
         borderRadius='2rem'
       />
     </div>

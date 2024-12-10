@@ -1,7 +1,7 @@
 @use '@/styles/variables' as *;
 
 .chatListPage {
-  height: calc(100vh - 7.2rem);
+  min-height: calc(100vh - 7.2rem);
   padding-top: 8rem;
   .chatListContainer {
     .chatList {
@@ -86,12 +86,6 @@
             }
           }
         }
-        .createMessageTime {
-          display: block;
-          font-size: 1.2rem;
-          white-space: nowrap;
-          color: #a6a6a6;
-        }
       }
     }
   }
@@ -114,26 +108,31 @@
         border-color: $default-color;
         color: $default-color;
       }
-      &.highlight {
-        span {
-          position: relative;
-          &::after {
-            content: '';
-            position: absolute;
-            left: calc(100% + 0.4rem);
-            top: 0;
-            width: 0.4rem;
-            height: 0.4rem;
-            background-color: red;
-            border-radius: 50%;
-          }
-        }
-      }
+      // &.highlight {
+      //   span {
+      //     position: relative;
+      //     &::after {
+      //       content: '';
+      //       position: absolute;
+      //       left: calc(100% + 0.4rem);
+      //       top: 0;
+      //       width: 0.4rem;
+      //       height: 0.4rem;
+      //       background-color: red;
+      //       border-radius: 50%;
+      //     }
+      //   }
+      // }
     }
   }
   .tabConBox {
     padding: 2.4rem 0;
     font-size: 1.6rem;
+    // .chatListContainer {
+    //   height: calc(100vh - 33rem);
+    //   overflow-x: auto;
+    //   overflow-y: auto;
+    // }
   }
 }
 
@@ -162,9 +161,6 @@
                 }
               }
             }
-          }
-          .createMessageTime {
-            font-size: 10px;
           }
         }
       }

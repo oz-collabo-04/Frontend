@@ -20,7 +20,7 @@ export const auth = axios.create({
 });
 
 const getAccessToken = (): string | null => {
-  return localStorage.getItem('access_token');
+  return sessionStorage.getItem('access_token');
 };
 
 auth.interceptors.request.use(
@@ -41,11 +41,11 @@ const refreshAccessToken = async () => {
   try {
     const response = await client.post('users/token/refresh/');
     const newAccessToken = response.data.access_token;
-    localStorage.removeItem('access_token');
-    localStorage.setItem('access_token', newAccessToken);
+    sessionStorage.removeItem('access_token');
+    sessionStorage.setItem('access_token', newAccessToken);
     return newAccessToken;
-  } catch (error) {
-    console.error('access_token 갱신 실패', error);
+  } catch {
+    // console.error('access_token 갱신 실패', error);
   }
 };
 
@@ -71,22 +71,13 @@ auth.interceptors.response.use(
           // 요청 재시도
           return auth(originalRequest);
         } else {
-          console.error('토큰 갱신 실패: 로그인 페이지로 리다이렉트합니다.');
           redirectToLoginPage();
         }
-      } catch (refreshError) {
-        console.error('토큰 갱신 중 에러 발생:', refreshError);
+      } catch {
         redirectToLoginPage();
       }
     }
 
-    // // 다른 401 에러 처리 (무한 반복 요청 방지)
-    // if (error.response.status !== 200) {
-    //   console.error('에러로 인한 토큰 재발급 실패', error);
-    //   return;
-    // }
-
-    // 다른 에러는 그대로 반환
     return Promise.reject(error);
   }
 );
@@ -100,7 +91,5 @@ export const setRedirectFunction = (redirectFuntion: () => void) => {
 export const redirectToLoginPage = () => {
   if (redirectToLogin) {
     redirectToLogin();
-  } else {
-    console.error('리다이렉트 함수가 없습니다.');
   }
 };

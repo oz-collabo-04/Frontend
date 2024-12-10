@@ -102,6 +102,9 @@
               left: 3.2rem;
               .createMessageTime {
                 left: calc(100% + 0.8rem);
+                .messageUnread {
+                  display: none;
+                }
               }
             }
           }
@@ -202,7 +205,7 @@
   }
 }
 
-.dealModal {
+.transactionModal {
   dl {
     margin-top: 3.2rem;
     &:first-child {
@@ -222,12 +225,30 @@
     }
   }
 }
+.transactionConfirmModal {
+  dl {
+    margin-top: 3.2rem;
+    &:first-child {
+      margin-top: 0;
+    }
+    dt {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    dd {
+      margin-top: 0.8rem;
+      font-size: 1.6rem;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
 
 @media (max-width: 768px) {
   .chatPage {
     padding-top: 4rem;
-    .chatRoomTop {
-    }
     .chatWrapper {
       .chatRoom {
         width: 100%;
@@ -235,23 +256,15 @@
           .chatBox {
             gap: 4.8rem;
             .messageBox {
-              .profileBadge {
-              }
-              .userProfileImg {
-              }
               .speechBubble {
                 margin-top: 0.8rem;
                 .createMessageTime {
                   bottom: auto;
                   top: calc(100% + 0.8rem);
-                  .messageUnread {
-                  }
                 }
               }
             }
             .myMessageBox {
-              .profileBadge {
-              }
               .speechBubble {
                 right: 0;
                 .createMessageTime {
@@ -269,8 +282,6 @@
             }
           }
         }
-        .chatForm {
-        }
       }
       .expertWrapper {
         position: absolute;
@@ -286,20 +297,6 @@
         &.show {
           left: 0;
           transition: left 0.3s;
-        }
-        .expertInfo {
-          .expertDetail {
-            .address {
-            }
-          }
-          .addFuncBtnBox {
-            .listBtn {
-            }
-            .btnList {
-              button {
-              }
-            }
-          }
         }
         .btnBox {
           flex-direction: row;

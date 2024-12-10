@@ -1,20 +1,43 @@
 import { auth } from './axiosInstance';
 
-// 유저 / 전문가 구분?
-// 각 유저에 대한 예약내역 AT토큰으로 구분
-export const fetchReserveList = async () => {
+// 예약내역 AT토큰으로 구분
+// 유저
+export const fetchReserveUserList = async () => {
   try {
     const response = await auth.get('/reservations/');
-    console.log('response.status:', response.status);
+    console.log('user response.status:', response.status);
     return response.data;
   } catch (err) {
-    console.error('Error Fetching reservations:', err);
+    console.error('Error Fetching user reservations:', err);
+  }
+};
+
+// 전문가
+export const fetchReserveExpertList = async () => {
+  try {
+    const response = await auth.get('/experts/reservations/');
+    console.log('expert response.status:', response.status);
+    return response.data;
+  } catch (err) {
+    console.error('Error Fetching expert reservations:', err);
+  }
+};
+
+// 최종견적서확인 => id :estimation_id
+// reservation id는 예약과 관련되어있음
+export const fetchConfirmData = async (id: number) => {
+  try {
+    const response = await auth.get(`/reservations/${id}`);
+    console.log('confirm response.status', response.status);
+    return response.data;
+  } catch (err) {
+    console.error('Error Fetching Confirm Data:', err);
   }
 };
 
 export const fetchCalenderList = async ({ month, year }: { month: number; year: number }) => {
   try {
-    const response = await auth.get(`/reservations/schedule/?month=${month}&year=${year}`);
+    const response = await auth.get(`/experts/reservations/schedule/?month=${month}&year=${year}`);
     return response.data;
   } catch (err) {
     console.error(err);

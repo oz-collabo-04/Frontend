@@ -101,6 +101,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
         <label>
           <p>경력</p>
           <Input
+            maxLength={20}
             value={career.title}
             onChange={(e) => {
               if (e.target.value.length > 20) {
@@ -118,6 +119,7 @@ export default function CareerModal({ careerArray, setCareerArray }: Props) {
         <label>
           <p>세부사항</p>
           <textarea
+            maxLength={100}
             className='comTextarea'
             placeholder='ex) 100만 규모 결혼식 사회 진행'
             value={career.description}

@@ -3,58 +3,58 @@ import { useEffect, useState } from 'react';
 import { DataList } from './chat';
 import { auth } from '@/api/axiosInstance';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
-import useUserStateStore from '@/store/useUserStateStore';
 import { formatDate } from '@/utils/formatDate';
 
-const AllChats = () => {
+interface ChatListProps {
+  status?: string; //상태에 따른 쿼리 파라미터
+}
+
+const ChatList = ({ status }: ChatListProps) => {
   const [chatData, setChatData] = useState<DataList>([]);
 
-  // chat list api 호출
+  // 채팅방 리스트 GET 요청
   useEffect(() => {
     const fetchChatList = async () => {
       try {
-        const response = await auth.get('/chat/chatrooms/');
-        // console.log('data :', response.data);
+        const response = await auth.get('/chat/chatrooms/', {
+          params: status ? { status } : undefined,
+        });
         setChatData(response.data);
       } catch (error) {
         console.log('API 요청에 실패했습니다 :', error);
       }
     };
     fetchChatList();
-  }, []);
+  }, [status]);
 
-  // 고객 or 전문가 상태
-  const userState = useUserStateStore();
-  const [isExpert] = useState(userState.isExpert);
+  const userId = sessionStorage.getItem('user_id');
 
   return (
     <div className='chatListContainer'>
       <div className='chatList'>
         {chatData?.map((data) => {
+          const isExpert = data.expert.user.id === Number(userId);
           return (
             <Link to={`/chatpage/${data.id}`} state={data} className='chat' key={data.id}>
               <div className='chatPreview'>
                 <div className='chatPreviewBox' key={data.id}>
                   <ProfileBadge
-                    src={isExpert ? data.user?.profile_image : data.expert?.expert_image}
+                    src={isExpert ? data.user.profile_image : data.expert.expert_image}
                     width='10rem'
                     height='10rem'
                   />
                   <div className='chatContent'>
                     <span className='userName'>{isExpert ? data.user.name : data.expert.user.name}</span>
                     <ul className='requestList'>
-                      <li>{data.request.service_list_display}</li>
-                      <li>{data.request.location_display}</li>
+                      <li>{data.estimation.request.service_list_display}</li>
+                      <li>{data.estimation.request.location_display}</li>
                       <li>{data.user.name}</li>
-                      <li>{formatDate(data.request.wedding_datetime)}</li>
-                      <li>2부</li>
+                      <li>{formatDate(data.estimation.request.wedding_datetime)}</li>
+                      {data.estimation.request.is_reception && <li>2부</li>}
                     </ul>
-                    <p className='lastChat'>
-                      채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅 내용채팅
-                    </p>
+                    <p className='lastChat'>{data.last_message}</p>
                   </div>
                 </div>
-                <span className='createMessageTime'>오후 08:09</span>
               </div>
             </Link>
           );
@@ -64,4 +64,4 @@ const AllChats = () => {
   );
 };
 
-export default AllChats;
+export default ChatList;

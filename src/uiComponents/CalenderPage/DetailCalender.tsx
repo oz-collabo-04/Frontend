@@ -17,7 +17,7 @@ export default function DetailCalender({ calenderData, clickDate }: Props) {
                 <p>{data.service_display}</p>
                 <p>{data.name}</p>
                 <p>{data.phone_number}</p>
-                <p>{data.status_display}</p>
+                <p className={`${data.status_display === '서비스 완료' && 'completed'}`}>{data.status_display}</p>
               </div>
               <div className='weddingContent'>
                 <p>{data.location_display}</p>
