@@ -199,10 +199,6 @@ export default function ExpertProfileEditPage() {
     formData.append('service', enServiceString!);
     formData.append('careers', JSON.stringify(newArray));
 
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
     if (isExpert) {
       await patchData(formData);
     } else {

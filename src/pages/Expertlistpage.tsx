@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import MainBtn from '@/components/Button/MainBtn';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
@@ -8,6 +9,7 @@ import { useCategoryStore } from '@/store/expertListStore';
 import '@/styles/Expertlistpage/expertlistpage.scss';
 import { auth } from '@/api/axiosInstance';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
+import useModeChangerStore from '@/store/modeChangerStore';
 
 export interface User {
   id: number;
@@ -39,9 +41,11 @@ export interface Expert {
   updated_at: string;
 }
 
-const Expertlistpage: React.FC = () => {
+const Expertlistpage = () => {
+  const navigate = useNavigate();
   const { openModal } = useModalStore();
   const { setCategory } = useCategoryStore();
+  const { mode } = useModeChangerStore();
   const [selectedExpertId, setSelectedExpertId] = useState<number | null>(null);
   const [experts, setExperts] = useState<Expert[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,6 +56,12 @@ const Expertlistpage: React.FC = () => {
   const formatServiceList = (serviceList: string[] | string): string => {
     return Array.isArray(serviceList) ? serviceList.join(', ') : serviceList || 'N/A';
   };
+
+  useEffect(() => {
+    if (mode !== 'expert') {
+      navigate('/'); 
+    }
+  }, [navigate, mode]);
 
   useEffect(() => {
     const fetchExperts = async () => {
@@ -189,4 +199,4 @@ const Expertlistpage: React.FC = () => {
   );
 };
 
-export default Expertlistpage;
+export default Expertlistpage

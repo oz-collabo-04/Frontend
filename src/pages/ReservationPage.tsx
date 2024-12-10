@@ -13,33 +13,36 @@ import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 const ReservationPage = () => {
   const [reserveData, setReserveData] = useState<IReservationData | null>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { mode, setMode } = useModeChangerStore();
+  const { mode } = useModeChangerStore();
   const { isExpert } = useUserStateStore();
 
+  // 유저모드 api
   const fetchUserData = async () => {
     setIsLoading(true);
     try {
       const data: IReservationData = await fetchReserveUserList();
       setReserveData(data);
-      console.log('data:', data);
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const fetchExpertData = async () => {
-    setIsLoading(true);
-    try {
-      const data: IReservationData = await fetchReserveExpertList();
-      setReserveData(data);
-      console.log('data:', data);
+      console.log('reservation data:', data);
       return data;
     } catch (err) {
       console.error(err);
     }
   };
 
-  // 예약 리스트 로딩
+  // 전문가모드 api
+  const fetchExpertData = async () => {
+    setIsLoading(true);
+    try {
+      const data: IReservationData = await fetchReserveExpertList();
+      setReserveData(data);
+      console.log('reservation data:', data);
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 렌더링시 예약 리스트 로딩
   useEffect(() => {
     if (!isExpert && mode === 'user') {
       fetchUserData();
@@ -55,17 +58,13 @@ const ReservationPage = () => {
     setIsLoading(false);
   }, [isExpert, mode]);
 
-  // if (isLoading) {
-  //   return <LoadingSpinner />;
-  // }
-
   return (
     <>
       <div className='reservationPage contentLayout'>
         <PageTitle title='예약 내역' isPrevBtn={true} prevUrl='/mypage' />
         <div className='reserveList '>
           <MediumTitle title='예약 리스트' />
-          {isLoading ? (
+          {isLoading && !reserveData ? (
             <div className='loading'>
               <LoadingSpinner />
               <p>견적 정보를 불러오는 중입니다...</p>
@@ -80,7 +79,9 @@ const ReservationPage = () => {
                   <ReservationContent
                     key={id}
                     title={estimation.service}
-                    name={expert.user.name}
+                    expertUser={expert.user.name}
+                    requestUser={reservation.estimation.request_user.name}
+                    expertUserId={expert.user.id}
                     charge={estimation.charge}
                     serviceTime={estimation.due_date}
                     reserveStatus={status}
