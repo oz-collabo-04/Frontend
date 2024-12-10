@@ -95,8 +95,8 @@ const UEPage = () => {
       // API 호출 실행
       const response = await apiCall();
 
-      // 상태 코드가 200인 경우
-      if (response.status === 200) {
+      // 상태 코드가 201인 경우
+      if (response.status === 201 || response.status === 200) {
         addToasts({
           type: 'success',
           title: successMsg,
