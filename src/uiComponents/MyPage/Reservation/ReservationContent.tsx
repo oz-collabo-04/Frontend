@@ -8,13 +8,14 @@ import UserReviewEdit from './UserReviewEdit/ReviewEdit';
 import { formatDate } from '@/utils/formatDate';
 import { useNavigate } from 'react-router-dom';
 import useModeChangerStore from '@/store/modeChangerStore';
-import { fetchReserveUserList } from '@/api/reserve';
+import { getServiceKorean } from '@/utils/serviceKorean';
+import { getStatusKorean } from '@/utils/statusKorean';
 
 const ReservationContent = ({
   title,
   expertUser,
+  expertUserId,
   requestUser,
-  charge,
   serviceTime,
   reserveStatus,
   date,
@@ -28,49 +29,9 @@ const ReservationContent = ({
   const { mode } = useModeChangerStore();
   const navigate = useNavigate();
 
-  // 데이터상태 한글변경
-  const getStatus = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return '예약 확정';
-      case 'completed':
-        return '서비스 완료';
-      case 'canceled':
-        return '예약 취소';
-      default:
-        return '기본';
-    }
-  };
-
-  // 서비스 한글변경
-  const getService = (service: string) => {
-    switch (service) {
-      case 'mc':
-        return '결혼식 사회자';
-      case 'singer':
-        return '축가 가수';
-      case 'video':
-        return '영상 촬영';
-      case 'snap':
-        return '스냅 촬영';
-      default:
-        return '새로운 서비스';
-    }
-  };
-
   const chatRoomClick = (id: number) => {
     navigate(`/chatpage/${id}`);
   };
-
-  // 최종견적서 호출
-  const handleConfirmClick = async () => {
-    const data = await fetchReserveUserList();
-    console.log('reserveUSERlist:', data);
-    openModal(`${estimationModal}`);
-  };
-
-  // 예약 완료상태 api
-  const handleCompleteClick = () => {};
 
   // 예약 상태에 따른 버튼 렌더링
   // 모드에 따른 버튼 렌더링도 달라야함
@@ -95,7 +56,7 @@ const ReservationContent = ({
                   height='60vh'
                   borderRadius='8px'
                   extraClass='estimationModal'
-                  content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+                  content={<EstimationConfirm estimationId={estimationId} expertUserId={expertUserId} />}
                   firstBtn={true}
                   firstBtnName='예약 취소'
                   firstBtnOnClick={() => closeModal(`${estimationModal}`)}
@@ -136,7 +97,7 @@ const ReservationContent = ({
                   height='60vh'
                   borderRadius='8px'
                   extraClass='estimationModal'
-                  content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+                  content={<EstimationConfirm estimationId={estimationId} expertUserId={expertUserId} />}
                   firstBtn={true}
                   firstBtnName='닫기'
                   firstBtnOnClick={() => closeModal(`${estimationModal}`)}
@@ -164,7 +125,7 @@ const ReservationContent = ({
                   height='60vh'
                   borderRadius='8px'
                   extraClass='estimationModal'
-                  content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+                  content={<EstimationConfirm estimationId={estimationId} expertUserId={expertUserId} />}
                 />
               </>
             ) : (
@@ -199,7 +160,7 @@ const ReservationContent = ({
                   height='60vh'
                   borderRadius='8px'
                   extraClass='estimationModal'
-                  content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+                  content={<EstimationConfirm estimationId={estimationId} expertUserId={expertUserId} />}
                 />
               </>
             )}
@@ -217,7 +178,7 @@ const ReservationContent = ({
               height='60vh'
               borderRadius='8px'
               extraClass='estimationModal'
-              content={<EstimationConfirm estimationId={estimationId} charge={charge} />}
+              content={<EstimationConfirm estimationId={estimationId} expertUserId={expertUserId} />}
             />
           </>
         );
@@ -234,12 +195,12 @@ const ReservationContent = ({
           <div className='info'>
             {mode !== 'user' ? (
               <>
-                <XSmallTitle title={`${getService(title)}`} extraClass='title' />
+                <XSmallTitle title={`${getServiceKorean(title)}`} extraClass='title' />
                 <div className='name'>{requestUser}</div>
               </>
             ) : (
               <>
-                <XSmallTitle title={`${getService(title)}`} extraClass='title' />
+                <XSmallTitle title={`${getServiceKorean(title)}`} extraClass='title' />
                 <div className='name'>{expertUser}</div>
               </>
             )}
@@ -248,7 +209,7 @@ const ReservationContent = ({
         </div>
         <div className='reserve'>
           <div className='reserveInfo'>
-            <div className={`status ${reserveStatus}`}>{getStatus(reserveStatus)}</div>
+            <div className={`status ${reserveStatus}`}>{getStatusKorean(reserveStatus)}</div>
             <div>{formatDate(date)} 예약</div>
           </div>
           <div className='reserveBtn'>{renderButtons()}</div>

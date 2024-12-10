@@ -25,7 +25,7 @@ export const fetchReserveExpertList = async () => {
 
 // 최종견적서확인 => id :estimation_id
 // reservation id는 예약과 관련되어있음
-export const fetchConfirmData = async (id: number) => {
+export const fetchFinalConfirmData = async (id: number) => {
   try {
     const response = await auth.get(`/reservations/${id}`);
     console.log('confirm response.status', response.status);
