@@ -10,13 +10,34 @@ import { IEstimationForm, ILocation } from '@/config/types';
 import { fetchServiceLocation } from '@/api/services';
 import { useEffect, useState } from 'react';
 import WeddingLocation from '@/uiComponents/UserEstimationEdit/WeddingLocation';
-import { auth } from '@/api/axiosInstance';
+import { fetchEstimationsEdit } from '@/api/estimations';
+import { useToastStore } from '@/store/toastStore';
+import { useNavigate } from 'react-router-dom';
+
+export const findLocationKey = (
+  apiLocation: ILocation,
+  location: string | null,
+  locationDetail: string | null
+): string | undefined => {
+  if (!location) return undefined;
+  for (const [region, areas] of Object.entries(apiLocation)) {
+    if (Array.isArray(areas)) {
+      for (const area of areas) {
+        const matched = Object.entries(area).find(([key]) => key === locationDetail);
+        if (matched) return matched[1];
+      }
+    } else if (region === location) {
+      return areas; // 광역시나 특별시의 경우
+    }
+  }
+  return undefined;
+};
 
 // dirtyFields : 기본값이 수정된 필드
 // touchedFields : 사용자의 의해 수정된 필드들
 // watch : 구독 값 실시간 체크 (값에 따라 리렌더링 발생)
 // getValues : 값 반환, (리렌더링, 해당 값 추적 X)
-const UserEstimationPage = () => {
+const UEPage = () => {
   const {
     register,
     formState: { errors, dirtyFields },
@@ -35,106 +56,133 @@ const UserEstimationPage = () => {
     },
   });
 
+  const { addToasts } = useToastStore();
+  const navigate = useNavigate();
   // 지역 data api
   const [apiLocation, setApiLocation] = useState<ILocation | []>([]);
-  const locationData = async () => {
-    try {
-      const data = await fetchServiceLocation();
-      return setApiLocation(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // 렌더링시 api 호출
-  useEffect(() => {
-    locationData();
-    console.log(apiLocation);
-  }, []);
-
   // wedding location에 넘겨줄 state
   const [select, setSelect] = useState<string | null>(null);
   const [selectDetail, setSelectDetail] = useState<string | null>(null);
 
-  // POST 요청을 처리하는 함수
-  const postEstimationData = async (formData: IEstimationForm) => {
-    try {
-      // location 데이터를 매칭하는 함수
-      const findLocationKey = (location: string | null): string | undefined => {
-        if (!location) return undefined;
-        for (const [region, areas] of Object.entries(apiLocation)) {
-          if (Array.isArray(areas)) {
-            for (const area of areas) {
-              const matched = Object.entries(area).find(([k]) => k === location);
-              if (matched) return matched[1];
-            }
-          } else if (region === location) {
-            return areas; // 광역시나 특별시의 경우
-          }
-        }
-        return undefined;
-      };
-
-      // location 매칭
-      const matchedLocation = findLocationKey(select, selectDetail);
-
-      if (!matchedLocation) {
-        console.log('선택한 지역이 서버 데이터와 일치하지 않습니다.');
-        return;
+  // 렌더링시 api 호출
+  useEffect(() => {
+    const locationData = async () => {
+      try {
+        const data = await fetchServiceLocation();
+        setApiLocation(data);
+      } catch (err) {
+        console.error(err);
       }
+    };
+    locationData();
+  }, []);
 
-      // POST 요청 데이터 생성
-      const payload = {
-        service_list: Array.isArray(formData.service_list) ? formData.service_list : [formData.service_list],
-        prefer_gender: formData.prefer_gender === 'man' ? 'M' : formData.prefer_gender === 'woman' ? 'F' : 'ANY',
-        wedding_hall: formData.wedding_hall,
-        wedding_datetime: formData.wedding_datetime,
-        location: matchedLocation,
-      };
+  // POST 요청을 처리하는 함수
+  // const postEstimationData = async (formData: IEstimationForm) => {
+  //   try {
+  //     // location 데이터를 매칭하는 함수
+  //     const findLocationKey = (location: string | null): string | undefined => {
+  //       if (!location) return undefined;
+  //       for (const [region, areas] of Object.entries(apiLocation)) {
+  //         if (Array.isArray(areas)) {
+  //           for (const area of areas) {
+  //             const matched = Object.entries(area).find(([k]) => k === location);
+  //             if (matched) return matched[1];
+  //           }
+  //         } else if (region === location) {
+  //           return areas; // 광역시나 특별시의 경우
+  //         }
+  //       }
+  //       return undefined;
+  //     };
 
-      console.log('Payload:', payload);
+  //     // location 매칭
+  //     const matchedLocation = findLocationKey(select, selectDetail);
 
-      // 서버로 POST 요청
-      const response = await auth.post('/estimations/request/', payload);
-      console.log(response, '견적 요청이 성공적으로 전송되었습니다.');
-    } catch (error) {
-      console.error('POST 요청 실패:', error);
-      console.log('견적 요청 중 오류가 발생했습니다.');
-    }
-  };
+  //     if (!matchedLocation) {
+  //       console.log('선택한 지역이 서버 데이터와 일치하지 않습니다.');
+  //       return;
+  //     }
+
+  //     // POST 요청 데이터 생성
+  //     const payload = {
+  //       service_list: Array.isArray(formData.service_list) ? formData.service_list : [formData.service_list],
+  //       prefer_gender: formData.prefer_gender === 'man' ? 'M' : formData.prefer_gender === 'woman' ? 'F' : 'ANY',
+  //       wedding_hall: formData.wedding_hall,
+  //       wedding_datetime: formData.wedding_datetime,
+  //       location: matchedLocation,
+  //     };
+
+  //     console.log('Payload:', payload);
+
+  //     // 서버로 POST 요청
+  //     const response = await auth.post('/estimations/request/', payload);
+  //     console.log(response, '견적 요청이 성공적으로 전송되었습니다.');
+  //   } catch (error) {
+  //     console.error('POST 요청 실패:', error);
+  //     console.log('견적 요청 중 오류가 발생했습니다.');
+  //   }
+  // };
   // 광역시, 특별시는 선택되었을때 견적요청하기 버튼 활성화되는 조건필요
   // 캘린더, 시간도 기본값 아닌 내용 채워졌을때 버튼 활성화
   // 희망일정 선택시 금일 날짜 이후 선택
   // 제출버튼을 눌렀을때 각 칸이 채워졌는지 검증하면서 +토스트
   // 제출버튼 클릭후에는 서버응답 200일 경우 토스트 띄우고 메인
 
-  const findLocation = (location: string, locationDetail: string | null): string | void => {
-    if (location) {
-      console.log('apiLocation:', apiLocation);
-      console.log('select, selectDetail:', select, selectDetail);
-    } else if (locationDetail) {
-      return location;
-    } else if (!location) {
-      console.log('지역정보를 불러올수 없습니다.');
+  // const findLocation = (location: string, locationDetail: string | null): string | void => {
+  //   if (location) {
+  //     console.log('apiLocation:', apiLocation);
+  //     console.log('select, selectDetail:', select, selectDetail);
+  //   } else if (locationDetail) {
+  //     return location;
+  //   } else if (!location) {
+  //     console.log('지역정보를 불러올수 없습니다.');
+  //   }
+  // };
+
+  // 토스트-페이지 핸들링
+  const handleResponse = async (apiCall: () => Promise<any>, successMessage: string, errorMessage: string) => {
+    try {
+      const response = await apiCall();
+      addToasts({ type: 'success', title: successMessage, id: Date.now().toString() });
+      navigate('/');
+      return response;
+    } catch (error: any) {
+      const detailedErrorMessage = error?.response?.data?.detail || error?.response?.data?.message || errorMessage;
+      addToasts({ type: 'error', title: detailedErrorMessage, id: Date.now().toString() });
+      throw error; // 필요 시 상위로 에러 전달
     }
   };
 
-  // 폼 제출 처리
-  const submitClick = (data: IEstimationForm) => {
-    // console.log('data:', data);
-    // // console.log(Object.entries(data));
-    // const service = watch('service_list');
-    // const gender = getValues('prefer_gender');
-    // const datetime = getValues('wedding_datetime');
-    // const hall = getValues('wedding_hall');
-    // const location = select;
-    // const locationDetail = selectDetail;
-    // console.log(service, gender, datetime, location, locationDetail, hall);
+  const submitClick = async (formData: IEstimationForm) => {
+    // 지역매칭
+    const matchedLocation = findLocationKey(apiLocation, select, selectDetail);
 
-    findLocation(select, selectDetail);
-    console.log(data);
-    // api 요청처리
-    postEstimationData(data);
+    if (!matchedLocation) {
+      console.log('선택한 지역이 서버 데이터와 일치하지 않습니다.');
+      return;
+    }
+
+    // payload 생성
+    const payload = {
+      service_list: Array.isArray(formData.service_list) ? formData.service_list : [formData.service_list],
+      prefer_gender: formData.prefer_gender === 'man' ? 'M' : formData.prefer_gender === 'woman' ? 'F' : 'ANY',
+      wedding_hall: formData.wedding_hall,
+      wedding_datetime: formData.wedding_datetime,
+      location: matchedLocation,
+    };
+
+    console.log('Payload:', payload);
+    try {
+      // POST요청(formdata 포함)
+      await handleResponse(
+        () => fetchEstimationsEdit(payload),
+        '견적 요청이 완료되었습니다.',
+        '견적 요청 처리 중 오류가 발생했습니다.'
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -259,4 +307,4 @@ const UserEstimationPage = () => {
   );
 };
 
-export default UserEstimationPage;
+export default UEPage;

@@ -1,4 +1,5 @@
 import { auth } from '@/api/axiosInstance';
+import { IEstimationForm } from '@/config/types';
 
 export const fetchEstimations = async () => {
   try {
@@ -18,5 +19,16 @@ export const fetchExpertData = async () => {
   } catch (err) {
     console.error('Error Fetching expert data:', err);
     throw err;
+  }
+};
+
+export const fetchEstimationsEdit = async (payload: IEstimationForm) => {
+  try {
+    const response = await auth.post('/estimations/request/', payload);
+    console.log('response.status:', response.status);
+    return response;
+  } catch (error) {
+    console.error('post 요청 실패:', error);
+    throw error;
   }
 };

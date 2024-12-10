@@ -110,7 +110,7 @@ export interface IEstimationForm {
   wedding_datetime: string;
   location: string;
   wedding_hall: string;
-  recessional: boolean;
+  is_reception: boolean;
 }
 
 // 위치
