@@ -61,7 +61,7 @@ export default function MainPage() {
         setIsExpert(is_expert);
         setUserName(name);
         setIsLoginToastShown(true);
-        setMode(isExpert ? 'expert' : 'user');
+        setMode(is_expert ? 'expert' : 'user');
       }
     }
   });
