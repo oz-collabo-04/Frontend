@@ -32,7 +32,8 @@ export interface IReservationContentProps {
   key?: number; // Reservation PK
   title: string; // 서비스명
   reserveStatus: string; // 예약상태
-  name: string; // 전문가 이름
+  expertUser: string; // 전문가 이름
+  requestUser: string; // 요청자 이름
   charge: number; // 금액
   serviceTime: string; // 서비스 시간
   date: string; // 예약 생성 날짜/시간

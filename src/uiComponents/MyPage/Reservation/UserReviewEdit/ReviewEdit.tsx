@@ -10,7 +10,7 @@ import { useState } from 'react';
 import ReviewImg from './ReviewImg';
 
 interface IUserReviewProps {
-  name: string;
+  expertName: string;
   serviceTime: string;
   reservationId: number;
   reviewModal: string;
@@ -23,7 +23,7 @@ interface IUserReviewForm {
   review_image: IReviewImg[];
 }
 
-const UserReviewEdit = ({ name, serviceTime, reservationId, reviewModal }: IUserReviewProps) => {
+const UserReviewEdit = ({ expertName, serviceTime, reservationId, reviewModal }: IUserReviewProps) => {
   const {
     register,
     formState: { errors },
@@ -119,7 +119,7 @@ const UserReviewEdit = ({ name, serviceTime, reservationId, reviewModal }: IUser
               <span className='time'>{serviceTime}</span>에 경험하신,
             </div>
             <div>
-              <span className='expertName'>{name}</span>
+              <span className='expertName'>{expertName}</span>
               님은 어떠셨나요?
             </div>
           </div>

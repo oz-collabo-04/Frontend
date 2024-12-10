@@ -13,7 +13,7 @@ import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 const ReservationPage = () => {
   const [reserveData, setReserveData] = useState<IReservationData | null>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { mode, setMode } = useModeChangerStore();
+  const { mode } = useModeChangerStore();
   const { isExpert } = useUserStateStore();
 
   const fetchUserData = async () => {
@@ -55,9 +55,9 @@ const ReservationPage = () => {
     setIsLoading(false);
   }, [isExpert, mode]);
 
-  // if (isLoading) {
-  //   return <LoadingSpinner />;
-  // }
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
@@ -80,7 +80,8 @@ const ReservationPage = () => {
                   <ReservationContent
                     key={id}
                     title={estimation.service}
-                    name={expert.user.name}
+                    expertUser={expert.user.name}
+                    requestUser={reservation.estimation.request_user.name}
                     charge={estimation.charge}
                     serviceTime={estimation.due_date}
                     reserveStatus={status}
