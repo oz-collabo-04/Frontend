@@ -21,7 +21,7 @@ import MediumTitle from '@/components/Title/MediumTitle';
 interface LocationDummy {
   [key: string]: { [key: string]: string }[] | string;
 }
-interface LocatioinObject {
+interface LocationObject {
   [key: string]: string;
 }
 
@@ -67,7 +67,6 @@ export default function ExpertProfileEditPage() {
     if (isExpert && !isLoading) {
       const timeId = setTimeout(() => {
         getData();
-        console.log('전문가 정보', expert);
       }, 600);
 
       return () => clearTimeout(timeId);
@@ -79,7 +78,6 @@ export default function ExpertProfileEditPage() {
   const getData = async () => {
     try {
       const data = await fetchGetExpertRegister();
-      console.log('get', data);
 
       if (data === undefined) {
         addToasts({ type: 'error', title: '전문가 정보가 없습니다.', id: Date.now().toString() });
@@ -100,7 +98,6 @@ export default function ExpertProfileEditPage() {
   const postData = async (formData: FormData) => {
     try {
       const data = await fetchPostExpertRegister(formData);
-      console.log('post', data);
 
       if (data !== undefined) {
         if (setIsExpert && setMode) {
@@ -120,7 +117,6 @@ export default function ExpertProfileEditPage() {
   const patchData = async (formData: FormData) => {
     try {
       const data = await fetchPatchExpertRegister(formData);
-      console.log('patch', data);
 
       if (data !== undefined) {
         setExpert(data);
@@ -172,7 +168,7 @@ export default function ExpertProfileEditPage() {
         ([key, value]) =>
           e.split(' ')[0] === key &&
           Object.values(value).filter(
-            (el: LocatioinObject) => Object.entries(el)[0][0] === e && enLocationArray.push(Object.entries(el)[0][1])
+            (el: LocationObject) => Object.entries(el)[0][0] === e && enLocationArray.push(Object.entries(el)[0][1])
           )
       )
     );
