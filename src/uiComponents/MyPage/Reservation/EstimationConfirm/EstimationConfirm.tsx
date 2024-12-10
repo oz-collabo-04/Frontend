@@ -6,6 +6,7 @@ import { formatDate } from '@/utils/formatDate';
 import { getServiceKorean } from '@/utils/serviceKorean';
 import { getStatusKorean } from '@/utils/statusKorean';
 import { useEffect, useState } from 'react';
+import '@/styles/MyPage/EstimationConfirm.scss';
 
 interface EstimationConfirmProps {
   estimationId: number; // 예상되는 타입 정의
@@ -27,9 +28,6 @@ const EstimationConfirm = ({ estimationId, expertUserId }: EstimationConfirmProp
       console.error('Error Fetching Wedding Data :', err);
     }
   };
-
-  // 예약 완료상태 api
-  const handleCompleteClick = () => {};
 
   useEffect(() => {
     const fetchEstimationData = async () => {
@@ -54,17 +52,42 @@ const EstimationConfirm = ({ estimationId, expertUserId }: EstimationConfirmProp
   }
 
   return (
-    <>
-      <div>예약일자: {confirmData && formatDate(confirmData.estimation.created_at)}</div>
-      <div>예약상태: {confirmData && getStatusKorean(confirmData.status)}</div>
-      <div>예약금액: {confirmData?.estimation.charge}</div>
-      <div>지역: {weddingData?.location_display}</div>
-      <div>서비스 제공일시: {weddingData && formatDate(weddingData.wedding_datetime)}</div>
-      <div>서비스 제공자: {confirmData?.estimation.expert.user.name}</div>
-      <div>서비스 제공영역: {confirmData && getServiceKorean(confirmData.estimation.service)}</div>
-      <div>서비스 제공자 연락처: {confirmData?.estimation.expert.user.phone_number}</div>
-      <div>서비스 제공자 이미지: {confirmData?.estimation.expert.expert_image}</div>
-    </>
+    <div className='estimationConfirm'>
+      <ul className='user'>
+        <li>
+          <strong>예약일자:</strong> {confirmData && formatDate(confirmData.estimation.created_at)}
+        </li>
+        <li>
+          <strong>예약상태:</strong> {confirmData && getStatusKorean(confirmData.status)}
+        </li>
+        <li>
+          <strong>예약금액:</strong> {confirmData?.estimation.charge.toLocaleString()}원
+        </li>
+        <li>
+          <strong>지역:</strong> {weddingData?.location_display}
+        </li>
+        <li>
+          <strong>예식일자:</strong> {weddingData && formatDate(weddingData.wedding_datetime)}
+        </li>
+      </ul>
+      <ul className='expert'>
+        <li>
+          <strong>전문가 이름:</strong> {confirmData?.estimation.expert.user.name}
+        </li>
+        <li>
+          <strong>전문가 제공 서비스:</strong> {confirmData && getServiceKorean(confirmData.estimation.service)}
+        </li>
+        <li>
+          <strong>전문가 연락처:</strong> {confirmData?.estimation.expert.user.phone_number}
+        </li>
+        <li>
+          <strong>전문가 프로필</strong>
+          <span className='imgBox'>
+            <img src={confirmData?.estimation.expert.expert_image} />
+          </span>
+        </li>
+      </ul>
+    </div>
   );
 };
 
