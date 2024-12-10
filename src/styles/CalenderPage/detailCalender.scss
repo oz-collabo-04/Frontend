@@ -27,7 +27,7 @@
         color: #0022cc;
       }
 
-      .completed {
+      .completed:last-child {
         border: 0.2rem solid #388e3c80;
         background-color: #c8e6c966;
         color: #388e3c;
