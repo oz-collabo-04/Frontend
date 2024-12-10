@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
 import MainBtn from '@/components/Button/MainBtn';
 import ProfileBadge from '@/components/Badge/ProfileBadge';
@@ -8,6 +8,7 @@ import { useCategoryStore } from '@/store/expertListStore';
 import '@/styles/Expertlistpage/expertlistpage.scss';
 import { auth } from '@/api/axiosInstance';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
+import AccessControl from '@/components/Control/AccessControl';
 
 export interface User {
   id: number;
@@ -39,7 +40,7 @@ export interface Expert {
   updated_at: string;
 }
 
-const Expertlistpage: React.FC = () => {
+const Expertlistpage = () => {
   const { openModal } = useModalStore();
   const { setCategory } = useCategoryStore();
   const [selectedExpertId, setSelectedExpertId] = useState<number | null>(null);
@@ -179,14 +180,16 @@ const Expertlistpage: React.FC = () => {
   }
 
   return (
-    <div className='expertListContainer'>
-      <main className='expertListMain'>
-        <h2 className='expertListMainTitle'>받은 요청 리스트</h2>
-        <div className='expertGrid'>{experts.map(renderExpertCard)}</div>
-      </main>
-      <ExpertModal expertId={selectedExpertId} modalId='expertProfile' weddingDateTime={selectedDateTime} />
-    </div>
+    <AccessControl userType="expert">
+      <div className='expertListContainer'>
+        <main className='expertListMain'>
+          <h2 className='expertListMainTitle'>받은 요청 리스트</h2>
+          <div className='expertGrid'>{experts.map(renderExpertCard)}</div>
+        </main>
+        <ExpertModal expertId={selectedExpertId} modalId='expertProfile' weddingDateTime={selectedDateTime} />
+      </div>
+    </AccessControl>
   );
 };
 
-export default Expertlistpage;
+export default Expertlistpage
