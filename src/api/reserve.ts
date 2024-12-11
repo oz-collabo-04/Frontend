@@ -5,7 +5,6 @@ import { auth } from './axiosInstance';
 export const fetchReserveUserList = async () => {
   try {
     const response = await auth.get('/reservations/');
-    console.log('user response.status:', response.status);
     return response.data;
   } catch (err) {
     console.error('Error Fetching user reservations: ', err);
@@ -16,7 +15,6 @@ export const fetchReserveUserList = async () => {
 export const fetchReserveExpertList = async () => {
   try {
     const response = await auth.get('/experts/reservations/');
-    console.log('expert response.status:', response.status);
     return response.data;
   } catch (err) {
     console.error('Error Fetching expert reservations: ', err);
@@ -28,7 +26,6 @@ export const fetchReserveExpertList = async () => {
 export const fetchFinalConfirmData = async (id: number) => {
   try {
     const response = await auth.get(`/reservations/${id}`);
-    console.log('confirm response.status', response.status);
     return response.data;
   } catch (err) {
     console.error('Error Fetching Confirm Data: ', err);
@@ -39,7 +36,6 @@ export const fetchFinalConfirmData = async (id: number) => {
 export const fetchReservationStatus = async (id: number, status: string) => {
   try {
     const response = await auth.patch(`/reservations/${id}/`, { status }); // 객체 형태로 전달
-    console.log('reservationStatus:', response.status);
     return response.data;
   } catch (err) {
     console.error('Error Fetching Reservation Status Data: ', err);
