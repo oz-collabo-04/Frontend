@@ -22,7 +22,6 @@ const ReservationPage = () => {
     try {
       const data: IReservationData = await fetchReserveUserList();
       setReserveData(data);
-      console.log('reservation data:', data);
       return data;
     } catch (err) {
       console.error(err);
@@ -35,7 +34,6 @@ const ReservationPage = () => {
     try {
       const data: IReservationData = await fetchReserveExpertList();
       setReserveData(data);
-      console.log('reservation data:', data);
       return data;
     } catch (err) {
       console.error(err);

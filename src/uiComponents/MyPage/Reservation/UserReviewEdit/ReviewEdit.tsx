@@ -63,10 +63,10 @@ const UserReviewEdit = ({ expertName, serviceTime, reservationId, reviewModal }:
       formData.append('images', image.file); // 파일 추가
     });
 
-    // 파일첨부 확인
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
+    // 파일첨부 콘솔 로그 확인
+    // for (const pair of formData.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
     return formData;
   };
 
@@ -105,7 +105,6 @@ const UserReviewEdit = ({ expertName, serviceTime, reservationId, reviewModal }:
   };
   // 버튼 post요청
   const handelReviewClick = async (data: IUserReviewForm) => {
-    console.log('폼데이터: ', data);
     const formData = gatherFormData(data);
     await fetchReviewPost(formData);
   };
