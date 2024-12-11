@@ -8,15 +8,15 @@ class AlarmSocket {
     this.webSocket = new WebSocket(url, subProtocol);
     // 웹소켓 연결
     this.webSocket.onopen = () => {
-      console.log('알람 WebSocket 연결 성공');
+      // console.log('알람 WebSocket 연결 성공');
     };
     // 웹소켓 에러
     this.webSocket.onerror = (error) => {
-      console.error('알람 WebSocket 에러:', error);
+      // console.error('알람 WebSocket 에러:', error);
     };
     // 웹소켓 종료
     this.webSocket.onclose = (event) => {
-      console.log('알람 WebSocket 연결 종료', event);
+      // console.log('알람 WebSocket 연결 종료', event);
     };
     // 웹소켓으로부터 메시지를 받았을 때 실행되는 함수
     this.webSocket.onmessage = (event) => {
@@ -31,7 +31,7 @@ class AlarmSocket {
   // WebSocket 연결 종료 메서드
   close() {
     this.webSocket?.close();
-    console.log('알람 WebSocket 연결 종료');
+    // console.log('알람 WebSocket 연결 종료');
   }
 }
 

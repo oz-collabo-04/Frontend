@@ -19,7 +19,7 @@ class ChatSocket {
 
     // 웹소켓 연결
     this.webSocket.onopen = () => {
-      console.log('채팅 웹소켓 연결');
+      // console.log('채팅 웹소켓 연결');
     };
 
     // 웹 소켓 에러
@@ -30,7 +30,7 @@ class ChatSocket {
 
     // 웹소켓 종료
     this.webSocket.onclose = (event) => {
-      console.log('채팅 웹소켓 종료', event);
+      // console.log('채팅 웹소켓 종료', event);
     };
 
     // 웹소켓으로부터 메시지를 받았을 때 실행되는 함수
@@ -58,7 +58,7 @@ class ChatSocket {
   close() {
     this.setOtherUser(null, false);
     this.webSocket?.close();
-    console.log(`웹소켓 연결 종료됨. 상대유저 정보 초기화 - ${this.otherUser.user_id}, ${this.otherUser.is_exist}`);
+    // console.log(`웹소켓 연결 종료됨. 상대유저 정보 초기화 - ${this.otherUser.user_id}, ${this.otherUser.is_exist}`);
   }
 
   // 메시지 전송 메서드

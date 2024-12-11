@@ -23,7 +23,7 @@ const ChatPage = () => {
         const response = await auth.get(`/chat/chatrooms/${roomId}`);
         setChatData(response.data);
       } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
+        // console.log('API 요청에 실패했습니다 :', error);
       }
     };
     fetchChatList();
