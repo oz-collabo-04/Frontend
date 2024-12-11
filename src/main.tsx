@@ -5,10 +5,6 @@ import './styles/common.scss';
 import { BrowserRouter } from 'react-router-dom';
 import ScrollToTop from './utils/scrollToTop.tsx';
 
-if (process.env.NODE_ENV === 'development') {
-  import('./mocks/browsers.ts');
-}
-
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter
     future={{

@@ -12,7 +12,6 @@ interface TabProps {
 
 const Tab = ({ tabs, extraClass, onTabChange = () => {} }: TabProps) => {
   const [activeTab, setActiveTab] = useState<number>(0);
-
   const handleTabClick = (index: number) => {
     setActiveTab(index);
     onTabChange(index);

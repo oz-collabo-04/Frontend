@@ -1,12 +1,14 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '@/styles/Estimationpage/estimation.scss'
 import MainBtn from '@/components/Button/MainBtn'
 import Tab from '@/components/Tab/Tab'
 import ProfileBadge from '@/components/Badge/ProfileBadge'
-import ExpertProfileModal from '@/uiComponents/ExpertProfileEditPage/ExpertProfileModal'
+import ExpertProfileModal from '@/uiComponents/Estimationlist/ExpertProfileModal'
 import { useModalStore } from '@/store/modalStore'
 import { auth } from '@/api/axiosInstance'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import useModeChangerStore from '@/store/modeChangerStore'
 
 interface Career {
   id: number;
@@ -26,6 +28,10 @@ interface Expert {
   available_location: string;
   user: User;
   careers: Career[];
+  service_display: string;
+  available_location_display: string;
+  gender_display: string;
+  location_display: string;
 }
 
 interface User {
@@ -34,6 +40,7 @@ interface User {
   email: string;
   phone_number: string;
   gender: 'M' | 'F'; 
+  gender_display: string;
 }
 
 interface Estimation {
@@ -41,98 +48,122 @@ interface Estimation {
   request: number;
   expert: Expert;
   location: string;
+  location_display: string;
   due_date: string;
-  service: 'mc' 
+  service: 'mc';
+  service_display: string;
   charge: number;
   created_at: string;
   updated_at: string;
+  description: string;
 }
 
 interface EstimationCardProps {
   estimation: Estimation;
-  onProfileClick: (id: number) => void;
-  onChatClick: (id: number) => void;
+  onProfileClick: (estimationId: number) => void;
+  onChatClick: (expert_id: number, estimation_id: number) => void;
 }
 
-const EstimationCard: React.FC<EstimationCardProps> = ({ 
+const EstimationCard = ({ 
   estimation,
   onProfileClick,
   onChatClick
-}) => {
+}: EstimationCardProps) => {
   return (
     <div className="estimationCard">
       <div className="estimationCardHeader">
         <div className="estimationCardInfo">
-          <span className="estimationCardCategory">{estimation.service}</span>
+          <span className="estimationCardCategory">{estimation.service_display}</span>
           <h3 className="estimationCardName">{estimation.expert.user.name}</h3>
+          <p className="estimationCardLocation">{estimation.location_display}</p>
+          <p className="estimationCardGender">{estimation.expert.user.gender_display}</p>
         </div>
         <ProfileBadge
           width="8rem"
           height="8rem"
           src={estimation.expert.expert_image}
           borderRadius={'1.2rem'}
+          className="estimationprofileBadge"
         />
       </div>
       <p className="estimationCardPrice">{estimation.charge.toLocaleString()}원</p>
+      <p className="estimationCardAvailableLocation">{estimation.expert.available_location_display}</p>
       <div className="estimationCardActions">
         <MainBtn
           name="전문가 프로필"
           size="medium"
           backgroundColor="$main-color"
           color="$font-color"
-          onClick={() => onProfileClick(estimation.expert.id)}
+          onClick={() => onProfileClick(estimation.id)}
         />
         <MainBtn
           name="채팅하기"
           size="medium"
           backgroundColor="$main-color"
           color="$font-color"
-          onClick={() => onChatClick(estimation.id)}
+          onClick={() => onChatClick(estimation.expert.id, estimation.id)}
         />
       </div>
     </div>
   )
 }
 
-const EstimationList: React.FC = () => {
+const EstimationList = () => {
   const navigate = useNavigate()
-  const categories = ['전체', '결혼식 사회자', '축가 가수', '영상촬영', '스냅 촬영']
   const { openModal } = useModalStore();
-  const [selectedExpertId, setSelectedExpertId] = useState<number | null>(null);
+  const { mode } = useModeChangerStore(); 
+  const [selectedEstimationId, setSelectedEstimationId] = useState<number | null>(null);
   const [estimations, setEstimations] = useState<Estimation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [categories, setCategories] = useState<string[]>(['전체']);
 
   const fetchEstimations = async () => {
     setIsLoading(true);
     try {
       const response = await auth.get('/estimations/');
-      setEstimations(Array.isArray(response.data) ? response.data : []);
+      const estimationsData = Array.isArray(response.data) ? response.data : [];
+      setEstimations(estimationsData);
+      
+      const uniqueCategories = ['전체', ...new Set(estimationsData.map(est => est.service_display))];
+      setCategories(uniqueCategories);
     } catch (err) {
       setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
-      console.error('API 요청 에러:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchEstimations();
-  }, []);
+    if (mode === 'user') {
+      fetchEstimations()
+    } else {
+      navigate('/') 
+    }
+  }, [navigate, mode])
 
-  const handleProfileClick = (id: number) => {
-    setSelectedExpertId(id);
+  const handleProfileClick = (estimationId: number) => {
+    setSelectedEstimationId(estimationId);
     openModal('expertProfile');
   };
 
-  const handleChatClick = (id: number) => {
-    navigate(`/chatpage/${id}`);
+  const handleChatClick = async (expert_id: number, estimation_id: number) => {
+    try {
+      const response = await auth.post('/chat/chatrooms/', {
+        expert_id: expert_id, 
+        estimation_id: estimation_id,
+      });
+      const data = response.data;
+      navigate(`/chatpage/${data.id}`);
+    } catch (err) {
+      setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
+    }
   };
 
   const renderEstimationCards = (category: string) => {
     const filteredEstimations = category === '전체'
       ? estimations
-      : estimations.filter(estimation => estimation.service === category);
+      : estimations.filter(estimation => estimation.service_display === category);
 
     return (
       <div className="estimationGrid">
@@ -158,11 +189,16 @@ const EstimationList: React.FC = () => {
   }))
 
   if (isLoading) {
-    return <div aria-live="polite" aria-busy="true">견적 목록을 불러오는 중...</div>;
+    return (
+      <div className="estimationContainer">
+        <LoadingSpinner className="estimationLoading" />
+        <span className="sr-only">견적 목록을 불러오는 중...</span>
+      </div>
+    );
   }
 
   if (error) {
-    return <div aria-live="assertive" role="alert">{error}</div>;
+    return <div aria-live="assertive" role="alert" className="estimationError">{error}</div>;
   }
 
   return (
@@ -171,10 +207,9 @@ const EstimationList: React.FC = () => {
         <h1 className="estimationMainPageTitle">받은 견적 리스트</h1>
         <Tab tabs={tabContent} />
       </main>
-      <ExpertProfileModal expertId={selectedExpertId} />
+      <ExpertProfileModal estimationId={selectedEstimationId} />
     </div>
   )
 }
 
 export default EstimationList
-

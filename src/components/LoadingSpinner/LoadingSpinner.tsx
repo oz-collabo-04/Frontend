@@ -6,10 +6,9 @@ interface LoadingSpinnerProps {
 
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ className = '' }) => {
   return (
-    <div className={`loadingspinner ${className}`}>
+    <div className={`loadingSpinner ${className}`}>
       <div className='spinner'></div>
     </div>
   );
 };
-
 export default LoadingSpinner;

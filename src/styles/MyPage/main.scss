@@ -3,20 +3,27 @@
 // 페이지 전체
 .myPage {
   max-width: 76.8rem;
+  min-height: 80vh;
   margin: 0 auto;
   padding: 8rem 4rem;
 
   // 예약관리 전체
   .myMain {
     margin: 8rem 0rem;
-    padding: 5rem 3rem;
+    padding: 1rem 3rem;
     background-color: rgba(255, 255, 255);
     border-radius: 2rem;
     border: solid 2px $main-color;
     box-shadow: 4px 4px 8px rgba($main-color, 0.5);
 
+    .reservationSection,
+    .profileSection {
+      margin: 4rem 0rem;
+    }
+
     // 예약관리 컨텐츠(예약내역/캘린더)
-    .reservationContainer {
+    .reservationContainer,
+    .profileContainer {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -24,7 +31,8 @@
 
       // 예약내역/캘린더 개별
       .myReservation,
-      .myCalender {
+      .myCalender,
+      .myProfile {
         display: flex;
         align-items: center;
         justify-content: space-between;

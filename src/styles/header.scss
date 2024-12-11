@@ -37,10 +37,11 @@
       height: 100%;
       display: flex;
       align-items: center;
+      flex-direction: column;
       justify-content: space-between;
       font-size: 2rem;
 
-      // 메뉴 - 단축메뉴 제외 묶음
+      // 메뉴 (단축메뉴 제외) 묶음: 반응형에서 단축메뉴를 나타나게 하기위한 클래스
       .headerMenu {
         width: 100%;
         height: 100%;
@@ -49,17 +50,17 @@
         justify-content: space-between;
         margin-left: 2rem; // CI와의 간격
 
-        // 메뉴들
+        // 메뉴 묶음
         .headerNav {
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          .estimationEdit {
-          }
         }
 
-        .userNav {
+        // 로그인 후 오른쪽편 메뉴
+        .userNav,
+        .expertNav {
           width: 100%;
           display: flex;
           align-items: center;
@@ -68,71 +69,7 @@
         }
       }
 
-      .alarmBox {
-        position: relative;
-        .alarmBtn {
-          width: 4rem;
-          height: 4rem;
-          font-size: 0;
-          background: $main-color url('/image/alarm_icon.svg') no-repeat 50% 50% / 70%;
-          border-radius: 0.4rem;
-          position: relative;
-          .on {
-            position: absolute;
-            right: 0.6rem;
-            top: 0.6rem;
-            width: 0.6rem;
-            height: 0.6rem;
-            background-color: red;
-            border-radius: 50%;
-          }
-        }
-        .alarmListBox {
-          position: absolute;
-          right: 0;
-          top: calc(100% + 0.4rem);
-          width: 24rem;
-          max-height: 18rem;
-          background-color: rgba($main-color, 0.3);
-          border: 2px solid;
-          border-color: $main-color;
-          border-radius: 0.4rem;
-          overflow: auto;
-          .noAlarm {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 8rem;
-            font-size: 1.6rem;
-          }
-          .alarmList {
-            .alarm {
-              // width: 24rem;
-              padding: 0.8rem 0;
-              border-bottom: 1px solid;
-              border-color: $main-color;
-              &:last-child {
-                border-bottom: none;
-              }
-              button {
-                display: -webkit-box;
-                padding: 0 1.2rem;
-                font-size: 1.4rem;
-                line-height: 1.5;
-                text-align: left;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                &:hover {
-                  text-decoration: underline;
-                }
-              }
-            }
-          }
-        }
-      }
-
+      // 로그인 로그아웃 버튼
       .btn {
         .mainBtn {
           width: auto;
@@ -164,98 +101,47 @@
         align-items: center;
         gap: 2rem;
 
+        // 햄버거버튼 (폰트로 넣음)
         .menuBtn {
           font-size: 4rem;
         }
 
-        .alarmBox {
-          position: relative;
-          .alarmBtn {
-            width: 4rem;
-            height: 4rem;
-            font-size: 0;
-            background: $main-color url('/image/alarm_icon.svg') no-repeat 50% 50% / 70%;
-            border-radius: 0.4rem;
-            position: relative;
-            .on {
-              position: absolute;
-              right: 0.6rem;
-              top: 0.6rem;
-              width: 0.6rem;
-              height: 0.6rem;
-              background-color: red;
-              border-radius: 50%;
-            }
-          }
-          .alarmListBox {
-            position: absolute;
-            right: 0;
-            top: calc(100% + 0.4rem);
-            width: 24rem;
-            max-height: 18rem;
-            background-color: rgba($main-color, 0.3);
-            border: 2px solid;
-            border-color: $main-color;
-            border-radius: 0.4rem;
-            overflow: auto;
-            .noAlarm {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              min-height: 8rem;
-              font-size: 1.6rem;
-            }
-            .alarmList {
-              .alarm {
-                // width: 24rem;
-                padding: 0.8rem 0;
-                border-bottom: 1px solid;
-                border-color: $main-color;
-                &:last-child {
-                  border-bottom: none;
-                }
-                button {
-                  display: -webkit-box;
-                  padding: 0 1.2rem;
-                  font-size: 1.4rem;
-                  line-height: 1.5;
-                  text-align: left;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                  -webkit-line-clamp: 2;
-                  -webkit-box-orient: vertical;
-                  &:hover {
-                    text-decoration: underline;
-                  }
-                }
-              }
-            }
-          }
-        }
+        // 슬라이드로 나타나는 메뉴
         .sliderMenu {
           width: 20rem;
           height: 100vh;
           display: flex;
           flex-direction: column;
           padding: 4rem 2rem;
-          background-color: rgba($main-color, 0.9);
+          background-color: rgba($main-color, 0.7);
           backdrop-filter: blur(10px);
           position: fixed;
           top: 7.2rem;
           right: 0;
           font-size: 2rem;
+
+          // 로그인 전 버튼
           .loginMenu {
             font-size: 3rem;
+            .estimationEdit,
+            .loginBtn {
+              width: 100%;
+              text-align: end;
+              line-height: 3rem;
+              font-size: 1.6rem;
+            }
+
+            // 줄바꿈 표시
             hr {
               width: 100%;
               height: 1px;
               margin: 1.2rem 0;
-              background-color: rgba($font-deactivate-color, 0);
-              border: 0.1px rgba($font-deactivate-color, 0.3) solid;
+              border: 0.1px rgba($font-color, 0.3) solid;
               border-radius: 50%;
             }
           }
 
+          // 로그인 후 슬라이드 메뉴
           .userMenu {
             width: 100%;
             text-align: end;
@@ -265,8 +151,7 @@
               width: 100%;
               height: 1px;
               margin: 1.2rem 0;
-              background-color: rgba($font-deactivate-color, 0);
-              border: 0.1px rgba($font-deactivate-color, 0.3) solid;
+              border: 0.1px rgba($font-color, 0.3) solid;
               border-radius: 50%;
             }
           }

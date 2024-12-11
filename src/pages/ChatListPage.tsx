@@ -1,37 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import '@/styles/ChatListPage/chatListPage.scss';
-import AllChats from '@/uiComponents/ChatListPage/AllChats';
-import OngoingChats from '@/uiComponents/ChatListPage/OngoingChats';
-import CompletedChats from '@/uiComponents/ChatListPage/CompletedChats';
-import { auth } from '@/api/axiosInstance';
+import ChatList from '@/uiComponents/ChatListPage/ChatList';
 
 const ChatListPage = () => {
   const [activeTab, setActiveTab] = useState('전체');
-  const [messageUnread] = useState(true);
 
   const renderContent = () => {
     switch (activeTab) {
       case '진행중':
-        return <OngoingChats />;
+        return <ChatList status='pending' />;
       case '예약완료':
-        return <CompletedChats />;
+        return <ChatList status='reserved' />;
       default:
-        return <AllChats />;
+        return <ChatList />;
     }
   };
-
-  useEffect(() => {
-    const fetchChatList = async () => {
-      try {
-        const response = await auth.get('/chat/chatrooms/');
-        console.log('data :', response.data);
-      } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
-      }
-    };
-    fetchChatList();
-  }, []);
 
   return (
     <div className='chatListPage'>
@@ -44,7 +28,6 @@ const ChatListPage = () => {
                 key={tab}
                 type='button'
                 className={`
-                  ${messageUnread && tab === '진행중' ? 'highlight' : ''} 
                   ${activeTab === tab ? 'active' : ''}
                 `}
                 onClick={() => setActiveTab(tab)}

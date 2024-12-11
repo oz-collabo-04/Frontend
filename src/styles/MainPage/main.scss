@@ -6,6 +6,8 @@
   .contentLayout {
     display: flex;
     margin: 6rem auto;
+    width: 100%;
+    flex-direction: column;
 
     .tabContentsType {
       display: flex;
@@ -13,9 +15,22 @@
       margin-top: 8rem;
       gap: 3.2rem;
       align-items: flex-start;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #ffd6d670;
+        border-radius: 0.7rem;
+        box-shadow: 1px 1px 6px #c9b9b970;
+      }
+
+      .loadingSpinnerBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+      }
 
       .profileBadge {
-        //메인 페이지 전문가 이미지
         width: 40rem;
         height: 28rem;
         object-fit: cover;
@@ -36,9 +51,14 @@
       flex-direction: column;
       justify-content: center;
       padding-top: 2.4rem;
-      width: 40%;
+      width: 48%;
+
+      .tabContentTitle {
+        font-size: 2.8rem;
+        font-weight: 700;
+      }
       .expertName {
-        margin-top: 0.8rem;
+        margin-top: 1rem;
         font-size: 2rem;
         font-weight: 600;
       }
@@ -51,41 +71,50 @@
       }
     }
   }
-}
 
-@media (max-width: 1024px) {
-  .profileBadge {
-    min-width: 35rem;
-    height: calc(100% * 7 / 10);
+  @media (max-width: 1024px) {
+    .profileBadge {
+      min-width: 35rem;
+      height: calc(100% * 7 / 10);
+    }
+  }
+  @media (max-width: 768px) {
+    .profileBadge {
+      min-width: 30rem;
+      min-height: calc(100% * 7 / 10);
+    }
+  }
+  @media (max-width: 512px) {
+    .profileBadge {
+      width: 6rem;
+      height: 6rem;
+    }
+  }
+  @media (max-width: 425px) {
+    .profileBadge {
+      min-width: 3rem;
+      min-height: 3rem;
+    }
+    .tabContentTitle {
+      display: none;
+    }
+  }
+  @media (max-width: 375px) {
+    .profileBadge {
+      min-width: 1.5rem;
+      min-height: 1.5rem;
+    }
+    .tabContentTitle {
+      display: none;
+    }
+  }
+  @media (max-width: 320px) {
+    .profileBadge {
+      min-width: 1rem;
+      min-height: 1rem;
+    }
+    .tabContentTitle {
+      display: none;
+    }
   }
 }
-@media (max-width: 768px) {
-  .profileBadge {
-    min-width: 30rem;
-    min-height: calc(100% * 7 / 10);
-  }
-}
-@media (max-width: 512px) {
-  .profileBadge {
-    width: 6rem;
-    height: 6rem;
-  }
-}
-// @media (max-width: 425px) {
-//   .profileBadge {
-//     min-width: 2rem;
-//     min-height: 2rem;
-//   }
-// }
-// @media (max-width: 375px) {
-//   .profileBadge {
-//     min-width: 20rem;
-//     min-height: 14rem;
-//   }
-// }
-// @media (max-width: 320px) {
-//   .profileBadge {
-//     min-width: 20rem;
-//     min-height: 14rem;
-//   }
-// }

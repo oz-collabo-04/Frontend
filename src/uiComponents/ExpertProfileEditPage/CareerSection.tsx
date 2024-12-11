@@ -6,7 +6,7 @@ import { Career, ExpertRegister } from '@/config/types';
 import { useState } from 'react';
 
 type Props = {
-  isExpert: boolean;
+  isExpert: boolean | null;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
@@ -29,6 +29,8 @@ export default function CareerSection({ isExpert, profileData, setProfileData }:
 
     if (Math.floor((years * 12 + months) / 12) < 1) {
       return `${(years * 12 + months) % 12}개월`;
+    } else if ((years * 12 + months) % 12 === 0) {
+      return `${Math.floor((years * 12 + months) / 12)}년`;
     } else {
       return `${Math.floor((years * 12 + months) / 12)}년 ${(years * 12 + months) % 12}개월`;
     }
@@ -49,9 +51,9 @@ export default function CareerSection({ isExpert, profileData, setProfileData }:
           {isExpert ? '수정' : '등록'}
         </button>
 
-        {profileData.careers.map((data) => (
-          <li key={data.id}>
-            {data.title} {getDateDifference(data.start_date, data.end_date)} {!data.end_date && '재직중'}
+        {profileData.careers.map((data, i) => (
+          <li key={i}>
+            {data.title} {getDateDifference(data.start_date, data.end_date)} {!data.end_date && <span>재직중</span>}
           </li>
         ))}
       </div>
@@ -65,15 +67,7 @@ export default function CareerSection({ isExpert, profileData, setProfileData }:
         firstBtn={careerArray.length || profileData.careers.length ? true : false}
         firstBtnName='저장하기'
         firstBtnOnClick={() => {
-          const newArray: Career[] = [];
-
-          Object.values(careerArray).map((career) => {
-            const obj = career;
-            const { id, ...rest } = obj;
-            return newArray.push(rest);
-          });
-
-          setProfileData((prev) => ({ ...prev, careers: newArray }));
+          setProfileData((prev) => ({ ...prev, careers: careerArray }));
           closeModal('careerModal');
         }}
       />

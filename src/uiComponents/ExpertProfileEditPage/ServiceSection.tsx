@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { fetchServiceServices } from '@/api/services';
 
 type Props = {
-  isExpert: boolean;
+  isExpert: boolean | null;
   profileData: ExpertRegister;
   setProfileData: React.Dispatch<React.SetStateAction<ExpertRegister>>;
 };
@@ -52,7 +52,7 @@ export default function ServiceSection({ isExpert, profileData, setProfileData }
                 serviceName
                   ? serviceName.map((name) => ({
                       name: Object.values(name)[1],
-                      check: profileData.service === Object.values(name)[1],
+                      check: profileData.service_display === Object.values(name)[1],
                     }))
                   : []
               );
@@ -64,7 +64,7 @@ export default function ServiceSection({ isExpert, profileData, setProfileData }
             {isExpert ? '수정' : '등록'}
           </button>
 
-          <p>{profileData.service}</p>
+          <p>{profileData.service_display ?? profileData.service}</p>
         </div>
 
         <Modal
@@ -78,7 +78,7 @@ export default function ServiceSection({ isExpert, profileData, setProfileData }
           firstBtnOnClick={() => {
             setProfileData((prev) => ({
               ...prev,
-              service: isChecked.find((service) => service.check === true)?.name ?? '',
+              service_display: isChecked.find((service) => service.check === true)?.name ?? '',
             }));
             closeModal('serviceModal');
           }}

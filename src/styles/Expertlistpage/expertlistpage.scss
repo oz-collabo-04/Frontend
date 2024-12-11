@@ -5,6 +5,20 @@
   margin: 0 auto;
   padding: 3rem 2rem;
   min-height: 65vh;
+  position: relative;
+}
+
+.estimationLoading {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $disabled-font;
+  z-index: 1000;
 }
 
 .expertListMainTitle {
@@ -86,6 +100,17 @@
     width: 50%;
     font-size: 1.5rem;
     padding: 0.5rem 0;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px  8px rgba($main-color, 0.5);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba($main-color, 0.5);
+    }
   }
 }
 

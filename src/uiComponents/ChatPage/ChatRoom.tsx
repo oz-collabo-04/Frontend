@@ -1,89 +1,86 @@
 import InputField from './InputField';
-import { useState } from 'react';
-// import socket from '@/config/server';
+import { useEffect, useRef, useState } from 'react';
 import ChatContainer from './ChatContainer';
+import { ChatRoomProps } from '@/pages/ChatPage';
+import ChatSocket from '@/utils/chatSocket';
+import useMessageStore from '@/store/useMessageStore';
+import { auth } from '@/api/axiosInstance';
+import { DataItem } from '../ChatListPage/chat';
 
-interface Message {
-  chat: string; // 메시지 내용
-  user: { name: string }; // 보낸 사람의 이름
-}
+const socketBaseUrl = import.meta.env.VITE_BACKEND_CHAT_URL;
 
-const ChatRoom = () => {
-  const [user] = useState<{ name: string } | null>(null);
-  const [message, setMessage] = useState<string>('');
-  const [messageList] = useState<Message[]>([]);
-  console.log('messageList', messageList);
+const ChatRoom = ({ roomId }: ChatRoomProps) => {
+  const chatSocketRef = useRef<ChatSocket | null>(null); // ChatSocket 인스턴스 관리
+  const messages = useMessageStore((state) => state.messages); // 메시지 스토어에서 메시지 가져오기
+  const getMessageList = useMessageStore((state) => state.getMessageList); // 메시지 업데이트 함수 가져오기
+  const [roomData, setRoomData] = useState<DataItem | null>(null);
+  const [otherExist, setOtherExist] = useState(false); // 상대방 접속 상태 관리
 
-  // // 웹소켓 연결
-  // useEffect(() => {
-  //   console.log('Socket instance:', socket);
-  //   // socket 객체가 제대로 초기화되었는지 확인하기 위해 출력
+  // 채팅방 정보를 서버에서 가져오는 API 호출
+  useEffect(() => {
+    const fetchChatRoomData = async () => {
+      try {
+        const response = await auth.get(`chat/chatrooms/${roomId}/`);
+        setRoomData(response.data);
+      } catch (error) {
+        console.log('API 요청에 실패했습니다 :', error);
+      }
+    };
+    fetchChatRoomData();
+  }, [roomId]);
 
-  //   socket.on('connect', () => {
-  //     console.log('Connected to server with id:', socket.id);
-  //   });
-  //   // 서버와 연결이 성공했을 때 실행되는 콜백 함수 등록
-  //   // 서버로부터 할당받은 socket ID를 출력
+  // 채팅 메시지 리스트를 서버에서 가져오는 API 호출
+  useEffect(() => {
+    const fetchChatList = async () => {
+      try {
+        const response = await auth.get(`chat/chatrooms/${roomId}/messages/`);
+        getMessageList(response.data);
+      } catch (error) {
+        console.log('API 요청에 실패했습니다 :', error);
+      }
+    };
+    fetchChatList();
+  }, [roomId]);
 
-  //   socket.on('response', (msg) => {
-  //     console.log('Message from server:', msg);
-  //   });
-  //   // 서버에서 "response"라는 이벤트가 발생했을 때 실행되는 콜백 함수 등록
-  //   // 서버에서 전송된 메시지를 콘솔에 출력
+  // WebSocket 연결 관리
+  useEffect(() => {
+    if (roomId && !chatSocketRef.current) {
+      // WebSocket 연결이 중복되지 않도록 조건 추가
+      chatSocketRef.current = new ChatSocket(`${socketBaseUrl}/chat/${roomId}/`, [
+        sessionStorage.getItem('access_token')!, // WebSocket 인증용 토큰 전달
+      ]);
+    }
 
-  //   socket.on('disconnect', () => {
-  //     console.log('Disconnected from server');
-  //   });
-  //   // 서버와의 연결이 끊어졌을 때 실행되는 콜백 함수 등록
-  //   // 연결 해제 메시지를 콘솔에 출력
+    // 컴포넌트 언마운트 시 WebSocket 연결 해제 및 초기화
+    return () => {
+      chatSocketRef.current?.close(); // WebSocket 연결 닫기
+      chatSocketRef.current = null; // WebSocket 인스턴스 초기화
+    };
+  }, [roomId]);
 
-  //   return () => {
-  //     socket.off('connect');
-  //     // "connect" 이벤트에 대한 리스너를 제거
+  // WebSocket을 통해 상대방 접속 상태 업데이트
+  useEffect(() => {
+    if (chatSocketRef.current) {
+      // WebSocket에서 상대방 접속 상태를 업데이트하도록 콜백 전달
+      chatSocketRef.current.setOtherUser = (user_id, is_exist) => {
+        setOtherExist(is_exist); // 상태 업데이트
+        console.log(`콜백 함수가 실행됐나? 상태 - ${otherExist}`);
+        if (chatSocketRef.current) {
+          chatSocketRef.current.otherUser = { user_id, is_exist };
+        }
+      };
+    }
+  }, [otherExist]);
 
-  //     socket.off('response');
-  //     // "response" 이벤트에 대한 리스너를 제거
-
-  //     socket.off('disconnect');
-  //     // "disconnect" 이벤트에 대한 리스너를 제거
-  //   };
-  //   // 컴포넌트가 언마운트되거나 리렌더링될 때 리스너 정리
-  //   // 메모리 누수 및 중복 이벤트 등록 방지
-  // }, []);
-
-  // // 유저 이름을 입력받고 로그인 처리
-  // const askUserName = () => {
-  //   const userName = prompt('당신의 이름을 입력하세요.');
-  //   console.log('userName', userName);
-
-  //   socket.emit('login', userName, (res: { ok: boolean; data: { name: string } }) => {
-  //     if (res?.ok) {
-  //       setUser(res.data);
-  //     }
-  //   });
-  // };
-
-  // // 서버에서 메시지 수신 시 처리
-  // useEffect(() => {
-  //   socket.on('message', (message) => {
-  //     setMessageList((prevState) => prevState.concat(message));
-  //   });
-
-  //   askUserName();
-  // }, []);
-
-  // 메시지 전송 함수
-  const sendMessage = (event: React.FormEvent) => {
-    event.preventDefault();
-    // socket.emit('sendMessage', message, (res: { ok: boolean }) => {
-    //   console.log('sendMessage res', res);
-    // });
+  // 메시지 전송 핸들러
+  const handleSendMessage = (messageContent: string) => {
+    chatSocketRef.current?.sendMessage(messageContent); // ChatSocket을 통해 메시지 전송
   };
 
   return (
     <div className='chatRoom'>
-      <ChatContainer messageList={messageList} user={user} />
-      <InputField message={message} setMessage={setMessage} sendMessage={sendMessage} />
+      {roomData && messages && <ChatContainer messageList={messages} roomData={roomData} otherExist={otherExist} />}
+      <InputField onSendMessage={handleSendMessage} /> {/* 메시지 전송 핸들러 전달 */}
     </div>
   );
 };
