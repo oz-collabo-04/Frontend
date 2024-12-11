@@ -311,6 +311,9 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 
 ### 김대식
 
+1. [웹소켓 연결 후 바로 꺼짐](https://pyrite-index-771.notion.site/157a7149aa50806fa378e30b1b5c95ce)
+2. [실시간 채팅 읽음 처리 오류](https://pyrite-index-771.notion.site/157a7149aa5080e9bce0fd392f728c23)
+
 ### 박미선
 
 1. [활동 지역 데이터 사용](https://somber-surf-2a6.notion.site/So-New-Wedding_Project-1589071a565c8064a1bcc8325ea947a1)
