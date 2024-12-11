@@ -125,12 +125,10 @@ const EstimationList = () => {
       const estimationsData = Array.isArray(response.data) ? response.data : [];
       setEstimations(estimationsData);
       
-      // 카테고리 동적 생성
       const uniqueCategories = ['전체', ...new Set(estimationsData.map(est => est.service_display))];
       setCategories(uniqueCategories);
     } catch (err) {
       setError(`API 요청 실패: ${err instanceof Error ? err.message : String(err)}`);
-      console.error('API 요청 에러:', err);
     } finally {
       setIsLoading(false);
     }

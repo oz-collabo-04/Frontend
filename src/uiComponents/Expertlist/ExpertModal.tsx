@@ -53,7 +53,6 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId, weddingDat
       const response = await auth.get('experts/detail/');
       setExpertServiceInfo(response.data.service);
     } catch (error) {
-      console.error('expertService Fetching Error', error);
     }
   };
 
@@ -77,13 +76,12 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId, weddingDat
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error('Axios error:', error.response?.data);
         throw new Error(`API 요청 실패: ${error.response?.data?.message || error.message}`);
       }
-      console.error('Error sending estimation:', error);
       throw error;
     }
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (expertId !== null) {
@@ -104,15 +102,9 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId, weddingDat
           dueDate: response.due_date,
         });
         setDescription(description);
-        console.log('ExpertModal - Setting description:', description);
-        console.log('Estimation sent successfully:', response);
         addToasts({ type: 'success', title: '견적이 등록되었습니다.', id: Date.now().toString() });
         closeModal(modalId);
       } catch (error) {
-        console.error('Failed to send estimation:', error);
-        if (error instanceof Error) {
-          console.error('Error details:', error.message);
-        }
         addToasts({ type: 'error', title: '견적 등록에 실패했습니다.', id: Date.now().toString() });
       }
     }
@@ -150,9 +142,9 @@ const ExpertModal: React.FC<ExpertModalProps> = ({ modalId, expertId, weddingDat
               value={description}
               onChange={handleDescriptionChange}
               className='comInput'
-              maxLength={500}
+              maxLength={200}
             />
-            <div className='expert-modal__char-count'>{description.length} / 500</div>
+            <div className='expert-modal__char-count'>{description.length} / 200</div>
           </div>
         </div>
 

@@ -6,7 +6,6 @@ import '@/styles/Estimationpage/expertprofile.scss'
 import { auth } from '@/api/axiosInstance'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import axios from 'axios'
-import { useEstimationStore } from '@/store/estimationStore'
 
 interface Career {
   id: number;
@@ -65,15 +64,7 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const estimationStore = useEstimationStore();
 
-  useEffect(() => {
-    console.log('ExpertProfileModal - Current description:', estimationStore.description);
-  }, [estimationStore.description]);
-
-  useEffect(() => {
-    console.log('ExpertProfileModal - Mounted');
-  }, []);
 
   useEffect(() => {
     const fetchExpertData = async () => {
@@ -90,7 +81,6 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
         const reviewsResponse = await auth.get(`/reviews/`);
         setReviews(reviewsResponse.data);
       } catch (err: unknown) {
-        console.error('Error fetching data:', err);
         if (err instanceof Error) {
           if (axios.isAxiosError(err) && err.response?.status === 404) {
             setError('견적을 찾을 수 없습니다. 올바른 견적 ID인지 확인해 주세요.');
@@ -142,7 +132,7 @@ const ExpertProfileModal: React.FC<ExpertProfileModalProps> = ({ estimationId })
 
         <div className="expert-profile-section">
           <h3 className="section-title">견적 설명</h3>
-          <p className="estimation-description">안녕하세요, 저의 100만 구독자의 실력을 보고 깜짝놀랄 만한 작품을 만들어 내기에 이정도 가격으로 측정했습니다.</p>
+          <p className="estimation-description">{estimationData.description}</p>
         </div>
 
         <div className="expert-profile-section">
