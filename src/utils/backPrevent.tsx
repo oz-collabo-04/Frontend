@@ -1,13 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// //히스토리 상태관리
-// const addUrlHistoryState = () => {
-//   // history.pushState -> 브라우저히스토리 조작 -> 현재 페이지의 상태를 히스토리에 새로 추가(push)함으로써 뒤로갈수 없게만듬
-//   // preventBack: 뒤로가는 동작 방해(history를 바꿔서 방해)
-//   window.history.pushState(null, '', window.location.href);
-// };
-
 // 뒤로가기 이벤트리스너 등록/제거
 const useBackNavigationHandler = (onBack: () => void) => {
   useEffect(() => {

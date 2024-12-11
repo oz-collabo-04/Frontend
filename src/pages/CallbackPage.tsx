@@ -31,7 +31,6 @@ export default function CallbackPage() {
           requestData.state = null;
         }
         const response = await client.post(`/users/login/${provider}/callback/`, requestData);
-        console.log('Response:', response);
         const { access_token } = response.data;
         const { email, id, is_expert, name, profile_image } = response.data.user;
         if (access_token) {

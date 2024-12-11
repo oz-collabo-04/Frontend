@@ -5,7 +5,6 @@ import { IEstimationForm } from '@/config/types';
 export const fetchEstimations = async () => {
   try {
     const response = await auth.get('/estimations/');
-    console.log('response.status:', response.status);
     return response.data;
   } catch (err) {
     console.error('Error Fetching estimations:', err);
@@ -15,7 +14,6 @@ export const fetchEstimations = async () => {
 export const fetchExpertData = async () => {
   try {
     const response = await auth.get('/experts/estimations/requests/');
-    console.log('response.status:', response.status);
     return response.data;
   } catch (err) {
     console.error('Error Fetching expert data:', err);
@@ -27,7 +25,6 @@ export const fetchExpertData = async () => {
 export const fetchEstimationsEdit = async (payload: IEstimationForm) => {
   try {
     const response = await auth.post('/estimations/request/', payload);
-    console.log('response.status:', response.status);
     return response;
   } catch (error) {
     console.error('POST 요청 실패:', error);

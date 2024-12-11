@@ -36,8 +36,6 @@ const Header = () => {
     };
   }, []);
 
-  console.log(menuVisible);
-
   const onClickExpert = () => {
     if (!isExpert && mode === 'user') {
       navigate('/expertProfileEditPage');
@@ -76,7 +74,6 @@ const Header = () => {
     const logout = async () => {
       try {
         const response = await auth.post('users/logout/');
-        console.log('로그아웃에 성공했습니다.', response.data);
         if (setIsLoggedIn && setUserName && setMode) {
           setIsLoggedIn(false);
           setUserName(null);
@@ -114,8 +111,8 @@ const Header = () => {
             <div className='headerNav' role='navigation' aria-label='주요 내비게이션'>
               {mode === 'guest' ? (
                 <>
-                  <div className='estimationEdit' aria-label='견적요청 또는 로그인 페이지로 이동'>
-                    <button onClick={onClickCustomerRequest}>견적 요청</button>
+                  <div className='estimationEdit' aria-label='견적 요청또는 로그인 페이지로 이동'>
+                    <button onClick={onClickCustomerRequest}>견적요청</button>
                   </div>
                   <div className='loginBtn'>
                     <Link to='/login' aria-label='로그인 페이지로 이동'>
@@ -125,8 +122,8 @@ const Header = () => {
                 </>
               ) : mode === 'user' ? (
                 <>
-                  <div className='estimationEdit' aria-label='견적요청 또는 로그인 페이지로 이동'>
-                    <button onClick={onClickCustomerRequest}>견적 요청</button>
+                  <div className='estimationEdit' aria-label='견적 요청또는 로그인 페이지로 이동'>
+                    <button onClick={onClickCustomerRequest}>견적요청</button>
                   </div>
                   <div className='headerMenu'>
                     <ul className='userNav' aria-label='고객 내비게이션'>
@@ -135,13 +132,13 @@ const Header = () => {
                       </li>
                       <li>
                         <Link to='/mypage' aria-label='마이 페이지로 이동'>
-                          마이
+                          MY
                         </Link>
                       </li>
                       <>
                         <li>
                           <button onClick={onClickExpert} aria-label='전문가 프로필페이지로 이동'>
-                            전문가
+                            전문가전환
                           </button>
                         </li>
                         <li>
@@ -170,12 +167,12 @@ const Header = () => {
                       </li>
                       <li>
                         <Link to='/mypage' aria-label='마이 페이지로 이동'>
-                          마이
+                          MY
                         </Link>
                       </li>
                       <li>
                         <button onClick={onClickUser} aria-label='고객으로 전환'>
-                          고객
+                          고객전환
                         </button>
                       </li>
                       <li>
@@ -209,8 +206,8 @@ const Header = () => {
             <div className='sliderMenu'>
               {mode === 'guest' ? (
                 <div className='loginMenu'>
-                  <div className='estimationEdit' aria-label='로그인 여부에 따라 견적요청 또는 로그인 페이지로 이동'>
-                    <button onClick={onClickCustomerRequest}> 견적 요청</button>
+                  <div className='estimationEdit' aria-label='로그인 여부에 따라 견적 요청또는 로그인 페이지로 이동'>
+                    <button onClick={onClickCustomerRequest}> 견적요청</button>
                   </div>
                   <hr />
                   <div className='loginBtn'>
@@ -221,7 +218,6 @@ const Header = () => {
                 </div>
               ) : (
                 <div className='userMenu'>
-                  <div>프로필</div>
                   <div>
                     <Link to='/mypage' aria-label='마이 페이지로 이동'>
                       마이페이지
@@ -231,7 +227,7 @@ const Header = () => {
                   {mode === 'user' ? (
                     <>
                       <div className='estimationEdit'>
-                        <button onClick={onClickCustomerRequest}>견적 요청</button>
+                        <button onClick={onClickCustomerRequest}>견적요청</button>
                       </div>
                       <hr />
                       <div>
