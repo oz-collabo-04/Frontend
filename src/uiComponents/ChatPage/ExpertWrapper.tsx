@@ -92,7 +92,7 @@ const ExpertWrapper = ({ extraClass, chatData, isExpert }: ExpertWrapperProps) =
       try {
         const response = await auth.delete(`chat/chatrooms/${chatData?.id}/`);
         navigate('/chatlistpage');
-        console.log('삭제 성공:', response.data);
+        // console.log('삭제 성공:', response.data);
       } catch (error) {
         console.error('API 요청에 실패했습니다:', error);
       }

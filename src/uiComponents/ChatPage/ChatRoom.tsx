@@ -23,7 +23,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
         const response = await auth.get(`chat/chatrooms/${roomId}/`);
         setRoomData(response.data);
       } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
+        // console.log('API 요청에 실패했습니다 :', error);
       }
     };
     fetchChatRoomData();
@@ -36,7 +36,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
         const response = await auth.get(`chat/chatrooms/${roomId}/messages/`);
         getMessageList(response.data);
       } catch (error) {
-        console.log('API 요청에 실패했습니다 :', error);
+        // console.log('API 요청에 실패했습니다 :', error);
       }
     };
     fetchChatList();
@@ -64,7 +64,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
       // WebSocket에서 상대방 접속 상태를 업데이트하도록 콜백 전달
       chatSocketRef.current.setOtherUser = (user_id, is_exist) => {
         setOtherExist(is_exist); // 상태 업데이트
-        console.log(`콜백 함수가 실행됐나? 상태 - ${otherExist}`);
+        // console.log(`콜백 함수가 실행됐나? 상태 - ${otherExist}`);
         if (chatSocketRef.current) {
           chatSocketRef.current.otherUser = { user_id, is_exist };
         }

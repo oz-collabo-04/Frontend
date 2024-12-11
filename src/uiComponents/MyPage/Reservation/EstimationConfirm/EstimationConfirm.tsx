@@ -22,7 +22,6 @@ const EstimationConfirm = ({ estimationId, expertUserId }: EstimationConfirmProp
   const fetchWeddingData = async (id: number): Promise<WeddingConfirm | undefined> => {
     try {
       const response = await auth.get(`/estimations/request/${id}`);
-      console.log('wedding hall data :', response.status);
       return response.data as WeddingConfirm;
     } catch (err) {
       console.error('Error Fetching Wedding Data :', err);
@@ -37,8 +36,8 @@ const EstimationConfirm = ({ estimationId, expertUserId }: EstimationConfirmProp
         setConfirmData(finalConfirmData as ConfirmData); // 상태 업데이트
         setWeddingData(weddingConfirmData || null);
 
-        console.log('weddingConfirm data:', weddingConfirmData); // 디버깅용
-        console.log('confirm data:', finalConfirmData); // 디버깅용
+        // console.log('weddingConfirm data:', weddingConfirmData); // 디버깅용
+        // console.log('confirm data:', finalConfirmData); // 디버깅용
       } catch (err) {
         console.error(err);
       }
