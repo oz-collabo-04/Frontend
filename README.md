@@ -300,14 +300,20 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 ## 7. 트러블 슈팅
 
 ### 손수민
+
 1. [팝업창에서의 상태변경을 부모창과 공유하기(persist)](https://descriptive-sneeze-a4c.notion.site/Trouble-Shooting-Zustand-persist-1568a867edc380b6a86bfdec986a8928)
 2. [팝업창에서 받은 데이터를 부모창으로 전달(window.postMessage)](https://descriptive-sneeze-a4c.notion.site/Trouble-Shooting-window-postMessage-1568a867edc38037b3c5c9f2b619d734)
 3. [중첩된 라우트의 사용법 제대로 알기](https://descriptive-sneeze-a4c.notion.site/Trouble-Shooting-1568a867edc3801ebdedff928e1301a5)
 
 ### 김수민
+
 ### 이상민
+
 ### 김대식
+
 ### 박미선
+
+1. [활동 지역 데이터 사용](https://somber-surf-2a6.notion.site/So-New-Wedding_Project-1589071a565c8064a1bcc8325ea947a1)
 
 ## 8. 프로젝트 후기
 
@@ -337,4 +343,5 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 
 ### 박미선 (팀원)
 
-- 다사다난했던 프로젝트지만 그래도 프엔 팀원들이 있어서 버틸 수 있지 않았나 싶다.
+전문가 프로필 등록 및 수정 페이지를 초기에 맡았을 땐 간단한 페이지라 생각하고 얼른 끝내서 다른 페이지를 해야겠다는
+생각이었지만 하다보니 이것저것 예외처리 해야 할 부분이 생기면서 작업하는 동안 재미있었다.
