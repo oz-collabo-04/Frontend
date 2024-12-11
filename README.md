@@ -300,6 +300,14 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 ## 7. 트러블 슈팅
 
 ### 손수민
+1. [팝업창에서의 상태변경을 부모창과 공유하기(persist)](https://descriptive-sneeze-a4c.notion.site/Trouble-Shooting-Zustand-persist-1568a867edc380b6a86bfdec986a8928)
+2. [팝업창에서 받은 데이터를 부모창으로 전달(window.postMessage)](https://www.notion.so/Trouble-Shooting-window-postMessage-1568a867edc38037b3c5c9f2b619d734)
+3. [중첩된 라우트의 사용법 제대로 알기](https://descriptive-sneeze-a4c.notion.site/Trouble-Shooting-1568a867edc3801ebdedff928e1301a5)
+
+### 김수민
+### 이상민
+### 김대식
+### 박미선
 
 ## 8. 프로젝트 후기
 
