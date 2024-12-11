@@ -16,16 +16,18 @@ import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 export const findLocationKey = (
-  apiLocation: ILocation,
+  apiLocation: ILocation | undefined,
   location: string | null,
   locationDetail: string | null
 ): string | undefined => {
-  if (!location) return undefined;
+  if (!location || !apiLocation) return undefined;
   for (const [region, areas] of Object.entries(apiLocation)) {
     if (Array.isArray(areas)) {
       for (const area of areas) {
-        const matched = Object.entries(area).find(([key]) => key === locationDetail);
-        if (matched) return matched[1];
+        const label = Object.keys(area)[0]; // 지역이름
+        const value = Object.values(area)[0]; // 지역이름
+        const matched = location + ' ' + locationDetail === label ? value : false;
+        if (matched) return matched;
       }
     } else if (region === location) {
       return areas; // 광역시나 특별시의 경우
@@ -38,13 +40,11 @@ export const findLocationKey = (
 // touchedFields : 사용자의 의해 수정된 필드들
 // watch : 구독 값 실시간 체크 (값에 따라 리렌더링 발생)
 // getValues : 값 반환, (리렌더링, 해당 값 추적 X)
-const UEPage = () => {
+const UserEstimationPage = () => {
   const {
     register,
-    formState: { errors, dirtyFields },
+    formState: { errors },
     handleSubmit,
-    watch,
-    getValues,
   } = useForm<IEstimationForm>({
     mode: 'onSubmit',
     defaultValues: {
@@ -60,7 +60,7 @@ const UEPage = () => {
   const { addToasts } = useToastStore();
   const navigate = useNavigate();
   // 지역 data api
-  const [apiLocation, setApiLocation] = useState<ILocation | []>([]);
+  const [apiLocation, setApiLocation] = useState<ILocation>();
   // wedding location에 넘겨줄 state
   const [select, setSelect] = useState<string | null>(null);
   const [selectDetail, setSelectDetail] = useState<string | null>(null);
@@ -78,18 +78,16 @@ const UEPage = () => {
     locationData();
   }, []);
 
-  // POST 요청을 처리하는 함수
   // 광역시, 특별시는 선택되었을때 견적요청하기 버튼 활성화되는 조건필요
   // 캘린더, 시간도 기본값 아닌 내용 채워졌을때 버튼 활성화
-  // 희망일정 선택시 금일 날짜 이후 선택
-  // 제출버튼을 눌렀을때 각 칸이 채워졌는지 검증하면서 +토스트
-  // 제출버튼 클릭후에는 서버응답 200일 경우 토스트 띄우고 메인
+  // 희망일정 선택시 금일 날짜 이후 선택 => 서버응답 에러 났을 때 토스트 띄우는것으로 해결
+  // 제출버튼을 눌렀을때 각 칸이 채워졌는지 검증하면서 + 토스트
 
   // 토스트-페이지 핸들링
   const handleResponse = async (
     apiCall: () => Promise<any>, // 실행할 API 호출 함수
     successMsg: string, // 성공 시 표시할 메시지
-    errorMsg: string // 기본 에러 메시지 (서버에서 메시지를 주지 않을 경우 표시)
+    errorMsg: string // 기본 에러메시지 (서버에러 메시지를 안줄때 표시)
   ) => {
     try {
       // API 호출 실행
@@ -140,7 +138,11 @@ const UEPage = () => {
     const matchedLocation = findLocationKey(apiLocation, select, selectDetail);
 
     if (!matchedLocation) {
-      console.log('선택한 지역이 서버 데이터와 일치하지 않습니다.');
+      addToasts({
+        type: 'error',
+        title: '선택한 지역이 서버 데이터와 일치하지 않습니다.',
+        id: Date.now().toString(),
+      });
       return;
     }
 
@@ -153,14 +155,14 @@ const UEPage = () => {
       location: matchedLocation,
     };
 
-    console.log('Payload:', payload);
+    // POST 요청을 처리하는 함수
     try {
       // handleResponse로 서버status에 따른 토스트메세지 표현
       // POST요청(formdata 포함)
       await handleResponse(
         () => fetchEstimationsEdit(payload),
         '견적 요청이 완료되었습니다.',
-        '견적 요청 처리 중 오류가 발생했습니다.'
+        '견적 요청 처리 중 서버 오류가 발생했습니다.'
       );
     } catch (error) {
       console.error(error);
@@ -291,4 +293,4 @@ const UEPage = () => {
   );
 };
 
-export default UEPage;
+export default UserEstimationPage;

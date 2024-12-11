@@ -116,11 +116,24 @@ export interface IEstimationForm {
 }
 
 // 위치
-export interface ILocation {
-  [key: string]: { [key: string]: string }[] | string;
+export interface Area {
+  [key: string]: string; // key 지역이름(label), 값은 지역코드 (value)
 }
+
+export interface ILocation {
+  경상남도: Area[];
+  경상북도: Area[];
+  충청남도: Area[];
+  충청북도: Area[];
+  전라남도: Area[];
+  전라북도: Area[];
+  강원도: Area[];
+  경기도: Area[];
+  [key: string]: Area[] | string;
+}
+
 export interface ILocationObject {
-  [key: string]: string;
+  [key: string]: { [key: string]: string };
 }
 
 // WeddingConfirm 데이터 타입
