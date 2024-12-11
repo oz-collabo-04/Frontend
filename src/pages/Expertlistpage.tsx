@@ -68,8 +68,6 @@ const Expertlistpage = () => {
       try {
         setIsLoading(true);
         const response = await auth.get('/experts/estimations/requests/');
-        console.log('API Response:', response.data);
-
         const expertsData = Array.isArray(response.data) ? response.data : [response.data];
         setExperts(expertsData);
 
@@ -79,7 +77,6 @@ const Expertlistpage = () => {
           }
         });
       } catch (error) {
-        console.error('Error fetching experts:', error);
         setError('전문가 데이터를 불러오는 데 실패했습니다.');
       } finally {
         setIsLoading(false);
@@ -100,14 +97,8 @@ const Expertlistpage = () => {
     try {
       await auth.delete(`/experts/estimations/requests/${id}/`);
       setExperts((prevExperts) => prevExperts.filter((expert) => expert.id !== id));
-      console.log(`Expert with id ${id} deleted successfully.`);
-    } catch (error: unknown) {
-      console.error('Error deleting request:', error);
-      if (error instanceof Error) {
-        setError(`요청을 삭제하는 데 실패했습니다: ${error.message}`);
-      } else {
-        setError('요청을 삭제하는 데 실패했습니다.');
-      }
+    } catch {
+      setError('요청을 삭제하는 데 실패했습니다.');
     } finally {
       setDeletingExperts((prev) => ({ ...prev, [id]: false }));
     }
