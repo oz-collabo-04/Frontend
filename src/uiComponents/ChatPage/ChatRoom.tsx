@@ -40,7 +40,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
       }
     };
     fetchChatList();
-  }, [roomId]);
+  }, [roomId, otherExist]);
 
   // WebSocket 연결 관리
   useEffect(() => {
@@ -70,7 +70,7 @@ const ChatRoom = ({ roomId }: ChatRoomProps) => {
         }
       };
     }
-  }, [otherExist]);
+  }, []);
 
   // 메시지 전송 핸들러
   const handleSendMessage = (messageContent: string) => {
