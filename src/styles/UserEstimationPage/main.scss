@@ -32,6 +32,11 @@
       margin: 1rem -1rem 2rem;
       padding: 2.5rem 2rem;
       border-radius: 2rem;
+      .errorMsg {
+        margin-top: 1rem;
+        color: red;
+        font-size: 1.4rem;
+      }
 
       // 서브 타이틀
       h6 {
@@ -45,22 +50,42 @@
         // 체크, 라디오
         .chkBox,
         .rdoBox {
-          margin-right: 4rem;
+          margin-right: 2em;
         }
       }
 
       // 2부 예식
-      .isReception {
+    }
+
+    .isReception {
+      display: flex;
+      align-items: flex-start;
+      // gap: 4rem;
+
+      .title {
+        width: calc(40% - 4rem);
+      }
+      .choose {
+        width: calc(60% - 4rem);
         display: flex;
-        align-items: flex-start; // 2부예식-답변 줄 맞춤
-        gap: 6rem; //2부예식-답변 사이 여백
+        flex-direction: column;
+        align-items: flex-start;
+        .rdoBox {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          margin-right: 2rem;
+          label {
+            margin-right: 4rem;
+          }
+        }
       }
     }
   }
 
   // 라벨
   label {
-    gap: 2rem; // 라벨과 글자 사이 간격
+    gap: 1rem; // 라벨과 글자 사이 간격
   }
 
   // 견적요청 버튼

@@ -15,7 +15,7 @@ import { useToastStore } from '@/store/toastStore';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
-export const findLocationKey = (
+const findLocationKey = (
   apiLocation: ILocation | undefined,
   location: string | null,
   locationDetail: string | null
@@ -264,7 +264,7 @@ const UserEstimationPage = () => {
             <div className='methodWrapper'>
               <SmallTitle extraClass='method' title='예식 방식' />
               <div className='isReception'>
-                <label>
+                <label className='title'>
                   <XSmallTitle title='2부 예식을 진행하나요?' />
                 </label>
                 <div className='choose'>
