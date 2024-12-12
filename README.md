@@ -349,6 +349,9 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 
 ### 이상민
 
+1. [받은견적 채팅방 이동오류](https://www.notion.so/15aec10d1611808b84d4c137482508f8)
+2. [전문가 프로필 오류](https://www.notion.so/15aec10d16118000b9a8f87253ab3ca6)
+
 ### 김대식
 
 1. [웹소켓 연결 후 바로 꺼짐](https://pyrite-index-771.notion.site/157a7149aa50806fa378e30b1b5c95ce)
