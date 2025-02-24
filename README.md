@@ -324,19 +324,20 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 
 |    메인 화면 (비로그인)    |           로그인          |   (고객) 견적요청서 작성   |
 | :-----------------------: | :-----------------------: | :-----------------------: |
-| <img src="https://i.imgur.com/aS8OkoS.gif" alt="MainPage"> | <img src="https://i.imgur.com/7a6VKE4.gif" alt="SignIn"> | <img src="https://i.imgur.com/lljB3F4.gif" alt="UserEstimationEdit"> |
+| [메인 화면 (비로그인)](https://i.imgur.com/aS8OkoS.gif) | [로그인](https://i.imgur.com/7a6VKE4.gif) | [고객 견적 요청서 작성](https://i.imgur.com/lljB3F4.gif) |
 
 |    (전문가) 프로필 등록    |     전문가-고객 전환     |   (전문가) 프로필 수정   |
 | :----------------------: | :----------------------: | :----------------------: |
-| <img src="https://i.imgur.com/lljB3F4.gif" alt="ExpertProfileEdit"> | <img src="https://i.imgur.com/CmOjEVX.gif" alt="ExpertUserChange"> | <img src="https://i.imgur.com/1i8SGXO.gif" alt="ExpertProfileAmend"> |
+| [전문가 프로필 등록](https://i.imgur.com/lljB3F4.gif) | [전문가-고객 전환](https://i.imgur.com/CmOjEVX.gif) | [전문가 프로필 수정](https://i.imgur.com/1i8SGXO.gif) |
 
 |    (전문가) 받은요청 삭제    |      (전문가) 견적발송      |       전문가와 채팅       |
 | :-------------------------: | :-----------------------: | :----------------------: |
-| <img src="https://i.imgur.com/U1xxnaE.gif" alt="ReauestDelete"> | <img src="https://i.imgur.com/ssHTfIn.gif" alt="EstimateSend"> | <img src="https://i.imgur.com/N3zCvTc.gif" alt="Chatting"> |
+| [전문가 받은 요청 삭제](https://i.imgur.com/U1xxnaE.gif) | [전문가 견적 발송](https://i.imgur.com/ssHTfIn.gif) | [전문가와 채팅](https://i.imgur.com/N3zCvTc.gif) |
 
 |  (전문가) 예약요청-예약완료  |    (전문가) 예약관리-캘린더    | (고객) 리뷰작성 및 전문가확인 |  
 | :-------------------------: | :--------------------------: | :--------------------------: |
-| <img src="https://i.imgur.com/cAgK0KJ.gif" alt="Reservation"> | <img src="https://i.imgur.com/JLAvGUm.gif" alt="Calender"> | <img src="https://i.imgur.com/xUvZhDN.gif" alt="Review"> |
+| [전문가 예약 요청 - 예약 완료](https://i.imgur.com/cAgK0KJ.gif) | [전문가 예약 관리 - 캘린더](https://i.imgur.com/JLAvGUm.gif) | [고객 리뷰 작성 및 전문가 확인](https://i.imgur.com/xUvZhDN.gif) |
+
 
 ## 7. 트러블 슈팅
 
