@@ -324,19 +324,19 @@ GitHub Projects와 Issues를 사용하여 진행 상황을 공유했습니다. �
 
 |    메인 화면 (비로그인)    |           로그인          |   (고객) 견적요청서 작성   |
 | :-----------------------: | :-----------------------: | :-----------------------: |
-| [메인 화면 (비로그인)](https://i.imgur.com/aS8OkoS.gif) | [로그인](https://i.imgur.com/7a6VKE4.gif) | [고객 견적 요청서 작성](https://i.imgur.com/lljB3F4.gif) |
+| ![](https://github.com/user-attachments/assets/d71c544c-8d6b-4601-a394-071068d3c22f) | ![](https://github.com/user-attachments/assets/0c467909-71ac-459e-bfb5-86973be3a2c1) | ![](https://github.com/user-attachments/assets/509f04da-dcf5-4187-be14-60b86d256641) |
 
 |    (전문가) 프로필 등록    |     전문가-고객 전환     |   (전문가) 프로필 수정   |
 | :----------------------: | :----------------------: | :----------------------: |
-| [전문가 프로필 등록](https://i.imgur.com/lljB3F4.gif) | [전문가-고객 전환](https://i.imgur.com/CmOjEVX.gif) | [전문가 프로필 수정](https://i.imgur.com/1i8SGXO.gif) |
+| ![](https://github.com/user-attachments/assets/76dc90da-cd62-48ce-89a6-4781f37adf56) | ![](https://github.com/user-attachments/assets/f6ce746d-f447-4c40-8749-87a7a7c15989) | ![](https://github.com/user-attachments/assets/78d7c1f6-68c8-49a9-8822-01287e9e70ed) |
 
 |    (전문가) 받은요청 삭제    |      (전문가) 견적발송      |       전문가와 채팅       |
 | :-------------------------: | :-----------------------: | :----------------------: |
-| [전문가 받은 요청 삭제](https://i.imgur.com/U1xxnaE.gif) | [전문가 견적 발송](https://i.imgur.com/ssHTfIn.gif) | [전문가와 채팅](https://i.imgur.com/N3zCvTc.gif) |
+| ![](https://github.com/user-attachments/assets/2c86bb31-ff2a-4fcd-a8ee-2256d18089d6) | ![](https://github.com/user-attachments/assets/1209b5e9-7ed5-45dd-90ed-3d89ca068ef6) | ![](https://github.com/user-attachments/assets/5845cfc1-2a68-4e5b-b3d6-3aea3e95580a) |
 
 |  (전문가) 예약요청-예약완료  |    (전문가) 예약관리-캘린더    | (고객) 리뷰작성 및 전문가확인 |  
 | :-------------------------: | :--------------------------: | :--------------------------: |
-| [전문가 예약 요청 - 예약 완료](https://i.imgur.com/cAgK0KJ.gif) | [전문가 예약 관리 - 캘린더](https://i.imgur.com/JLAvGUm.gif) | [고객 리뷰 작성 및 전문가 확인](https://i.imgur.com/xUvZhDN.gif) |
+|![](https://github.com/user-attachments/assets/f074a603-b773-4992-acac-c947e910c591) | ![](https://github.com/user-attachments/assets/7ed03d05-ec48-44d1-834a-3525cf584227) | ![](https://github.com/user-attachments/assets/b7cb6a50-bb5f-40a6-bc85-e3f0d01ab67a) |
 
 
 ## 7. 트러블 슈팅
